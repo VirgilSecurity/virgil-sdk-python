@@ -96,36 +96,47 @@ We are searching for the recipient's public key on the Public Keys Service to en
 message = "Encrypt me, Please!!!";
 recipient_cards = virgil_hub.virgilcard.search_card('recipient-test@virgilsecurity.com')
 for card in recipient_cards:
-  encrypted_messages.append(cryptolib.CryptoWrapper.encrypt(message, card['id'], 
+  encrypted_message = cryptolib.CryptoWrapper.encrypt(message, card['id'], 
                                                             base64.b64decode(card['public_key']['public_key']))
-  signature = cryptolib.CryptoWrapper.sign(message, keys['private_key'], '%PASSWORD%')
+  crypto_signature = cryptolib.CryptoWrapper.sign(message, keys['private_key'], '%PASSWORD%')
 ```
 
 ## Step 3. Send an Email
 We are merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
 
-```csharp
-
+```python
+encryptedBody = {
+    'Content' = encrypted_messages,
+    'Signature' = crypto_signature
+}
+encryptedBodyJson = json.dumps(encryptedBody)
+mailClient.Send("recipient-test@virgilsecurity.com", "Secure the Future", encryptedBodyJson)
 ```
 
 ## Step 4. Receive an Email
 An encrypted letter is received on the recipient's side using a simple mail client.
 
-```csharp
-
+```python
+// get first email with specified subject using simple mail client
+var email = mailClient.GetBySubject("recipient-test@virgilsecurity.com", "Secure the Future")
+var encryptedBody = json.loads(email.Body)
 ```
 
 ## Step 5. Get sender's Public Key
 In order to decrypt the received data the app on recipientвЂ™s side needs to get senderвЂ™s Virgil Card from the Public Keys Service.
 
-```csharp
-
+```python
+senderCard = virgil_hub.virgilcard.search_card(value, 'email')
 ```
 
 ## Step 6. Verify and Decrypt
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
-```csharp
+```python
+is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'], encryptedBody['Signature'],                               base64.b64decode(senderCard['public_key']['public_key']))
+if !is_valid:
+    raise ValueError("Signature is not valid.")
 
+data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'], '%RECIPIENT_ID%', recipientKeyPair['private_key'], '%PASSWORD%')
 ```
 
