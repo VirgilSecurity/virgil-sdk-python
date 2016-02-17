@@ -77,7 +77,7 @@ class VirgilCard(VirgilClient):
         toSign = request_id + myvalues
         signature = CryptoWrapper.sign(toSign, Helper.trim_private_key(private_key), password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
-        return Helper.json_loads(self._api_request('DELETE', endpoint, headers, values))
+        return self._api_request('DELETE', endpoint, headers, values)
 
     # Creates a Virgil Card entity.
     # type - string, identity's type 'email' or 'application'
