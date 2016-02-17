@@ -1,4 +1,4 @@
-# Quickstart C#/.NET
+# Quickstart Python
 
 - [Introduction](#introduction)
 - [Obtaining an Access Token](#obtaining-an-access-token)
