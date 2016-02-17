@@ -40,6 +40,8 @@ from VirgilSDK.api import *
 
 class PrivateKey(VirgilClient):
     # Load a private key into the private keys service storage
+    # recipient_pub_key - string, base64 encoded private key service's public key
+    # recipient_id - string, private key service's virgil card id
     # private_key - string, base64 encoded private key
     # virgil_card_id - string, id of the card related with private key
     # private_key_password - string, password for private key decryption
@@ -60,6 +62,8 @@ class PrivateKey(VirgilClient):
         return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
 
     # Get an existing private key
+    # recipient_pub_key - string, base64 encoded private key service's public key
+    # recipient_id - string, private key service's virgil card id
     # type - string, identity's type 'email' or 'application'
     # value - string, identity's value 'example@mail.com'
     # validation_token - string, base64 encoded token obtained from identity service
@@ -84,6 +88,8 @@ class PrivateKey(VirgilClient):
             return encrypted_response
 
     # Delete a private key
+    # recipient_pub_key - string, base64 encoded private key service's public key
+    # recipient_id - string, private key service's virgil card id
     # private_key - string, base64 encoded private key
     # virgil_card_id - string, id of the card related with private key
     # private_key_password - string, password for private key decryption
