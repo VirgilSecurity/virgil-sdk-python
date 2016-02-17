@@ -133,10 +133,12 @@ senderCard = virgil_hub.virgilcard.search_card(email.From, 'email')
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
 ```python
-is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'], encryptedBody['Signature'],                               base64.b64decode(senderCard['public_key']['public_key']))
+is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'], encryptedBody['Signature'],
+                                          base64.b64decode(senderCard['public_key']['public_key']))
 if not is_valid:
     raise ValueError("Signature is not valid.")
 
-data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'], '%RECIPIENT_ID%', recipientKeyPair['private_key'], '%PASSWORD%')
+data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'], '%RECIPIENT_ID%', 
+                                       recipientKeyPair['private_key'], '%PASSWORD%')
 ```
 
