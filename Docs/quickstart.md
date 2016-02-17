@@ -126,7 +126,7 @@ var encryptedBody = json.loads(email.Body)
 In order to decrypt the received data the app on recipientвЂ™s side needs to get senderвЂ™s Virgil Card from the Public Keys Service.
 
 ```python
-senderCard = virgil_hub.virgilcard.search_card(value, 'email')
+senderCard = virgil_hub.virgilcard.search_card(email.From, 'email')
 ```
 
 ## Step 6. Verify and Decrypt
@@ -134,7 +134,7 @@ We are making sure the letter came from the declared sender by getting his card 
 
 ```python
 is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'], encryptedBody['Signature'],                               base64.b64decode(senderCard['public_key']['public_key']))
-if !is_valid:
+if not is_valid:
     raise ValueError("Signature is not valid.")
 
 data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'], '%RECIPIENT_ID%', recipientKeyPair['private_key'], '%PASSWORD%')
