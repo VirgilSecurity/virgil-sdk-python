@@ -33,7 +33,7 @@ Use this token to initialize the SDK client [here](#initialization).
 To install package use command below:
 
 ```
-command line> python setup.py install
+python setup.py install
 ```
 
 You can easily add SDK dependency to your project, just add following code:
