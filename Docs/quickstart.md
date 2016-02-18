@@ -97,7 +97,7 @@ message = "Encrypt me, Please!!!";
 recipient_cards = virgil_hub.virgilcard.search_card('recipient-test@virgilsecurity.com')
 for card in recipient_cards:
   encrypted_message = cryptolib.CryptoWrapper.encrypt(message, card['id'], 
-                                                            base64.b64decode(card['public_key']['public_key']))
+                                                            card['public_key']['public_key'])
   crypto_signature = cryptolib.CryptoWrapper.sign(message, keys['private_key'], '%PASSWORD%')
 ```
 
@@ -134,7 +134,7 @@ We are making sure the letter came from the declared sender by getting his card 
 
 ```python
 is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'], encryptedBody['Signature'],
-                                          base64.b64decode(senderCard['public_key']['public_key']))
+                                          senderCard['public_key']['public_key'])
 if not is_valid:
     raise ValueError("Signature is not valid.")
 
