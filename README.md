@@ -8,6 +8,10 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 
 ## Resources
 
+* [QuickStart](https://github.com/VirgilSecurity/virgil-sdk-python/blob/master/Docs/quickstart.md)
+* [Crypto Library](https://github.com/VirgilSecurity/virgil-sdk-python/blob/master/Docs/crypto.md)
+* [SDK](https://github.com/VirgilSecurity/virgil-sdk-python/blob/master/Docs/keys.md)
+
 ## License
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
 
