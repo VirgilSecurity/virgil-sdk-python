@@ -24,7 +24,7 @@ Let's build an encrypted mail exchange system as one of the possible [use cases]
 
 First you must create a free Virgil Security developer's account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
 
-The access token provides authenticated secure access to Virgil Keys Services and is passed with each API call. The access token also allows the API to associate your appвЂ™s requests with your Virgil Security developer's account.
+The access token provides authenticated secure access to Virgil Keys Services and is passed with each API call. The access token also allows the API to associate your app's requests with your Virgil Security developer's account.
 
 Use this token to initialize the SDK client [here](#initialization).
 
@@ -49,10 +49,10 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 - Sender and recipient create Virgil accounts with a pair of asymmetric keys:
     - public key on Virgil Public Keys Service;
     - private key on Virgil Private Keys Service or locally.
-- Sender encrypts the data using Virgil Crypto Library and the recipientвЂ™s public key.
+- Sender encrypts the data using Virgil Crypto Library and the recipient's public key.
 - Sender signs the encrypted data with his private key using Virgil Crypto Library.
 - Sender securely transfers the encrypted data, his digital signature and UDID to the recipient without any risk to be revealed.
-- Recipient verifies that the signature of transferred data is valid using the signature and senderвЂ™s public key in Virgil Crypto Library.
+- Recipient verifies that the signature of transferred data is valid using the signature and sender's public key in Virgil Crypto Library.
 - Recipient decrypts the data with his private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
@@ -123,7 +123,7 @@ var encryptedBody = json.loads(email.Body)
 ```
 
 ## Step 5. Get sender's Public Key
-In order to decrypt the received data the app on recipientвЂ™s side needs to get senderвЂ™s Virgil Card from the Public Keys Service.
+In order to decrypt the received data the app on recipient's side needs to get sender's Virgil Card from the Public Keys Service.
 
 ```python
 senderCard = virgil_hub.virgilcard.search_card(email.From, 'email')
