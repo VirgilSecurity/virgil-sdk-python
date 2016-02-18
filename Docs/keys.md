@@ -83,8 +83,9 @@ A Virgil Card is the main entity of the Public Keys Service, it includes the inf
 An identity token which can be received [here](#identity-check) is used during the registration.
 
 ```python
-data ={'Field1': 'Data1', 'Field2': 'Data2'}
-new_card = virgil_hub.virgilcard.create_card(type, value, data, identResponse['validation_token'],
+Add_data ={'Field1': 'Data1', 'Field2': 'Data2'}
+new_card = virgil_hub.virgilcard.create_card('email', 'example@virgilsecurity.com', 
+                                             data, identResponse['validation_token'],
                                              keys['private_key'], '%Password%', keys['public_key'])
 ```
 
