@@ -136,4 +136,4 @@ data = cryptolib.CryptoWrapper.decrypt_with_password('%ENCRYPTED_DATA%', '%PASSW
 ## See Also
 
 * [Quickstart](quickstart.md)
-* [Tutorial SDK](public-keys.md) 
+* [Tutorial SDK](keys.md) 
