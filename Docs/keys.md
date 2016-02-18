@@ -127,9 +127,9 @@ virgil_hub.virgilcard.unsign_card("%SIGNED_CARD_ID%", "%SIGNER_CARD_ID%", "%PRIV
 This operation is used to delete the Virgil Card from the search and mark it as deleted. 
 
 ```python
-verifyResponse = virgil_hub.identity.verify(type, value)
+verifyResponse = virgil_hub.identity.verify('email', example@virgilsecurity.com')
 identResponse = virgil_hub.identity.confirm('%CONFIRMATION_CODE%', verifyResponse['action_id'])
-virgil_hub.virgilcard.delete_card('email', example@virgilsecurity.com', 
+virgil_hub.virgilcard.delete_card('email', 'example@virgilsecurity.com', 
                                    identResponse['validation_token'], '%CARD_ID%', '%PRIVATE_KEY%', '%PASSWORD%')
 ```
 
