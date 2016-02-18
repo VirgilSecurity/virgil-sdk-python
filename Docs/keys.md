@@ -43,7 +43,7 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 
 First you must create a free Virgil Security developer's account by signing up [here](https://virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://virgilsecurity.com/account/signin) and generate an access token for your application.
 
-The access token provides an authenticated secure access to the Public Keys Service and is passed with each API call. The access token also allows the API to associate your appвЂ™s requests with your Virgil Security developer's account.
+The access token provides an authenticated secure access to the Public Keys Service and is passed with each API call. The access token also allows the API to associate your app's requests with your Virgil Security developer's account.
 
 Simply add your access token to the client constuctor.
 
