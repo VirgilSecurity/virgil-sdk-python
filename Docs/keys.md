@@ -191,7 +191,7 @@ recipient_card = virgil_hub.virgilcard.search_app('com.virgilsecurity.private-ke
 for card in recipient_card:
   recipient_id = card['id']
   recipient_pub_key = card['public_key']['public_key']
-  virgil_hub.privatekey.delete_private_key(recipient_pub_key, recipient_id, 
+virgil_hub.privatekey.delete_private_key(recipient_pub_key, recipient_id, 
                                           "%PRIVATE_KEY%", "%SIGNER_CARD_ID%", "%PASSWORD%")
 ```
 
