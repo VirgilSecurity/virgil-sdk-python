@@ -16,7 +16,7 @@
 ## Introduction
 
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
-This branch focuses on the C#/.NET library implementation and covers it's usage.
+This branch focuses on the Python library implementation and covers its usage.
 
 Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/Email-diagram.jpg)
 
@@ -30,13 +30,13 @@ Use this token to initialize the SDK client [here](#initialization).
 
 ## Install
 
-To install package use command below:
+To install package use the command below:
 
 ```
 python setup.py install
 ```
 
-You can easily add SDK dependency to your project, just add following code:
+You can easily add an SDK dependency to your project, just add the following code:
 
 ```python
 from VirgilSDK import virgilhub
@@ -44,16 +44,16 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 ```
 
 ## Use Case
-**Secure data at transport**: users need to exchange important data (text, audio, video, etc.) without any risks. 
+**Secure any data end to end**: users need to securely exchange information (text messages, files, audio, video etc) while enabling both in transit and at rest protection.
 
-- Sender and recipient create Virgil accounts with a pair of asymmetric keys:
-    - public key on Virgil Public Keys Service;
-    - private key on Virgil Private Keys Service or locally.
-- Sender encrypts the data using Virgil Crypto Library and the recipient's public key.
-- Sender signs the encrypted data with his private key using Virgil Crypto Library.
-- Sender securely transfers the encrypted data, his digital signature and UDID to the recipient without any risk to be revealed.
-- Recipient verifies that the signature of transferred data is valid using the signature and sender's public key in Virgil Crypto Library.
-- Recipient decrypts the data with his private key using Virgil Crypto Library.
+- Application generates public and private key pairs using Virgil Crypto library and use Virgil Keys service to enable secure end to end communications:
+	- public key on Virgil Public Keys Service;
+	- private key on Virgil Private Keys Service or locally.
+- Sender’s information is encrypted in Virgil Crypto Library with the recipient’s public key.
+- Sender’s encrypted information is signed with his private key in Virgil Crypto Library.
+- Application securely transfers the encrypted data, sender’s digital signature and UDID to the recipient without any risk to be revealed.
+- Application on the recipient’s side verifies that the signature of transferred data is valid using the signature and sender’s public key in Virgil Crypto Library.
+- Received information is decrypted with the recipient’s private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
 ## Initialization
@@ -62,47 +62,66 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 identity_link = '%IDENTITY_SERVICE_URL%'
 virgil_card_link = '%VIRGIL_CARD_SERVICE_URL%'
 private_key_link = '%PRIVATE_KEY_SERVICE_URL%'
-virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%', identity_link, virgil_card_link, private_key_link)
+virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%', 
+								identity_link, 
+								virgil_card_link, 
+								private_key_link)
 ```
 
 ## Step 1. Create and Publish the Keys
-First we are generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
+First a mail exchange application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
 The following code example creates a new public/private key pair.
 
 ```python
-keys = cryptolib.CryptoWrapper.generate_keys(cryptolib.crypto_helper.VirgilKeyPair.Type_EC_SECP521R1, '%PASSWORD%') 
+keys = cryptolib.CryptoWrapper.generate_keys
+		(cryptolib.crypto_helper.VirgilKeyPair.Type_EC_SECP521R1, 
+		'%PASSWORD%') 
 ```
 
-We are verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
+The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
 
 ```python
-verifyResponse = virgil_hub.identity.verify('email', 'sender-test@virgilsecurity.com')
+verifyResponse = virgil_hub.identity.verify('email', 
+										'sender-test@virgilsecurity.com')
 # use confirmation code sent to your email box.
-identResponse = virgil_hub.identity.confirm('%CONFIRMATION_CODE%', verifyResponse['action_id'])
+identResponse = virgil_hub.identity.confirm('%CONFIRMATION_CODE%', 
+										verifyResponse['action_id'])
 ```
-We are registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
+The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
 
 ```python
 data ={'Field1': 'Data1', 'Field2': 'Data2'}
-new_card = virgil_hub.virgilcard.create_card('email', 'sender-test@virgilsecurity.com', data, identResponse['validation_token'],
-                                             keys['private_key'], '%PASSWORD%', keys['public_key'])
+new_card = virgil_hub.virgilcard.create_card
+							('email',
+							'sender-test@virgilsecurity.com',
+							data,
+							identResponse['validation_token'],
+							keys['private_key'],
+							'%PASSWORD%',
+							keys['public_key'])
 ```
 
 ## Step 2. Encrypt and Sign
-We are searching for the recipient's public key on the Public Keys Service to encrypt a message for him. And we are signing the encrypted message with our private key so that the recipient can make sure the message had been sent from the declared sender.
+The app is searching for the recipient’s public key on the Public Keys Service to encrypt a message for him. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent from the declared sender.
 
 ```python
 message = "Encrypt me, Please!!!";
-recipient_cards = virgil_hub.virgilcard.search_card('recipient-test@virgilsecurity.com')
+recipient_cards = virgil_hub.virgilcard.search_card
+							('recipient-test@virgilsecurity.com')
 for card in recipient_cards:
-  encrypted_message = cryptolib.CryptoWrapper.encrypt(message, card['id'], 
-                                                            card['public_key']['public_key'])
-  crypto_signature = cryptolib.CryptoWrapper.sign(message, keys['private_key'], '%PASSWORD%')
+  encrypted_message = cryptolib.CryptoWrapper.encrypt
+  										(message, 
+  										card['id'],
+  										card['public_key']['public_key'])
+  crypto_signature = cryptolib.CryptoWrapper.sign
+  										(message, 
+  										keys['private_key'], 
+  										'%PASSWORD%')
 ```
 
 ## Step 3. Send an Email
-We are merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
+The app is merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
 
 ```python
 encryptedBody = {
@@ -110,20 +129,23 @@ encryptedBody = {
     'Signature' = crypto_signature
 }
 encryptedBodyJson = json.dumps(encryptedBody)
-mailClient.Send("recipient-test@virgilsecurity.com", "Secure the Future", encryptedBodyJson)
+mailClient.Send("recipient-test@virgilsecurity.com", 
+				"Secure the Future", 
+				encryptedBodyJson)
 ```
 
 ## Step 4. Receive an Email
-An encrypted letter is received on the recipient's side using a simple mail client.
+An encrypted letter is received on the recipient’s side using a simple mail client.
 
 ```python
 // get first email with specified subject using simple mail client
-var email = mailClient.GetBySubject("recipient-test@virgilsecurity.com", "Secure the Future")
+var email = mailClient.GetBySubject("recipient-test@virgilsecurity.com",
+									 "Secure the Future")
 var encryptedBody = json.loads(email.Body)
 ```
 
 ## Step 5. Get sender's Public Key
-In order to decrypt the received data the app on recipient's side needs to get sender's Virgil Card from the Public Keys Service.
+In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```python
 senderCard = virgil_hub.virgilcard.search_card(email.From, 'email')
@@ -133,13 +155,16 @@ senderCard = virgil_hub.virgilcard.search_card(email.From, 'email')
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
 ```python
-is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'], encryptedBody['Signature'],
-                                          senderCard['public_key']['public_key'])
+is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'],
+										encryptedBody['Signature'],
+										senderCard['public_key']['public_key'])
 if not is_valid:
     raise ValueError("Signature is not valid.")
 
-data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'], '%RECIPIENT_ID%', 
-                                       recipientKeyPair['private_key'], '%PASSWORD%')
+data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
+									 '%RECIPIENT_ID%', 
+									 recipientKeyPair['private_key'], 
+									 '%PASSWORD%')
 ```
 
 
