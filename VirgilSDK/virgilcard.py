@@ -55,10 +55,7 @@ class VirgilCard(VirgilClient):
             signature = CryptoWrapper.sign(request_id, Helper.trim_private_key(private_key), password)
             headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         endpoint = '/public-key/' + key_id
-        try:
-            return Helper.json_loads(self._api_request('GET', endpoint, headers))
-        except ValueError:
-            raise ValueError("Key not found!")
+        return Helper.json_loads(self._api_request('GET', endpoint, headers))
 
     # Revoke a Public Key endpoint
     # key_id - string, public key ID
@@ -190,11 +187,9 @@ class VirgilCard(VirgilClient):
         endpoint = '/virgil-card/'+cardID
         headers = {'X-VIRGIL-ACCESS-TOKEN': self.token}
         result = self._api_request('GET', endpoint, headers)
-        try:
-            json_res = Helper.json_loads(result)
-            return json_res
-        except:
-            return result
+        json_res = Helper.json_loads(result)
+        return json_res
+
 
     # Performs the search by search criterias
     # value - string, request parameter

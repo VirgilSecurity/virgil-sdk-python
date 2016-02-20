@@ -32,8 +32,9 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-import urllib2
+import urllib2, ssl
 import json
+from VirgilSDK.errors import errors_list
 
 
 class VirgilClient:
@@ -49,6 +50,7 @@ class VirgilClient:
     # values - dictionary, represents request body
     def _api_request(self, method, endpoint, headers=None, values=None):
         url = self.url+endpoint
+        ctx = ssl._create_default_https_context()
         data = None
         if values:
             data = json.dumps(values).encode()
@@ -58,8 +60,14 @@ class VirgilClient:
             req = urllib2.Request(url, data=data)
         req.get_method = lambda: method
         try:
-            response = urllib2.urlopen(req)
+            response = urllib2.urlopen(req, context=ctx)
             return response.read()
         except urllib2.HTTPError as e:
-            return e.read()
+            try:
+                error_res = e.read()
+                error_code = json.loads(error_res)
+                e.msg = errors_list[error_code['code']]
+                raise
+            except ValueError:
+                raise e
 

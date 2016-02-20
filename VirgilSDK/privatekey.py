@@ -84,7 +84,7 @@ class PrivateKey(VirgilClient):
         encrypted_response = self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
         try:
             return Helper.json_loads(str(bytearray(CryptoWrapper.decrypt_with_password(encrypted_response, response_password))))
-        except:
+        except ValueError:
             return encrypted_response
 
     # Delete a private key
