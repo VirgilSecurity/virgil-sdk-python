@@ -98,9 +98,18 @@ class CryptoWrapper:
                                      CryptoWrapper.strtobytes(password))
 
     # Decrypt data with secret password
-    # data - string, enrypted data
+    # data - string, base64 encoded enсrypted data
     # password - string, password to decrypt data
     @staticmethod
     def decrypt_with_password(data, password):
         cipher = crypto_helper.VirgilCipher()
         return cipher.decryptWithPassword(CryptoWrapper.strtobytes(base64.b64decode(data)), CryptoWrapper.strtobytes(password))
+    
+    # Encrypt data with secret password
+    # data - string, data to encrypt
+    # password - string, password to encrypt data
+    @staticmethod
+    def encrypt_with_password(data, password):
+        cipher = crypto_helper.VirgilCipher()
+        cipher.addPasswordRecipient(CryptoWrapper.strtobytes(password))
+        return cipher.encrypt(CryptoWrapper.strtobytes(data), True)
