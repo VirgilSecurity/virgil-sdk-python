@@ -97,6 +97,12 @@ enc = cryptolib.CryptoWrapper.encrypt('%To be encrypted%',
 									'%Recipient public key%')
 ```
 
+Also you can encrypt the text with a password:
+
+```python
+enc = CryptoWrapper.encrypt_with_password('%To be encrypted%', '%Password%')
+```
+
 ## Sign Data
 
 Cryptographic digital signatures use public key algorithms to provide data integrity. When you sign the data with a digital signature, someone else can verify the signature and can prove that the data originated from you and was not altered after you had signed it.
