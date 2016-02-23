@@ -98,7 +98,7 @@ class CryptoWrapper:
                                      CryptoWrapper.strtobytes(password))
 
     # Decrypt data with secret password
-    # data - string, base64 encoded enсrypted data
+    # data - string, base64 encoded encrypted data
     # password - string, password to decrypt data
     @staticmethod
     def decrypt_with_password(data, password):
