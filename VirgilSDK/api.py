@@ -50,7 +50,7 @@ class VirgilClient:
     # values - dictionary, represents request body
     def _api_request(self, method, endpoint, headers=None, values=None):
         url = self.url+endpoint
-        ctx = ssl._create_default_https_context()
+        ctx = ssl.create_default_context()
         data = None
         if values:
             data = json.dumps(values).encode()
