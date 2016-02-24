@@ -92,7 +92,7 @@ def test_delete_card(type, value, card_id, private_key, password):
     identResponse = virgil_hub.identity.confirm(input('Enter confirmation code:'), verifyResponse['action_id'])
     response = virgil_hub.virgilcard.delete_card(type, value, identResponse['validation_token'], card_id, private_key,
                                                  password)
-    assert response == [], 'We`ve got a problem'
+    assert response == '', 'We`ve got a problem'
 
 
 if __name__ == '__main__':
