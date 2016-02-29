@@ -50,8 +50,8 @@ class PrivateKey(VirgilClient):
         request_id = Helper.generate_id()
         headers = {'X-VIRGIL-ACCESS-TOKEN': self.token,
                    'X-VIRGIL-REQUEST-ID': request_id}
-        trimmed_private_key = Helper.trim_private_key(private_key)
-        values = {'private_key': trimmed_private_key,
+        #trimmed_private_key = Helper.trim_private_key(private_key)
+        values = {'private_key': base64.b64encode(private_key),
                   'virgil_card_id': virgil_card_id}
         myvalues = Helper.json_dumps(values)
         trimmed_pub_key = Helper.trim_public_key(base64.b64decode(recipient_pub_key))
