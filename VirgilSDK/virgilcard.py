@@ -94,13 +94,13 @@ class VirgilCard(VirgilClient):
         identity = {"type": type,
                     'value': value,
                     'validation_token': Helper.remove_slashes(validation_token)}
-        trimmed_pub_key = Helper.trim_public_key(public_key)
+        #trimmed_pub_key = Helper.trim_public_key(public_key)
         values = {'identity': identity,
                  'data': data}
         if public_key_id:
             values['public_key_id'] = public_key_id
         if public_key:
-            values['public_key'] = trimmed_pub_key
+            values['public_key'] = base64.b64encode(public_key)
         if signs:
             values['signs'] = signs
         myvalues = Helper.json_dumps(values)
