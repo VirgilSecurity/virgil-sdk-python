@@ -18,7 +18,7 @@
 This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
 This branch focuses on the Python library implementation and covers its usage.
 
-Let's build an encrypted mail exchange system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case mail](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/Email-diagram.jpg)
+Let's build an encrypted IP messaging system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case messaging](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Obtaining an Access Token
 
@@ -75,7 +75,7 @@ virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%',
 ```
 
 ## Step 1. Create and Publish the Keys
-First a mail exchange application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
+First a message exchange application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
 The following code example creates a new public/private key pair.
 
@@ -143,8 +143,8 @@ currentChannel.Send("recipient-test@virgilsecurity.com",
 An encrypted message is received on the recipient’s side using an IP messaging client.
 
 ```python
-var message = currentChannel.GetMessage()
-var encryptedBody = json.loads(message.Body)
+message = currentChannel.GetMessage()
+encryptedBody = json.loads(message.Body)
 ```
 
 ## Step 5. Get Sender's Card
