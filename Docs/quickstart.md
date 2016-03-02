@@ -36,7 +36,7 @@ To install package use the command below:
 python setup.py install
 ```
 
-or you can use pip do download and install package automatically:
+or you can use pip to download and install package automatically:
 
 ```
 pip install virgil_sdk
