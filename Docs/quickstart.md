@@ -151,7 +151,7 @@ encryptedBody = json.loads(message.Body)
 In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```python
-senderCard = virgil_hub.virgilcard.search_card(email.From, 'email')
+senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
 ```
 
 ## Step 6. Verify and Decrypt
