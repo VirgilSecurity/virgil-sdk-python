@@ -7,9 +7,9 @@
     - [Initialization](#initialization)
     - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
-    - [Step 3. Send an Email](#step-3-send-an-email)
-    - [Step 4. Receive an Email](#step-4-receive-an-email)
-    - [Step 5. Get sender's Public Key](#step-5-get-senders-public-key)
+    - [Step 3. Send a Message](#step-3-send-a-message)
+    - [Step 4. Receive a Message](#step-4-receive-a-message)
+    - [Step 5. Get Sender's Card](#step-5-get-senders-card)
     - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
 - [See also](#see-also)
 
@@ -34,6 +34,12 @@ To install package use the command below:
 
 ```
 python setup.py install
+```
+
+or you can use pip do download and install package automatically:
+
+```
+pip install virgil_sdk
 ```
 
 You can easily add an SDK dependency to your project, just add the following code:
@@ -120,8 +126,8 @@ for card in recipient_cards:
   										'%PASSWORD%')
 ```
 
-## Step 3. Send an Email
-The app is merging the message and the signature into one structure and sending the letter to the recipient using a simple mail client.
+## Step 3. Send a Message
+The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
 
 ```python
 encryptedBody = {
@@ -129,22 +135,19 @@ encryptedBody = {
     'Signature' = crypto_signature
 }
 encryptedBodyJson = json.dumps(encryptedBody)
-mailClient.Send("recipient-test@virgilsecurity.com", 
-				"Secure the Future", 
+currentChannel.Send("recipient-test@virgilsecurity.com", 
 				encryptedBodyJson)
 ```
 
-## Step 4. Receive an Email
-An encrypted letter is received on the recipient’s side using a simple mail client.
+## Step 4. Receive a Message
+An encrypted message is received on the recipient’s side using an IP messaging client.
 
 ```python
-// get first email with specified subject using simple mail client
-var email = mailClient.GetBySubject("recipient-test@virgilsecurity.com",
-									 "Secure the Future")
-var encryptedBody = json.loads(email.Body)
+var message = currentChannel.GetMessage()
+var encryptedBody = json.loads(message.Body)
 ```
 
-## Step 5. Get sender's Public Key
+## Step 5. Get Sender's Card
 In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
 
 ```python
