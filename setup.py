@@ -5,6 +5,10 @@ setup(
     version='1.0',
     packages=find_packages(),
     long_description='Virgil keys service SDK',
-    data_files=[('VirgilSDK/virgil_crypto', ['VirgilSDK/virgil_crypto/_virgil_crypto_python.pyd',
-    'VirgilSDK/virgil_crypto/_virgil_crypto_python_64.pyd'])],
+    package_data={
+        "VirgilSDK.virgil_crypto": [
+            "_virgil_crypto_python.pyd",
+            "_virgil_crypto_python_64.pyd",
+        ],
+    },
 )
