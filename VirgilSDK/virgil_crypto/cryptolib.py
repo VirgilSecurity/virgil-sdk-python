@@ -41,7 +41,7 @@ class CryptoWrapper:
     # input - string to be converted into bytes
     @staticmethod
     def strtobytes(input):
-        return list(bytearray(input))
+        return list(bytearray(str(input)))
 
     # Generate key pair
     # type - crypto.VirgilKeyPair, type of generated key pair, example - 'crypto.VirgilKeyPair.Type_RSA_1024'
@@ -51,7 +51,7 @@ class CryptoWrapper:
         kp = crypto_helper.VirgilKeyPair_generate(type, list(bytearray(password)))
         private_key = str(bytearray(kp.privateKey()))
         public_key = str(bytearray(kp.publicKey()))
-        key_pair = {'public_key': public_key, 'private_key': private_key}
+        key_pair = {'public_key': base64.b64encode(public_key), 'private_key': base64.b64encode(private_key)}
         return key_pair
 
     # Sign data with private key

@@ -50,14 +50,12 @@ class PrivateKey(VirgilClient):
         request_id = Helper.generate_id()
         headers = {'X-VIRGIL-ACCESS-TOKEN': self.token,
                    'X-VIRGIL-REQUEST-ID': request_id}
-        #trimmed_private_key = Helper.trim_private_key(private_key)
-        values = {'private_key': base64.b64encode(private_key),
+        values = {'private_key': private_key,
                   'virgil_card_id': virgil_card_id}
         myvalues = Helper.json_dumps(values)
-        trimmed_pub_key = Helper.trim_public_key(base64.b64decode(recipient_pub_key))
-        encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), trimmed_pub_key)
+        encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), recipient_pub_key)
         to_sign = request_id + myvalues
-        signature = CryptoWrapper.sign(to_sign, Helper.trim_private_key(private_key), private_key_password)
+        signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
 
@@ -74,13 +72,12 @@ class PrivateKey(VirgilClient):
         headers = {'X-VIRGIL-ACCESS-TOKEN': self.token}
         identity = {"type": type,
                     'value': value,
-                    'validation_token': Helper.remove_slashes(validation_token)}
+                    'validation_token': validation_token}
         values = {'identity': identity,
                   'response_password': response_password,
                   'virgil_card_id': virgil_card_id}
         myvalues = Helper.json_dumps(values)
-        trimmed_pub_key = Helper.trim_public_key(base64.b64decode(recipient_pub_key))
-        encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), trimmed_pub_key)
+        encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), recipient_pub_key)
         encrypted_response = self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
         try:
             return Helper.json_loads(str(bytearray(CryptoWrapper.decrypt_with_password(encrypted_response, response_password))))
@@ -98,12 +95,10 @@ class PrivateKey(VirgilClient):
         request_id = Helper.generate_id()
         headers = {'X-VIRGIL-ACCESS-TOKEN': self.token,
                    'X-VIRGIL-REQUEST-ID': request_id}
-        trimmed_private_key = Helper.trim_private_key(private_key)
         values = {'virgil_card_id': virgil_card_id}
         myvalues = Helper.json_dumps(values)
-        trimmed_pub_key = Helper.trim_public_key(base64.b64decode(recipient_pub_key))
-        encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), trimmed_pub_key)
+        encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), recipient_pub_key)
         to_sign = request_id + myvalues
-        signature = CryptoWrapper.sign(to_sign, Helper.trim_private_key(private_key), private_key_password)
+        signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))

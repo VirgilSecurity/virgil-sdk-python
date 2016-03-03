@@ -39,24 +39,6 @@ import random
 
 class Helper:
     @staticmethod
-    def trim_public_key(key):
-        key = key.replace("-----BEGIN PUBLIC KEY-----\n", "")
-        key = key.replace("\n-----END PUBLIC KEY-----\n", "")
-        key = key.replace("\n", "")
-        return key
-
-    @staticmethod
-    def trim_private_key(key):
-        key = key.replace("-----BEGIN ENCRYPTED PRIVATE KEY-----\n", "")
-        key = key.replace("\n-----END ENCRYPTED PRIVATE KEY-----\n", "")
-        key = key.replace("\n", "")
-        return key
-
-    @staticmethod
-    def remove_slashes(input):
-        return input.replace("\\", "")
-
-    @staticmethod
     def json_dumps(values):
         return json.dumps(values).encode()
 

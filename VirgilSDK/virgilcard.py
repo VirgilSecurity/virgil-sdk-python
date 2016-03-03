@@ -52,7 +52,7 @@ class VirgilCard(VirgilClient):
             headers = {'X-VIRGIL-ACCESS-TOKEN': self.token,
                        'X-VIRGIL-REQUEST-ID': request_id,
                        'X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID': signer_card_id}
-            signature = CryptoWrapper.sign(request_id, Helper.trim_private_key(private_key), password)
+            signature = CryptoWrapper.sign(request_id, private_key, password)
             headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         endpoint = '/public-key/' + key_id
         return Helper.json_loads(self._api_request('GET', endpoint, headers))
@@ -72,7 +72,7 @@ class VirgilCard(VirgilClient):
         values = {'identities': identities}
         myvalues = Helper.json_dumps(values)
         toSign = request_id + myvalues
-        signature = CryptoWrapper.sign(toSign, Helper.trim_private_key(private_key), password)
+        signature = CryptoWrapper.sign(toSign, private_key, password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         return self._api_request('DELETE', endpoint, headers, values)
 
@@ -93,19 +93,18 @@ class VirgilCard(VirgilClient):
                    'X-VIRGIL-REQUEST-ID': request_id}
         identity = {"type": type,
                     'value': value,
-                    'validation_token': Helper.remove_slashes(validation_token)}
-        #trimmed_pub_key = Helper.trim_public_key(public_key)
+                    'validation_token': validation_token}
         values = {'identity': identity,
                  'data': data}
         if public_key_id:
             values['public_key_id'] = public_key_id
         if public_key:
-            values['public_key'] = base64.b64encode(public_key)
+            values['public_key'] = public_key
         if signs:
             values['signs'] = signs
         myvalues = Helper.json_dumps(values)
         to_sign = request_id + myvalues
-        signature = CryptoWrapper.sign(to_sign, Helper.trim_private_key(private_key), private_key_password)
+        signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         return Helper.json_loads(self._api_request('POST', endpoint, headers, values))
 
@@ -129,12 +128,12 @@ class VirgilCard(VirgilClient):
                    'X-VIRGIL-REQUEST-ID': request_id,
                    'X-VIRGIL-REQUEST-SIGN-VIRGIL-CARD-ID': signer_card_id}
         card_info = self.get_virgil_card(signed_card_id)
-        signed_dig = CryptoWrapper.sign(str(card_info["hash"]), Helper.trim_private_key(private_key), private_key_password)
+        signed_dig = CryptoWrapper.sign(str(card_info["hash"]), private_key, private_key_password)
         values = {'signed_virgil_card_id': signed_card_id,
                   'signed_digest': base64.b64encode(bytearray(signed_dig))}
         myvalues = Helper.json_dumps(values)
         to_sign = request_id + myvalues
-        signature = CryptoWrapper.sign(to_sign, Helper.trim_private_key(private_key), private_key_password)
+        signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         return Helper.json_loads(self._api_request('POST', endpoint, headers, values))
 
@@ -152,7 +151,7 @@ class VirgilCard(VirgilClient):
         values = {'signed_virgil_card_id': signed_card_id}
         myvalues = Helper.json_dumps(values)
         to_sign = request_id + myvalues
-        signature = CryptoWrapper.sign(to_sign, Helper.trim_private_key(private_key), private_key_password)
+        signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         result =self._api_request('POST', endpoint, headers, values)
         if result == '':
@@ -177,7 +176,7 @@ class VirgilCard(VirgilClient):
         value = {'identity': identity}
         myvalues = Helper.json_dumps(value)
         to_sign = request_id + myvalues
-        signature = CryptoWrapper.sign(to_sign, Helper.trim_private_key(private_key), private_key_password)
+        signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         return self._api_request('DELETE', endpoint, headers, value)
 
