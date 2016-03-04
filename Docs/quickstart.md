@@ -131,8 +131,8 @@ The app is merging the message text and the signature into one structure and sen
 
 ```python
 encryptedBody = {
-    'Content' = encrypted_messages,
-    'Signature' = crypto_signature
+    'Content' = bytearray(encrypted_messages),
+    'Signature' = base64.b64encode(str(bytearray(crypto_signature)))
 }
 encryptedBodyJson = json.dumps(encryptedBody)
 currentChannel.Send("recipient-test@virgilsecurity.com", 
@@ -160,7 +160,7 @@ We are making sure the letter came from the declared sender by getting his card 
 ```python
 is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'],
 										encryptedBody['Signature'],
-										senderCard['public_key']['public_key'])
+										senderCard[0]['public_key']['public_key'])
 if not is_valid:
     raise ValueError("Signature is not valid.")
 
@@ -175,3 +175,4 @@ data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
 
 * [Tutorial Crypto Library](crypto.md)
 * [Tutorial Keys SDK](keys.md)
+* [Examples](https://github.com/VirgilSecurity/virgil-sdk-python/blob/master/examples.py)
