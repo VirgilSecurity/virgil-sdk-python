@@ -127,7 +127,7 @@ print(keys['public_key'], keys['private_key'])
 sign = cryptolib.CryptoWrapper.sign('%To be signed%', '%Private key%', '%Password')
 
 # Verify signature under data
-verify = cryptolib.CryptoWrapper.verify('%To be signed%', sign, '%Public key')
+verify = cryptolib.CryptoWrapper.verify('%To be signed%', helper.base64.b64encode(str(bytearray(sign))), '%Public key')
 
 # Encrypt data with recipient's public key
 enc = cryptolib.CryptoWrapper.encrypt('%To be encrypted%', '%Recipient id%', '%Recipient public key%')
