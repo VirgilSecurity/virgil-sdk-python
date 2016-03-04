@@ -131,7 +131,8 @@ To verify that the data was signed by a particular party, you need the following
 The following example verifies a digital signature which was signed by the sender.
 
 ```python
-verify = cryptolib.CryptoWrapper.verify(originalText, sign, '%PUBLIC_KEY%')
+verify = cryptolib.CryptoWrapper.verify(originalText, 
+                                        base64.b64encode(str(bytearray(sign))), '%PUBLIC_KEY%')
 ```
 
 ## Decrypt Data
