@@ -175,4 +175,4 @@ data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
 
 * [Tutorial Crypto Library](crypto.md)
 * [Tutorial Keys SDK](keys.md)
-* [Examples](https://github.com/VirgilSecurity/virgil-sdk-python/blob/master/examples.py)
+* [Examples](https://github.com/VirgilSecurity/virgil-sdk-python/tree/master/Examples/IPMessaging)
