@@ -170,9 +170,11 @@ data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
 									 '%PASSWORD%')
 ```
 
+## Source Code
+
+* [Examples](https://github.com/VirgilSecurity/virgil-sdk-python/tree/master/Examples/IPMessaging)
 
 ## See Also
 
 * [Tutorial Crypto Library](crypto.md)
 * [Tutorial Keys SDK](keys.md)
-* [Examples](https://github.com/VirgilSecurity/virgil-sdk-python/tree/master/Examples/IPMessaging)
