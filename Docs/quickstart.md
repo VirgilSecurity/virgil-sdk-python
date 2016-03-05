@@ -9,8 +9,7 @@
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send a Message](#step-3-send-a-message)
     - [Step 4. Receive a Message](#step-4-receive-a-message)
-    - [Step 5. Get Sender's Card](#step-5-get-senders-card)
-    - [Step 6. Verify and Decrypt](#step-6-verify-and-decrypt)
+    - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
 - [See also](#see-also)
 
 ## Introduction
@@ -145,16 +144,11 @@ An encrypted message is received on the recipient’s side using an IP messaging
 ```python
 message = currentChannel.GetMessage()
 encryptedBody = json.loads(message.Body)
-```
-
-## Step 5. Get Sender's Card
-In order to decrypt the received data the app on recipient’s side needs to get sender’s Virgil Card from the Public Keys Service.
-
-```python
 senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
+...
 ```
 
-## Step 6. Verify and Decrypt
+## Step 5. Verify and Decrypt
 We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
 
 ```python
