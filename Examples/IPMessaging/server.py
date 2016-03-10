@@ -23,7 +23,7 @@ def decrypt_message(encrypted, card_id, prkey, passw):
 
 # Verify signature in json serialized data 'json_data' using sender identity 'sender'
 def verify_signature(json_data, sender):
-    card = virgil_hub.virgilcard.search_app(sender)[0]
+    card = virgil_hub.virgilcard.search_card(sender)[0]
     card_key = card['public_key']['public_key']
     is_signed = cryptolib.CryptoWrapper.verify(json_data['message'], json_data['signature'], card_key)
     if not is_signed:
