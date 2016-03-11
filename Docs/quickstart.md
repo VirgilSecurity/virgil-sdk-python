@@ -5,19 +5,20 @@
 - [Install](#install)
 - [Use case](#use-case)
     - [Initialization](#initialization)
-    - [Step 1. Create and Publish the Keys](#step-1-create-and-publish-the-keys)
+    - [Step 1. Generate and Publish the Keys](#step-1-generate-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send a Message](#step-3-send-a-message)
     - [Step 4. Receive a Message](#step-4-receive-a-message)
     - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
+- [Source Code](#source-code)
 - [See also](#see-also)
 
 ## Introduction
 
-This guide will help you get started using the Crypto Library and Virgil Keys Services for the most popular platforms and languages.
-This branch focuses on the Python library implementation and covers its usage.
+In this guide we will get you up and running quickly with a simple IP messaging chat application you can build as you learn more about Virgil Crypto Library and Virgil Keys Services. Sounds like a plan? Then let's get cracking!
 
-Let's build an encrypted IP messaging system as one of the possible [use cases](#use-case) of Virgil Security Services. ![Use case messaging](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
+On the diagram below you can see a full picture of how these things interact with each other.
+![Use case messaging](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Obtaining an Access Token
 
@@ -73,10 +74,10 @@ virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%',
 								private_key_link)
 ```
 
-## Step 1. Create and Publish the Keys
-First a message exchange application is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
+## Step 1. Generate and Publish the Keys
+First a simple IP messaging chat is generating the keys and publishing them to the Public Keys Service where they are available in an open access for other users (e.g. recipient) to verify and encrypt the data for the key owner.
 
-The following code example creates a new public/private key pair.
+The following code example generates a new public/private key pair.
 
 ```python
 keys = cryptolib.CryptoWrapper.generate_keys
@@ -84,7 +85,7 @@ keys = cryptolib.CryptoWrapper.generate_keys
 		'%PASSWORD%') 
 ```
 
-The app is verifying whether the user really owns the provided email address and getting a temporary token for public key registration on the Public Keys Service.
+The app is verifying whether the user really owns the provided email address and getting a temporary token for a public key registration on the Public Keys Service.
 
 ```python
 verifyResponse = virgil_hub.identity.verify('email', 
@@ -108,7 +109,7 @@ new_card = virgil_hub.virgilcard.create_card
 ```
 
 ## Step 2. Encrypt and Sign
-The app is searching for the recipient’s public key on the Public Keys Service to encrypt a message for him. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent from the declared sender.
+The app is searching for all channel members' public keys on the Keys Service to encrypt a message for them. The app is signing the encrypted message with sender’s private key so that the recipient can make sure the message had been sent by the declared sender.
 
 ```python
 message = "Encrypt me, Please!!!";
@@ -126,7 +127,7 @@ for card in recipient_cards:
 ```
 
 ## Step 3. Send a Message
-The app is merging the message text and the signature into one structure and sending the message to the recipient using a simple IP messaging client.
+The app is merges the message text and the signature into one structure and sends the message to the channel using a simple IP messaging client.
 
 ```python
 encryptedBody = {
@@ -140,6 +141,7 @@ currentChannel.Send("recipient-test@virgilsecurity.com",
 
 ## Step 4. Receive a Message
 An encrypted message is received on the recipient’s side using an IP messaging client.
+In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
 
 ```python
 message = currentChannel.GetMessage()
@@ -149,7 +151,7 @@ senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
 ```
 
 ## Step 5. Verify and Decrypt
-We are making sure the letter came from the declared sender by getting his card on Public Keys Service. In case of success we are decrypting the letter using the recipient's private key.
+Application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success the message is decrypted using the recipient's private key.
 
 ```python
 is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'],
