@@ -99,7 +99,7 @@ if __name__ == '__main__':
     token = '%TOKEN%'
     ident_link = 'https://identity-stg.virgilsecurity.com/v1'
     virgil_card_link = 'https://keys-stg.virgilsecurity.com/v3'
-    private_key_link = 'https://keyring-stg.virgilsecurity.com/v3'
+    private_key_link = 'https://keys-private-stg.virgilsecurity.com/v3'
 
     virgil_hub = virgilhub.VirgilHub(token, ident_link, virgil_card_link, private_key_link)
 
