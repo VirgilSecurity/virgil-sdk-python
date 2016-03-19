@@ -144,7 +144,7 @@ if __name__ == '__main__':
     test_delete_private_key(keys['private_key'], my_new_card['id'], Passwd)
 
     # Get public key
-    test_get_public_key(my_new_card['public_key']['id'], signer_card_id, prkey, passw)
+    test_get_public_key(my_new_card['public_key']['id'], my_new_card['id'], keys['private_key'], Passwd)
 
     # Delete card
     test_delete_card(type, value, my_new_card['id'], keys['private_key'], Passwd)
