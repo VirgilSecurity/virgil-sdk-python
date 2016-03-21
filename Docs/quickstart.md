@@ -10,7 +10,7 @@
     - [Step 3. Send a Message](#step-3-send-a-message)
     - [Step 4. Receive a Message](#step-4-receive-a-message)
     - [Step 5. Verify and Decrypt](#step-5-verify-and-decrypt)
-- [Source Code](#source-code)
+- [Source code](#source-code)
 - [See also](#see-also)
 
 ## Introduction
@@ -62,7 +62,7 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 - The received information is decrypted with the recipient’s private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
-## Initialization
+## Step 0. Initialization
 
 ```python
 identity_link = '%IDENTITY_SERVICE_URL%'
@@ -166,12 +166,12 @@ data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
 									 '%PASSWORD%')
 ```
 
-## Source Code
+## Source code
 
 * [Use Case Example](https://github.com/VirgilSecurity/virgil-sdk-python/tree/master/Examples/IPMessaging)
 * [IP-Messaging Simple Server](https://github.com/VirgilSecurity/virgil-sdk-javascript/tree/master/examples/ip-messaging/server)
 
-## See Also
+## See also
 
 * [Tutorial Crypto Library](crypto.md)
 * [Tutorial Keys SDK](keys.md)
