@@ -4,7 +4,7 @@
 - [Obtaining an Access Token](#obtaining-an-access-token)
 - [Install](#install)
 - [Use case](#use-case)
-    - [Initialization](#initialization)
+    - [Step 0. Initialization](#step-0-initialization)
     - [Step 1. Generate and Publish the Keys](#step-1-generate-and-publish-the-keys)
     - [Step 2. Encrypt and Sign](#step-2-encrypt-and-sign)
     - [Step 3. Send a Message](#step-3-send-a-message)
@@ -26,7 +26,7 @@ First you must create a free Virgil Security developer's account by signing up [
 
 The access token provides authenticated secure access to Virgil Keys Services and is passed with each API call. The access token also allows the API to associate your app's requests with your Virgil Security developer's account.
 
-Use this token to initialize the SDK client [here](#initialization).
+Use this token to initialize the SDK client [here](#step-0-initialization).
 
 ## Install
 
@@ -52,14 +52,14 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 ## Use Case
 **Secure any data end to end**: users need to securely exchange information (text messages, files, audio, video etc) while enabling both in transit and at rest protection.
 
-- Application generates public and private key pairs using Virgil Crypto library and use Virgil Keys service to enable secure end to end communications:
+- Application generates public and private key pairs using Virgil Crypto library and uses Virgil Keys service to enable secure end to end communications:
 	- public key on Virgil Public Keys Service;
 	- private key on Virgil Private Keys Service or locally.
 - Sender’s information is encrypted in Virgil Crypto Library with the recipient’s public key.
 - Sender’s encrypted information is signed with his private key in Virgil Crypto Library.
 - Application securely transfers the encrypted data, sender’s digital signature and UDID to the recipient without any risk to be revealed.
 - Application on the recipient’s side verifies that the signature of transferred data is valid using the signature and sender’s public key in Virgil Crypto Library.
-- Received information is decrypted with the recipient’s private key using Virgil Crypto Library.
+- The received information is decrypted with the recipient’s private key using Virgil Crypto Library.
 - Decrypted data is provided to the recipient.
 
 ## Initialization
@@ -127,7 +127,7 @@ for card in recipient_cards:
 ```
 
 ## Step 3. Send a Message
-The app is merges the message text and the signature into one structure and sends the message to the channel using a simple IP messaging client.
+The app merges the message text and the signature into one structure and sends the message to the channel using a simple IP messaging client.
 
 ```python
 encryptedBody = {
@@ -141,7 +141,7 @@ currentChannel.Send("recipient-test@virgilsecurity.com",
 
 ## Step 4. Receive a Message
 An encrypted message is received on the recipient’s side using an IP messaging client.
-In order to decrypt and verify the received data the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
+In order to decrypt and verify the received data, the app on recipient’s side needs to get sender’s Virgil Card from the Keys Service.
 
 ```python
 message = currentChannel.GetMessage()
@@ -151,7 +151,7 @@ senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
 ```
 
 ## Step 5. Verify and Decrypt
-Application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success the message is decrypted using the recipient's private key.
+The application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success, the message is decrypted using the recipient's private key.
 
 ```python
 is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'],
@@ -168,7 +168,8 @@ data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
 
 ## Source Code
 
-* [Examples](https://github.com/VirgilSecurity/virgil-sdk-python/tree/master/Examples/IPMessaging)
+* [Use Case Example](https://github.com/VirgilSecurity/virgil-sdk-python/tree/master/Examples/IPMessaging)
+* [IP-Messaging Simple Server](https://github.com/VirgilSecurity/virgil-sdk-javascript/tree/master/examples/ip-messaging/server)
 
 ## See Also
 
