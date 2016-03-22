@@ -54,9 +54,9 @@ def run_server(prkey, passw, card_id):
 
 if __name__ == '__main__':
     token = '%TOKEN%'
-    ident_link = 'https://identity-stg.virgilsecurity.com/v1'
-    virgil_card_link = 'https://keys-stg.virgilsecurity.com/v3'
-    private_key_link = 'https://keyring-stg.virgilsecurity.com/v3'
+    ident_link = 'https://identity.virgilsecurity.com/v1'
+    virgil_card_link = 'https://keys.virgilsecurity.com/v3'
+    private_key_link = 'https://keyring.virgilsecurity.com/v3'
     virgil_hub = virgil_init(token, ident_link, virgil_card_link, private_key_link)
 
     prkey = '%RECIPIENT_PRIVATE_KEY%'

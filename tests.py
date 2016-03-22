@@ -22,14 +22,14 @@ def test_verify_identity(type, value):
 
 def test_confirm_identity(type, value):
     ver_res = virgil_hub.identity.verify(type, value)
-    conf_res = virgil_hub.identity.confirm(input('Enter confirmation code:'), ver_res['action_id'])
+    conf_res = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), ver_res['action_id'])
     print(conf_res)
     assert conf_res['validation_token'], 'We`ve got a problem'
 
 
 def test_create_card(type, value, keys, private_key_pswd):
     verifyResponse = virgil_hub.identity.verify(type, value)
-    identResponse = virgil_hub.identity.confirm(input('Enter confirmation code:'), verifyResponse['action_id'])
+    identResponse = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), verifyResponse['action_id'])
     data = {'name': 'Test', 'Organization': 'Test'}
     card = virgil_hub.virgilcard.create_card(type, value, data, identResponse['validation_token'],
                                              keys['private_key'], private_key_pswd, keys['public_key'])
@@ -66,7 +66,7 @@ def test_load_private_key(private_key, card_id, password):
 def test_grab_private_key(type, value, password, card_id):
     recipient_card = virgil_hub.virgilcard.search_app(('com.virgilsecurity.private-keys'))
     verifyResponse = virgil_hub.identity.verify(type, value)
-    identResponse = virgil_hub.identity.confirm(input('Enter confirmation code:'), verifyResponse['action_id'])
+    identResponse = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), verifyResponse['action_id'])
     response = virgil_hub.privatekey.grab_private_key(recipient_card[0]['public_key']['public_key'],
                                                                       recipient_card[0]['id'], type, value,
                                                                       identResponse['validation_token'], password,
@@ -89,7 +89,7 @@ def test_get_public_key(key_id, signer_card_id, private_key, password):
 
 def test_delete_card(type, value, card_id, private_key, password):
     verifyResponse = virgil_hub.identity.verify(type, value)
-    identResponse = virgil_hub.identity.confirm(input('Enter confirmation code:'), verifyResponse['action_id'])
+    identResponse = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), verifyResponse['action_id'])
     response = virgil_hub.virgilcard.delete_card(type, value, identResponse['validation_token'], card_id, private_key,
                                                  password)
     assert response == '', 'We`ve got a problem'
@@ -97,19 +97,15 @@ def test_delete_card(type, value, card_id, private_key, password):
 
 if __name__ == '__main__':
     token = '%TOKEN%'
-    ident_link = 'https://identity-stg.virgilsecurity.com/v1'
-    virgil_card_link = 'https://keys-stg.virgilsecurity.com/v3'
-    private_key_link = 'https://keys-private-stg.virgilsecurity.com/v3'
+    ident_link = 'https://identity.virgilsecurity.com/v1'
+    virgil_card_link = 'https://keys.virgilsecurity.com/v3'
+    private_key_link = 'https://keys-private.virgilsecurity.com/v3'
 
     virgil_hub = virgilhub.VirgilHub(token, ident_link, virgil_card_link, private_key_link)
 
     # Search application
-    value = '%VALUE&'
-    test_search_app(value)
-
-    # Search card
-    value = '%IDENTITY_VALUE%'
-    test_search_card(value)
+    application_value = '%VALUE&'
+    test_search_app(application_value)
 
     # Confirmation and validation identity
     type = '%IDENTITY_TYPE%'
@@ -122,11 +118,14 @@ if __name__ == '__main__':
     keys = cryptolib.CryptoWrapper.generate_keys(cryptolib.crypto_helper.VirgilKeyPair.Type_Default, Passwd)
     my_new_card = test_create_card(type, value, keys, Passwd)
 
+    # Search card
+    test_search_card(value)
+
     # Get card by id
     test_get_card(my_new_card['id'])
 
     # Sign virgil card
-    prkey = '%SIGNER_PRIVATE_KEY%'
+    prkey = '%BASE64_SIGNER_PRIVATE_KEY%'
     passw = '%SIGNER_PASSWORD%'
     signer_card_id = "%SIGNER_CARD_ID%"
     test_sign_card(my_new_card['id'], signer_card_id, prkey, passw)
