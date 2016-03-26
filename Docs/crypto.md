@@ -132,7 +132,7 @@ The following example verifies a digital signature which was signed by the sende
 
 ```python
 verify = cryptolib.CryptoWrapper.verify(originalText, 
-                                        base64.b64encode(str(bytearray(sign))), '%PUBLIC_KEY%')
+                                        base64.b64encode(bytearray(sign)), '%PUBLIC_KEY%')
 ```
 
 ## Decrypt Data
