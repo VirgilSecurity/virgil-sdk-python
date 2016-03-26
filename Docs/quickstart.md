@@ -132,7 +132,7 @@ The app merges the message text and the signature into one structure and sends t
 ```python
 encryptedBody = {
     'Content' = bytearray(encrypted_messages),
-    'Signature' = base64.b64encode(str(bytearray(crypto_signature)))
+    'Signature' = base64.b64encode(bytearray(crypto_signature))
 }
 encryptedBodyJson = json.dumps(encryptedBody)
 currentChannel.Send("recipient-test@virgilsecurity.com", 
