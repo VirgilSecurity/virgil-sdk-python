@@ -9,6 +9,7 @@ setup(
         "VirgilSDK.virgil_crypto": [
             "_virgil_crypto_python.pyd",
             "_virgil_crypto_python_64.pyd",
+            "_virgil_crypto_python.so",
         ],
     },
 )
