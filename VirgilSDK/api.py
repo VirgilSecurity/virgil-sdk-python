@@ -50,7 +50,7 @@ class VirgilClient:
     # headers - dictionary, represents request header
     # values - dictionary, represents request body
     def _api_request(self, method, endpoint, headers=None, values=None):
-        if sys.version_info <= (2, 7, 9):
+        if sys.version_info < (2, 7, 9):
             raise SystemError("Unsupported version of Python. Upgrade to version 2.7.9")
         url = self.url+endpoint
         ctx = ssl.create_default_context()
