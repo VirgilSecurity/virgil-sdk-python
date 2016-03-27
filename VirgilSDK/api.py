@@ -32,6 +32,7 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import sys
 import urllib2, ssl
 import json
 from VirgilSDK.errors import errors_list
@@ -49,6 +50,8 @@ class VirgilClient:
     # headers - dictionary, represents request header
     # values - dictionary, represents request body
     def _api_request(self, method, endpoint, headers=None, values=None):
+        if sys.version_info <= (2, 7, 9):
+            raise SystemError("Unsupported version of Python. Upgrade to version 2.7.9")
         url = self.url+endpoint
         ctx = ssl.create_default_context()
         data = None
