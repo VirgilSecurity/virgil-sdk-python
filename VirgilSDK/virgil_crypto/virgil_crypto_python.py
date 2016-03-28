@@ -17,12 +17,11 @@ if version_info >= (2, 6, 0):
         try:
             fp, pathname, description = imp.find_module('_virgil_crypto_python', [dirname(__file__)])
         except ImportError:
-            fp, pathname, description = imp.find_module('_virgil_crypto_python_64', [dirname(__file__)])
+            import _virgil_crypto_python
+            return _virgil_crypto_python
         if fp is not None:
             try:
                 _mod = imp.load_module('_virgil_crypto_python', fp, pathname, description)
-            except:
-                _mod = imp.load_module('_virgil_crypto_python_64', fp, pathname, description)
             finally:
                 fp.close()
             return _mod
