@@ -83,6 +83,8 @@ identResponse = virgil_hub.identity.confirm('%CONFIRMATION_CODE%',
 
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
+The Virgil Card might be created with a confirmed or unconfirmed Identity. The difference is whether Virgil Services take part in the [Identity verification.](#identity-check) With confirmed Cards you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner. Be careful using unconfirmed Cards because they could have been created by any user.
+
 #### Publish a Virgil Card
 
 An identity token which can be received [here](#identity-check) is used during the registration.
@@ -99,12 +101,32 @@ new_card = virgil_hub.virgilcard.create_card
 					keys['public_key'])
 ```
 
+Creating a Card without an Identity verification. Pay attention that you will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an example.
+
+```python
+Add_data ={'Field1': 'Data1', 'Field2': 'Data2'}
+new_card = virgil_hub.virgilcard.create_card
+					('email', 
+					'example@virgilsecurity.com', 
+					data, 
+					None, 
+					keys['private_key'], 
+					'%Password%', 
+					keys['public_key'])
+```
+
 #### Search for Cards
 
 Search for the Virgil Card by provided parameters.
 
 ```python
 search_result = virgil_hub.virgilcard.search_card('example@virgilsecurity.com')
+```
+
+Search for the Virgil Cards including the cards with unconfirmed Identities.
+
+```python
+search_result = card = virgil_hub.virgilcard.search_card('example@virgilsecurity.com', None, None, True)
 ```
 
 #### Search for Application Cards
