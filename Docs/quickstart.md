@@ -85,16 +85,7 @@ keys = cryptolib.CryptoWrapper.generate_keys
 		'%PASSWORD%') 
 ```
 
-The app is verifying whether the user really owns the provided email address and getting a temporary token for a public key registration on the Public Keys Service.
-
-```python
-verifyResponse = virgil_hub.identity.verify('email', 
-										'sender-test@virgilsecurity.com')
-# use confirmation code sent to your email box.
-identResponse = virgil_hub.identity.confirm('%CONFIRMATION_CODE%', 
-										verifyResponse['action_id'])
-```
-The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service.
+The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service. You can create a Virgil Card with or without identity verification, see both examples [here](https://github.com/VirgilSecurity/virgil-sdk-python/blob/master/Docs/keys.md#publish-a-virgil-card).
 
 ```python
 data ={'Field1': 'Data1', 'Field2': 'Data2'}
@@ -102,7 +93,7 @@ new_card = virgil_hub.virgilcard.create_card
 							('email',
 							'sender-test@virgilsecurity.com',
 							data,
-							identResponse['validation_token'],
+							None,
 							keys['private_key'],
 							'%PASSWORD%',
 							keys['public_key'])
