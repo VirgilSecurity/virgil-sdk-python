@@ -18,7 +18,7 @@
       - [Stash a Private Key](#stash-a-private-key)
       - [Get a Private Key](#get-a-private-key)
       - [Destroy a Private Key](#destroy-a-private-key)
-- [See Also](#see-also)
+- [See also](#see-also)
 
 ## Introduction
 
@@ -101,7 +101,7 @@ new_card = virgil_hub.virgilcard.create_card
 					keys['public_key'])
 ```
 
-Creating a Card without an Identity verification. Pay attention that you will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an example.
+Creating a Card without an Identity verification. Pay attention that you will have to set an additional attribute to include the Cards with unconfirmed Identities into your search, see an [example](#search-for-cards).
 
 ```python
 Add_data ={'Field1': 'Data1', 'Field2': 'Data2'}
