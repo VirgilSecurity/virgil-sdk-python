@@ -45,7 +45,7 @@ First you must create a free Virgil Security developer's account by signing up [
 
 The access token provides an authenticated secure access to the Public Keys Service and is passed with each API call. The access token also allows the API to associate your app's requests with your Virgil Security developer's account.
 
-Simply add your access token to the client constuctor.
+Simply add your access token to the client constructor.
 
 ```python
 identity_link = '%IDENTITY_SERVICE_URL%'
@@ -201,7 +201,7 @@ Private key can be added for storage only in case you have already registered a 
 
 Use the public key identifier on the Public Keys Service to save the private keys. 
 
-The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend to trasfer the keys which were generated with a password.
+The Private Keys Service stores private keys the original way as they were transferred. That's why we strongly recommend transferring the keys which were generated with a password.
 
 ```python
 recipient_card = virgil_hub.virgilcard.search_app
