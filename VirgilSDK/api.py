@@ -33,7 +33,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import sys
-import urllib2, ssl
+import urllib.request as urllib2
+import ssl
 import json
 from VirgilSDK.errors import errors_list
 

@@ -40,11 +40,11 @@ import random
 class Helper:
     @staticmethod
     def json_dumps(values):
-        return json.dumps(values).encode()
+        return json.dumps(values)
 
     @staticmethod
     def json_loads(values):
-        return json.loads(values)
+        return json.loads(values.decode())
 
     @staticmethod
     def generate_id():

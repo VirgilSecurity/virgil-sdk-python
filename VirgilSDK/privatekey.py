@@ -57,7 +57,7 @@ class PrivateKey(VirgilClient):
         to_sign = request_id + myvalues
         signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
-        return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
+        return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)).decode()).decode()
 
     # Get an existing private key
     # recipient_pub_key - string, base64 encoded private key service's public key
@@ -78,9 +78,9 @@ class PrivateKey(VirgilClient):
                   'virgil_card_id': virgil_card_id}
         myvalues = Helper.json_dumps(values)
         encrypted_request = CryptoWrapper.encrypt(myvalues, str(recipient_id), recipient_pub_key)
-        encrypted_response = self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
+        encrypted_response = self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)).decode())
         try:
-            return Helper.json_loads(str(bytearray(CryptoWrapper.decrypt_with_password(encrypted_response, response_password))))
+            return Helper.json_loads(bytearray(CryptoWrapper.decrypt_with_password(encrypted_response, response_password)))
         except ValueError:
             return encrypted_response
 
@@ -101,4 +101,4 @@ class PrivateKey(VirgilClient):
         to_sign = request_id + myvalues
         signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
-        return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)))
+        return self._api_request('POST', endpoint, headers, base64.b64encode(bytearray(encrypted_request)).decode()).decode()
