@@ -4,26 +4,26 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 
 def test_search_app(value):
     app_card = virgil_hub.virgilcard.search_app(value)
-    print(app_card)
+    # print(app_card)
     assert app_card[0]['identity']['value'] == value, 'We`ve got a problem'
 
 
 def test_search_card(value):
     card = virgil_hub.virgilcard.search_card(value)
-    print(card)
+    # print(card)
     assert card[0]['identity']['value'] == value, 'We`ve got a problem'
 
 
 def test_verify_identity(type, value):
     ver_res = virgil_hub.identity.verify(type, value)
-    print(ver_res)
+    # print(ver_res)
     assert ver_res['action_id'], 'We`ve got a problem'
 
 
 def test_confirm_identity(type, value):
     ver_res = virgil_hub.identity.verify(type, value)
     conf_res = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), ver_res['action_id'])
-    print(conf_res)
+    # print(conf_res)
     assert conf_res['validation_token'], 'We`ve got a problem'
 
 
@@ -33,26 +33,26 @@ def test_create_card(type, value, keys, private_key_pswd):
     data = {'name': 'Test', 'Organization': 'Test'}
     card = virgil_hub.virgilcard.create_card(type, value, data, identResponse['validation_token'],
                                              keys['private_key'], private_key_pswd, keys['public_key'])
-    print(card)
+    # print(card)
     assert card['id'], 'We`ve got a problem'
     return card
 
 
 def test_get_card(card_id):
     card = virgil_hub.virgilcard.get_virgil_card(card_id)
-    print(card)
+    # print(card)
     assert card['id'] == card_id, 'We`ve got a problem'
 
 
 def test_sign_card(signed_card, signer_card, private_key, password):
     sign = virgil_hub.virgilcard.sign_card(signed_card, signer_card, private_key, password)
-    print(sign)
+    # print(sign)
     assert sign['signed_digest'], 'We`ve got a problem'
 
 
 def test_unsign_card(signed_card, signer_card, private_key, password):
     unsign = virgil_hub.virgilcard.unsign_card(signed_card, signer_card, private_key, password)
-    print(unsign)
+    # print(unsign)
     assert unsign == 'Unsigned!', 'We`ve got a problem'
 
 
@@ -83,7 +83,7 @@ def test_delete_private_key(private_key, card_id, password):
 
 def test_get_public_key(key_id, signer_card_id, private_key, password):
     response = virgil_hub.virgilcard.get_public_key(key_id, True, signer_card_id, private_key, password)
-    print(response)
+    # print(response)
     assert response['id'] == key_id, 'We`ve got a problem'
 
 
@@ -104,46 +104,70 @@ if __name__ == '__main__':
     virgil_hub = virgilhub.VirgilHub(token, ident_link, virgil_card_link, private_key_link)
 
     # Search application
+    print('Trying to search Virgil application..')
     application_value = '%VALUE&'
     test_search_app(application_value)
+    print('Result: Successful')
 
     # Confirmation and validation identity
+    print('Trying to confirm identity..')
     type = '%IDENTITY_TYPE%'
     value = '%IDENTITY_VALUE%'
     test_verify_identity(type, value)
     test_confirm_identity(type, value)
+    print('Result: Successful')
 
     # Create new test card
+    print('Trying to create Virgil card..')
     Passwd = '12345678'
     keys = cryptolib.CryptoWrapper.generate_keys(cryptolib.crypto_helper.VirgilKeyPair.Type_Default, Passwd)
     my_new_card = test_create_card(type, value, keys, Passwd)
+    print('Result: Successful')
 
     # Search card
+    print('Trying to search Virgil card..')
     test_search_card(value)
+    print('Result: Successful')
 
     # Get card by id
+    print('Trying to get Virgil card by ID..')
     test_get_card(my_new_card['id'])
+    print('Result: Successful')
 
     # Sign virgil card
+    print('Trying to sign Virgil card..')
     prkey = '%BASE64_SIGNER_PRIVATE_KEY%'
     passw = '%SIGNER_PASSWORD%'
     signer_card_id = "%SIGNER_CARD_ID%"
     test_sign_card(my_new_card['id'], signer_card_id, prkey, passw)
+    print('Result: Successful')
 
     # Unsign virgil card
+    print('Trying to unsign Virgil card..')
     test_unsign_card(my_new_card['id'], signer_card_id, prkey, passw)
+    print('Result: Successful')
 
     # Load private key
+    print('Trying to upload private key..')
     test_load_private_key(keys['private_key'], my_new_card['id'], Passwd)
+    print('Result: Successful')
 
     # Get private key
+    print('Trying to download private key..')
     test_grab_private_key(type, value, Passwd, my_new_card['id'])
+    print('Result: Successful')
 
     # Delete private key
+    print('Trying to delete prvate key..')
     test_delete_private_key(keys['private_key'], my_new_card['id'], Passwd)
+    print('Result: Successful')
 
     # Get public key
+    print('Trying to get public key by ID..')
     test_get_public_key(my_new_card['public_key']['id'], my_new_card['id'], keys['private_key'], Passwd)
+    print('Result: Successful')
 
     # Delete card
+    print('Trying to delete Virgil card..')
     test_delete_card(type, value, my_new_card['id'], keys['private_key'], Passwd)
+    print('Result: Successful')
