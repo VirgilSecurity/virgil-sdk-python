@@ -44,7 +44,7 @@ class Identity(VirgilClient):
         endpoint = '/verify'
         values = {'type': type,
                   'value': value}
-        return json.loads(self._api_request('POST', endpoint, None, values))
+        return Helper.json_loads(self._api_request('POST', endpoint, None, values))
 
     # Confirms the identity from verify step to obtain confirmation token
     # confirm_code - string, code obtained from verify step
@@ -55,7 +55,7 @@ class Identity(VirgilClient):
         values = {'confirmation_code': confirm_code,
                   'action_id': action_id,
                   'token': token}
-        return json.loads(self._api_request('POST', endpoint, None, values))
+        return Helper.json_loads(self._api_request('POST', endpoint, None, values))
 
     # Validates the passed token
     # type - string, identity type 'email' or 'application'

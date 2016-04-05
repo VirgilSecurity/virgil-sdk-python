@@ -130,7 +130,7 @@ class VirgilCard(VirgilClient):
         card_info = self.get_virgil_card(signed_card_id)
         signed_dig = CryptoWrapper.sign(str(card_info["hash"]), private_key, private_key_password)
         values = {'signed_virgil_card_id': signed_card_id,
-                  'signed_digest': base64.b64encode(bytearray(signed_dig))}
+                  'signed_digest': base64.b64encode(bytearray(signed_dig)).decode()}
         myvalues = Helper.json_dumps(values)
         to_sign = request_id + myvalues
         signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
@@ -154,7 +154,7 @@ class VirgilCard(VirgilClient):
         signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
         result =self._api_request('POST', endpoint, headers, values)
-        if result == '':
+        if result == b'':
             return 'Unsigned!'
         else:
             return result
@@ -178,7 +178,7 @@ class VirgilCard(VirgilClient):
         to_sign = request_id + myvalues
         signature = CryptoWrapper.sign(to_sign, private_key, private_key_password)
         headers['X-VIRGIL-REQUEST-SIGN'] = base64.b64encode(bytearray(signature))
-        return self._api_request('DELETE', endpoint, headers, value)
+        return self._api_request('DELETE', endpoint, headers, value).decode()
 
     # Returns the information about the Virgil Card by the ID.
     # cardID - string, Virgil card ID
