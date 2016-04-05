@@ -16,4 +16,4 @@ Virgil Security, Inc., guides software developers into the forthcoming security 
 BSD 3-Clause. See [LICENSE](https://github.com/VirgilSecurity/virgil/blob/master/LICENSE) for details.
 
 ## Contacts
-Email: <support@virgilsecurity.com>
+Email: <support@VirgilSecurity.com>
