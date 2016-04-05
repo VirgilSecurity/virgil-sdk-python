@@ -41,14 +41,14 @@ class CryptoWrapper:
     # input - string to be converted into bytes
     @staticmethod
     def strtobytes(input):
-        return list(input.encode())
+        return list(bytearray(input, 'utf-8'))
 
     # Generate key pair
     # type - crypto.VirgilKeyPair, type of generated key pair, example - 'crypto.VirgilKeyPair.Type_RSA_1024'
     # password - string, password for encryption of private key
     @staticmethod
     def generate_keys(type, password):
-        kp = crypto_helper.VirgilKeyPair_generate(type, list(password.encode()))
+        kp = crypto_helper.VirgilKeyPair_generate(type, list(bytearray(password, 'utf-8')))
         private_key = bytearray(kp.privateKey())
         public_key = bytearray(kp.publicKey())
         key_pair = {'public_key': base64.b64encode(public_key).decode(), 'private_key': base64.b64encode(private_key).decode()}
@@ -65,7 +65,7 @@ class CryptoWrapper:
             return signer.sign(CryptoWrapper.strtobytes(data), CryptoWrapper.strtobytes(base64.b64decode(private_key).decode()),
                                CryptoWrapper.strtobytes(password))
         except UnicodeDecodeError:
-            return signer.sign(CryptoWrapper.strtobytes(data), list(base64.b64decode(private_key)),
+            return signer.sign(CryptoWrapper.strtobytes(data), list(bytearray(base64.b64decode(private_key))),
                                CryptoWrapper.strtobytes(password))
 
     # Verify data's signature
@@ -75,7 +75,7 @@ class CryptoWrapper:
     @staticmethod
     def verify(data, sign, public_key):
         signer = crypto_helper.VirgilSigner()
-        return signer.verify(CryptoWrapper.strtobytes(data), list(base64.b64decode(sign)),
+        return signer.verify(CryptoWrapper.strtobytes(data), list(bytearray(base64.b64decode(sign))),
                              CryptoWrapper.strtobytes(base64.b64decode(public_key).decode()))
 
     # Encrypt data with recipient's public key
@@ -110,7 +110,7 @@ class CryptoWrapper:
         try:
             return cipher.decryptWithPassword(CryptoWrapper.strtobytes(base64.b64decode(data).decode()), CryptoWrapper.strtobytes(password))
         except UnicodeDecodeError:
-            return cipher.decryptWithPassword(list(base64.b64decode(data)), CryptoWrapper.strtobytes(password))
+            return cipher.decryptWithPassword(list(bytearray(base64.b64decode(data))), CryptoWrapper.strtobytes(password))
     
     # Encrypt data with secret password
     # data - string, data to encrypt
