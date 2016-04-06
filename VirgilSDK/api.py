@@ -59,8 +59,8 @@ class VirgilClient:
             if sys.version_info < (2, 7, 9):
                 raise SystemError("Unsupported version of Python. Upgrade to version 2.7.9")
         else:
-            if sys.version_info < (3, 4, 0):
-                raise SystemError("Unsupported version of Python. Upgrade to version 3.4")
+            if sys.version_info < (3, 4, 3):
+                raise SystemError("Unsupported version of Python. Upgrade to version 3.4.3")
         url = self.url+endpoint
         ctx = ssl.create_default_context()
         data = None
