@@ -12,19 +12,24 @@ from sys import version_info
 if version_info >= (2, 6, 0):
     def swig_import_helper():
         from os.path import dirname
+        from os import walk
         import imp
         fp = None
-        try:
-            fp, pathname, description = imp.find_module('_virgil_crypto_python', [dirname(__file__)])
-        except ImportError:
-            import _virgil_crypto_python
-            return _virgil_crypto_python
-        if fp is not None:
+        for dir in walk(dirname(__file__)):
             try:
-                _mod = imp.load_module('_virgil_crypto_python', fp, pathname, description)
-            finally:
-                fp.close()
-            return _mod
+                fp, pathname, description = imp.find_module('_virgil_crypto_python', [dir[0]])
+            except ImportError:
+                # import _virgil_crypto_python
+                # return _virgil_crypto_python
+                continue
+            if fp is not None:
+                try:
+                    _mod = imp.load_module('_virgil_crypto_python', fp, pathname, description)
+                except ImportError:
+                    continue
+                finally:
+                    fp.close()
+                return _mod
     _virgil_crypto_python = swig_import_helper()
     del swig_import_helper
 else:
