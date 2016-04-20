@@ -41,6 +41,7 @@ else:
 import ssl
 import json
 from VirgilSDK.errors import errors_list
+from VirgilSDK.helper import Helper
 
 
 class VirgilClient:
@@ -77,7 +78,8 @@ class VirgilClient:
         except urllib2.HTTPError as e:
             try:
                 error_res = e.read()
-                error_code = json.loads(error_res)
+                # error_code = json.loads(error_res)
+                error_code = Helper.json_loads(error_res)
                 e.msg = errors_list[error_code['code']]
                 raise
             except ValueError:
