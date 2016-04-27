@@ -55,7 +55,7 @@ class CryptoWrapper:
         pbkdf.setHash(algorithm)
         value_data = CryptoWrapper.strtobytes(value)
         hash_value = pbkdf.derive(value_data)
-        return base64.b64encode(bytearray(hash_value))
+        return base64.b64encode(bytearray(hash_value)).decode()
 
     # Generate key pair
     # type - crypto.VirgilKeyPair, type of generated key pair, example - 'crypto.VirgilKeyPair.Type_RSA_1024'
