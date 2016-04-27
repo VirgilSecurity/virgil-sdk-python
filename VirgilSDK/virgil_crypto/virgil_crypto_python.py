@@ -300,6 +300,9 @@ class VirgilVersion(_object):
     __swig_getmethods__["patchVersion"] = lambda x: _virgil_crypto_python.VirgilVersion_patchVersion
     if _newclass:
         patchVersion = staticmethod(_virgil_crypto_python.VirgilVersion_patchVersion)
+    __swig_getmethods__["fullName"] = lambda x: _virgil_crypto_python.VirgilVersion_fullName
+    if _newclass:
+        fullName = staticmethod(_virgil_crypto_python.VirgilVersion_fullName)
 
     def __init__(self):
         this = _virgil_crypto_python.new_VirgilVersion()
@@ -331,6 +334,10 @@ VirgilVersion_minorVersion = _virgil_crypto_python.VirgilVersion_minorVersion
 def VirgilVersion_patchVersion():
     return _virgil_crypto_python.VirgilVersion_patchVersion()
 VirgilVersion_patchVersion = _virgil_crypto_python.VirgilVersion_patchVersion
+
+def VirgilVersion_fullName():
+    return _virgil_crypto_python.VirgilVersion_fullName()
+VirgilVersion_fullName = _virgil_crypto_python.VirgilVersion_fullName
 
 class VirgilDataSource(_object):
     __swig_setmethods__ = {}
@@ -447,6 +454,9 @@ class VirgilHash(VirgilAsn1Compatible):
     def name(self):
         return _virgil_crypto_python.VirgilHash_name(self)
 
+    def type(self):
+        return _virgil_crypto_python.VirgilHash_type(self)
+
     def hash(self, bytes):
         return _virgil_crypto_python.VirgilHash_hash(self, bytes)
 
@@ -535,6 +545,63 @@ def VirgilBase64_decode(base64str):
     return _virgil_crypto_python.VirgilBase64_decode(base64str)
 VirgilBase64_decode = _virgil_crypto_python.VirgilBase64_decode
 
+class VirgilPBKDF(VirgilAsn1Compatible):
+    __swig_setmethods__ = {}
+    for _s in [VirgilAsn1Compatible]:
+        __swig_setmethods__.update(getattr(_s, '__swig_setmethods__', {}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, VirgilPBKDF, name, value)
+    __swig_getmethods__ = {}
+    for _s in [VirgilAsn1Compatible]:
+        __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
+    __getattr__ = lambda self, name: _swig_getattr(self, VirgilPBKDF, name)
+    __repr__ = _swig_repr
+    kIterationCount_Default = _virgil_crypto_python.VirgilPBKDF_kIterationCount_Default
+    Algorithm_None = _virgil_crypto_python.VirgilPBKDF_Algorithm_None
+    Algorithm_PBKDF2 = _virgil_crypto_python.VirgilPBKDF_Algorithm_PBKDF2
+    Hash_SHA1 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA1
+    Hash_SHA224 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA224
+    Hash_SHA256 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA256
+    Hash_SHA384 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA384
+    Hash_SHA512 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA512
+
+    def __init__(self, *args):
+        this = _virgil_crypto_python.new_VirgilPBKDF(*args)
+        try:
+            self.this.append(this)
+        except:
+            self.this = this
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilPBKDF
+    __del__ = lambda self: None
+
+    def getSalt(self):
+        return _virgil_crypto_python.VirgilPBKDF_getSalt(self)
+
+    def getIterationCount(self):
+        return _virgil_crypto_python.VirgilPBKDF_getIterationCount(self)
+
+    def setAlgorithm(self, alg):
+        return _virgil_crypto_python.VirgilPBKDF_setAlgorithm(self, alg)
+
+    def getAlgorithm(self):
+        return _virgil_crypto_python.VirgilPBKDF_getAlgorithm(self)
+
+    def setHash(self, hash):
+        return _virgil_crypto_python.VirgilPBKDF_setHash(self, hash)
+
+    def getHash(self):
+        return _virgil_crypto_python.VirgilPBKDF_getHash(self)
+
+    def enableRecommendationsCheck(self):
+        return _virgil_crypto_python.VirgilPBKDF_enableRecommendationsCheck(self)
+
+    def disableRecommendationsCheck(self):
+        return _virgil_crypto_python.VirgilPBKDF_disableRecommendationsCheck(self)
+
+    def derive(self, pwd, outSize=0):
+        return _virgil_crypto_python.VirgilPBKDF_derive(self, pwd, outSize)
+VirgilPBKDF_swigregister = _virgil_crypto_python.VirgilPBKDF_swigregister
+VirgilPBKDF_swigregister(VirgilPBKDF)
+
 class VirgilCustomParams(VirgilAsn1Compatible):
     __swig_setmethods__ = {}
     for _s in [VirgilAsn1Compatible]:
@@ -614,6 +681,7 @@ class VirgilKeyPair(_object):
     Type_EC_BP512R1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_BP512R1
     Type_EC_M221 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M221
     Type_EC_M255 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M255
+    Type_EC_Curve25519 = _virgil_crypto_python.VirgilKeyPair_Type_EC_Curve25519
     Type_EC_M383 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M383
     Type_EC_M511 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M511
     Type_EC_SECP192K1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_SECP192K1
@@ -679,6 +747,9 @@ class VirgilKeyPair(_object):
     __swig_getmethods__["isPrivateKeyEncrypted"] = lambda x: _virgil_crypto_python.VirgilKeyPair_isPrivateKeyEncrypted
     if _newclass:
         isPrivateKeyEncrypted = staticmethod(_virgil_crypto_python.VirgilKeyPair_isPrivateKeyEncrypted)
+    __swig_getmethods__["resetPrivateKeyPassword"] = lambda x: _virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword
+    if _newclass:
+        resetPrivateKeyPassword = staticmethod(_virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword)
 
     def publicKey(self):
         return _virgil_crypto_python.VirgilKeyPair_publicKey(self)
@@ -776,6 +847,10 @@ VirgilKeyPair_checkPrivateKeyPassword = _virgil_crypto_python.VirgilKeyPair_chec
 def VirgilKeyPair_isPrivateKeyEncrypted(privateKey):
     return _virgil_crypto_python.VirgilKeyPair_isPrivateKeyEncrypted(privateKey)
 VirgilKeyPair_isPrivateKeyEncrypted = _virgil_crypto_python.VirgilKeyPair_isPrivateKeyEncrypted
+
+def VirgilKeyPair_resetPrivateKeyPassword(privateKey, oldPassword, newPassword):
+    return _virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword(privateKey, oldPassword, newPassword)
+VirgilKeyPair_resetPrivateKeyPassword = _virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword
 
 class VirgilCipherBase(_object):
     __swig_setmethods__ = {}

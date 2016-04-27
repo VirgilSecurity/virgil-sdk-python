@@ -43,6 +43,20 @@ class CryptoWrapper:
     def strtobytes(input):
         return list(bytearray(input, 'utf-8'))
 
+    # PBKD function
+    # value - string, value to encrypt
+    # salt - string, value to add randomicity
+    # algorithm - VirgilPBKDF.Hash class, hash algorithm
+    # iterations - int, count of iterations
+    @staticmethod
+    def pbkdf(value, salt, algorithm=crypto_helper.VirgilPBKDF.Hash_SHA384, iterations=4096):
+        salt_data = CryptoWrapper.strtobytes(salt)
+        pbkdf = crypto_helper.VirgilPBKDF(salt_data, iterations)
+        pbkdf.setHash(algorithm)
+        value_data = CryptoWrapper.strtobytes(value)
+        hash_value = pbkdf.derive(value_data)
+        return base64.b64encode(bytearray(hash_value))
+
     # Generate key pair
     # type - crypto.VirgilKeyPair, type of generated key pair, example - 'crypto.VirgilKeyPair.Type_RSA_1024'
     # password - string, password for encryption of private key
