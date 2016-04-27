@@ -37,6 +37,11 @@ import json
 import random
 
 
+class IdentityType:
+    email = 'email'
+    application = 'application'
+    custom = 'custom'
+
 class Helper:
     @staticmethod
     def json_dumps(values):
@@ -53,3 +58,4 @@ class Helper:
             new_id = '-'.join(bits)
             if len(new_id) == 36:
                 return new_id
+
