@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
     # Confirmation and validation identity
     print('Trying to confirm identity..')
-    type = '%IDENTITY_TYPE%'
+    type = helper.IdentityType.email
     value = '%IDENTITY_VALUE%'
     test_verify_identity(type, value)
     test_confirm_identity(type, value)
