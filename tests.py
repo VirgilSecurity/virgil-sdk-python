@@ -1,5 +1,11 @@
 from VirgilSDK import virgilhub
 import VirgilSDK.virgil_crypto.cryptolib as cryptolib
+import VirgilSDK.helper as helper
+import mailinator
+import time
+from config import *
+import random
+
 
 
 def test_search_app(value):
@@ -22,16 +28,25 @@ def test_verify_identity(type, value):
 
 def test_confirm_identity(type, value):
     ver_res = virgil_hub.identity.verify(type, value)
-    conf_res = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), ver_res['action_id'])
+    mailinator_token = MAILINATOR_TOKEN
+    code = ''
+    for i in range(3):
+        try:
+            code = mailinator.receive_code(mailinator_token, value)
+            if code != '':
+                break
+            time.sleep(10)
+        except:
+            pass
+    conf_res = virgil_hub.identity.confirm(code, ver_res['action_id'], 3)
     # print(conf_res)
     assert conf_res['validation_token'], 'We`ve got a problem'
+    return conf_res['validation_token']
 
 
-def test_create_card(type, value, keys, private_key_pswd):
-    verifyResponse = virgil_hub.identity.verify(type, value)
-    identResponse = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), verifyResponse['action_id'])
+def test_create_card(type, value, keys, private_key_pswd, val_token):
     data = {'name': 'Test', 'Organization': 'Test'}
-    card = virgil_hub.virgilcard.create_card(type, value, data, identResponse['validation_token'],
+    card = virgil_hub.virgilcard.create_card(type, value, data, val_token,
                                              keys['private_key'], private_key_pswd, keys['public_key'])
     # print(card)
     assert card['id'], 'We`ve got a problem'
@@ -63,13 +78,11 @@ def test_load_private_key(private_key, card_id, password):
     assert response == '[]', 'We`ve got a problem'
 
 
-def test_grab_private_key(type, value, password, card_id):
+def test_grab_private_key(type, value, password, card_id, val_token):
     recipient_card = virgil_hub.virgilcard.search_app(('com.virgilsecurity.private-keys'))
-    verifyResponse = virgil_hub.identity.verify(type, value)
-    identResponse = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), verifyResponse['action_id'])
     response = virgil_hub.privatekey.grab_private_key(recipient_card[0]['public_key']['public_key'],
                                                                       recipient_card[0]['id'], type, value,
-                                                                      identResponse['validation_token'], password,
+                                                                      val_token, password,
                                                                       card_id)
     assert response['private_key'], 'We`ve got a problem'
 
@@ -87,41 +100,39 @@ def test_get_public_key(key_id, signer_card_id, private_key, password):
     assert response['id'] == key_id, 'We`ve got a problem'
 
 
-def test_delete_card(type, value, card_id, private_key, password):
-    verifyResponse = virgil_hub.identity.verify(type, value)
-    identResponse = virgil_hub.identity.confirm(raw_input('Enter confirmation code:'), verifyResponse['action_id'])
-    response = virgil_hub.virgilcard.delete_card(type, value, identResponse['validation_token'], card_id, private_key,
+def test_delete_card(type, value, card_id, private_key, password, val_token):
+    response = virgil_hub.virgilcard.delete_card(type, value, val_token, card_id, private_key,
                                                  password)
     assert response == '', 'We`ve got a problem'
 
 
 if __name__ == '__main__':
-    token = '%TOKEN%'
-    ident_link = 'https://identity.virgilsecurity.com/v1'
-    virgil_card_link = 'https://keys.virgilsecurity.com/v3'
-    private_key_link = 'https://keys-private.virgilsecurity.com/v3'
+    token = VIRGIL_APPLICATION_TOKEN
+    ident_link = 'https://identity-stg.virgilsecurity.com/v1'
+    virgil_card_link = 'https://keys-stg.virgilsecurity.com/v3'
+    private_key_link = 'https://keys-private-stg.virgilsecurity.com/v3'
 
     virgil_hub = virgilhub.VirgilHub(token, ident_link, virgil_card_link, private_key_link)
 
     # Search application
     print('Trying to search Virgil application..')
-    application_value = '%VALUE&'
+    application_value = APPLICATION_VALUE
     test_search_app(application_value)
     print('Result: Successful')
 
     # Confirmation and validation identity
     print('Trying to confirm identity..')
     type = helper.IdentityType.email
-    value = '%IDENTITY_VALUE%'
-    test_verify_identity(type, value)
-    test_confirm_identity(type, value)
+    value = IDENTITY_VALUE + str(random.randint(0, 100)) + '@mailinator.com'
+    print(value)
+    val_token = test_confirm_identity(type, value)
     print('Result: Successful')
 
     # Create new test card
     print('Trying to create Virgil card..')
-    Passwd = '12345678'
+    Passwd = NEW_CARD_PASSWORD
     keys = cryptolib.CryptoWrapper.generate_keys(cryptolib.crypto_helper.VirgilKeyPair.Type_Default, Passwd)
-    my_new_card = test_create_card(type, value, keys, Passwd)
+    my_new_card = test_create_card(type, value, keys, Passwd, val_token)
     print('Result: Successful')
 
     # Search card
@@ -136,9 +147,9 @@ if __name__ == '__main__':
 
     # Sign virgil card
     print('Trying to sign Virgil card..')
-    prkey = '%BASE64_SIGNER_PRIVATE_KEY%'
-    passw = '%SIGNER_PASSWORD%'
-    signer_card_id = "%SIGNER_CARD_ID%"
+    prkey = PRIVATE_KEY
+    passw = PRIVATE_KEY_PASSWORD
+    signer_card_id = APPLICATION_CARD_ID
     test_sign_card(my_new_card['id'], signer_card_id, prkey, passw)
     print('Result: Successful')
 
@@ -154,7 +165,7 @@ if __name__ == '__main__':
 
     # Get private key
     print('Trying to download private key..')
-    test_grab_private_key(type, value, Passwd, my_new_card['id'])
+    test_grab_private_key(type, value, Passwd, my_new_card['id'], val_token)
     print('Result: Successful')
 
     # Delete private key
@@ -169,5 +180,6 @@ if __name__ == '__main__':
 
     # Delete card
     print('Trying to delete Virgil card..')
-    test_delete_card(type, value, my_new_card['id'], keys['private_key'], Passwd)
+    test_delete_card(type, value, my_new_card['id'], keys['private_key'], Passwd, val_token)
     print('Result: Successful')
+

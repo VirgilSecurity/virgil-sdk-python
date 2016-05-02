@@ -45,7 +45,9 @@ def receive_code(token, username):
         try:
             email_id = inbox.get_last_id(username)
             message = emails.get_email(email_id)
-            code = message[message.find('code is ')+8:message.find('code is ')+14]
+            if json.loads(message)['data']['seconds_ago'] > 10:
+                continue
+            code = message[message.find(r'bold;\">')+8:message.find(r'bold;\">')+14]
             return code
         except:
             continue
