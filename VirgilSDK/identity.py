@@ -49,9 +49,10 @@ class Identity(VirgilClient):
     # Confirms the identity from verify step to obtain confirmation token
     # confirm_code - string, code obtained from verify step
     # action_id - string, id returned as verify response
-    def confirm(self, confirm_code, action_id):
+    # count_to_live - int, count to live for token
+    def confirm(self, confirm_code, action_id, count_to_live):
         endpoint = '/confirm'
-        token = {'time_to_live': 3600, 'count_to_live': 12}
+        token = {'time_to_live': 3600, 'count_to_live': count_to_live}
         values = {'confirmation_code': confirm_code,
                   'action_id': action_id,
                   'token': token}
