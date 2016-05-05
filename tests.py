@@ -144,7 +144,7 @@ if __name__ == '__main__':
     print('Trying to get Virgil card by ID..')
     test_get_card(my_new_card['id'])
     print('Result: Successful')
-
+    """
     # Sign virgil card
     print('Trying to sign Virgil card..')
     prkey = PRIVATE_KEY
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     print('Trying to unsign Virgil card..')
     test_unsign_card(my_new_card['id'], signer_card_id, prkey, passw)
     print('Result: Successful')
-
+    """
     # Load private key
     print('Trying to upload private key..')
     test_load_private_key(keys['private_key'], my_new_card['id'], Passwd)
