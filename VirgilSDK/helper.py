@@ -37,11 +37,6 @@ import json
 import random
 
 
-class IdentityType:
-    email = 'email'
-    application = 'application'
-    custom = 'custom'
-
 class Helper:
     @staticmethod
     def json_dumps(values):
