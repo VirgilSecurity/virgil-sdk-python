@@ -40,3 +40,9 @@ class VirgilHub:
         self.identity = identity.Identity(identity_url, token)
         self.virgilcard = virgilcard.VirgilCard(virgil_card_url, token)
         self.privatekey = privatekey.PrivateKey(private_key_url, token)
+
+
+class IdentityType:
+    email = 'email'
+    application = 'application'
+    custom = 'custom'
