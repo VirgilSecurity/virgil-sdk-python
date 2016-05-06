@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     # Confirmation and validation identity
     print('Trying to confirm identity..')
-    type = helper.IdentityType.email
+    type = virgilhub.IdentityType.email
     value = IDENTITY_VALUE + str(random.randint(0, 100)) + '@mailinator.com'
     print(value)
     val_token = test_confirm_identity(type, value)
