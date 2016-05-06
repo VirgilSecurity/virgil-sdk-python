@@ -195,8 +195,8 @@ class VirgilCard(VirgilClient):
     # type - string, request parameter
     # relation - list, request parameter
     # include_unconfirmed - string ('true' or 'false'), request parameter
-    def search_card(self, value, type=None, relation=None, include_unconfirmed=None):
-        endpoint = '/virgil-card/actions/search'
+    def search_card(self, value, type='email', relation=None, include_unconfirmed=None):
+        endpoint = '/virgil-card/actions/search' + type
         headers = {'X-VIRGIL-ACCESS-TOKEN': self.token}
         values = {'value': value}
         if type:
