@@ -9,5 +9,5 @@ class ValidationTokenGenerator:
         signature = base64.b64encode(bytearray(
             CryptoWrapper.sign(random_id + identity_type + identity_value, private_key, password)))
         token = random_id + '.' + signature.decode()
-        return base64.b64encode(bytearray(token, 'utf-8'))
+        return base64.b64encode(bytearray(token, 'utf-8')).decode()
 
