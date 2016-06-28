@@ -11,8 +11,8 @@
       - [Get a Private Key](#get-a-private-key)
       - [Destroy a Private Key](#destroy-a-private-key)
 - [Identity](#identity)
-      - [Obtaining a global ValidationToken](#obtaining-a-global-validation-token)
-      - [Confirm and Get an Identity Token](#confirm-and-get-an-identity-token)
+      - [Obtaining a global ValidationToken](#obtaining-a-global-validationtoken)
+      - [Obtaining a private ValidationToken](#obtaining-a-private-validationtoken)
 
 ## Introduction
 
