@@ -63,7 +63,7 @@ Private Cards are created when a developer is using his own service for verifica
 
 #### Publish a Virgil Card
 
-Creating a private Virgil Card with a newly generated key pair and ValidationToken. See how to obtain a ValidationToken [here](#identity-check).
+Creating a private Virgil Card with a newly generated key pair and ValidationToken. See how to obtain a ValidationToken [here](#identity).
 
 ```python
 Add_data ={'Field1': 'Data1', 'Field2': 'Data2'}
