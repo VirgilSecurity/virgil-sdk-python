@@ -53,14 +53,17 @@ virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%',
 
 
 ## Cards and Public Keys
-
 A Virgil Card is the main entity of the Public Keys Service, it includes the information about the user and his public key. The Virgil Card identifies the user by one of his available types, such as an email, a phone number, etc.
 
-The Virgil Card might be created with a confirmed or unconfirmed Identity. The difference is whether Virgil Services take part in the [Identity verification.](#identity-check) With confirmed Cards you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner. Be careful using unconfirmed Cards because they could have been created by any user.
+The Virgil Card might be global and private. The difference is whether Virgil Services take part in the [Identity verification.](#identity).
+
+Global Cards are created with the validation token received after verification in Virgil Identity Service. Any developer with Virgil account can create a global Virgil Card and you can be sure that the account with a particular email has been verified and the email owner is really the Identity owner.
+
+Private Cards are created when a developer is using his own service for verification instead of Virgil Identity Service or avoids verification at all. In this case validation token is generated using app's Private Key created on our [Developer portal](https://developer.virgilsecurity.com/dashboard/).
 
 #### Publish a Virgil Card
 
-An identity token which can be received [here](#identity-check) is used during the registration.
+Creating a private Virgil Card with a newly generated key pair and ValidationToken. See how to obtain a ValidationToken [here](#identity-check).
 
 ```python
 Add_data ={'Field1': 'Data1', 'Field2': 'Data2'}
@@ -90,7 +93,7 @@ new_card = virgil_hub.virgilcard.create_card
 
 #### Search for Cards
 
-Search for the Virgil Card by provided parameters.
+Search for a global Virgil Card.
 
 ```python
 # Search for email card
