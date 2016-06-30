@@ -19,6 +19,13 @@ On the diagram below you can see a full picture of how these things interact wit
 ![Use case messaging](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Prerequisites
+You required Virgil API links:
+
+Identity service API - https://identity.virgilsecurity.com/v1
+
+Cards service API - https://keys.virgilsecurity.com/v3
+
+Private keys API - https://keys-private.virgilsecurity.com/v3
 
 ### Obtaining an Access Token
 
@@ -28,13 +35,6 @@ The access token provides authenticated secure access to Virgil Keys Services an
 
 Use this token to initialize the SDK client [here](#step-0-initialization).
 
-Also you required Virgil API links:
-
-Identity service API - https://identity.virgilsecurity.com/v1
-
-Cards service API - https://keys.virgilsecurity.com/v3
-
-Private keys API - https://keys-private.virgilsecurity.com/v3
 
 ### Install
 
