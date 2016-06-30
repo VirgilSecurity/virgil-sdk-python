@@ -154,7 +154,7 @@ senderCard = virgil_hub.virgilcard.search_card(sender, virgilhub.IdentityType.em
 The application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success, the message is decrypted using the recipient's private key.
 
 ```python
-data = cryptolib.CryptoWrapper.decrypt(base64.b64decode(encryptedBody['Content'])),
+data = cryptolib.CryptoWrapper.decrypt(bytearray(base64.b64decode(encryptedBody['Content'])),
 									 '%RECIPIENT_ID%', 
 									 recipientKeyPair['private_key'], 
 									 '%PASSWORD%')
