@@ -112,8 +112,9 @@ The app is searching for all channel members' public keys on the Keys Service to
 
 ```python
 message = "Encrypt me, Please!!!";
-recipient_cards = virgil_hub.virgilcard.search_card
-							('recipient-test@virgilsecurity.com')
+recipient_cards = virgil_hub.virgilcard.search_card('sender-test@virgilsecurity.com', 
+							type=None, include_unconfirmed=False,
+                                                        include_unauthorized=True)
 for card in recipient_cards:
   encrypted_message = cryptolib.CryptoWrapper.encrypt
   										(message, 
@@ -130,8 +131,8 @@ The app merges the message text and the signature into one structure and sends t
 
 ```python
 encryptedBody = {
-    'Content': base64.b64encode(bytearray(encrypted_message)),
-    'Signature': base64.b64encode(bytearray(crypto_signature))
+    'Content': base64.b64encode(bytearray(encrypted_message)).decode(),
+    'Signature': base64.b64encode(bytearray(crypto_signature)).decode()
 }
 encryptedBodyJson = json.dumps(encryptedBody)
 currentChannel.Send("recipient-test@virgilsecurity.com", 
