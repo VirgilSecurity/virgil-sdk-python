@@ -190,7 +190,7 @@ class VirgilCard(VirgilClient):
         return json_res
 
 
-    # Performs the search by search criterias
+   # Performs the search by search criterias
    # value - string, request parameter
    # type - string, request parameter
    # relation - list, request parameter
