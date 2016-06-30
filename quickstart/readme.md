@@ -98,7 +98,7 @@ The app is registering a Virgil Card which includes a public key and an email ad
 ```python
 data ={'Field1': 'Data1', 'Field2': 'Data2'}
 new_card = virgil_hub.virgilcard.create_card
-							('email',
+							(virgilhub.IdentityType.email,
 							'sender-test@virgilsecurity.com',
 							data,
 							None,
@@ -146,7 +146,7 @@ In order to decrypt and verify the received data, the app on recipient’s side 
 ```python
 message = currentChannel.GetMessage()
 encryptedBody = json.loads(message.Body)
-senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
+senderCard = virgil_hub.virgilcard.search_card(sender, virgilhub.IdentityType.email)
 ...
 ```
 
