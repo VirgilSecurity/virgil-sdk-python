@@ -191,22 +191,27 @@ class VirgilCard(VirgilClient):
 
 
     # Performs the search by search criterias
-    # value - string, request parameter
-    # type - string, request parameter
-    # relation - list, request parameter
-    # include_unconfirmed - string ('true' or 'false'), request parameter
-    def search_card(self, value, type='email', relation=None, include_unconfirmed=None, include_unauthorized=None):
-        endpoint = '/virgil-card/actions/search'
-        if type:
-            endpoint += '/' + type
-        headers = {'X-VIRGIL-ACCESS-TOKEN': self.token}
-        values = {'value': value}
-        if type:
-            values['type'] = type
-        if relation:
-            values['relation'] = relation
-        if include_unconfirmed:
-            values['include_unconfirmed'] = include_unconfirmed
-        if include_unauthorized:
-            values['include_unauthorized'] = include_unauthorized
-        return Helper.json_loads(self._api_request('POST', endpoint, headers, values))
+   # value - string, request parameter
+   # type - string, request parameter
+   # relation - list, request parameter
+   # include_unconfirmed - string ('true' or 'false'), request parameter
+   def search_card(self, value, type='email', relation=None, include_unauthorized=None):
+       endpoint = '/virgil-card/actions/search'
+       headers = {'X-VIRGIL-ACCESS-TOKEN': self.token}
+       values = {'value': value}
+       if type:
+           values['type'] = type
+       if relation:
+           values['relation'] = relation
+       if include_unauthorized:
+           values['include_unauthorized'] = include_unauthorized
+       return Helper.json_loads(self._api_request('POST', endpoint, headers, values))
+       
+    
+   def search_global_card(self, value, type='email'):
+       endpoint = '/virgil-card/actions/search'
+       if type:
+           endpoint += '/' + type
+       headers = {'X-VIRGIL-ACCESS-TOKEN': self.token}
+       values = {'value': value}
+       return Helper.json_loads(self._api_request('POST', endpoint, headers, values))
