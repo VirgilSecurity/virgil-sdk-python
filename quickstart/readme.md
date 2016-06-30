@@ -19,7 +19,8 @@ On the diagram below you can see a full picture of how these things interact wit
 ![Use case messaging](https://raw.githubusercontent.com/VirgilSecurity/virgil/master/images/IPMessaging.jpg)
 
 ## Prerequisites
-You required Virgil API links:
+
+Your required Virgil API links:
 
 Identity service API - https://identity.virgilsecurity.com/v1
 
