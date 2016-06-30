@@ -29,8 +29,11 @@ The access token provides authenticated secure access to Virgil Keys Services an
 Use this token to initialize the SDK client [here](#step-0-initialization).
 
 Also you required Virgil API links:
+
 Identity service API - https://identity.virgilsecurity.com/v1
+
 Cards service API - https://keys.virgilsecurity.com/v3
+
 Private keys API - https://keys-private.virgilsecurity.com/v3
 
 ### Install
@@ -86,7 +89,7 @@ The following code example generates a new public/private key pair.
 
 ```python
 keys = cryptolib.CryptoWrapper.generate_keys
-		(cryptolib.crypto_helper.VirgilKeyPair.Type_EC_SECP521R1, 
+		(cryptolib.crypto_helper.VirgilKeyPair.Type_Default, 
 		'%PASSWORD%') 
 ```
 
@@ -127,7 +130,7 @@ The app merges the message text and the signature into one structure and sends t
 
 ```python
 encryptedBody = {
-    'Content': bytearray(encrypted_messages),
+    'Content': base64.b64encode(bytearray(encrypted_message)),
     'Signature': base64.b64encode(bytearray(crypto_signature))
 }
 encryptedBodyJson = json.dumps(encryptedBody)
@@ -150,7 +153,7 @@ senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
 The application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success, the message is decrypted using the recipient's private key.
 
 ```python
-data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
+data = cryptolib.CryptoWrapper.decrypt(base64.b64decode(encryptedBody['Content'])),
 									 '%RECIPIENT_ID%', 
 									 recipientKeyPair['private_key'], 
 									 '%PASSWORD%')
