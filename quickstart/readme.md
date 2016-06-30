@@ -93,14 +93,7 @@ The app is registering a Virgil Card which includes a public key and an email ad
 
 ```python
 data ={'Field1': 'Data1', 'Field2': 'Data2'}
-new_card = virgil_hub.virgilcard.create_card
-							(virgilhub.IdentityType.email,
-							'sender-test@virgilsecurity.com',
-							data,
-							None,
-							keys['private_key'],
-							'%PASSWORD%',
-							keys['public_key'])
+new_card = virgil_hub.virgilcard.create_card(virgilhub.IdentityType.email,'sender-test@virgilsecurity.com',data,None,keys['private_key'],'%PASSWORD%',keys['public_key'])
 ```
 
 ## Step 2. Encrypt and Sign
@@ -108,18 +101,10 @@ The app is searching for all channel members' public keys on the Keys Service to
 
 ```python
 message = "Encrypt me, Please!!!";
-recipient_cards = virgil_hub.virgilcard.search_card('sender-test@virgilsecurity.com', 
-							type=None, include_unconfirmed=False,
-                                                        include_unauthorized=True)
+recipient_cards = virgil_hub.virgilcard.search_card('sender-test@virgilsecurity.com',type=None, include_unconfirmed=False,include_unauthorized=True)
 for card in recipient_cards:
-  encrypted_message = cryptolib.CryptoWrapper.encrypt
-  										(message, 
-  										card['id'],
-  										card['public_key']['public_key'])
-  crypto_signature = cryptolib.CryptoWrapper.sign
-  										(message, 
-  										keys['private_key'], 
-  										'%PASSWORD%')
+  encrypted_message = cryptolib.CryptoWrapper.encrypt(message,card['id'],card['public_key']['public_key'])
+  crypto_signature = cryptolib.CryptoWrapper.sign(message,keys['private_key'],'%PASSWORD%')
 ```
 
 ## Step 3. Send a Message
@@ -131,8 +116,7 @@ encryptedBody = {
     'Signature': base64.b64encode(bytearray(crypto_signature)).decode()
 }
 encryptedBodyJson = json.dumps(encryptedBody)
-currentChannel.Send("recipient-test@virgilsecurity.com", 
-				encryptedBodyJson)
+currentChannel.Send("recipient-test@virgilsecurity.com",encryptedBodyJson)
 ```
 
 ## Step 4. Receive a Message
@@ -150,14 +134,9 @@ senderCard = virgil_hub.virgilcard.search_card(sender, virgilhub.IdentityType.em
 The application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success, the message is decrypted using the recipient's private key.
 
 ```python
-data = cryptolib.CryptoWrapper.decrypt(bytearray(base64.b64decode(encryptedBody['Content'])),
-									 '%RECIPIENT_ID%', 
-									 recipientKeyPair['private_key'], 
-									 '%PASSWORD%')
+data = cryptolib.CryptoWrapper.decrypt(bytearray(base64.b64decode(encryptedBody['Content'])),'%RECIPIENT_ID%',recipientKeyPair['private_key'],'%PASSWORD%')
 									 
-is_valid = cryptolib.CryptoWrapper.verify(''.join((map(chr, data))),
-								encryptedBody['Signature'],
-								senderCard[0]['public_key']['public_key'])
+is_valid = cryptolib.CryptoWrapper.verify(''.join((map(chr, data))),encryptedBody['Signature'],senderCard[0]['public_key']['public_key'])
 if not is_valid:
     raise ValueError("Signature is not valid.")
 
