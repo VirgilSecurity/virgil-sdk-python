@@ -77,10 +77,7 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 identity_link = '%IDENTITY_SERVICE_URL%'
 virgil_card_link = '%VIRGIL_CARD_SERVICE_URL%'
 private_key_link = '%PRIVATE_KEY_SERVICE_URL%'
-virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%', 
-								identity_link, 
-								virgil_card_link, 
-								private_key_link)
+virgil_hub = virgilhub.VirgilHub('%ACCESS_TOKEN%', identity_link, virgil_card_link, private_key_link)
 ```
 
 ## Step 1. Generate and Publish the Keys
@@ -89,9 +86,7 @@ First a simple IP messaging chat is generating the keys and publishing them to t
 The following code example generates a new public/private key pair.
 
 ```python
-keys = cryptolib.CryptoWrapper.generate_keys
-		(cryptolib.crypto_helper.VirgilKeyPair.Type_Default, 
-		'%PASSWORD%') 
+keys = cryptolib.CryptoWrapper.generate_keys(cryptolib.crypto_helper.VirgilKeyPair.Type_Default, '%PASSWORD%') 
 ```
 
 The app is registering a Virgil Card which includes a public key and an email address identifier. The card will be used for the public key identification and searching for it in the Public Keys Service. You can create a Virgil Card with or without identity verification, see both examples [here](/api-docs/python/keys-sdk#publish-a-virgil-card).
