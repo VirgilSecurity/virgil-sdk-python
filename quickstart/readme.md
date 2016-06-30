@@ -30,7 +30,7 @@ Private keys API - https://keys-private.virgilsecurity.com/v3
 
 ### Obtaining an Access Token
 
-First you must create a free Virgil Security developer's account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://developer.virgilsecurity.com/account/signin) and generate an access token for your application.
+First you must create a free Virgil Security developer's account by signing up [here](https://developer.virgilsecurity.com/account/signup). Once you have your account you can [sign in](https://developer.virgilsecurity.com/account/signin), create an application and generate an access token for your application.
 
 The access token provides authenticated secure access to Virgil Keys Services and is passed with each API call. The access token also allows the API to associate your app's requests with your Virgil Security developer's account.
 
@@ -39,7 +39,7 @@ Use this token to initialize the SDK client [here](#step-0-initialization).
 
 ### Install
 
-To install package use the command below:
+To install [package](https://cdn.virgilsecurity.com/virgil-crypto/python/) use the command below:
 
 ```
 python setup.py install
