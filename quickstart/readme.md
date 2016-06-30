@@ -28,6 +28,11 @@ The access token provides authenticated secure access to Virgil Keys Services an
 
 Use this token to initialize the SDK client [here](#step-0-initialization).
 
+Also you required Virgil API links:
+Identity service API - https://identity.virgilsecurity.com/v1
+Cards service API - https://keys.virgilsecurity.com/v3
+Private keys API - https://keys-private.virgilsecurity.com/v3
+
 ### Install
 
 To install package use the command below:
@@ -145,16 +150,17 @@ senderCard = virgil_hub.virgilcard.search_card(sender, 'email')
 The application is making sure the message came from the declared sender by getting his card on Virgil Public Keys Service. In case of success, the message is decrypted using the recipient's private key.
 
 ```python
-is_valid = cryptolib.CryptoWrapper.verify(encryptedBody['Content'],
+data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
+									 '%RECIPIENT_ID%', 
+									 recipientKeyPair['private_key'], 
+									 '%PASSWORD%')
+									 
+is_valid = cryptolib.CryptoWrapper.verify(''.join((map(chr, data))),
 								encryptedBody['Signature'],
 								senderCard[0]['public_key']['public_key'])
 if not is_valid:
     raise ValueError("Signature is not valid.")
 
-data = cryptolib.CryptoWrapper.decrypt(encryptedBody['Content'],
-									 '%RECIPIENT_ID%', 
-									 recipientKeyPair['private_key'], 
-									 '%PASSWORD%')
 ```
 
 ## Source code
