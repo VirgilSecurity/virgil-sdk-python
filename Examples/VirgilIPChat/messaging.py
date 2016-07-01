@@ -7,10 +7,18 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 import os
 
 
-# Encrypt json serialized data using recipient public key downloaded from
-# virgil key service
-def encrypt_then_sign_message(text, recipients, private_key, private_key_password):
+# Signs and encrypts the outgoing message
+# text - the message text to be encrypted
+# recipients - the message recipients
+# private_key - the user's private key
+# private_key_password - the user's private key password
+def sign_then_encrypt_message(text, recipients, private_key, private_key_password):
 
+    # sign the original message with user's private key
+    message_signature = cryptolib.CryptoWrapper.sign(text, private_key, private_key_password)
+
+    # encrypt the original message for channel's members using
+    # theirs public keys
     cipher = cryptolib.crypto_helper.VirgilCipher()
     for recipient in recipients:
 
@@ -21,52 +29,44 @@ def encrypt_then_sign_message(text, recipients, private_key, private_key_passwor
         cipher.addKeyRecipient(recipient_id, recipient_pubkey)
 
     encrypted_message = cipher.encrypt(cryptolib.CryptoWrapper.strtobytes(text), True)
-    encrypted_message_base64 = helper.base64.b64encode(bytearray(encrypted_message))
 
-    message_signature = cryptolib.CryptoWrapper.sign(encrypted_message_base64, private_key, private_key_password)
-
-    encrypted_message_model = {
-       'message': encrypted_message_base64,
+    # return a model with encrypted message and the signature
+    chat_message_model = {
+       'message': helper.base64.b64encode(bytearray(encrypted_message)),
        'sign': helper.base64.b64encode(bytearray(message_signature))
     }
 
-    return encrypted_message_model
+    return chat_message_model
 
 
-# Decrypt received message 'encrypted' using private key 'private_key' and key password 'private_key_password'
-def verify_then_decrypt_message(chat_message_model, card_id, private_key, private_key_password):
+# Decrypts and verify the message received from Chat API
+# chat_message_model - the message DTO model
+# card_id - the id of the Virgil Card of the message sender
+# private_key - the user's private key
+# private_key_password - the user's private key password
+def decrypt_then_verify_message(chat_message_model, card_id, private_key, private_key_password):
 
-    # extract message & message signature from chat message DTO.
-
-    sender_identity = chat_message_model['sender_identifier']
-    encrypted_message_base64 = chat_message_model['message']
-    message_signature_base64 = chat_message_model['sign']
-
-    encrypted_message = bytearray(helper.base64.b64decode(encrypted_message_base64))
-
-    # gets the sender's Virgil Card to be used for message
-    # signature validation
-
-    sender_card = get_card_by_identity(sender_identity)
-    sender_public_key = sender_card['public_key']['public_key']
-
-    is_valid = cryptolib.CryptoWrapper.verify(encrypted_message_base64,
-                                              message_signature_base64,
-                                              sender_public_key)
-    if not is_valid:
-        print('The message signature is not valid.')
+    # extract message & message signature from received message model.
+    encrypted_message = bytearray(helper.base64.b64decode(chat_message_model['message']))
 
     try:
-        message = cryptolib.CryptoWrapper.decrypt(encrypted_message,
-                                                  card_id,
-                                                  private_key,
-                                                  private_key_password)
+        # decrypt the message with user's private key
+        message_data = cryptolib.CryptoWrapper.decrypt(encrypted_message, card_id, private_key, private_key_password)
+        message = str(bytearray(message_data))
 
-    except Exception as ex:
+        # get a sender's Virgil Card to be used for signature validation
+        sender_card = get_card_by_identity(chat_message_model['sender_identifier'])
+        sender_public_key = sender_card['public_key']['public_key']
+
+        # validate the signature of original message using sender's public key
+        is_valid = cryptolib.CryptoWrapper.verify(message, chat_message_model['sign'], sender_public_key)
+        if not is_valid:
+            return '{} (signature is not valid)'.format(message)
+
+        return message
+
+    except Exception:
         return 'Message cannot be decrypted.'
-
-
-    return str(bytearray(message))
 
 
 # Gets the actual Virgil Card for specified identity
@@ -178,7 +178,7 @@ if __name__ == '__main__':
             # verify the message and decrypt it in case if massage
             # signature is valid.
 
-            message_text = verify_then_decrypt_message(chat_message,
+            message_text = decrypt_then_verify_message(chat_message,
                                                        user_pass['card_id'],
                                                        user_pass['private_key'],
                                                        USER_PRIVATE_KEY_PASSWORD)
@@ -188,7 +188,7 @@ if __name__ == '__main__':
     message_text = raw_input("Input your message here:\n")
     members_cards = get_chat_members_cards(chat_channel)
 
-    encrypted_message_model = encrypt_then_sign_message(message_text,
+    encrypted_message_model = sign_then_encrypt_message(message_text,
                                                         members_cards,
                                                         user_pass['private_key'],
                                                         USER_PRIVATE_KEY_PASSWORD)
