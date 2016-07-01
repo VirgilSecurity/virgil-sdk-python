@@ -1,0 +1,6 @@
+VIRGIL_ACCESS_TOKEN = ''
+VIRGIL_IDENTITY_SERVER_URL = 'https://identity.virgilsecurity.com/v1'
+VIRGIL_KEYS_SERVICE_URL = 'https://keys.virgilsecurity.com/v3'
+VIRGIL_PRIVATE_KEY_SERVICE_URL = 'https://keyring.virgilsecurity.com/v3'
+USER_PRIVATE_KEY_PASSWORD = 'MY_PASSWORD'
+CHAT_API_URL = 'http://198.211.127.242:4000'
