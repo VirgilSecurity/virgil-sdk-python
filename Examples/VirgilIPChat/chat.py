@@ -1,4 +1,4 @@
-import VirgilIPChat.urls as urls
+import urls as urls
 
 
 class Chat(urls.Urls):
@@ -7,7 +7,7 @@ class Chat(urls.Urls):
         self.channel_name = channel_name
         url = self.url + '/channels/' + self.channel_name + '/join'
         values = {'identifier': identifier}
-        self.identity_token = urls.json.loads(self.request('POST', url, None, values))['identity_token']
+        self.identity_token = urls.json.loads(self.request('POST', url, None, values).decode())['identity_token']
 
     def join_channel(self, identifier):
         url = self.url + '/channels/' + self.channel_name + '/join'
@@ -30,5 +30,5 @@ class Chat(urls.Urls):
         url = self.url + '/channels/' + self.channel_name + '/messages'
         headers = {'X-IDENTITY-TOKEN': self.identity_token}
         values = {'last_message_id': last_message_id}
-        return urls.json.loads(self.request('GET', url, headers, values))
+        return urls.json.loads(self.request('GET', url, headers, values).decode())
 

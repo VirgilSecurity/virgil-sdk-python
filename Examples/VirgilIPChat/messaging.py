@@ -1,4 +1,4 @@
-import VirgilIPChat.chat as chat
+import chat as chat
 from VirgilSDK import virgilhub, helper
 import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 
@@ -6,7 +6,7 @@ import VirgilSDK.virgil_crypto.cryptolib as cryptolib
 # Encrypt json serialized data using recipient public key downloaded from
 # virgil key service
 def encrypt_message(json_data, recipient):
-    card = virgil_hub.virgilcard.search_card(recipient, type=None, include_unauthorized=True)[0]
+    card = virgil_hub.virgilcard.search_card(recipient, type=None, include_unauthorized=True)[-1]
     card_key = card['public_key']['public_key']
     card_id = card['id']
     encrypted = helper.base64.b64encode(
@@ -35,7 +35,7 @@ def decrypt_message(encrypted, card_id, prkey, passw):
 
 # Verify signature in json serialized data 'json_data' using sender identity 'sender'
 def verify_signature(json_data, sender):
-    card = virgil_hub.virgilcard.search_card(sender, type=None, include_unauthorized=True)[0]
+    card = virgil_hub.virgilcard.search_card(sender, type=None, include_unauthorized=True)[-1]
     card_key = card['public_key']['public_key']
     is_signed = cryptolib.CryptoWrapper.verify(json_data['message'], json_data['signature'], card_key)
     if not is_signed:
@@ -59,18 +59,21 @@ def send_message(my_chat, message, recipient, prkey, passw, sender):
 # prkey - private key using for decryption
 # passw - private key's password
 # card_id - server's virgil card id
-def get_messages(my_chat, last_message_id, prkey, passw, card_id, mess=None):
+def get_messages(my_chat, last_message_id, prkey, passw, card_id):
     messages = my_chat.get_messages(last_message_id)
     mid = 0
     for message in messages:
-        json_data = decrypt_message(message['message'], card_id, prkey, passw)
-        verify_signature(json_data, json_data['sender'])
-        print('decrypted: ' + json_data['message'])
-        mid = message['id']
+        try:
+            json_data = decrypt_message(message['message'], card_id, prkey, passw)
+            verify_signature(json_data, json_data['sender'])
+            print('decrypted: ' + json_data['message'])
+            mid = message['id']
+        except:
+            continue
     return mid
 
 if __name__ == '__main__':
-    token = '%ACCESS_TOKEN%'
+    token = '%VIRGIL_TOKEN%'
     ident_link = 'https://identity.virgilsecurity.com/v1'
     virgil_card_link = 'https://keys.virgilsecurity.com/v3'
     private_key_link = 'https://keyring.virgilsecurity.com/v3'
@@ -90,11 +93,11 @@ if __name__ == '__main__':
     new_card2 = virgil_hub.virgilcard.create_card(virgilhub.IdentityType.email, recipient_identity, data,
                                                   None, recipient_keys['private_key'],
                                                   '%PASSWORD%', recipient_keys['public_key'])
-    my_chat = chat.Chat('http://198.211.127.242:4000', 'room1', sender_identity)
+    my_chat = chat.Chat('http://198.211.127.242:4000', 'test_room', sender_identity)
     message = 'hello world'
 
     send_message(my_chat, message, recipient_identity, senders_keys['private_key'], '%PASSWORD%', sender_identity)
-    mid = get_messages(my_chat, 0, recipient_keys['private_key'], '%PASSWORD%', new_card2['id'], enc)
+    mid = get_messages(my_chat, 0, recipient_keys['private_key'], '%PASSWORD%', new_card2['id'])
     print(mid)
 
 
