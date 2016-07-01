@@ -136,7 +136,7 @@ if __name__ == '__main__':
         # generate a new Public/Private key pair using Virgil
         # Crypto library.
 
-        user_pass = cryptolib.CryptoWrapper.generate_keys(
+        user_key_pair = cryptolib.CryptoWrapper.generate_keys(
             cryptolib.crypto_helper.VirgilKeyPair.Type_EC_Curve25519, USER_PRIVATE_KEY_PASSWORD)
 
         # publish newly generated Public Key as a Virgil Card
@@ -146,13 +146,15 @@ if __name__ == '__main__':
                                                       USER_IDENTITY,
                                                       None,
                                                       None,
-                                                      user_pass['private_key'],
+                                                      user_key_pair['private_key'],
                                                       USER_PRIVATE_KEY_PASSWORD,
-                                                      user_pass['public_key'])
+                                                      user_key_pair['public_key'])
 
         user_pass['card_id'] = user_card['id']
         user_pass['identity'] = user_card['identity']['value']
         user_pass['identity_type'] = user_card['identity']['type']
+        user_pass['private_key'] = user_key_pair['private_key']
+        user_pass['public_key'] = user_key_pair['public_key']
 
         # save a Private Key with information about Virgil Card
         # to the file on the disk.
