@@ -60,8 +60,11 @@ def verify_then_decrypt_message(chat_message_model, card_id, private_key, privat
         message = cryptolib.CryptoWrapper.decrypt(encrypted_message,
                                                   card_id,
                                                   private_key,
-                                                 private_key_password)
-    except Exception e
+                                                  private_key_password)
+
+    except Exception as ex:
+        return 'Message cannot be decrypted.'
+
 
     return str(bytearray(message))
 
