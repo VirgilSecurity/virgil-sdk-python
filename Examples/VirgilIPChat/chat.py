@@ -1,4 +1,4 @@
-import urls
+import VirgilIPChat.urls as urls
 
 
 class Chat(urls.Urls):

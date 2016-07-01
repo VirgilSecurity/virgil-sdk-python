@@ -1,4 +1,10 @@
-import urllib2, json
+import sys
+python_version = sys.version_info[0]
+if python_version == 3:
+    import urllib.request as urllib2
+else:
+    import urllib2
+import json
 
 
 class Urls:
