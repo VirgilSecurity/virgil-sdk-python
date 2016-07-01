@@ -150,11 +150,13 @@ if __name__ == '__main__':
                                                       USER_PRIVATE_KEY_PASSWORD,
                                                       user_key_pair['public_key'])
 
-        user_pass['card_id'] = user_card['id']
-        user_pass['identity'] = user_card['identity']['value']
-        user_pass['identity_type'] = user_card['identity']['type']
-        user_pass['private_key'] = user_key_pair['private_key']
-        user_pass['public_key'] = user_key_pair['public_key']
+        user_pass = {
+            'card_id': user_card['id'],
+            'identity': user_card['identity']['value'],
+            'identity_type': user_card['identity']['type'],
+            'private_key': user_key_pair['private_key'],
+            'public_key': user_key_pair['public_key']
+        }
 
         # save a Private Key with information about Virgil Card
         # to the file on the disk.
