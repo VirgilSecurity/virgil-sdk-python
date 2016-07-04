@@ -106,7 +106,7 @@ def get_chat_members_cards(chat_channel):
 # Loads a Private Key from file by specified path.
 # file_path - the path to file with Private Key
 def load_user_pass(file_path):
-    if os.path.exists(virgil_key_path):
+    if os.path.exists(VIRGIL_PRIVATE_KEY_PATH):
         return helper.Helper.json_loads(open(file_path, 'r').read())
 
 
@@ -114,22 +114,25 @@ def load_user_pass(file_path):
 # file_path - the path to file with Private Key
 # virgil_pass - represents information about Virgil Card and Private Key
 def save_virgil_pass(file_path, virgil_pass):
-    dir_name = os.path.split(virgil_key_path)[0]
+    dir_name = os.path.normpath(os.path.split(VIRGIL_PRIVATE_KEY_PATH)[0])
 
     if not os.path.exists(dir_name):
-        os.mkdir(os.path.dirname(file_path))
+        try:
+            os.makedirs(os.path.dirname(file_path))
+        except OSError:
+            # Directory already created
+            pass
 
-    open(virgil_key_path, 'w').write(helper.Helper.json_dumps(virgil_pass))
+    open(VIRGIL_PRIVATE_KEY_PATH, 'w').write(helper.Helper.json_dumps(virgil_pass))
 
 
 if __name__ == '__main__':
 
     print("Initializing...")
 
-    virgil_key_path = os.path.join(os.environ['HOME'], '.virgil', 'user.virgilpass')
     virgil_hub = init_virgil_hub()
 
-    user_pass = load_user_pass(virgil_key_path)
+    user_pass = load_user_pass(VIRGIL_PRIVATE_KEY_PATH)
 
     if not user_pass:
 
@@ -161,7 +164,7 @@ if __name__ == '__main__':
         # save a Private Key with information about Virgil Card
         # to the file on the disk.
 
-        save_virgil_pass(virgil_key_path, user_pass)
+        save_virgil_pass(VIRGIL_PRIVATE_KEY_PATH, user_pass)
 
     # create and join to the chat channel DEMO.
 
