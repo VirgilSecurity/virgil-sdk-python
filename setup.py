@@ -38,7 +38,7 @@ class virgil_build(_build):
         build_prefix = os.path.join(script_dir, "_build")
         install_prefix = os.path.join(script_dir, "VirgilSDK")
         install_dir = "virgil_crypto"
-        shutil.rmtree(build_prefix, ignore_errors=True)
+        virgil_build.cleanup_dir(build_prefix)
 
         cmake_build_command = [
             "cmake",
@@ -59,6 +59,11 @@ class virgil_build(_build):
         ]
         run_process(cmake_install_command)
         os.chdir(script_dir)
+        virgil_build.cleanup_dir(build_prefix)
+
+    @staticmethod
+    def cleanup_dir(path):
+        shutil.rmtree(path, ignore_errors=True)
 
 setup(
     name="virgilSDK",

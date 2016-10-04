@@ -428,56 +428,12 @@ class VirgilHash(VirgilAsn1Compatible):
         __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
     __getattr__ = lambda self, name: _swig_getattr(self, VirgilHash, name)
     __repr__ = _swig_repr
-    __swig_getmethods__["md5"] = lambda x: _virgil_crypto_python.VirgilHash_md5
-    if _newclass:
-        md5 = staticmethod(_virgil_crypto_python.VirgilHash_md5)
-    __swig_getmethods__["sha256"] = lambda x: _virgil_crypto_python.VirgilHash_sha256
-    if _newclass:
-        sha256 = staticmethod(_virgil_crypto_python.VirgilHash_sha256)
-    __swig_getmethods__["sha384"] = lambda x: _virgil_crypto_python.VirgilHash_sha384
-    if _newclass:
-        sha384 = staticmethod(_virgil_crypto_python.VirgilHash_sha384)
-    __swig_getmethods__["sha512"] = lambda x: _virgil_crypto_python.VirgilHash_sha512
-    if _newclass:
-        sha512 = staticmethod(_virgil_crypto_python.VirgilHash_sha512)
-    __swig_getmethods__["withName"] = lambda x: _virgil_crypto_python.VirgilHash_withName
-    if _newclass:
-        withName = staticmethod(_virgil_crypto_python.VirgilHash_withName)
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilHash
-    __del__ = lambda self: None
-
-    def name(self):
-        return _virgil_crypto_python.VirgilHash_name(self)
-
-    def type(self):
-        return _virgil_crypto_python.VirgilHash_type(self)
-
-    def hash(self, bytes):
-        return _virgil_crypto_python.VirgilHash_hash(self, bytes)
-
-    def start(self):
-        return _virgil_crypto_python.VirgilHash_start(self)
-
-    def update(self, bytes):
-        return _virgil_crypto_python.VirgilHash_update(self, bytes)
-
-    def finish(self):
-        return _virgil_crypto_python.VirgilHash_finish(self)
-
-    def hmac(self, key, bytes):
-        return _virgil_crypto_python.VirgilHash_hmac(self, key, bytes)
-
-    def hmacStart(self, key):
-        return _virgil_crypto_python.VirgilHash_hmacStart(self, key)
-
-    def hmacReset(self):
-        return _virgil_crypto_python.VirgilHash_hmacReset(self)
-
-    def hmacUpdate(self, bytes):
-        return _virgil_crypto_python.VirgilHash_hmacUpdate(self, bytes)
-
-    def hmacFinish(self):
-        return _virgil_crypto_python.VirgilHash_hmacFinish(self)
+    Algorithm_MD5 = _virgil_crypto_python.VirgilHash_Algorithm_MD5
+    Algorithm_SHA1 = _virgil_crypto_python.VirgilHash_Algorithm_SHA1
+    Algorithm_SHA224 = _virgil_crypto_python.VirgilHash_Algorithm_SHA224
+    Algorithm_SHA256 = _virgil_crypto_python.VirgilHash_Algorithm_SHA256
+    Algorithm_SHA384 = _virgil_crypto_python.VirgilHash_Algorithm_SHA384
+    Algorithm_SHA512 = _virgil_crypto_python.VirgilHash_Algorithm_SHA512
 
     def __init__(self, *args):
         this = _virgil_crypto_python.new_VirgilHash(*args)
@@ -485,34 +441,52 @@ class VirgilHash(VirgilAsn1Compatible):
             self.this.append(this)
         except Exception:
             self.this = this
+
+    def name(self):
+        return _virgil_crypto_python.VirgilHash_name(self)
+
+    def type(self):
+        return _virgil_crypto_python.VirgilHash_type(self)
+
+    def hash(self, data):
+        return _virgil_crypto_python.VirgilHash_hash(self, data)
+
+    def start(self):
+        return _virgil_crypto_python.VirgilHash_start(self)
+
+    def update(self, data):
+        return _virgil_crypto_python.VirgilHash_update(self, data)
+
+    def finish(self):
+        return _virgil_crypto_python.VirgilHash_finish(self)
+
+    def hmac(self, key, data):
+        return _virgil_crypto_python.VirgilHash_hmac(self, key, data)
+
+    def hmacStart(self, key):
+        return _virgil_crypto_python.VirgilHash_hmacStart(self, key)
+
+    def hmacReset(self):
+        return _virgil_crypto_python.VirgilHash_hmacReset(self)
+
+    def hmacUpdate(self, data):
+        return _virgil_crypto_python.VirgilHash_hmacUpdate(self, data)
+
+    def hmacFinish(self):
+        return _virgil_crypto_python.VirgilHash_hmacFinish(self)
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilHash
+    __del__ = lambda self: None
 VirgilHash_swigregister = _virgil_crypto_python.VirgilHash_swigregister
 VirgilHash_swigregister(VirgilHash)
-
-def VirgilHash_md5():
-    return _virgil_crypto_python.VirgilHash_md5()
-VirgilHash_md5 = _virgil_crypto_python.VirgilHash_md5
-
-def VirgilHash_sha256():
-    return _virgil_crypto_python.VirgilHash_sha256()
-VirgilHash_sha256 = _virgil_crypto_python.VirgilHash_sha256
-
-def VirgilHash_sha384():
-    return _virgil_crypto_python.VirgilHash_sha384()
-VirgilHash_sha384 = _virgil_crypto_python.VirgilHash_sha384
-
-def VirgilHash_sha512():
-    return _virgil_crypto_python.VirgilHash_sha512()
-VirgilHash_sha512 = _virgil_crypto_python.VirgilHash_sha512
-
-def VirgilHash_withName(name):
-    return _virgil_crypto_python.VirgilHash_withName(name)
-VirgilHash_withName = _virgil_crypto_python.VirgilHash_withName
 
 class VirgilBase64(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, VirgilBase64, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, VirgilBase64, name)
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
     __swig_getmethods__["encode"] = lambda x: _virgil_crypto_python.VirgilBase64_encode
     if _newclass:
@@ -520,13 +494,6 @@ class VirgilBase64(_object):
     __swig_getmethods__["decode"] = lambda x: _virgil_crypto_python.VirgilBase64_decode
     if _newclass:
         decode = staticmethod(_virgil_crypto_python.VirgilBase64_decode)
-
-    def __init__(self):
-        this = _virgil_crypto_python.new_VirgilBase64()
-        try:
-            self.this.append(this)
-        except Exception:
-            self.this = this
     __swig_destroy__ = _virgil_crypto_python.delete_VirgilBase64
     __del__ = lambda self: None
 VirgilBase64_swigregister = _virgil_crypto_python.VirgilBase64_swigregister
@@ -551,13 +518,7 @@ class VirgilPBKDF(VirgilAsn1Compatible):
     __getattr__ = lambda self, name: _swig_getattr(self, VirgilPBKDF, name)
     __repr__ = _swig_repr
     kIterationCount_Default = _virgil_crypto_python.VirgilPBKDF_kIterationCount_Default
-    Algorithm_None = _virgil_crypto_python.VirgilPBKDF_Algorithm_None
     Algorithm_PBKDF2 = _virgil_crypto_python.VirgilPBKDF_Algorithm_PBKDF2
-    Hash_SHA1 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA1
-    Hash_SHA224 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA224
-    Hash_SHA256 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA256
-    Hash_SHA384 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA384
-    Hash_SHA512 = _virgil_crypto_python.VirgilPBKDF_Hash_SHA512
 
     def __init__(self, *args):
         this = _virgil_crypto_python.new_VirgilPBKDF(*args)
@@ -565,8 +526,6 @@ class VirgilPBKDF(VirgilAsn1Compatible):
             self.this.append(this)
         except Exception:
             self.this = this
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilPBKDF
-    __del__ = lambda self: None
 
     def getSalt(self):
         return _virgil_crypto_python.VirgilPBKDF_getSalt(self)
@@ -580,11 +539,11 @@ class VirgilPBKDF(VirgilAsn1Compatible):
     def getAlgorithm(self):
         return _virgil_crypto_python.VirgilPBKDF_getAlgorithm(self)
 
-    def setHash(self, hash):
-        return _virgil_crypto_python.VirgilPBKDF_setHash(self, hash)
+    def setHashAlgorithm(self, hash):
+        return _virgil_crypto_python.VirgilPBKDF_setHashAlgorithm(self, hash)
 
-    def getHash(self):
-        return _virgil_crypto_python.VirgilPBKDF_getHash(self)
+    def getHashAlgorithm(self):
+        return _virgil_crypto_python.VirgilPBKDF_getHashAlgorithm(self)
 
     def enableRecommendationsCheck(self):
         return _virgil_crypto_python.VirgilPBKDF_enableRecommendationsCheck(self)
@@ -594,6 +553,8 @@ class VirgilPBKDF(VirgilAsn1Compatible):
 
     def derive(self, pwd, outSize=0):
         return _virgil_crypto_python.VirgilPBKDF_derive(self, pwd, outSize)
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilPBKDF
+    __del__ = lambda self: None
 VirgilPBKDF_swigregister = _virgil_crypto_python.VirgilPBKDF_swigregister
 VirgilPBKDF_swigregister(VirgilPBKDF)
 
@@ -661,8 +622,6 @@ class VirgilCustomParams(VirgilAsn1Compatible):
 
     def clear(self):
         return _virgil_crypto_python.VirgilCustomParams_clear(self)
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilCustomParams
-    __del__ = lambda self: None
 
     def __init__(self, *args):
         this = _virgil_crypto_python.new_VirgilCustomParams(*args)
@@ -670,6 +629,8 @@ class VirgilCustomParams(VirgilAsn1Compatible):
             self.this.append(this)
         except Exception:
             self.this = this
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilCustomParams
+    __del__ = lambda self: None
 VirgilCustomParams_swigregister = _virgil_crypto_python.VirgilCustomParams_swigregister
 VirgilCustomParams_swigregister(VirgilCustomParams)
 
@@ -679,7 +640,6 @@ class VirgilKeyPair(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, VirgilKeyPair, name)
     __repr__ = _swig_repr
-    Type_Default = _virgil_crypto_python.VirgilKeyPair_Type_Default
     Type_RSA_256 = _virgil_crypto_python.VirgilKeyPair_Type_RSA_256
     Type_RSA_512 = _virgil_crypto_python.VirgilKeyPair_Type_RSA_512
     Type_RSA_1024 = _virgil_crypto_python.VirgilKeyPair_Type_RSA_1024
@@ -695,68 +655,21 @@ class VirgilKeyPair(_object):
     Type_EC_BP256R1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_BP256R1
     Type_EC_BP384R1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_BP384R1
     Type_EC_BP512R1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_BP512R1
-    Type_EC_M221 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M221
-    Type_EC_M255 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M255
-    Type_EC_Curve25519 = _virgil_crypto_python.VirgilKeyPair_Type_EC_Curve25519
-    Type_EC_M383 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M383
-    Type_EC_M511 = _virgil_crypto_python.VirgilKeyPair_Type_EC_M511
     Type_EC_SECP192K1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_SECP192K1
     Type_EC_SECP224K1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_SECP224K1
     Type_EC_SECP256K1 = _virgil_crypto_python.VirgilKeyPair_Type_EC_SECP256K1
+    Type_EC_CURVE25519 = _virgil_crypto_python.VirgilKeyPair_Type_EC_CURVE25519
+    Type_FAST_EC_X25519 = _virgil_crypto_python.VirgilKeyPair_Type_FAST_EC_X25519
+    Type_FAST_EC_ED25519 = _virgil_crypto_python.VirgilKeyPair_Type_FAST_EC_ED25519
     __swig_getmethods__["generate"] = lambda x: _virgil_crypto_python.VirgilKeyPair_generate
     if _newclass:
         generate = staticmethod(_virgil_crypto_python.VirgilKeyPair_generate)
+    __swig_getmethods__["generateRecommended"] = lambda x: _virgil_crypto_python.VirgilKeyPair_generateRecommended
+    if _newclass:
+        generateRecommended = staticmethod(_virgil_crypto_python.VirgilKeyPair_generateRecommended)
     __swig_getmethods__["generateFrom"] = lambda x: _virgil_crypto_python.VirgilKeyPair_generateFrom
     if _newclass:
         generateFrom = staticmethod(_virgil_crypto_python.VirgilKeyPair_generateFrom)
-    __swig_getmethods__["ecNist192"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecNist192
-    if _newclass:
-        ecNist192 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecNist192)
-    __swig_getmethods__["ecNist224"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecNist224
-    if _newclass:
-        ecNist224 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecNist224)
-    __swig_getmethods__["ecNist256"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecNist256
-    if _newclass:
-        ecNist256 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecNist256)
-    __swig_getmethods__["ecNist384"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecNist384
-    if _newclass:
-        ecNist384 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecNist384)
-    __swig_getmethods__["ecNist521"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecNist521
-    if _newclass:
-        ecNist521 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecNist521)
-    __swig_getmethods__["ecBrainpool256"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecBrainpool256
-    if _newclass:
-        ecBrainpool256 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecBrainpool256)
-    __swig_getmethods__["ecBrainpool384"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecBrainpool384
-    if _newclass:
-        ecBrainpool384 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecBrainpool384)
-    __swig_getmethods__["ecBrainpool512"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecBrainpool512
-    if _newclass:
-        ecBrainpool512 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecBrainpool512)
-    __swig_getmethods__["ecKoblitz192"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecKoblitz192
-    if _newclass:
-        ecKoblitz192 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecKoblitz192)
-    __swig_getmethods__["ecKoblitz224"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecKoblitz224
-    if _newclass:
-        ecKoblitz224 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecKoblitz224)
-    __swig_getmethods__["ecKoblitz256"] = lambda x: _virgil_crypto_python.VirgilKeyPair_ecKoblitz256
-    if _newclass:
-        ecKoblitz256 = staticmethod(_virgil_crypto_python.VirgilKeyPair_ecKoblitz256)
-    __swig_getmethods__["rsa256"] = lambda x: _virgil_crypto_python.VirgilKeyPair_rsa256
-    if _newclass:
-        rsa256 = staticmethod(_virgil_crypto_python.VirgilKeyPair_rsa256)
-    __swig_getmethods__["rsa512"] = lambda x: _virgil_crypto_python.VirgilKeyPair_rsa512
-    if _newclass:
-        rsa512 = staticmethod(_virgil_crypto_python.VirgilKeyPair_rsa512)
-    __swig_getmethods__["rsa1024"] = lambda x: _virgil_crypto_python.VirgilKeyPair_rsa1024
-    if _newclass:
-        rsa1024 = staticmethod(_virgil_crypto_python.VirgilKeyPair_rsa1024)
-    __swig_getmethods__["rsa2048"] = lambda x: _virgil_crypto_python.VirgilKeyPair_rsa2048
-    if _newclass:
-        rsa2048 = staticmethod(_virgil_crypto_python.VirgilKeyPair_rsa2048)
-    __swig_getmethods__["rsa4096"] = lambda x: _virgil_crypto_python.VirgilKeyPair_rsa4096
-    if _newclass:
-        rsa4096 = staticmethod(_virgil_crypto_python.VirgilKeyPair_rsa4096)
     __swig_getmethods__["isKeyPairMatch"] = lambda x: _virgil_crypto_python.VirgilKeyPair_isKeyPairMatch
     if _newclass:
         isKeyPairMatch = staticmethod(_virgil_crypto_python.VirgilKeyPair_isKeyPairMatch)
@@ -769,9 +682,27 @@ class VirgilKeyPair(_object):
     __swig_getmethods__["resetPrivateKeyPassword"] = lambda x: _virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword
     if _newclass:
         resetPrivateKeyPassword = staticmethod(_virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword)
+    __swig_getmethods__["encryptPrivateKey"] = lambda x: _virgil_crypto_python.VirgilKeyPair_encryptPrivateKey
+    if _newclass:
+        encryptPrivateKey = staticmethod(_virgil_crypto_python.VirgilKeyPair_encryptPrivateKey)
+    __swig_getmethods__["decryptPrivateKey"] = lambda x: _virgil_crypto_python.VirgilKeyPair_decryptPrivateKey
+    if _newclass:
+        decryptPrivateKey = staticmethod(_virgil_crypto_python.VirgilKeyPair_decryptPrivateKey)
     __swig_getmethods__["extractPublicKey"] = lambda x: _virgil_crypto_python.VirgilKeyPair_extractPublicKey
     if _newclass:
         extractPublicKey = staticmethod(_virgil_crypto_python.VirgilKeyPair_extractPublicKey)
+    __swig_getmethods__["publicKeyToPEM"] = lambda x: _virgil_crypto_python.VirgilKeyPair_publicKeyToPEM
+    if _newclass:
+        publicKeyToPEM = staticmethod(_virgil_crypto_python.VirgilKeyPair_publicKeyToPEM)
+    __swig_getmethods__["publicKeyToDER"] = lambda x: _virgil_crypto_python.VirgilKeyPair_publicKeyToDER
+    if _newclass:
+        publicKeyToDER = staticmethod(_virgil_crypto_python.VirgilKeyPair_publicKeyToDER)
+    __swig_getmethods__["privateKeyToPEM"] = lambda x: _virgil_crypto_python.VirgilKeyPair_privateKeyToPEM
+    if _newclass:
+        privateKeyToPEM = staticmethod(_virgil_crypto_python.VirgilKeyPair_privateKeyToPEM)
+    __swig_getmethods__["privateKeyToDER"] = lambda x: _virgil_crypto_python.VirgilKeyPair_privateKeyToDER
+    if _newclass:
+        privateKeyToDER = staticmethod(_virgil_crypto_python.VirgilKeyPair_privateKeyToDER)
 
     def publicKey(self):
         return _virgil_crypto_python.VirgilKeyPair_publicKey(self)
@@ -794,73 +725,13 @@ def VirgilKeyPair_generate(*args):
     return _virgil_crypto_python.VirgilKeyPair_generate(*args)
 VirgilKeyPair_generate = _virgil_crypto_python.VirgilKeyPair_generate
 
+def VirgilKeyPair_generateRecommended(*args):
+    return _virgil_crypto_python.VirgilKeyPair_generateRecommended(*args)
+VirgilKeyPair_generateRecommended = _virgil_crypto_python.VirgilKeyPair_generateRecommended
+
 def VirgilKeyPair_generateFrom(*args):
     return _virgil_crypto_python.VirgilKeyPair_generateFrom(*args)
 VirgilKeyPair_generateFrom = _virgil_crypto_python.VirgilKeyPair_generateFrom
-
-def VirgilKeyPair_ecNist192(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecNist192(*args)
-VirgilKeyPair_ecNist192 = _virgil_crypto_python.VirgilKeyPair_ecNist192
-
-def VirgilKeyPair_ecNist224(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecNist224(*args)
-VirgilKeyPair_ecNist224 = _virgil_crypto_python.VirgilKeyPair_ecNist224
-
-def VirgilKeyPair_ecNist256(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecNist256(*args)
-VirgilKeyPair_ecNist256 = _virgil_crypto_python.VirgilKeyPair_ecNist256
-
-def VirgilKeyPair_ecNist384(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecNist384(*args)
-VirgilKeyPair_ecNist384 = _virgil_crypto_python.VirgilKeyPair_ecNist384
-
-def VirgilKeyPair_ecNist521(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecNist521(*args)
-VirgilKeyPair_ecNist521 = _virgil_crypto_python.VirgilKeyPair_ecNist521
-
-def VirgilKeyPair_ecBrainpool256(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecBrainpool256(*args)
-VirgilKeyPair_ecBrainpool256 = _virgil_crypto_python.VirgilKeyPair_ecBrainpool256
-
-def VirgilKeyPair_ecBrainpool384(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecBrainpool384(*args)
-VirgilKeyPair_ecBrainpool384 = _virgil_crypto_python.VirgilKeyPair_ecBrainpool384
-
-def VirgilKeyPair_ecBrainpool512(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecBrainpool512(*args)
-VirgilKeyPair_ecBrainpool512 = _virgil_crypto_python.VirgilKeyPair_ecBrainpool512
-
-def VirgilKeyPair_ecKoblitz192(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecKoblitz192(*args)
-VirgilKeyPair_ecKoblitz192 = _virgil_crypto_python.VirgilKeyPair_ecKoblitz192
-
-def VirgilKeyPair_ecKoblitz224(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecKoblitz224(*args)
-VirgilKeyPair_ecKoblitz224 = _virgil_crypto_python.VirgilKeyPair_ecKoblitz224
-
-def VirgilKeyPair_ecKoblitz256(*args):
-    return _virgil_crypto_python.VirgilKeyPair_ecKoblitz256(*args)
-VirgilKeyPair_ecKoblitz256 = _virgil_crypto_python.VirgilKeyPair_ecKoblitz256
-
-def VirgilKeyPair_rsa256(*args):
-    return _virgil_crypto_python.VirgilKeyPair_rsa256(*args)
-VirgilKeyPair_rsa256 = _virgil_crypto_python.VirgilKeyPair_rsa256
-
-def VirgilKeyPair_rsa512(*args):
-    return _virgil_crypto_python.VirgilKeyPair_rsa512(*args)
-VirgilKeyPair_rsa512 = _virgil_crypto_python.VirgilKeyPair_rsa512
-
-def VirgilKeyPair_rsa1024(*args):
-    return _virgil_crypto_python.VirgilKeyPair_rsa1024(*args)
-VirgilKeyPair_rsa1024 = _virgil_crypto_python.VirgilKeyPair_rsa1024
-
-def VirgilKeyPair_rsa2048(*args):
-    return _virgil_crypto_python.VirgilKeyPair_rsa2048(*args)
-VirgilKeyPair_rsa2048 = _virgil_crypto_python.VirgilKeyPair_rsa2048
-
-def VirgilKeyPair_rsa4096(*args):
-    return _virgil_crypto_python.VirgilKeyPair_rsa4096(*args)
-VirgilKeyPair_rsa4096 = _virgil_crypto_python.VirgilKeyPair_rsa4096
 
 def VirgilKeyPair_isKeyPairMatch(*args):
     return _virgil_crypto_python.VirgilKeyPair_isKeyPairMatch(*args)
@@ -878,9 +749,33 @@ def VirgilKeyPair_resetPrivateKeyPassword(privateKey, oldPassword, newPassword):
     return _virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword(privateKey, oldPassword, newPassword)
 VirgilKeyPair_resetPrivateKeyPassword = _virgil_crypto_python.VirgilKeyPair_resetPrivateKeyPassword
 
+def VirgilKeyPair_encryptPrivateKey(privateKey, privateKeyPassword):
+    return _virgil_crypto_python.VirgilKeyPair_encryptPrivateKey(privateKey, privateKeyPassword)
+VirgilKeyPair_encryptPrivateKey = _virgil_crypto_python.VirgilKeyPair_encryptPrivateKey
+
+def VirgilKeyPair_decryptPrivateKey(privateKey, privateKeyPassword):
+    return _virgil_crypto_python.VirgilKeyPair_decryptPrivateKey(privateKey, privateKeyPassword)
+VirgilKeyPair_decryptPrivateKey = _virgil_crypto_python.VirgilKeyPair_decryptPrivateKey
+
 def VirgilKeyPair_extractPublicKey(privateKey, privateKeyPassword):
     return _virgil_crypto_python.VirgilKeyPair_extractPublicKey(privateKey, privateKeyPassword)
 VirgilKeyPair_extractPublicKey = _virgil_crypto_python.VirgilKeyPair_extractPublicKey
+
+def VirgilKeyPair_publicKeyToPEM(publicKey):
+    return _virgil_crypto_python.VirgilKeyPair_publicKeyToPEM(publicKey)
+VirgilKeyPair_publicKeyToPEM = _virgil_crypto_python.VirgilKeyPair_publicKeyToPEM
+
+def VirgilKeyPair_publicKeyToDER(publicKey):
+    return _virgil_crypto_python.VirgilKeyPair_publicKeyToDER(publicKey)
+VirgilKeyPair_publicKeyToDER = _virgil_crypto_python.VirgilKeyPair_publicKeyToDER
+
+def VirgilKeyPair_privateKeyToPEM(*args):
+    return _virgil_crypto_python.VirgilKeyPair_privateKeyToPEM(*args)
+VirgilKeyPair_privateKeyToPEM = _virgil_crypto_python.VirgilKeyPair_privateKeyToPEM
+
+def VirgilKeyPair_privateKeyToDER(*args):
+    return _virgil_crypto_python.VirgilKeyPair_privateKeyToDER(*args)
+VirgilKeyPair_privateKeyToDER = _virgil_crypto_python.VirgilKeyPair_privateKeyToDER
 
 class VirgilCipherBase(_object):
     __swig_setmethods__ = {}
@@ -895,8 +790,6 @@ class VirgilCipherBase(_object):
             self.this.append(this)
         except Exception:
             self.this = this
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilCipherBase
-    __del__ = lambda self: None
 
     def addKeyRecipient(self, recipientId, publicKey):
         return _virgil_crypto_python.VirgilCipherBase_addKeyRecipient(self, recipientId, publicKey)
@@ -912,6 +805,9 @@ class VirgilCipherBase(_object):
 
     def removePasswordRecipient(self, pwd):
         return _virgil_crypto_python.VirgilCipherBase_removePasswordRecipient(self, pwd)
+
+    def passwordRecipientExists(self, password):
+        return _virgil_crypto_python.VirgilCipherBase_passwordRecipientExists(self, password)
 
     def removeAllRecipients(self):
         return _virgil_crypto_python.VirgilCipherBase_removeAllRecipients(self)
@@ -930,6 +826,8 @@ class VirgilCipherBase(_object):
     __swig_getmethods__["computeShared"] = lambda x: _virgil_crypto_python.VirgilCipherBase_computeShared
     if _newclass:
         computeShared = staticmethod(_virgil_crypto_python.VirgilCipherBase_computeShared)
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilCipherBase
+    __del__ = lambda self: None
 VirgilCipherBase_swigregister = _virgil_crypto_python.VirgilCipherBase_swigregister
 VirgilCipherBase_swigregister(VirgilCipherBase)
 
@@ -951,10 +849,8 @@ class VirgilCipher(VirgilCipherBase):
         __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
     __getattr__ = lambda self, name: _swig_getattr(self, VirgilCipher, name)
     __repr__ = _swig_repr
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilCipher
-    __del__ = lambda self: None
 
-    def encrypt(self, data, embedContentInfo=False):
+    def encrypt(self, data, embedContentInfo=True):
         return _virgil_crypto_python.VirgilCipher_encrypt(self, data, embedContentInfo)
 
     def decryptWithKey(self, *args):
@@ -969,6 +865,8 @@ class VirgilCipher(VirgilCipherBase):
             self.this.append(this)
         except Exception:
             self.this = this
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilCipher
+    __del__ = lambda self: None
 VirgilCipher_swigregister = _virgil_crypto_python.VirgilCipher_swigregister
 VirgilCipher_swigregister(VirgilCipher)
 
@@ -984,22 +882,14 @@ class VirgilChunkCipher(VirgilCipherBase):
     __repr__ = _swig_repr
     kPreferredChunkSize = _virgil_crypto_python.VirgilChunkCipher_kPreferredChunkSize
 
-    def startEncryption(self, *args):
-        return _virgil_crypto_python.VirgilChunkCipher_startEncryption(self, *args)
+    def encrypt(self, *args):
+        return _virgil_crypto_python.VirgilChunkCipher_encrypt(self, *args)
 
-    def startDecryptionWithKey(self, *args):
-        return _virgil_crypto_python.VirgilChunkCipher_startDecryptionWithKey(self, *args)
+    def decryptWithKey(self, *args):
+        return _virgil_crypto_python.VirgilChunkCipher_decryptWithKey(self, *args)
 
-    def startDecryptionWithPassword(self, pwd):
-        return _virgil_crypto_python.VirgilChunkCipher_startDecryptionWithPassword(self, pwd)
-
-    def process(self, data):
-        return _virgil_crypto_python.VirgilChunkCipher_process(self, data)
-
-    def finish(self):
-        return _virgil_crypto_python.VirgilChunkCipher_finish(self)
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilChunkCipher
-    __del__ = lambda self: None
+    def decryptWithPassword(self, source, sink, pwd):
+        return _virgil_crypto_python.VirgilChunkCipher_decryptWithPassword(self, source, sink, pwd)
 
     def __init__(self):
         this = _virgil_crypto_python.new_VirgilChunkCipher()
@@ -1007,6 +897,8 @@ class VirgilChunkCipher(VirgilCipherBase):
             self.this.append(this)
         except Exception:
             self.this = this
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilChunkCipher
+    __del__ = lambda self: None
 VirgilChunkCipher_swigregister = _virgil_crypto_python.VirgilChunkCipher_swigregister
 VirgilChunkCipher_swigregister(VirgilChunkCipher)
 
@@ -1068,10 +960,8 @@ class VirgilStreamCipher(VirgilCipherBase):
         __swig_getmethods__.update(getattr(_s, '__swig_getmethods__', {}))
     __getattr__ = lambda self, name: _swig_getattr(self, VirgilStreamCipher, name)
     __repr__ = _swig_repr
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilStreamCipher
-    __del__ = lambda self: None
 
-    def encrypt(self, source, sink, embedContentInfo=False):
+    def encrypt(self, source, sink, embedContentInfo=True):
         return _virgil_crypto_python.VirgilStreamCipher_encrypt(self, source, sink, embedContentInfo)
 
     def decryptWithKey(self, *args):
@@ -1086,6 +976,8 @@ class VirgilStreamCipher(VirgilCipherBase):
             self.this.append(this)
         except Exception:
             self.this = this
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilStreamCipher
+    __del__ = lambda self: None
 VirgilStreamCipher_swigregister = _virgil_crypto_python.VirgilStreamCipher_swigregister
 VirgilStreamCipher_swigregister(VirgilStreamCipher)
 
@@ -1108,8 +1000,6 @@ class VirgilTinyCipher(_object):
 
     def reset(self):
         return _virgil_crypto_python.VirgilTinyCipher_reset(self)
-    __swig_destroy__ = _virgil_crypto_python.delete_VirgilTinyCipher
-    __del__ = lambda self: None
 
     def encrypt(self, data, recipientPublicKey):
         return _virgil_crypto_python.VirgilTinyCipher_encrypt(self, data, recipientPublicKey)
@@ -1134,6 +1024,8 @@ class VirgilTinyCipher(_object):
 
     def verifyAndDecrypt(self, *args):
         return _virgil_crypto_python.VirgilTinyCipher_verifyAndDecrypt(self, *args)
+    __swig_destroy__ = _virgil_crypto_python.delete_VirgilTinyCipher
+    __del__ = lambda self: None
 VirgilTinyCipher_swigregister = _virgil_crypto_python.VirgilTinyCipher_swigregister
 VirgilTinyCipher_swigregister(VirgilTinyCipher)
 
