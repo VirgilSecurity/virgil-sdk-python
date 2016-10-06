@@ -1,8 +1,8 @@
 import io
 import unittest
 
-from VirgilSDK.cryptography import crypto
-from VirgilSDK.cryptography.crypto import Crypto
+from virgil_sdk.cryptography import crypto
+from virgil_sdk.cryptography.crypto import Crypto
 
 class CryptoTest(unittest.TestCase):
 

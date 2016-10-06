@@ -1,17 +1,17 @@
-from VirgilSDK.virgil_crypto import virgil_crypto_python as native
-from VirgilSDK.virgil_crypto.virgil_crypto_python import VirgilCipher
-from VirgilSDK.virgil_crypto.virgil_crypto_python import VirgilChunkCipher
-from VirgilSDK.virgil_crypto.virgil_crypto_python import VirgilKeyPair
-from VirgilSDK.virgil_crypto.virgil_crypto_python import VirgilSigner
-from VirgilSDK.virgil_crypto.virgil_crypto_python import VirgilStreamSigner
-from VirgilSDK.virgil_crypto.streams import VirgilStreamDataSink
-from VirgilSDK.virgil_crypto.streams import VirgilStreamDataSource
-from VirgilSDK.cryptography.keys import KeyPair
-from VirgilSDK.cryptography.keys import KeyPairType
-from VirgilSDK.cryptography.keys import PrivateKey
-from VirgilSDK.cryptography.keys import PublicKey
-from VirgilSDK.cryptography.hashes import HashAlgorithm
-from VirgilSDK.cryptography.hashes import Fingerprint
+from virgil_crypto import virgil_crypto_python as native
+from virgil_crypto.virgil_crypto_python import VirgilCipher
+from virgil_crypto.virgil_crypto_python import VirgilChunkCipher
+from virgil_crypto.virgil_crypto_python import VirgilKeyPair
+from virgil_crypto.virgil_crypto_python import VirgilSigner
+from virgil_crypto.virgil_crypto_python import VirgilStreamSigner
+from virgil_crypto.streams import VirgilStreamDataSink
+from virgil_crypto.streams import VirgilStreamDataSource
+from virgil_sdk.cryptography.keys import KeyPair
+from virgil_sdk.cryptography.keys import KeyPairType
+from virgil_sdk.cryptography.keys import PrivateKey
+from virgil_sdk.cryptography.keys import PublicKey
+from virgil_sdk.cryptography.hashes import HashAlgorithm
+from virgil_sdk.cryptography.hashes import Fingerprint
 
 class Crypto(object):
     @staticmethod

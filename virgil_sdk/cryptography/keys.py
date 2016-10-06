@@ -1,5 +1,5 @@
 from collections import namedtuple
-from VirgilSDK.virgil_crypto import virgil_crypto_python as native
+from virgil_crypto import virgil_crypto_python as native
 
 KeyPair = namedtuple('KeyPair', ['private_key', 'public_key'])
 

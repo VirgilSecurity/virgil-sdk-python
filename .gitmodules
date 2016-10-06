@@ -1,3 +1,0 @@
-[submodule "src/virgil-crypto"]
-	path = src/virgil-crypto
-	url = git@github.com:VirgilSecurity/virgil-crypto.git

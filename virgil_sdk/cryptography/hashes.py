@@ -1,4 +1,4 @@
-from VirgilSDK.virgil_crypto import virgil_crypto_python as native
+from virgil_crypto import virgil_crypto_python as native
 
 class HashAlgorithm(object):
     class UnknownAlgorithmException(Exception):
