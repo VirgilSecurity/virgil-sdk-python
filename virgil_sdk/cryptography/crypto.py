@@ -14,6 +14,15 @@ from virgil_sdk.cryptography.hashes import HashAlgorithm
 from virgil_sdk.cryptography.hashes import Fingerprint
 
 class VirgilCrypto(object):
+    _CUSTOM_PARAM_KEY_SIGNATURE = None
+
+    class SignatureIsNotValid(Exception):
+        def __init__(self):
+            super(VirgilCrypto.SignatureIsNotValid, self).__init__()
+
+        def __str__(self):
+            return "Signature is not valid"
+
     @staticmethod
     def strtobytes(source):
         return tuple(bytearray(source, 'utf-8'))
@@ -93,6 +102,32 @@ class VirgilCrypto(object):
         )
         return decrypted_data
 
+    def sign_then_encrypt(self, data, private_key, recipients):
+        signer = VirgilSigner()
+        signature = signer.sign(data, private_key.value)
+        cipher = VirgilCipher()
+        custom_data = cipher.customParams()
+        custom_data.setData(
+            self.custom_param_key_signature,
+            signature
+        )
+        for public_key in recipients:
+            cipher.addKeyRecipient(public_key.receiver_id, public_key.value)
+        return cipher.encrypt(data)
+
+    def decrypt_then_verify(self, data, private_key, public_key):
+        cipher = VirgilCipher()
+        decrypted_data = cipher.decryptWithKey(
+            data,
+            private_key.receiver_id,
+            private_key.value
+        )
+        signature = cipher.customParams().getData(self.custom_param_key_signature)
+        is_valid = self.verify(decrypted_data, signature, public_key)
+        if not is_valid:
+            raise self.SignatureIsNotValid()
+        return decrypted_data
+
     @staticmethod
     def sign(data, private_key):
         signer = VirgilSigner()
@@ -153,3 +188,10 @@ class VirgilCrypto(object):
     def compute_public_key_hash(self, public_key):
         public_key_der = native.VirgilKeyPair.publicKeyToDER(public_key)
         return self.compute_hash(public_key_der, HashAlgorithm.SHA256)
+
+    @property
+    def custom_param_key_signature(self):
+        if self._CUSTOM_PARAM_KEY_SIGNATURE:
+            return self._CUSTOM_PARAM_KEY_SIGNATURE
+        self._CUSTOM_PARAM_KEY_SIGNATURE = self.strtobytes("VIRGIL-DATA-SIGNATURE")
+        return self._CUSTOM_PARAM_KEY_SIGNATURE
