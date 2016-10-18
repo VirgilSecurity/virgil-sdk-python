@@ -44,6 +44,6 @@ class Fingerprint(object):
         return self._fingerprint_data
 
     @property
-    def hex_value(self):
+    def to_hex(self):
         hex_data = native.VirgilByteArrayUtils.bytesToHex(self.value)
         return hex_data

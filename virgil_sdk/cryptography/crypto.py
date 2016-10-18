@@ -13,16 +13,15 @@ from virgil_sdk.cryptography.keys import PublicKey
 from virgil_sdk.cryptography.hashes import HashAlgorithm
 from virgil_sdk.cryptography.hashes import Fingerprint
 
-class Crypto(object):
+class VirgilCrypto(object):
     @staticmethod
     def strtobytes(source):
-        return list(bytearray(source, 'utf-8'))
+        return tuple(bytearray(source, 'utf-8'))
 
-    @classmethod
-    def generate_keys(cls, key_pair_type=KeyPairType.Default):
+    def generate_keys(self, key_pair_type=KeyPairType.Default):
         native_type = KeyPairType.convert_to_native(key_pair_type)
         native_key_pair = VirgilKeyPair.generate(native_type)
-        key_pair_id = cls.compute_public_key_hash(native_key_pair.publicKey())
+        key_pair_id = self.compute_public_key_hash(native_key_pair.publicKey())
         private_key = PrivateKey(
             receiver_id=key_pair_id,
             value=VirgilKeyPair.privateKeyToDER(native_key_pair.privateKey())
@@ -33,34 +32,31 @@ class Crypto(object):
         )
         return KeyPair(private_key=private_key, public_key=public_key)
 
-    @classmethod
-    def import_private_key(cls, key_data, password=None):
+    def import_private_key(self, key_data, password=None):
         decrypted_private_key = None
         if not password:
             decrypted_private_key = VirgilKeyPair.privateKeyToDER(key_data)
         else:
             decrypted_private_key = VirgilKeyPair.decryptPrivateKey(
                 key_data,
-                Crypto.strtobytes(password)
+                self.strtobytes(password)
             )
 
         public_key_data = VirgilKeyPair.extractPublicKey(decrypted_private_key, [])
-        key_pair_id = cls.compute_public_key_hash(public_key_data)
+        key_pair_id = self.compute_public_key_hash(public_key_data)
         private_key_data = VirgilKeyPair.privateKeyToDER(decrypted_private_key)
         return PrivateKey(receiver_id=key_pair_id, value=private_key_data)
 
-    @classmethod
-    def import_public_key(cls, key_data):
-        key_pair_id = cls.compute_public_key_hash(key_data)
+    def import_public_key(self, key_data):
+        key_pair_id = self.compute_public_key_hash(key_data)
         public_key_data = VirgilKeyPair.publicKeyToDER(key_data)
         return PublicKey(receiver_id=key_pair_id, value=public_key_data)
 
-    @staticmethod
-    def export_private_key(private_key, password=None):
+    def export_private_key(self, private_key, password=None):
         if not password:
             return VirgilKeyPair.privateKeyToDER(private_key.value)
 
-        password_bytes = Crypto.strtobytes(password)
+        password_bytes = self.strtobytes(password)
         private_key_data = VirgilKeyPair.encryptPrivateKey(
             private_key.value,
             password_bytes
@@ -144,9 +140,8 @@ class Crypto(object):
         isValid = signer.verify(source, signature, signer_public_key.value)
         return isValid
 
-    @classmethod
-    def calculate_fingerprint(cls, data):
-        hash_data = cls.compute_hash(data, HashAlgorithm.SHA256)
+    def calculate_fingerprint(self, data):
+        hash_data = self.compute_hash(data, HashAlgorithm.SHA256)
         return Fingerprint(hash_data)
 
     @staticmethod
@@ -155,7 +150,6 @@ class Crypto(object):
         native_hasher = native.VirgilHash(native_algorithm)
         return native_hasher.hash(data)
 
-    @classmethod
-    def compute_public_key_hash(cls, public_key):
+    def compute_public_key_hash(self, public_key):
         public_key_der = native.VirgilKeyPair.publicKeyToDER(public_key)
-        return cls.compute_hash(public_key_der, HashAlgorithm.SHA256)
+        return self.compute_hash(public_key_der, HashAlgorithm.SHA256)
