@@ -1,6 +1,6 @@
-from virgil_sdk.client.requests.signable_request import SignableRequest
-from virgil_sdk.client.utils import Utils
-from virgil_sdk.client.card import Card
+from virgil_sdk.client.requests import SignableRequest
+from virgil_sdk.client import Utils
+from virgil_sdk.client import Card
 
 class CreateCardRequest(SignableRequest):
     def __init__(self,

@@ -1,11 +1,11 @@
-from virgil_sdk.cryptography.crypto import VirgilCrypto
-from virgil_sdk.client.requests.create_card_request import CreateCardRequest
-from virgil_sdk.client.requests.revoke_card_request import RevokeCardRequest
-from virgil_sdk.client.request_signer import RequestSigner
-from virgil_sdk.client.card import Card
-from virgil_sdk.client.http.request import Request
-from virgil_sdk.client.http.cards_service_connection import CardsServiceConnection
-from virgil_sdk.client.search_criteria import SearchCriteria
+from virgil_sdk.cryptography import VirgilCrypto
+from virgil_sdk.client.requests import CreateCardRequest
+from virgil_sdk.client.requests import RevokeCardRequest
+from virgil_sdk.client.http import Request
+from virgil_sdk.client.http import CardsServiceConnection
+from virgil_sdk.client import RequestSigner
+from virgil_sdk.client import SearchCriteria
+from virgil_sdk.client import Card
 
 class VirgilClient(object):
     def __init__(self, access_token, app_id, app_key):

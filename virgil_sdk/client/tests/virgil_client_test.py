@@ -2,9 +2,8 @@ import io
 import unittest
 from . import config
 
-from virgil_sdk.client.virgil_client import VirgilClient
-from virgil_sdk.client.search_criteria import SearchCriteria
-from virgil_sdk.cryptography.crypto import VirgilCrypto
+from virgil_sdk.client import VirgilClient
+from virgil_sdk.cryptography import VirgilCrypto
 
 class VirgilClientTest(unittest.TestCase):
     def __init__(self, *args, **kwargs):

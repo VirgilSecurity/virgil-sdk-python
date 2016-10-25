@@ -4,8 +4,7 @@ import json
 import unittest
 import base64
 
-from virgil_sdk.cryptography import crypto
-from virgil_sdk.cryptography.crypto import VirgilCrypto
+from virgil_sdk.cryptography import VirgilCrypto
 
 try:
     basestring

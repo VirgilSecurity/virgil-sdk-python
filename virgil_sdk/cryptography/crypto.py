@@ -1,11 +1,11 @@
-from virgil_crypto import virgil_crypto_python as native
-from virgil_crypto.virgil_crypto_python import VirgilCipher
-from virgil_crypto.virgil_crypto_python import VirgilChunkCipher
-from virgil_crypto.virgil_crypto_python import VirgilKeyPair
-from virgil_crypto.virgil_crypto_python import VirgilSigner
-from virgil_crypto.virgil_crypto_python import VirgilStreamSigner
-from virgil_crypto.streams import VirgilStreamDataSink
-from virgil_crypto.streams import VirgilStreamDataSource
+import virgil_crypto
+from virgil_crypto import VirgilCipher
+from virgil_crypto import VirgilChunkCipher
+from virgil_crypto import VirgilKeyPair
+from virgil_crypto import VirgilSigner
+from virgil_crypto import VirgilStreamSigner
+from virgil_crypto import VirgilStreamDataSink
+from virgil_crypto import VirgilStreamDataSource
 from virgil_sdk.cryptography.keys import KeyPair
 from virgil_sdk.cryptography.keys import KeyPairType
 from virgil_sdk.cryptography.keys import PrivateKey
@@ -182,11 +182,11 @@ class VirgilCrypto(object):
     @staticmethod
     def compute_hash(data, algorithm):
         native_algorithm = HashAlgorithm.convert_to_native(algorithm)
-        native_hasher = native.VirgilHash(native_algorithm)
+        native_hasher = virgil_crypto.VirgilHash(native_algorithm)
         return native_hasher.hash(data)
 
     def compute_public_key_hash(self, public_key):
-        public_key_der = native.VirgilKeyPair.publicKeyToDER(public_key)
+        public_key_der = virgil_crypto.VirgilKeyPair.publicKeyToDER(public_key)
         return self.compute_hash(public_key_der, HashAlgorithm.SHA256)
 
     @property
