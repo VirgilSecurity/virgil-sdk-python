@@ -1,15 +1,11 @@
-import io
-import unittest
 from . import config
+from .base_test import BaseTest
 
 from virgil_sdk.client import VirgilClient
-from virgil_sdk.cryptography import VirgilCrypto
 
-class VirgilClientTest(unittest.TestCase):
+class VirgilClientTest(BaseTest):
     def __init__(self, *args, **kwargs):
         super(VirgilClientTest, self).__init__(*args, **kwargs)
-        self.__app_private_key = None
-        self.__crypto = None
         self.__client = None
 
     def test_create_card_saves_public_key(self):
@@ -122,26 +118,6 @@ class VirgilClientTest(unittest.TestCase):
     def cleanup_cards(self, *cards):
         for card in cards:
             self._client.revoke_card(card_id=card.id)
-
-    @property
-    def _crypto(self):
-        if self.__crypto:
-            return self.__crypto
-        self.__crypto = VirgilCrypto()
-        return self.__crypto
-
-    @property
-    def _app_private_key(self):
-        if self.__app_private_key:
-            return self.__app_private_key
-        with open(config.VIRGIL_APP_KEY_PATH, "r") as key_file:
-            raw_private_key = self._crypto.strtobytes(key_file.read())
-
-        self.__app_private_key = self._crypto.import_private_key(
-            key_data=raw_private_key,
-            password=config.VIRGIL_APP_KEY_PASSWORD
-        )
-        return self.__app_private_key
 
     @property
     def _client(self):
