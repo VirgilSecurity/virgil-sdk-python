@@ -43,32 +43,35 @@ class Fingerprint(object):
 
     @classmethod
     def from_hex(cls, fingerprint_hex):
+        # type: (str) -> Fingerprint
         """Creates new Fingerprint from hex.
 
         Args:
-            fingerprint_hex (str): hex string of the fingerprint.
+            fingerprint_hex: hex string of the fingerprint.
 
         Returns:
-            (:obj:`Fingerprint`): imported Fingerprint.
+            Imported Fingerprint.
         """
         data = virgil_crypto.VirgilByteArrayUtils.hexToBytes(fingerprint_hex)
         return cls(data)
 
     @property
     def value(self):
+        # type: () -> Tuple[*int]
         """Raw fingerprint value.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): fingerprint bytes.
+            Fingerprint bytes.
         """
         return self._fingerprint_data
 
     @property
     def to_hex(self):
+        # type: () -> str
         """Fingerprint data in hexadecimal.
 
         Returns:
-            (str): hexademical fingerprint representation.
+            Hexademical fingerprint representation.
         """
         hex_data = virgil_crypto.VirgilByteArrayUtils.bytesToHex(self.value)
         return hex_data

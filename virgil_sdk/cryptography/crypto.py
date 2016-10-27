@@ -66,24 +66,27 @@ class VirgilCrypto(object):
 
     @staticmethod
     def strtobytes(source):
+        # type: (str) -> Tuple[*int]
         """Convert string to bytes tuple used for all crypto methods.
 
         Args:
-            source (str): String for conversion.
+            source: String for conversion.
 
         Returns:
-            (int, int, ...): tuple containing bytes from converted source string.
+            Tuple containing bytes from converted source string.
         """
         return tuple(bytearray(source, 'utf-8'))
 
     def generate_keys(self, key_pair_type=KeyPairType.Default):
+        # type: (Optional[int]) -> KeyPair
         """Generates asymmetric key pair that is comprised of both public and private keys by specified type.
 
         Args:
-            key_pair_type (:obj:`KeyPairType`, optional): type of the generated keys.
+            key_pair_type: type of the generated keys.
+                The possible values can be found in KeyPairType enum.
 
         Returns:
-            (:obj:`KeyPair`): generated key pair.
+            Generated key pair.
         """
         native_type = KeyPairType.convert_to_native(key_pair_type)
         native_key_pair = VirgilKeyPair.generate(native_type)
@@ -99,14 +102,15 @@ class VirgilCrypto(object):
         return KeyPair(private_key=private_key, public_key=public_key)
 
     def import_private_key(self, key_data, password=None):
+        # type: (Tuple[*int], Optional[str]) -> PrivateKey
         """Imports the Private key from material representation.
 
         Args:
-            key_data (:obj:`tuple` of :obj:`int`): key material representation bytes.
-            password (str, optional): private key password, None by default.
+            key_data: key material representation bytes.
+            password: private key password, None by default.
 
         Returns:
-            (:obj:`PrivateKey`): imported private key.
+            Imported private key.
         """
         decrypted_private_key = None
         if not password:
@@ -123,27 +127,29 @@ class VirgilCrypto(object):
         return PrivateKey(receiver_id=key_pair_id, value=private_key_data)
 
     def import_public_key(self, key_data):
+        # type: (Tuple[*int]) -> PublicKey
         """Imports the Public key from material representation.
 
         Args:
-            key_data (:obj:`tuple` of :obj:`int`): key material representation bytes.
+            key_data: key material representation bytes.
 
         Returns:
-            (:obj:`PublicKey`): imported public key.
+            Imported public key.
         """
         key_pair_id = self.compute_public_key_hash(key_data)
         public_key_data = VirgilKeyPair.publicKeyToDER(key_data)
         return PublicKey(receiver_id=key_pair_id, value=public_key_data)
 
     def export_private_key(self, private_key, password=None):
+        # type: (PrivateKey, Optional[str]) -> Tuple[*int]
         """Exports the Private key into material representation.
 
         Args:
-            private_key (:obj:`PrivateKey`): private key for export.
-            password (str, optional): private key password, None by default.
+            private_key: private key for export.
+            password: private key password, None by default.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): key material representation bytes.
+            Key material representation bytes.
         """
         if not password:
             return VirgilKeyPair.privateKeyToDER(private_key.value)
@@ -157,25 +163,27 @@ class VirgilCrypto(object):
 
     @staticmethod
     def export_public_key(public_key):
+        # type: (PublicKey) -> Tuple[*int]
         """Exports the Public key into material representation.
 
         Args:
-            public_key (:obj:`PublicKey`): public key for export.
+            public_key: public key for export.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): key material representation bytes.
+            Key material representation bytes.
         """
         return VirgilKeyPair.publicKeyToDER(public_key.value)
 
     @staticmethod
     def extract_public_key(private_key):
+        # type: (PrivateKey) -> PublicKey
         """Extracts the Public key from Private key.
 
         Args:
-            private_key (:obj:`PrivateKey`): source private key for extraction.
+            private_key: source private key for extraction.
 
         Returns:
-            (:obj:`PublicKey`): exported public key.
+            Exported public key.
         """
         public_key_data = VirgilKeyPair.extractPublicKey(private_key.value, [])
         public_key = PublicKey(
@@ -186,14 +194,15 @@ class VirgilCrypto(object):
 
     @staticmethod
     def encrypt(data, recipients):
+        # type: (Tuple[*int], List[PublicKey]) -> Tuple[*int]
         """Encrypts the specified data using recipients Public keys.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): raw data bytes for encryption.
-            recipients (:obj:`list` of :obj:`PublicKey`): list of recipients' public keys.
+            data: raw data bytes for encryption.
+            recipients: list of recipients' public keys.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): encrypted data bytes.
+            Encrypted data bytes.
         """
         cipher = VirgilCipher()
         for public_key in recipients:
@@ -202,14 +211,15 @@ class VirgilCrypto(object):
 
     @staticmethod
     def decrypt(cipher_data, private_key):
+        # type: (Tuple[*int], PrivateKey) -> Tuple[*int]
         """Decrypts the specified data using Private key.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): encrypted data bytes for decryption.
-            private_key (:obj:`PrivateKey`): private key for decryption.
+            data: encrypted data bytes for decryption.
+            private_key: private key for decryption.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): decrypted data bytes.
+            Decrypted data bytes.
         """
         cipher = VirgilCipher()
         decrypted_data = cipher.decryptWithKey(
@@ -220,16 +230,17 @@ class VirgilCrypto(object):
         return decrypted_data
 
     def sign_then_encrypt(self, data, private_key, recipients):
+        # type: (Tuple[*int], PrivateKey, List[PublicKey]) -> Tuple[*int]
         """Signs and encrypts the data.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): data bytes for signing and encryption.
-            private_key (:obj:`PrivateKey`): private key to sign the data.
-            recipients (:obj:`list` of :obj:`PublicKey`): list of recipients' public keys.
+            data: data bytes for signing and encryption.
+            private_key: private key to sign the data.
+            recipients: list of recipients' public keys.
                 Used for data encryption.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): signed and encrypted data bytes.
+            Signed and encrypted data bytes.
         """
         signer = VirgilSigner()
         signature = signer.sign(data, private_key.value)
@@ -244,15 +255,16 @@ class VirgilCrypto(object):
         return cipher.encrypt(data)
 
     def decrypt_then_verify(self, data, private_key, public_key):
+        # type: (Tuple[*int], PrivateKey, PublicKey) -> Tuple[*int]
         """Decrypts and verifies the data.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): encrypted data bytes.
-            private_key (:obj:`PrivateKey`): private key for decryption.
-            public_key (:obj:`PublicKey`): public key for verification.
+            data: encrypted data bytes.
+            private_key: private key for decryption.
+            public_key: public key for verification.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): decrypted data bytes.
+            Decrypted data bytes.
 
         Raises:
             SignatureIsNotValid: if signature is not verified.
@@ -271,14 +283,15 @@ class VirgilCrypto(object):
 
     @staticmethod
     def sign(data, private_key):
+        # type: (Tuple[*int], PrivateKey) -> Tuple[*int]
         """Signs the specified data using Private key.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): raw data bytes for signing.
-            private_key (:obj:`PrivateKey`): private key for signing.
+            data: raw data bytes for signing.
+            private_key: private key for signing.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): signature bytes.
+            Signature bytes.
         """
         signer = VirgilSigner()
         signature = signer.sign(data, private_key.value)
@@ -286,15 +299,16 @@ class VirgilCrypto(object):
 
     @staticmethod
     def verify(data, signature, signer_public_key):
+        # type: (Tuple[*int], Tuple[*int], PublicKey) -> bool
         """Verifies the specified signature using original data and signer's public key.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): original data bytes for verification.
-            signature (:obj:`tuple` of :obj:`int`): signature bytes for verification.
-            signer_public_key (:obj:`PublicKey`): signer public key for verification.
+            data: original data bytes for verification.
+            signature: signature bytes for verification.
+            signer_public_key: signer public key for verification.
 
         Returns:
-            (bool): True if signature is valid, False otherwise.
+            True if signature is valid, False otherwise.
         """
         signer = VirgilSigner()
         is_valid = signer.verify(data, signature, signer_public_key.value)
@@ -302,12 +316,13 @@ class VirgilCrypto(object):
 
     @staticmethod
     def encrypt_stream(input_stream, output_stream, recipients):
+        # type: (io.IOBase, io.IOBase, List[PublicKey]) -> None
         """Encrypts the specified stream using recipients Public keys.
 
         Args:
-            input_stream (:obj:`io.IOBase`): readable stream containing input data.
-            output_stream (:obj:`io.IOBase`): writable stream for output.
-            recipients (:obj:`list` of :obj:`PublicKey`): list of recipients' public keys.
+            input_stream: readable stream containing input data.
+            output_stream: writable stream for output.
+            recipients: list of recipients' public keys.
 
         """
 
@@ -320,12 +335,13 @@ class VirgilCrypto(object):
 
     @staticmethod
     def decrypt_stream(input_stream, output_stream, private_key):
+        # type: (io.IOBase, io.IOBase, PrivateKey) -> None
         """Decrypts the specified stream using Private key.
 
         Args:
-            input_stream (:obj:`io.IOBase`): readable stream containing input data.
-            output_stream (:obj:`io.IOBase`): writable stream for output.
-            private_key (:obj:`PrivateKey`): private key for decryption.
+            input_stream: readable stream containing input data.
+            output_stream: writable stream for output.
+            private_key: private key for decryption.
 
         """
         cipher = VirgilChunkCipher()
@@ -340,14 +356,15 @@ class VirgilCrypto(object):
 
     @staticmethod
     def sign_stream(input_stream, private_key):
+        # type: (io.IOBase, PrivateKey) -> Tuple[*int]
         """Signs the specified stream using Private key.
 
         Args:
-            input_stream (:obj:`io.IOBase`): readable stream containing input data.
-            private_key (:obj:`PrivateKey`): private key for signing.
+            input_stream: readable stream containing input data.
+            private_key: private key for signing.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): signature bytes.
+            Signature bytes.
         """
         signer = VirgilStreamSigner()
         source = VirgilStreamDataSource(input_stream)
@@ -356,66 +373,72 @@ class VirgilCrypto(object):
 
     @staticmethod
     def verify_stream(input_stream, signature, signer_public_key):
+        # type: (io.IOBase, Tuple[*int], PublicKey) -> bool
         """Verifies the specified signature using original stream and signer's Public key.
 
         Args:
-            input_stream (:obj:`io.IOBase`): readable stream containing input data.
-            signature (:obj:`tuple` of :obj:`int`): signature bytes for verification.
-            signer_public_key (:obj:`PublicKey`): signer public key for verification.
+            input_stream: readable stream containing input data.
+            signature: signature bytes for verification.
+            signer_public_key: signer public key for verification.
 
         Returns:
-            (bool): True if signature is valid, False otherwise.
+            True if signature is valid, False otherwise.
         """
         signer = VirgilStreamSigner()
         source = VirgilStreamDataSource(input_stream)
-        isValid = signer.verify(source, signature, signer_public_key.value)
-        return isValid
+        is_valid = signer.verify(source, signature, signer_public_key.value)
+        return is_valid
 
     def calculate_fingerprint(self, data):
+        # type: (Tuple[*int]) -> Fingerprint
         """Calculates the fingerprint.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): data bytes for fingerprint calculation.
+            data: data bytes for fingerprint calculation.
 
         Returns:
-            (:obj:`Fingerprint`): fingerprint of the source data.
+            Fingerprint of the source data.
         """
         hash_data = self.compute_hash(data, HashAlgorithm.SHA256)
         return Fingerprint(hash_data)
 
     @staticmethod
     def compute_hash(data, algorithm):
+        # type: (Tuple[*int], int) -> Tuple[*int]
         """Computes the hash of specified data.
 
         Args:
-            data (:obj:`tuple` of :obj:`int`): data bytes for fingerprint calculation.
-            algorithm (:obj:`HashAlgorithm`): hashing algorithm.
+            data: data bytes for fingerprint calculation.
+            algorithm: hashing algorithm.
+                The possible values can be found in HashAlgorithm enum.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): hash bytes.
+            Hash bytes.
         """
         native_algorithm = HashAlgorithm.convert_to_native(algorithm)
         native_hasher = virgil_crypto.VirgilHash(native_algorithm)
         return native_hasher.hash(data)
 
     def compute_public_key_hash(self, public_key):
+        # type: (PublicKey) -> Tuple[*int]
         """Computes the hash of specified public key using SHA256 algorithm.
 
         Args:
-            public_key (:obj:`PublicKey`): public key for hashing.
+            public_key: public key for hashing.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): hash bytes.
+            Hash bytes.
         """
         public_key_der = virgil_crypto.VirgilKeyPair.publicKeyToDER(public_key)
         return self.compute_hash(public_key_der, HashAlgorithm.SHA256)
 
     @property
     def custom_param_key_signature(self):
+        # type: () -> Tuple[*int]
         """Custom param key signature.
 
         Returns:
-            (:obj:`tuple` of :obj:`int`): `VIRGIL-DATA-SIGNATURE` bytes.
+            `VIRGIL-DATA-SIGNATURE` bytes.
         """
         if self._CUSTOM_PARAM_KEY_SIGNATURE:
             return self._CUSTOM_PARAM_KEY_SIGNATURE

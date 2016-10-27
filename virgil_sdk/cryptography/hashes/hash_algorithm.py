@@ -63,13 +63,14 @@ class HashAlgorithm(object):
 
     @classmethod
     def convert_to_native(cls, algorithm):
+        # type: (int) -> int
         """Converts algorithm enum value to native value
 
         Args:
-            algorithm (:obj:`HashAlgorithm`): algorithm for conversion.
+            algorithm: algorithm for conversion.
 
         Returns:
-            (int): native library algorithm id.
+            Native library algorithm id.
 
         Raises:
             UnknownAlgorithmException: if algorithm is not supported.

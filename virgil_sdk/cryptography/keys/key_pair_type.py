@@ -84,13 +84,14 @@ class KeyPairType(object):
 
     @classmethod
     def convert_to_native(cls, key_pair_type):
+        # type: (int) -> int
         """Converts type enum value to native value
 
         Args:
-            key_pair_type (:obj:`KeyPairType`): type for conversion.
+            key_pair_type: type id for conversion.
 
         Returns:
-            (int): native library key pair type id.
+            Native library key pair type id.
 
         Raises:
             UnknownTypeException: if type is not supported.
