@@ -133,6 +133,7 @@ class CompatibilityTest(unittest.TestCase):
         cwd = os.path.dirname(this_file_path)
         data_file_path = os.path.join(
             cwd,
+            "..",
             "data",
             "sdk_compatibility_data.json"
         )
