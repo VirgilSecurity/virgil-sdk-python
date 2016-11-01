@@ -13,7 +13,9 @@ class VirgilClientTest(BaseTest):
         card = self._client.create_card(
             "alice",
             "username",
-            alice_keys
+            alice_keys,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
         self.assertEqual(
             card.identity,
@@ -38,10 +40,14 @@ class VirgilClientTest(BaseTest):
         card = self._client.create_card(
             "alice",
             "username",
-            alice_keys
+            alice_keys,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
-        response = self._client.revoke_card(
-            card_id=card.id
+        self._client.revoke_card(
+            card_id=card.id,
+            app_id=config.VIRGIL_APP_ID,
+            app_key=self._app_private_key,
         )
 
     def test_get_card(self):
@@ -49,7 +55,9 @@ class VirgilClientTest(BaseTest):
         created_card = self._client.create_card(
             "alice",
             "username",
-            alice_keys
+            alice_keys,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
         card = self._client.get_card(created_card.id)
         self.assertEqual(
@@ -75,14 +83,18 @@ class VirgilClientTest(BaseTest):
         alice_card1 = self._client.create_card(
             "alice",
             "username",
-            alice_keys1
+            alice_keys1,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
 
         alice_keys2 = self._crypto.generate_keys()
         alice_card2 = self._client.create_card(
             "alice",
             "username",
-            alice_keys2
+            alice_keys2,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
         cards = self._client.search_cards_by_identities('alice')
         self.assertIn(alice_card1, cards)
@@ -94,14 +106,18 @@ class VirgilClientTest(BaseTest):
         alice_card = self._client.create_card(
             "alice",
             "username",
-            alice_keys
+            alice_keys,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
 
         bob_keys = self._crypto.generate_keys()
         bob_card = self._client.create_card(
             "bob",
             "username",
-            bob_keys
+            bob_keys,
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
         )
         cards = self._client.search_cards_by_identities('alice', 'bob')
         self.assertIn(alice_card, cards)
@@ -117,7 +133,11 @@ class VirgilClientTest(BaseTest):
 
     def cleanup_cards(self, *cards):
         for card in cards:
-            self._client.revoke_card(card_id=card.id)
+            self._client.revoke_card(
+                card_id=card.id,
+                app_id=config.VIRGIL_APP_ID,
+                app_key=self._app_private_key,
+            )
 
     @property
     def _client(self):
@@ -126,7 +146,5 @@ class VirgilClientTest(BaseTest):
 
         self.__client = VirgilClient(
             access_token=config.VIRGIL_ACCESS_TOKEN,
-            app_id=config.VIRGIL_APP_ID,
-            app_key=self._app_private_key,
         )
         return self.__client

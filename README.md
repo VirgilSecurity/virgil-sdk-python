@@ -30,7 +30,8 @@ The Virgil SDK is provided as a package named *virgil-sdk*. The package is distr
 
 ### Target platforms
 
-* Python 2.7 and newer.
+* Python 2.7+
+* Python 3.3+
 
 ### Installation
 

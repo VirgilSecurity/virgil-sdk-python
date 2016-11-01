@@ -46,21 +46,24 @@ class VirgilClient(object):
     Contains methods for searching and managing cards.
     """
 
-    def __init__(self, access_token, app_id, app_key):
+    def __init__(
+            self,
+            access_token,
+            cards_service_url="https://cards.virgilsecurity.com",
+            cards_read_only_service_url="https://cards-ro.virgilsecurity.com",
+        ):
         # type: (str, str, PrivateKey) -> None
         """Constructs new VirgilClient object"""
         self.access_token = access_token
-        self.app_id = app_id
-        self.app_key = app_key
-        self.cards_service_url = "https://cards.virgilsecurity.com"
-        self.cards_read_only_service_url = "https://cards-ro.virgilsecurity.com"
+        self.cards_service_url = cards_service_url
+        self.cards_read_only_service_url = cards_read_only_service_url
         self._crypto = None
         self._cards_connection = None
         self._read_cards_connection = None
         self._request_signer = None
 
-    def create_card(self, identity, identity_type, key_pair):
-        # type: (str, str, KeyPair) -> Card
+    def create_card(self, identity, identity_type, key_pair, app_id, app_key):
+        # type: (str, str, KeyPair, str, PrivateKey) -> Card
         """Create new card from given attributes.
 
         Args:
@@ -68,6 +71,8 @@ class VirgilClient(object):
             identity_type: Created card identity type.
             key_pair: Key pair of the created card.
                 Public key is stored in the card, private key is used for request signing.
+            app_id: Application identity for authority sign.
+            app_key: Application key for authority sign.
 
         Returns:
             Created card from server response.
@@ -78,7 +83,7 @@ class VirgilClient(object):
             raw_public_key=self.crypto.export_public_key(key_pair.public_key),
         )
         self.request_signer.self_sign(request, key_pair.private_key)
-        self.request_signer.authority_sign(request, self.app_id, self.app_key)
+        self.request_signer.authority_sign(request, app_id, app_key)
 
         return self.create_card_from_signed_request(request)
 
@@ -101,7 +106,13 @@ class VirgilClient(object):
         card = Card.from_response(raw_response)
         return card
 
-    def revoke_card(self, card_id, reason=RevokeCardRequest.Reasons.Unspecified):
+    def revoke_card(
+            self,
+            card_id,
+            app_id,
+            app_key,
+            reason=RevokeCardRequest.Reasons.Unspecified,
+        ):
         # type: (str, str) -> None
         """Revoke card by id.
 
@@ -109,12 +120,14 @@ class VirgilClient(object):
             card_id: id of the revoked card.
             reason: card revocation reason.
                 The possible values can be found in RevokeCardRequest.Reasons enum.
+            app_id: Application identity for authority sign.
+            app_key: Application key for authority sign.
         """
         request = RevokeCardRequest(
             card_id=card_id,
             reason=reason,
         )
-        self.request_signer.authority_sign(request, self.app_id, self.app_key)
+        self.request_signer.authority_sign(request, app_id, app_key)
 
         return self.revoke_card_from_signed_request(request)
 
