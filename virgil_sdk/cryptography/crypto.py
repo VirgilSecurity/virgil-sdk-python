@@ -193,7 +193,7 @@ class VirgilCrypto(object):
         return public_key
 
     @staticmethod
-    def encrypt(data, recipients):
+    def encrypt(data, *recipients):
         # type: (Tuple[*int], List[PublicKey]) -> Tuple[*int]
         """Encrypts the specified data using recipients Public keys.
 
@@ -229,7 +229,7 @@ class VirgilCrypto(object):
         )
         return decrypted_data
 
-    def sign_then_encrypt(self, data, private_key, recipients):
+    def sign_then_encrypt(self, data, private_key, *recipients):
         # type: (Tuple[*int], PrivateKey, List[PublicKey]) -> Tuple[*int]
         """Signs and encrypts the data.
 
@@ -315,7 +315,7 @@ class VirgilCrypto(object):
         return is_valid
 
     @staticmethod
-    def encrypt_stream(input_stream, output_stream, recipients):
+    def encrypt_stream(input_stream, output_stream, *recipients):
         # type: (io.IOBase, io.IOBase, List[PublicKey]) -> None
         """Encrypts the specified stream using recipients Public keys.
 

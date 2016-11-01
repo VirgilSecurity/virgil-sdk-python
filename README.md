@@ -122,7 +122,7 @@ requestSigner.authority_sign(create_card_request, app_id, app_key)
 ```
 Publish a Virgil Card
 ```python
-alice_card = virgil_client.create_card_from_signed_request
+alice_card = virgil_client.create_card_from_signed_request(create_card_request)
 ```
 Or you can use the shorthand versions
 ```python
@@ -307,7 +307,8 @@ with io.open("[YOUR_FILE_PATH_HERE]", "rb") as input_stream:
 ```
 ### Verifying a Signature
 
-Verify the signature of the SHA-384 fingerprint of either stream or a bytes using Public key. The signature can now be verified by calling the verify method:
+Verify the signature of the SHA-384 fingerprint of either stream or a
+bytes using Public key. The signature can now be verified by calling the verify method:
 
 *Bytes*
 
@@ -321,6 +322,39 @@ is_valid = crypto.verify(data, signature, alice.public_key)
 with io.open("[YOUR_FILE_PATH_HERE]", "rb") as input_stream:
     is_valid = crypto.verify_stream(input_stream, signature, alice.public_key)
 ```
+
+## Authenticated Encryption
+Authenticated Encryption provides both data confidentiality and data
+integrity assurances to the information being protected.
+
+```python
+crypto = VirgilCrypto()
+
+alice = crypto.generate_keys()
+bob = crypto.generate_keys()
+
+# The data to be signed with alice's Private key
+data = crypto.strtobytes("Hello Bob, How are you?")
+```
+
+### Sign then Encrypt
+```python
+cipher_data = crypto.sign_then_encrypt(
+  data,
+  alice.private_key,
+  bob.public_key
+)
+```
+
+### Decrypt then Verify
+```csharp
+decrypted_data = crypto.decrypt_then_verify(
+  cipher_data,
+  bob.private_key,
+  alice.public_key
+)
+```
+
 ## Fingerprint Generation
 The default Fingerprint algorithm is SHA-256.
 ```python

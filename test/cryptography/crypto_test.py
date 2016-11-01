@@ -105,7 +105,7 @@ class CryptoTest(unittest.TestCase):
         key_pair = self._crypto().generate_keys()
         encrypt_result = self._crypto().encrypt(
             data,
-            [key_pair.public_key]
+            key_pair.public_key
         )
         decrypt_result = self._crypto().decrypt(
             encrypt_result,
@@ -124,7 +124,7 @@ class CryptoTest(unittest.TestCase):
         self._crypto().encrypt_stream(
             encrypt_input_stream,
             encrypt_output_stream,
-            [key_pair.public_key]
+            key_pair.public_key
         )
         encrypt_stream_result = encrypt_output_stream.getvalue()
         decrypt_input_stream = io.BytesIO(encrypt_stream_result)
