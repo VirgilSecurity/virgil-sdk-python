@@ -38,6 +38,18 @@ class Utils(object):
     """Helpers used accross the project."""
 
     @staticmethod
+    def strtobytes(source):
+        # type: (str) -> Tuple[*int]
+        """Convert string to bytes tuple used for all crypto methods."""
+        return tuple(bytearray(source))
+
+    @classmethod
+    def b64tobytes(cls, source):
+        # type: (str) -> Tuple[*int]
+        """Convert source to bytearray and encode using base64."""
+        return cls.strtobytes(cls.b64decode(source))
+
+    @staticmethod
     def b64encode(source):
         # type: (str) -> str
         """Convert source to bytearray and encode using base64."""

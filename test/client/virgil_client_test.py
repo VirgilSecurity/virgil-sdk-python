@@ -2,6 +2,7 @@ from . import config
 from .base_test import BaseTest
 
 from virgil_sdk.client import VirgilClient
+from virgil_sdk.client import CardValidator
 
 class VirgilClientTest(BaseTest):
     def __init__(self, *args, **kwargs):
@@ -147,4 +148,5 @@ class VirgilClientTest(BaseTest):
         self.__client = VirgilClient(
             access_token=config.VIRGIL_ACCESS_TOKEN,
         )
+        self.__client.card_validator=(CardValidator(self._crypto))
         return self.__client

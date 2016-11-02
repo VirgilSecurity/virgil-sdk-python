@@ -45,6 +45,14 @@ class VirgilClient(object):
 
     Contains methods for searching and managing cards.
     """
+    class InvalidCardException(Exception):
+        """Exception raised when card is not valid"""
+        def __init__(self, invalid_cards):
+            super(VirgilClient.InvalidCardException, self).__init__()
+            self.invalid_cards = invalid_cards
+
+        def __str__(self):
+            return "Cards {} are not valid".format(self.invalid_cards)
 
     def __init__(
             self,
@@ -61,6 +69,7 @@ class VirgilClient(object):
         self._cards_connection = None
         self._read_cards_connection = None
         self._request_signer = None
+        self._card_validator = None
 
     def create_card(self, identity, identity_type, key_pair, app_id, app_key):
         # type: (str, str, KeyPair, str, PrivateKey) -> Card
@@ -96,6 +105,10 @@ class VirgilClient(object):
 
         Returns:
             Created card from server response.
+
+        Raises:
+            VirgilClient.InvalidCardException if client has validator
+            and returned card signatures are not valid.
         """
         http_request = Request(
             method=Request.POST,
@@ -104,6 +117,8 @@ class VirgilClient(object):
         )
         raw_response = self.cards_connection.send_request(http_request)
         card = Card.from_response(raw_response)
+        if self.card_validator:
+            self.validate_cards([card])
         return card
 
     def revoke_card(
@@ -154,6 +169,10 @@ class VirgilClient(object):
 
         Returns:
             Found card from server response.
+
+        Raises:
+            VirgilClient.InvalidCardException if client has validator
+            and retrieved card signatures are not valid.
         """
         http_request = Request(
             method=Request.GET,
@@ -161,6 +180,8 @@ class VirgilClient(object):
         )
         raw_response = self.read_cards_connection.send_request(http_request)
         card = Card.from_response(raw_response)
+        if self.card_validator:
+            self.validate_cards([card])
         return card
 
     def search_cards_by_identities(self, *identities):
@@ -200,6 +221,10 @@ class VirgilClient(object):
 
         Returns:
             Found cards from server response.
+
+        Raises:
+            VirgilClient.InvalidCardException if client has validator
+            and cards are not valid.
         """
         body = {"identities": search_criteria.identities}
         if search_criteria.identity_type:
@@ -213,7 +238,24 @@ class VirgilClient(object):
         )
         response = self.read_cards_connection.send_request(http_request)
         cards = [Card.from_response(card) for card in response]
+        if self.card_validator:
+            self.validate_cards(cards)
         return cards
+
+    def validate_cards(self, cards):
+        # type: (List[cards]) -> None
+        """Validate cards signatures.
+        Args:
+            cards: list of cards to validate.
+
+        Raises:
+            VirgilClient.InvalidCardException if some cards are not valid.
+        """
+        invalid_cards = [
+            card for card in cards if not self.card_validator.is_valid(card)
+        ]
+        if len(invalid_cards) > 0:
+            raise self.InvalidCardException(invalid_cards)
 
     @property
     def cards_connection(self):
@@ -252,3 +294,16 @@ class VirgilClient(object):
         if not self._crypto:
             self._crypto = VirgilCrypto()
         return self._crypto
+
+    @property
+    def card_validator(self):
+        # type: () -> CardValidator
+        """Card validator."""
+        return self._card_validator
+
+    @card_validator.setter
+    def card_validator(self, validator):
+        # type: (CardValidator) -> CardValidator
+        """Set Card validator."""
+        self._card_validator = validator
+        return validator
