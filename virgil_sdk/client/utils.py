@@ -53,7 +53,7 @@ class Utils(object):
     def b64encode(source):
         # type: (str) -> str
         """Convert source to bytearray and encode using base64."""
-        return base64.b64encode(bytearray(source))
+        return base64.b64encode(bytearray(source)).decode("utf-8", "ignore")
 
     @staticmethod
     def b64decode(source):

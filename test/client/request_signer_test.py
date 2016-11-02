@@ -33,11 +33,11 @@ class RequestSignerTest(BaseTest):
             1,
         )
         self.assertEqual(
-            request.signatures.keys()[0],
+            list(request.signatures.keys())[0],
             config.VIRGIL_APP_ID
         )
         self._assertVerify(
-            request.signatures.values()[0],
+            list(request.signatures.values())[0],
             request.snapshot,
             self._crypto.extract_public_key(self._app_private_key)
         )
@@ -56,11 +56,11 @@ class RequestSignerTest(BaseTest):
             1,
         )
         self.assertEqual(
-            request.signatures.keys()[0],
+            list(request.signatures.keys())[0],
             config.VIRGIL_APP_ID
         )
         self._assertVerify(
-            request.signatures.values()[0],
+            list(request.signatures.values())[0],
             request.snapshot,
             self._crypto.extract_public_key(self._app_private_key)
         )
@@ -81,7 +81,7 @@ class RequestSignerTest(BaseTest):
             1,
         )
         self._assertVerify(
-            request.signatures.values()[0],
+            list(request.signatures.values())[0],
             request.snapshot,
             alice_keys.public_key
         )
@@ -100,7 +100,7 @@ class RequestSignerTest(BaseTest):
             1,
         )
         self._assertVerify(
-            request.signatures.values()[0],
+            list(request.signatures.values())[0],
             request.snapshot,
             alice_keys.public_key
         )
@@ -132,7 +132,7 @@ class RequestSignerTest(BaseTest):
             self._crypto.extract_public_key(self._app_private_key)
         )
         self._assertVerify(
-            request.signatures.values()[0],
+            list(request.signatures.values())[0],
             request.snapshot,
             alice_keys.public_key
         )
@@ -162,7 +162,7 @@ class RequestSignerTest(BaseTest):
             self._crypto.extract_public_key(self._app_private_key)
         )
         self._assertVerify(
-            request.signatures.values()[0],
+            list(request.signatures.values())[0],
             request.snapshot,
             alice_keys.public_key
         )
