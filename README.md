@@ -10,6 +10,7 @@ In this guide you will find code for every task you need to implement in order t
 * [User and App Credentials](#user-and-app-credentials)
 * [Creating a Virgil Card](#creating-a-virgil-card)
 * [Search for Virgil Cards](#search-for-virgil-cards)
+* [Getting a Virgil Card](#getting_a_virgil_card)
 * [Validating Virgil Cards](#validating-virgil-cards)
 * [Revoking a Virgil Card](#revoking-a-virgil-card)
 * [Operations with Crypto Keys](#operations-with-crypto-keys)
@@ -146,7 +147,7 @@ Performs the `Virgil Card`s search by criteria:
 - the *scope* optional request parameter specifies the scope to perform search on. Either 'global' or 'application'. The default value is 'application';
 
 ```python
-virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
 
 criteria = SearchCriteria.by_identities("alice", "bob")
 cards = client.search_cards_by_criteria(criteria)
@@ -154,11 +155,21 @@ cards = client.search_cards_by_criteria(criteria)
 
 Or you can use the shorthand versions
 ```python
-virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
 
 cards = client.search_cards_by_identities("alice", "bob")
 app_bundle_cards = client.seach_cards_by_app_bundle("[APP_BUNDLE]")
 ```
+
+## Getting a Virgil Card
+
+Gets a `Virgil Card` by ID.
+
+```python
+virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+card = virgil_client.get_card("[YOUR_CARD_ID_HERE]")
+```
+
 ## Validating Virgil Cards
 This sample uses *built-in* ```CardValidator``` to validate cards. By default ```CardValidator``` validates only *Cards Service* signature. 
 
