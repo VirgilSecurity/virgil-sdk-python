@@ -71,13 +71,13 @@ Module: ```virgil_sdk.client```
 ```python
 from virgil_sdk.client import VirgilClient
 
-virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
 ```
 
 you can also customize initialization using your own parameters
 
 ```python
-virgil_client = VirgilClient(
+client = VirgilClient(
     "[YOUR_ACCESS_TOKEN_HERE]",
     cards_service_url="https://cards.virgilsecurity.com",
     cards_read_only_service_url="https://cards-ro.virgilsecurity.com",
@@ -130,7 +130,7 @@ requestSigner.authority_sign(create_card_request, app_id, app_key)
 ```
 Publish a Virgil Card
 ```python
-alice_card = virgil_client.create_card_from_signed_request(create_card_request)
+alice_card = client.create_card_from_signed_request(create_card_request)
 ```
 Or you can use the shorthand versions
 ```python
@@ -170,8 +170,8 @@ app_bundle_cards = client.seach_cards_by_app_bundle("[APP_BUNDLE]")
 Gets a `Virgil Card` by ID.
 
 ```python
-virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
-card = virgil_client.get_card("[YOUR_CARD_ID_HERE]")
+client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+card = client.get_card("[YOUR_CARD_ID_HERE]")
 ```
 
 ## Validating Virgil Cards
@@ -187,11 +187,11 @@ validator = CardValidator(crypto)
 # validator.add_verifier("[HERE_VERIFIER_CARD_ID]", [HERE_VERIFIER_PUBLIC_KEY]);
 
 # Initialize service client
-virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
-virgil_client.set_card_validator(validator)
+client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+client.set_card_validator(validator)
 
 try:
-    cards = virgil_client.search_cards_by_identities("alice", "bob");
+    cards = client.search_cards_by_identities("alice", "bob");
 except CardValidationException as ex:
     # ex.invalid_cards is the list of Card objects that didn't pass validation
 ```
@@ -199,7 +199,7 @@ except CardValidationException as ex:
 ## Revoking a Virgil Card
 Initialize required components.
 ```python
-virgil_client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
 crypto = VirgilCrypto()
 request_signer = RequestSigner(crypto)
 ```
@@ -224,7 +224,7 @@ client.revoke_card_from_signed_request(revoke_request);
 ```
 The shorthand version is
 ```python
-virgil_client.revoke_card(
+client.revoke_card(
     card_id="[YOUR_CARD_ID_HERE]",
     reason=RevokeCardRequest.Reasons.Unspecified,
     app_id=app_id,
