@@ -48,7 +48,7 @@ python setup.py install
 or you can use pip to download and install package automatically:
 
 ```
-python -m pip install virgil_sdk
+python -m pip install virgil_sdk==4.0.0b0
 ```
 
 ## User and App Credentials
@@ -69,6 +69,8 @@ To create an instance of *VirgilClient* class, just call its constructor with yo
 Module: ```virgil_sdk.client```
 
 ```python
+from virgil_sdk.client import VirgilClient
+
 virgil_client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
 ```
 
@@ -88,7 +90,9 @@ The *VirgilCrypto* class provides cryptographic operations in applications, such
 Module: ```virgil_sdk.cryptography```
 
 ```python
-crypto = new VirgilCrypto()
+from virgil_sdk.cryptography import VirgilCrypto
+
+crypto = VirgilCrypto()
 ```
 
 ## Creating a Virgil Card
