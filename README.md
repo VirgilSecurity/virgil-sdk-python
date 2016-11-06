@@ -199,7 +199,7 @@ except CardValidationException as ex:
 ## Revoking a Virgil Card
 Initialize required components.
 ```python
-client = new VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
+client = VirgilClient("[YOUR_ACCESS_TOKEN_HERE]")
 crypto = VirgilCrypto()
 request_signer = RequestSigner(crypto)
 ```
@@ -303,7 +303,7 @@ This section walks you through the steps necessary to use the *VirgilCrypto* to 
 Generate a new Public/Private keypair and *data* to be signed.
 
 ```python
-crypto = new VirgilCrypto()
+crypto = VirgilCrypto()
 alice_keys = crypto.GenerateKeys()
 
 # The data to be signed with alice's Private key
@@ -376,7 +376,7 @@ decrypted_data = crypto.decrypt_then_verify(
 ## Fingerprint Generation
 The default Fingerprint algorithm is SHA-256.
 ```python
-crypto = new VirgilCrypto()
+crypto = VirgilCrypto()
 fingerprint = crypto.calculate_fingerprint(content_bytes)
 ```
 
