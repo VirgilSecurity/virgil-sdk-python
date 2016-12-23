@@ -126,7 +126,7 @@ then, use *RequestSigner* class to sign request with owner and app keys.
 request_signer = client.RequestSigner(crypto)
 
 request_signer.self_sign(create_card_request, alice_keys.private_key)
-requestSigner.authority_sign(create_card_request, app_id, app_key)
+request_signer.authority_sign(create_card_request, app_id, app_key)
 ```
 Publish a Virgil Card
 ```python
