@@ -135,7 +135,7 @@ alice_card = client.create_card_from_signed_request(create_card_request)
 Or you can use the shorthand versions
 ```python
 alice_keys = crypto.generate_keys()
-alice_card = virgil_client.create_card(
+alice_card = client.create_card(
     identity="alice",
     identity_type="username",
     key_pair=alice_keys,
