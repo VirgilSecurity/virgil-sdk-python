@@ -255,7 +255,7 @@ To protect the Private key with password simply use optional parameter *password
 ```python
 encrypted_private_key = crypto.export_private_key(alice_keys.private_key, "YOUR_PASSWORD_HERE")
 
-// convert to base64 encoded string
+# convert the Private key to base64 encoded string
 base64_private_key = base64.b64encode(bytearray(encrypted_private_key))
 ```
 
