@@ -250,6 +250,15 @@ exported_private_key = crypto.export_private_key(alice_keys.private_key)
 exported_public_key = crypto.export_public_key(alice_keys.public_key)
 ```
 
+To protect the Private key with password simply use optional parameter *password*:
+
+```python
+encrypted_private_key = crypto.export_private_key(alice_keys.private_key, "YOUR_PASSWORD_HERE")
+
+// convert to base64 encoded string
+base64_private_key = base64.b64encode(bytearray(encrypted_private_key))
+```
+
 To import Public/Private keys, simply call one of the Import methods:
 
 ```python
