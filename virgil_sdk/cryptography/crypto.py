@@ -53,6 +53,8 @@ class VirgilCrypto(object):
     signature generation and verification, and encryption and decryption
 
     """
+    def __init__(self):
+        self.signature_hash_algorithm = HashAlgorithm.SHA384
 
     _CUSTOM_PARAM_KEY_SIGNATURE = None
 
@@ -242,7 +244,7 @@ class VirgilCrypto(object):
         Returns:
             Signed and encrypted data bytes.
         """
-        signer = VirgilSigner()
+        signer = VirgilSigner(self.signature_hash_algorithm)
         signature = signer.sign(data, private_key.value)
         cipher = VirgilCipher()
         custom_data = cipher.customParams()
@@ -281,8 +283,7 @@ class VirgilCrypto(object):
             raise self.SignatureIsNotValid()
         return decrypted_data
 
-    @staticmethod
-    def sign(data, private_key):
+    def sign(self, data, private_key):
         # type: (Tuple[*int], PrivateKey) -> Tuple[*int]
         """Signs the specified data using Private key.
 
@@ -293,12 +294,11 @@ class VirgilCrypto(object):
         Returns:
             Signature bytes.
         """
-        signer = VirgilSigner()
+        signer = VirgilSigner(self.signature_hash_algorithm)
         signature = signer.sign(data, private_key.value)
         return signature
 
-    @staticmethod
-    def verify(data, signature, signer_public_key):
+    def verify(self, data, signature, signer_public_key):
         # type: (Tuple[*int], Tuple[*int], PublicKey) -> bool
         """Verifies the specified signature using original data and signer's public key.
 
@@ -310,7 +310,7 @@ class VirgilCrypto(object):
         Returns:
             True if signature is valid, False otherwise.
         """
-        signer = VirgilSigner()
+        signer = VirgilSigner(self.signature_hash_algorithm)
         is_valid = signer.verify(data, signature, signer_public_key.value)
         return is_valid
 
