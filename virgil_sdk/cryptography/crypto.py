@@ -354,8 +354,7 @@ class VirgilCrypto(object):
             private_key.value
         )
 
-    @staticmethod
-    def sign_stream(input_stream, private_key):
+    def sign_stream(self, input_stream, private_key):
         # type: (io.IOBase, PrivateKey) -> Tuple[*int]
         """Signs the specified stream using Private key.
 
@@ -366,13 +365,12 @@ class VirgilCrypto(object):
         Returns:
             Signature bytes.
         """
-        signer = VirgilStreamSigner()
+        signer = VirgilStreamSigner(self.signature_hash_algorithm)
         source = VirgilStreamDataSource(input_stream)
         signature = signer.sign(source, private_key.value)
         return signature
 
-    @staticmethod
-    def verify_stream(input_stream, signature, signer_public_key):
+    def verify_stream(self, input_stream, signature, signer_public_key):
         # type: (io.IOBase, Tuple[*int], PublicKey) -> bool
         """Verifies the specified signature using original stream and signer's Public key.
 
@@ -384,7 +382,7 @@ class VirgilCrypto(object):
         Returns:
             True if signature is valid, False otherwise.
         """
-        signer = VirgilStreamSigner()
+        signer = VirgilStreamSigner(self.signature_hash_algorithm)
         source = VirgilStreamDataSource(input_stream)
         is_valid = signer.verify(source, signature, signer_public_key.value)
         return is_valid
