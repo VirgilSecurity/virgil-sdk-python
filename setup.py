@@ -18,5 +18,6 @@ setup(
         "Topic :: Security :: Cryptography",
         ],
     license="BSD",
+    description="Virgil keys service SDK",
     long_description="Virgil keys service SDK",
 )
