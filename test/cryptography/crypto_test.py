@@ -36,6 +36,8 @@ import unittest
 
 from virgil_sdk.cryptography import crypto
 from virgil_sdk.cryptography import VirgilCrypto
+from virgil_sdk.cryptography.hashes import HashAlgorithm
+
 
 class CryptoTest(unittest.TestCase):
     def _crypto(self):
@@ -154,6 +156,22 @@ class CryptoTest(unittest.TestCase):
         )
         self.assertTrue(verified)
 
+    def test_sign_and_verify_values_sha265(self):
+        data = [1, 2, 3]
+        cr = self._crypto()
+        cr.signature_hash_algorithm = HashAlgorithm.SHA256
+        key_pair = cr.generate_keys()
+        signature = cr.sign(
+            data,
+            key_pair.private_key
+        )
+        verified = cr.verify(
+            data,
+            signature,
+            key_pair.public_key
+        )
+        self.assertTrue(verified)
+
     def test_sign_and_verify_stream(self):
         data = bytearray([1, 2, 3])
         key_pair = self._crypto().generate_keys()
@@ -164,6 +182,24 @@ class CryptoTest(unittest.TestCase):
         )
         verify_input_stream = io.BytesIO(data)
         verified = self._crypto().verify_stream(
+            verify_input_stream,
+            signature,
+            key_pair.public_key
+        )
+        self.assertTrue(verified)
+
+    def test_sign_and_verify_stream_sha256(self):
+        data = bytearray([1, 2, 3])
+        cr = self._crypto()
+        cr.signature_hash_algorithm = HashAlgorithm.SHA256
+        key_pair = cr.generate_keys()
+        sign_input_stream = io.BytesIO(data)
+        signature = cr.sign_stream(
+            sign_input_stream,
+            key_pair.private_key
+        )
+        verify_input_stream = io.BytesIO(data)
+        verified = cr.verify_stream(
             verify_input_stream,
             signature,
             key_pair.public_key
