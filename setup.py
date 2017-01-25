@@ -8,6 +8,7 @@ setup(
         'virgil-crypto',
     ],
     author="Virgil Security",
+    author_email="support@virgilsecurity.com",
     url="https://virgilsecurity.com/",
     classifiers=[
         "Development Status :: 4 - Beta",
