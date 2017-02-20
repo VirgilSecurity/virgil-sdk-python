@@ -31,11 +31,12 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from virgil_sdk.client.requests.signable_request import SignableRequest
+from virgil_sdk.client import Utils
+from virgil_sdk.client.requests import SignableRequest
 
 
-class RevokeCardRequest(SignableRequest):
-    """Revoke card signable API request."""
+class RevokeGlobalCardRequest(SignableRequest):
+    """Revoke global card signable API request."""
 
     class Reasons(object):
         """Enum containing possible revocation reasons."""
@@ -44,13 +45,16 @@ class RevokeCardRequest(SignableRequest):
 
     def __init__(
             self,
-            card_id, # type: str
-            reason=Reasons.Unspecified, # type: str
+            card_id,  # type: str
+            validation_token,  # type: str
+            reason=Reasons.Unspecified,  # type: str
+
         ):
         # type: (...) -> None
-        """Constructs new RevokeCardRequest object"""
-        super(RevokeCardRequest, self).__init__()
+        """Constructs new RevokeGlobalCardRequest object"""
+        super(RevokeGlobalCardRequest, self).__init__()
         self.card_id = card_id
+        self.validation_token = validation_token
         self.reason = reason
 
     def restore_from_snapshot_model(self, snapshot_model):
@@ -61,6 +65,7 @@ class RevokeCardRequest(SignableRequest):
             snapshot_model: snapshot model dict
         """
         self.card_id = snapshot_model['card_id']
+        self.validation_token = snapshot_model['validation_token']
         self.reason = snapshot_model['revocation_reason']
 
     def snapshot_model(self):
@@ -72,5 +77,19 @@ class RevokeCardRequest(SignableRequest):
         """
         return {
             'card_id': self.card_id,
-            'revocation_reason': self.reason,
+            'revocation_reason': self.reason
+        }
+
+    @property
+    def request_model(self):
+        # type: () -> Dict[str, object]
+        """Request model used for json representation."""
+        return {
+            'content_snapshot': Utils.b64encode(self.snapshot),
+            'meta': {
+                'signs': self.signatures,
+                'validation': {
+                    'token': self.validation_token
+                }
+            }
         }

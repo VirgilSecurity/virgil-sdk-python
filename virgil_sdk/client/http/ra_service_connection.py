@@ -34,14 +34,14 @@
 from virgil_sdk.client.http.base_connection import BaseConnection
 
 
-class CardsServiceConnection(BaseConnection):
-    """Cards service connection class.
+class RaServiceConnection(BaseConnection):
+    """Registration authority service connection class.
 
-    Contains cards service specific errors dictionary.
+    Contains registration authority service specific errors dictionary.
     """
 
     def __init__(self, access_token, base_url):
-        super(CardsServiceConnection, self).__init__(access_token, base_url)
+        super(RaServiceConnection, self).__init__(access_token, base_url)
         self._errors = {
             10000: "Internal application error. You know, shit happens, so do internal server errors.Just take a deep breath and try harder.",
             20300: "The Virgil access token was not specified or is invalid",
@@ -84,5 +84,10 @@ class CardsServiceConnection(BaseConnection):
             30140: "SCR sign validation failed",
             30141: "SCR one of signers Virgil Cards is not found",
             30142: "SCR sign item is invalid or missing for the Client",
-            30143: "SCR sign item is invalid or missing for the Virgil Registration Authority service"
+            30143: "SCR sign item is invalid or missing for the Virgil Registration Authority service",
+            30300: "Development Portal sign was not found inside the meta.signs property",
+            30301: "Development Portal sign is invalid",
+            30302: "Identity Validation Token is invalid or has expired",
+            30303: "Provided Virgil Card was not found or invalid",
+            50010: "Requested route was not found"
         }

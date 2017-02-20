@@ -31,8 +31,34 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from .base_connection import BaseConnection
-from .cards_service_connection import CardsServiceConnection
-from .identity_service_connection import IdentityServiceConnection
-from .ra_service_connection import RaServiceConnection
-from .request import Request
+from virgil_sdk.client.http.base_connection import BaseConnection
+
+
+class IdentityServiceConnection(BaseConnection):
+    """Identity service connection class.
+
+    Contains identity service specific errors dictionary.
+    """
+
+    def __init__(self, access_token, base_url):
+        super(IdentityServiceConnection, self).__init__(access_token, base_url)
+        self._errors = {
+            10000: "Internal application error. You know, shit happens, so do internal server errors.Just take a deep breath and try harder.",
+            40000: "JSON specified as a request body is invalid",
+            40100: "Identity type is invalid",
+            40110: "Identity's ttl is invalid",
+            40120: "Identity's ctl is invalid",
+            40130: "Identity's token parameter is missing",
+            40140: "Identity's token doesn't match parameters",
+            40150: "Identity's token has expired",
+            40160: "Identity's token cannot be decrypted",
+            40170: "Identity's token parameter is invalid",
+            40180: "Identity is not unconfirmed",
+            40190: "Hash to be signed parameter is invalid",
+            40200: "Email identity value validation failed",
+            40210: "Identity's confirmation code is invalid",
+            40300: "Application value is invalid",
+            40310: "Application's signed message is invalid",
+            41000: "Identity entity was not found",
+            41010: "Identity's confirmation period has expired"
+        }

@@ -33,4 +33,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 from .signable_request import SignableRequest
 from .create_card_request import CreateCardRequest
+from .creata_global_card_request import CreateGlobalCardRequest
 from .revoke_card_request import RevokeCardRequest
+from .revoke_global_card_request import RevokeGlobalCardRequest

@@ -31,14 +31,16 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from virgil_sdk.cryptography import VirgilCrypto
+from virgil_sdk.client.http import RaServiceConnection
+from virgil_sdk.client.requests import CreateGlobalCardRequest
 from virgil_sdk.client.requests import CreateCardRequest
 from virgil_sdk.client.requests import RevokeCardRequest
 from virgil_sdk.client.http import Request
 from virgil_sdk.client.http import CardsServiceConnection
-from virgil_sdk.client import RequestSigner
+from virgil_sdk.client.http import IdentityServiceConnection
 from virgil_sdk.client import SearchCriteria
 from virgil_sdk.client import Card
+
 
 class VirgilClient(object):
     """Virgil API client
@@ -56,47 +58,26 @@ class VirgilClient(object):
 
     def __init__(
             self,
-            access_token,
-            cards_service_url="https://cards.virgilsecurity.com",
-            cards_read_only_service_url="https://cards-ro.virgilsecurity.com",
+            access_token=None,  # type: Optional[str]
+            cards_service_url="https://cards.virgilsecurity.com",  # type: Optional[str]
+            cards_read_only_service_url="https://cards-ro.virgilsecurity.com",  # type: Optional[str]
+            identity_service_url="https://identity.virgilsecurity.com",  # type: Optional[str]
+            ra_service_url="https://ra.virgilsecurity.com"  # type: Optional[str]
         ):
-        # type: (str, str, PrivateKey) -> None
+        # type: (str, str, str, str, str) -> None
         """Constructs new VirgilClient object"""
         self.access_token = access_token
         self.cards_service_url = cards_service_url
+        self.identity_service_url = identity_service_url
         self.cards_read_only_service_url = cards_read_only_service_url
-        self._crypto = None
+        self.ra_service_url = ra_service_url
         self._cards_connection = None
+        self._identity_connection = None
+        self._ra_connection = None
         self._read_cards_connection = None
-        self._request_signer = None
         self._card_validator = None
 
-    def create_card(self, identity, identity_type, key_pair, app_id, app_key):
-        # type: (str, str, KeyPair, str, PrivateKey) -> Card
-        """Create new card from given attributes.
-
-        Args:
-            identity: Created card identity.
-            identity_type: Created card identity type.
-            key_pair: Key pair of the created card.
-                Public key is stored in the card, private key is used for request signing.
-            app_id: Application identity for authority sign.
-            app_key: Application key for authority sign.
-
-        Returns:
-            Created card from server response.
-        """
-        request = CreateCardRequest(
-            identity=identity,
-            identity_type=identity_type,
-            raw_public_key=self.crypto.export_public_key(key_pair.public_key),
-        )
-        self.request_signer.self_sign(request, key_pair.private_key)
-        self.request_signer.authority_sign(request, app_id, app_key)
-
-        return self.create_card_from_signed_request(request)
-
-    def create_card_from_signed_request(self, create_request):
+    def create_card_from_request(self, create_request):
         # type: (CreateCardRequest) -> Card
         """Create new card from signed creation request.
 
@@ -121,33 +102,33 @@ class VirgilClient(object):
             self.validate_cards([card])
         return card
 
-    def revoke_card(
-            self,
-            card_id,
-            app_id,
-            app_key,
-            reason=RevokeCardRequest.Reasons.Unspecified,
-        ):
-        # type: (str, str) -> None
-        """Revoke card by id.
+    def create_global_card_from_request(self, create_request):
+        # type: (CreateGlobalCardRequest) -> Card
+        """Create new global card from signed creation request.
 
         Args:
-            card_id: id of the revoked card.
-            reason: card revocation reason.
-                The possible values can be found in RevokeCardRequest.Reasons enum.
-            app_id: Application identity for authority sign.
-            app_key: Application key for authority sign.
+            create_request: signed card creation request.
+
+        Returns:
+            Created global card from server response.
+
+        Raises:
+            VirgilClient.InvalidCardException if client has validator
+            and returned card signatures are not valid.
         """
-        request = RevokeCardRequest(
-            card_id=card_id,
-            reason=reason,
+        http_request = Request(
+            method=Request.POST,
+            endpoint="/v1/card",
+            body=create_request.request_model
         )
-        self.request_signer.authority_sign(request, app_id, app_key)
+        raw_response = self.ra_connection.send_request(http_request)
+        card = Card.from_response(raw_response)
+        if self.card_validator:
+            self.validate_cards([card])
+        return card
 
-        return self.revoke_card_from_signed_request(request)
-
-    def revoke_card_from_signed_request(self, revocation_request):
-        # type: (RevocationRequest) -> None
+    def revoke_card_from_request(self, revocation_request):
+        # type: (RevokeCardRequest) -> None
         """Revoke card using signed revocation request.
 
         Args:
@@ -159,6 +140,20 @@ class VirgilClient(object):
             body=revocation_request.request_model
         )
         self.cards_connection.send_request(http_request)
+
+    def revoke_global_card_from_request(self, revocation_request):
+        # type: (RevokeGlobalCardRequest) -> None
+        """Revoke global card using signed revocation request.
+
+        Args:
+            revocation_request: signed card revocation request.
+        """
+        http_request = Request(
+            method=Request.DELETE,
+            endpoint="/v1/card/%s" % revocation_request.card_id,
+            body=revocation_request.request_model
+        )
+        self.ra_connection.send_request(http_request)
 
     def get_card(self, card_id):
         # type: (str) -> Card
@@ -198,20 +193,6 @@ class VirgilClient(object):
             SearchCriteria.by_identities(identities)
         )
 
-    def search_cards_by_app_bundle(self, bundle):
-        # type: (str) -> List[Card]
-        """Search cards by specified app bundle.
-
-        Args:
-            bundle: application bundle for search.
-
-        Returns:
-            Found cards from server response.
-        """
-        return self.search_cards_by_criteria(
-            SearchCriteria.by_app_bundle(bundle)
-        )
-
     def search_cards_by_criteria(self, search_criteria):
         # type: (SearchCriteria) -> List[Card]
         """Search cards by specified search criteria.
@@ -242,6 +223,78 @@ class VirgilClient(object):
             self.validate_cards(cards)
         return cards
 
+    def verify_identity(self, identity, identity_type, extra_fields=None):
+        # type: (str, str, dict) -> str
+        """Sends the request for identity verification, that's will be processed depending of specified type.
+        Args:
+            identity: An unique string that represents identity.
+            identity_type: The type of identity.
+            extra_fields: The extra fields.
+        Returns:
+            Action id that will be used in confirm identity
+        """
+        body = {"value": identity, "type": identity_type}
+        if extra_fields:
+            body["extra_fields"] = extra_fields
+
+        http_request = Request(
+            method=Request.POST,
+            endpoint="/v1/verify",
+            body=body
+        )
+        response = self.identity_conection.send_request(http_request)
+        return response["action_id"]
+
+    def confirm_identity(self, action_id, confirmation_code, time_to_live=3600, count_to_live=1):
+        # type: (str, str, int, int) -> str
+        """Confirms the identity using confirmation code, that has been generated to confirm an identity.
+
+        Args:
+            action_id: The action identifier that was obtained on verification step.
+            confirmation_code: The confirmation code that was recived on email box.
+            time_to_live: The time to live.
+            count_to_live: The count to live.
+        Returns:
+            A string that represent an identity validation token.
+        """
+        body = {
+            "confirmation_code": confirmation_code,
+            "action_id": action_id,
+            "token": {"time_to_live": time_to_live, "count_to_live": count_to_live}
+            }
+        http_request = Request(
+            method=Request.POST,
+            endpoint="/v1/confirm",
+            body=body
+        )
+        response = self.identity_conection.send_request(http_request)
+        return response["validation_token"]
+
+    def is_identity_valid(self, identity, identity_type, validation_token):
+        # type: (str, str, str) -> bool
+        """Check validation token
+        Args:
+            identity: The identity value.
+            identity_type: The type of identity.
+            validation_token: The validation token.
+        Returns:
+            Returns true if validation token is valid.
+        """
+        body = {
+            "value": identity,
+            "type": identity_type,
+            "validation_token": validation_token
+        }
+        http_request = Request(
+            method=Request.POST,
+            endpoint="/v1/validate",
+            body=body
+        )
+        response = self.identity_conection.send_request(http_request)
+        if response == list():
+            return True
+        return False
+
     def validate_cards(self, cards):
         # type: (List[cards]) -> None
         """Validate cards signatures.
@@ -269,6 +322,28 @@ class VirgilClient(object):
         return self._cards_connection
 
     @property
+    def identity_conection(self):
+        # type: () -> IdentityServiceConnection
+        """Identity service connection used for verify and validation cards"""
+        if not self._identity_connection:
+            self._identity_connection = IdentityServiceConnection(
+                self.access_token,
+                self.identity_service_url
+            )
+        return self._identity_connection
+
+    @property
+    def ra_connection(self):
+        # type: () -> RaServiceConnection
+        """Registration authority service connection used for """
+        if not self._ra_connection:
+            self._ra_connection = RaServiceConnection(
+                self.access_token,
+                self.ra_service_url
+            )
+        return self._ra_connection
+
+    @property
     def read_cards_connection(self):
         # type: () -> CardsServiceConnection
         """Cards service connection used for getting and searching cards."""
@@ -278,22 +353,6 @@ class VirgilClient(object):
                 self.cards_read_only_service_url
             )
         return self._read_cards_connection
-
-    @property
-    def request_signer(self):
-        # type: () -> RequestSigner
-        """Request signer for signing constructed requests."""
-        if not self._request_signer:
-            self._request_signer = RequestSigner(self.crypto)
-        return self._request_signer
-
-    @property
-    def crypto(self):
-        # type: () -> VirgilCrypto
-        """Crypto library wrapper."""
-        if not self._crypto:
-            self._crypto = VirgilCrypto()
-        return self._crypto
 
     @property
     def card_validator(self):
@@ -306,4 +365,3 @@ class VirgilClient(object):
         # type: (CardValidator) -> CardValidator
         """Set Card validator."""
         self._card_validator = validator
-        return validator

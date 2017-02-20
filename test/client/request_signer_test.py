@@ -1,9 +1,9 @@
 import io
 import base64
 import unittest
-from . import config
+from test.client import config
 
-from .base_test import BaseTest
+from test.client.base_test import BaseTest
 from virgil_sdk.client import RequestSigner
 from virgil_sdk.client import Utils
 from virgil_sdk.client.requests import CreateCardRequest

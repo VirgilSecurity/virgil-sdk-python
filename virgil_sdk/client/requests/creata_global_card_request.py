@@ -31,27 +31,31 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from virgil_sdk.client.requests.signable_request import SignableRequest
+from virgil_sdk.client.requests import SignableRequest
+from virgil_sdk.client import Utils
+from virgil_sdk.client import Card
 
 
-class RevokeCardRequest(SignableRequest):
-    """Revoke card signable API request."""
+class CreateGlobalCardRequest(SignableRequest):
+    """Create global card signable API request."""
 
-    class Reasons(object):
-        """Enum containing possible revocation reasons."""
-        Unspecified = 'unspecified'
-        Compromised = 'compromised'
-
-    def __init__(
-            self,
-            card_id, # type: str
-            reason=Reasons.Unspecified, # type: str
-        ):
+    def __init__(self,
+                 identity,  # type: str
+                 identity_type,  # type: str
+                 raw_public_key,  # type: Tuple[*int]
+                 validation_token,  # type: str
+                 info=None,  # type: Optional[Dict[str, object]]
+                 custom_fields=None  # type: Optional[Dict[str, str]]
+                 ):
         # type: (...) -> None
-        """Constructs new RevokeCardRequest object"""
-        super(RevokeCardRequest, self).__init__()
-        self.card_id = card_id
-        self.reason = reason
+        """Constructs new CreateGlobalCardRequest object"""
+        super(CreateGlobalCardRequest, self).__init__()
+        self.identity = identity
+        self.identity_type = identity_type
+        self.public_key = raw_public_key
+        self.validation_token = validation_token
+        self.info = info
+        self.custom_fields = custom_fields
 
     def restore_from_snapshot_model(self, snapshot_model):
         # type: (Dict[str, obj]) -> None
@@ -60,17 +64,39 @@ class RevokeCardRequest(SignableRequest):
         Args:
             snapshot_model: snapshot model dict
         """
-        self.card_id = snapshot_model['card_id']
-        self.reason = snapshot_model['revocation_reason']
+        self.identity = snapshot_model['identity']
+        self.identity_type = snapshot_model['identity_type']
+        self.public_key = snapshot_model['public_key']
+        self.validation_token = snapshot_model['validation_token']
+        self.info = snapshot_model['info']
+        self.custom_fields = snapshot_model.get('data', {})
 
     def snapshot_model(self):
         # type: () -> Dict[str, obj]
         """Constructs snapshot model for exporting and signing.
 
         Returns:
-            Dict containing snapshot data model used for card revocation request.
+            Dict containing snapshot data model used for card creation request.
         """
         return {
-            'card_id': self.card_id,
-            'revocation_reason': self.reason,
+            'identity': self.identity,
+            'identity_type': self.identity_type,
+            'public_key': Utils.b64encode(self.public_key),
+            'scope': Card.Scope.GLOBAL,
+            'info': self.info,
+            'data': self.custom_fields
+        }
+
+    @property
+    def request_model(self):
+        # type: () -> Dict[str, object]
+        """Request model used for json representation."""
+        return {
+            'content_snapshot': Utils.b64encode(self.snapshot),
+            'meta': {
+                'signs': self.signatures,
+                'validation': {
+                    'token': self.validation_token
+                }
+            }
         }
