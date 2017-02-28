@@ -40,12 +40,6 @@ class VirgilBuffer(object):
     simplify the work with an array of bytes.
     """
 
-    class StringEncoding(object):
-        """Scope of supported string encoding"""
-        UTF8 = "utf-8"
-        HEX = "hex"
-        BASE64 = "base64"
-
     def __init__(
             self,
             raw_bytes  # type: Union[bytes, bytearray]
@@ -62,8 +56,8 @@ class VirgilBuffer(object):
         return self.__buffered_bytes
 
     @staticmethod
-    def from_string(raw_string, string_encoding=StringEncoding.UTF8):
-        # type: (str, VirgilBuffer.StringEncoding) -> VirgilBuffer
+    def from_string(raw_string, string_encoding="utf-8"):
+        # type: (str, str) -> VirgilBuffer
         """Creates a new VirgilBuffer containing the given string. If provided, the encoding parameter
         identifies the character encoding of string.
         Args:
@@ -72,11 +66,11 @@ class VirgilBuffer(object):
         Raises:
             ValueError when meet undeclared string encoding for VirgilBuffer
         """
-        if string_encoding == VirgilBuffer.StringEncoding.UTF8:
+        if string_encoding == "utf-8":
             return VirgilBuffer.__from_utf8_string(raw_string)
-        if string_encoding == VirgilBuffer.StringEncoding.HEX:
+        if string_encoding == "hex":
             return VirgilBuffer.__from_hex_string(raw_string)
-        if string_encoding == VirgilBuffer.StringEncoding.BASE64:
+        if string_encoding == "base64":
             return VirgilBuffer.__from_base64_string(raw_string)
         raise ValueError("Undeclared string encoding for VirgilBuffer")
 
@@ -91,8 +85,8 @@ class VirgilBuffer(object):
         """
         return VirgilBuffer(raw_bytes)
 
-    def to_string(self, string_encoding=StringEncoding.UTF8):
-        # type: (VirgilBuffer.StringEncoding) -> str
+    def to_string(self, string_encoding="utf-8"):
+        # type: (str) -> str
         """Decodes the current VirgilBuffer to a string according to the specified
         character encoding in string_encoding
         Args:
@@ -102,11 +96,11 @@ class VirgilBuffer(object):
         Raises:
             ValueError when meet undeclared string encoding for VirgilBuffer
         """
-        if string_encoding == VirgilBuffer.StringEncoding.UTF8:
+        if string_encoding == "utf-8":
             return self.__to_utf8_string()
-        if string_encoding == VirgilBuffer.StringEncoding.HEX:
+        if string_encoding == "hex":
             return self.__to_hex_string()
-        if string_encoding == VirgilBuffer.StringEncoding.BASE64:
+        if string_encoding == "base64":
             return self.__to_base64_string()
         raise ValueError("Undeclared string encoding for VirgilBuffer")
 
