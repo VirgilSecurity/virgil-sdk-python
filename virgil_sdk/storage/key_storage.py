@@ -31,28 +31,29 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import abc
+from abc import abstractmethod
+from abc import ABCMeta
 
 
 class KeyStorage(object):
     """Abstract for classes that represent
         a cryptographic keys storage containers."""
-    __metaclass__ = abc.ABCMeta
+    __metaclass__ = ABCMeta
 
-    @abc.abstractclassmethod
+    @abstractmethod
     def store(self, key_name, key_value):
         # type: (str, bytes) -> None
         """Stores the key to the given alias."""
         raise NotImplementedError()
 
-    @abc.abstractclassmethod
+    @abstractmethod
     def load(self, key_name):
         # type: (str) -> bytes
         """The requested key, or None if the given alias does not exist or does
         not identify a key-related entry."""
         raise NotImplementedError()
 
-    @abc.abstractclassmethod
+    @abstractmethod
     def delete(self, key_name):
         # type: (str) -> None
         """Checks if the given alias exists in this keystorage."""
