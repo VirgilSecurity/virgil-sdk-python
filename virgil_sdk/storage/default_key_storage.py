@@ -86,7 +86,7 @@ class DefaultKeyStorage(KeyStorage):
         key_file_path = os.path.join(self.__key_storage_path, self.__secure_key_file_name(key_name))
         if not os.path.exists(key_file_path):
             raise IOError("Can't load key {}, file not found in storage".format(key_name))
-        return open(key_file_path, "rb").read()
+        return bytes(open(key_file_path, "rb").read())
 
     def delete(self, key_name):
         # type: (str) -> None
