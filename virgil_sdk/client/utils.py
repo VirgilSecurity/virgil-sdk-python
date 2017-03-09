@@ -63,6 +63,6 @@ class Utils(object):
 
     @staticmethod
     def json_loads(source):
-        # type: (str) -> object
-        """Convert source to bytearray and deserialize from json to python object."""
+        # type: (str) -> dict
+        """Convert source to bytearray and deserialize from json to python dict object."""
         return json.loads(bytearray(source).decode())

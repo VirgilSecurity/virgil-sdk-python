@@ -42,20 +42,20 @@ class CreateGlobalCardRequest(SignableRequest):
     def __init__(self,
                  identity,  # type: str
                  identity_type,  # type: str
-                 raw_public_key,  # type: Tuple[*int]
+                 public_key,  # type: Tuple[*int]
                  validation_token,  # type: str
-                 info=None,  # type: Optional[Dict[str, object]]
-                 custom_fields=None  # type: Optional[Dict[str, str]]
+                 data=None,  # type: Optional[Dict[str, str]]
+                 info=None  # type: Optional[Dict[str, object]]
                  ):
         # type: (...) -> None
         """Constructs new CreateGlobalCardRequest object"""
         super(CreateGlobalCardRequest, self).__init__()
         self.identity = identity
         self.identity_type = identity_type
-        self.public_key = raw_public_key
+        self.public_key = public_key
         self.validation_token = validation_token
         self.info = info
-        self.custom_fields = custom_fields
+        self.data = data
 
     def restore_from_snapshot_model(self, snapshot_model):
         # type: (Dict[str, obj]) -> None
@@ -69,7 +69,7 @@ class CreateGlobalCardRequest(SignableRequest):
         self.public_key = snapshot_model['public_key']
         self.validation_token = snapshot_model['validation_token']
         self.info = snapshot_model['info']
-        self.custom_fields = snapshot_model.get('data', {})
+        self.data = snapshot_model.get('data', {})
 
     def snapshot_model(self):
         # type: () -> Dict[str, obj]
@@ -84,7 +84,7 @@ class CreateGlobalCardRequest(SignableRequest):
             'public_key': Utils.b64encode(self.public_key),
             'scope': Card.Scope.GLOBAL,
             'info': self.info,
-            'data': self.custom_fields
+            'data': self.data
         }
 
     @property

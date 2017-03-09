@@ -41,7 +41,7 @@ from virgil_sdk.storage import DefaultKeyStorage
 class VirgilContext(object):
     """
     The class manages the Virgil api dependencies during run time.
-    It also contains a list of preperties that uses to configurate the high-level components.
+    It also contains a list of properties that uses to configurate the high-level components.
     """
 
     def __init__(
@@ -88,5 +88,8 @@ class VirgilContext(object):
     def client(self):
         """Gets a Virgil Security services client."""
         if not self._client:
-            self._client = VirgilClient()
+            if self.client_params:
+                self._client = VirgilClient(*self.client_params)
+            else:
+                self._client = VirgilClient(access_token=self.access_token)
         return self._client

@@ -94,7 +94,7 @@ class VirgilKeyTest(unittest.TestCase):
         km = DefaultKeyStorage()
         try:
             vk.save(alias, "SomeCoolPass")
-            self.assertEqual(private_key.value, self.__crypto.import_private_key(km.load(alias), "SomeCoolPass").value)
+            self.assertEqual(private_key.value, self.__crypto.import_private_key(bytearray(km.load(alias)), "SomeCoolPass").value)
         finally:
             try:
                 km.delete(alias)

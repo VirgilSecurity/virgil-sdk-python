@@ -21,7 +21,7 @@ class RequestSignerTest(BaseTest):
         request = CreateCardRequest(
             identity="alice",
             identity_type="username",
-            raw_public_key=alice_keys.public_key.value,
+            public_key=alice_keys.public_key.value,
         )
         self._request_signer.authority_sign(
             request,
@@ -70,7 +70,7 @@ class RequestSignerTest(BaseTest):
         request = CreateCardRequest(
             identity="alice",
             identity_type="username",
-            raw_public_key=alice_keys.public_key.value,
+            public_key=alice_keys.public_key.value,
         )
         self._request_signer.self_sign(
             request,
@@ -110,7 +110,7 @@ class RequestSignerTest(BaseTest):
         request = CreateCardRequest(
             identity="alice",
             identity_type="username",
-            raw_public_key=alice_keys.public_key.value,
+            public_key=alice_keys.public_key.value,
         )
         self._request_signer.self_sign(
             request,

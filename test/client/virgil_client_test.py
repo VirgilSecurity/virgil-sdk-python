@@ -20,7 +20,7 @@ class VirgilClientTest(BaseTest):
         create_card_request = CreateCardRequest(
             identity="alice",
             identity_type="username",
-            raw_public_key=self._crypto.export_public_key(alice_keys.public_key)
+            public_key=self._crypto.export_public_key(alice_keys.public_key)
         )
         self._request_signer.self_sign(
             create_card_request,

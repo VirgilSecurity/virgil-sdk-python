@@ -42,17 +42,17 @@ class Card(object):
 
     def __init__(
             self,
-            id, # type: str
-            snapshot, # type: str
-            identity, # type: str
-            identity_type, # type: str
-            public_key, # type: Tuple[*int]
-            scope, # type: str
-            data, # type: Optional[Tuple[*int]]
-            device, # type: Optional[str]
-            device_name, # type: Optional[str]
-            version, # type: str
-            signatures, # type: Optional[Dict[str]]
+            identity,  # type: str
+            identity_type,  # type: str
+            public_key,  # type: Tuple[*int]
+            scope=None,  # type: Optional[Scope]
+            id=None,  # type: Optional[str]
+            snapshot=None,  # type: Optional[Tuple[*int]]
+            data=None,      # type: Optional[dict]
+            device=None,  # type: Optional[str]
+            device_name=None,  # type: Optional[str]
+            version=None,  # type: Optional[str]
+            signatures=None,  # type: Optional[Dict[str]]
         ):
         # type: (...) -> None
         self.id = id

@@ -35,6 +35,7 @@ from virgil_sdk.client.requests import SignableRequest
 from virgil_sdk.client import Utils
 from virgil_sdk.client import Card
 
+
 class CreateCardRequest(SignableRequest):
     """Create card signable API request."""
 
@@ -42,7 +43,7 @@ class CreateCardRequest(SignableRequest):
             self,
             identity, # type: str
             identity_type, # type: str
-            raw_public_key, # type: Tuple[*int]
+            public_key, # type: Tuple[*int]
             data=None, # type: Optional[Dict[str, object]]
             info=None, # type: Optional[Dict[str, object]]
         ):
@@ -51,7 +52,7 @@ class CreateCardRequest(SignableRequest):
         super(CreateCardRequest, self).__init__()
         self.identity = identity
         self.identity_type = identity_type
-        self.public_key = raw_public_key
+        self.public_key = public_key
         self.data = data
         self.info = info
 
@@ -66,7 +67,7 @@ class CreateCardRequest(SignableRequest):
         self.identity_type = snapshot_model['identity_type']
         self.public_key = snapshot_model['public_key']
         self.data = snapshot_model.get('data', {})
-        self.info = snapshot_model['info']
+        self.info = snapshot_model.get('info', {})
 
     def snapshot_model(self):
         # type: () -> Dict[str, obj]
