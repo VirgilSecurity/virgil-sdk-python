@@ -52,6 +52,6 @@ class Credentials(object):
         # type: (Crypto) -> PrivateKey
         """Gets the application PrivateKey used to authenticate Publish/Revoke Card requests."""
         if self.app_key_password:
-            return crypto.import_private_key(self.app_key, self.app_key_password)
+            return crypto.import_private_key(bytearray(self.app_key), self.app_key_password)
         else:
-            return crypto.import_private_key(self.app_key)
+            return crypto.import_private_key(bytearray(self.app_key))

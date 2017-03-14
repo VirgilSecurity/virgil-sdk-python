@@ -34,6 +34,7 @@
 
 from virgil_sdk.api import VirgilBuffer
 from virgil_sdk.client import RequestSigner
+from virgil_sdk.client import Utils
 from virgil_sdk.client.requests import CreateCardRequest
 from virgil_sdk.client.requests import CreateGlobalCardRequest
 
@@ -56,6 +57,9 @@ class VirgilCard(object):
         self._identity = None
         self._identity_type = None
         self._custom_fields = None
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__
 
     def encrypt(self, buffer):
         # type: (VirgilBuffer) -> VirgilBuffer
@@ -100,8 +104,17 @@ class VirgilCard(object):
         Returns:
             A base64 string that represents a VirgilCard.
         """
-        card_json = self.__card.__dict__
-        return VirgilBuffer.from_string(str(card_json)).to_string("base64")
+        card_json = Utils.json_dumps(
+            {
+                "id": self.__card.id,
+                "content_snapshot": VirgilBuffer(self.__card.snapshot).to_string("base64"),
+                "meta": {
+                    "card_version": self.__card.version,
+                    "signs": self.__card.signatures
+                }
+            }
+        )
+        return VirgilBuffer.from_string(card_json).to_string("base64")
 
     def check_identity(self, time_to_live=3600, count_to_live=1):
         # type: (int, int) -> dict
@@ -162,7 +175,6 @@ class VirgilCard(object):
         )
         create_global_card_request.signatures = self.__card.signatures
         create_global_card_request.snapshot = self.__card.snapshot
-        print(create_global_card_request.request_model)
         self.__card = self.__context.client.create_global_card_from_request(create_global_card_request)
 
     @property
