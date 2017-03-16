@@ -40,6 +40,7 @@ from virgil_sdk.client.requests import CreateCardRequest
 from virgil_sdk.client.requests import CreateGlobalCardRequest
 from virgil_sdk.client.requests import RevokeCardRequest
 from virgil_sdk.client.requests import RevokeGlobalCardRequest
+from virgil_sdk.identities import IdentityEmail
 
 
 class CardManager(object):
@@ -48,34 +49,31 @@ class CardManager(object):
     def __init__(self, context):
         self.context = context
 
-    def create(self, identity, identity_type, owner_key, custom_fields=None):
-        # type: (str, str, VirgilKey, dict) -> VirgilCard
+    def create(self, identity, owner_key, custom_fields=None):
+        # type: (Union[IdentityUser, IdentityApplication, IdentityEmail], VirgilKey, dict) -> VirgilCard
         """Creates a new VirgilCard that is representing user's Public key and information
         about identity. This card has to be published to the Virgil's services.
         Args:
             identity: The user's identity.
-            identity_type: Type of the identity.
             owner_key: The owner's VirgilKey.
             custom_fields: The custom fields
         Returns:
             A new instance of VirgilCard class, that is representing user's Public key.
         """
-        card_model = self.__build_card_model(identity, identity_type, custom_fields, Card.Scope.APPLICATION, owner_key)
-        return VirgilCard(self.context, card_model)
-
-    def create_global(self, identity, identity_type, owner_key, custom_fields=None):
-        # type: (str, str, VirgilKey, dict) -> VirgilCard
-        """Creates a new global VirgilCard that is representing user's
-        Public key and information about identity.
-        Args:
-            identity: The user's identity.
-            identity_type: Type of the identity.
-            owner_key: The owner's VirgilKey.
-            custom_fields: The custom fields
-        Returns:
-            A new instance of VirgilCard class, that is representing user's Public key.
-        """
-        card_model = self.__build_card_model(identity, identity_type, custom_fields, Card.Scope.GLOBAL, owner_key)
+        validation_token = None
+        if isinstance(identity, IdentityEmail):
+            if identity.is_confirmed():
+                validation_token = identity.validation_token
+            else:
+                raise ValueError("Unconfirmed identity, please confirm before use.")
+        card_model = self.__build_card_model(
+            identity.value,
+            identity.type,
+            custom_fields,
+            identity.scope,
+            owner_key,
+            validation_token
+        )
         return VirgilCard(self.context, card_model)
 
     def find(self, identities, identity_type=None):
@@ -135,16 +133,6 @@ class CardManager(object):
         """
         card.publish()
 
-    @staticmethod
-    def publish_global(card, identity_token):
-        # type: (VirgilCard, str) -> None
-        """Publishes a VirgilCard into application Virgil Services scope.
-        Args:
-            card: The Card to be published.
-            identity_token: The identity validation token.
-        """
-        card.publish_global(identity_token)
-
     def revoke(self, card):
         # type: (VirgilCard) -> None
         """Revokes a VirgilCard from Virgil Services.
@@ -162,8 +150,8 @@ class CardManager(object):
         revoke_card_request.signatures = {self.context.credentials.app_id: signature}
         self.context.client.revoke_card_from_request(revoke_card_request)
 
-    def revoke_global(self, card, key, identity_token):
-        # type: (VirgilCard, VirgilKey, str) -> None
+    def revoke_global(self, card, key, identity):
+        # type: (VirgilCard, VirgilKey, Union[IdentityUser, IdentityApplication, IdentityEmail]) -> None
         """Revokes a global VirgilCard from Virgil Security services.
         Args:
             card: The Card to be revoked.
@@ -172,7 +160,7 @@ class CardManager(object):
         """
         revoke_global_card_request = RevokeGlobalCardRequest(
             card.id,
-            identity_token,
+            identity.validation_token,
             RevokeGlobalCardRequest.Reasons.Unspecified
         )
         snapshot_fingerprint = self.context.crypto.calculate_fingerprint(revoke_global_card_request.snapshot)
@@ -193,8 +181,8 @@ class CardManager(object):
         card_model = self.context.client.get_card(card_id)
         return VirgilCard(self.context, card_model)
 
-    def __build_card_model(self, identity, identity_type, custom_fields, scope, owner_key):
-        # type: (str, str, dict, VirgilKey) -> Card
+    def __build_card_model(self, identity, identity_type, custom_fields, scope, owner_key, validation_token=None):
+        # type: (str, str, dict, Card.Scope, VirgilKey) -> Card
         """Constructs the card model
         Args:
             identity: The user's identity.
@@ -217,7 +205,7 @@ class CardManager(object):
         if scope == Card.Scope.APPLICATION:
             card_request = CreateCardRequest(**card_config)
         elif scope == Card.Scope.GLOBAL:
-            card_config.update({"validation_token": ""})
+            card_config.update({"validation_token": validation_token})
             card_request = CreateGlobalCardRequest(**card_config)
         else:
             raise ValueError("Unknown scope value")

@@ -31,27 +31,28 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.identities import IdentityUser
+from virgil_sdk.identities import IdentityApplication
+from virgil_sdk.identities import IdentityEmail
 
 
-class Credentials(object):
-    """Provides credentials for application authentication using app_id and app_key
-    retrieved from development dashboard."""
+class IdentitiesManager(object):
+    """The IdentitiesManager represent the list of methods witch provides creating an identities"""
 
-    def __init__(
-        self,
-        app_id,  # type: str
-        app_key,  # type: bytes
-        app_key_password=None  # type: Optional[str]
-    ):
-        # type: (...) -> None
-        self.app_id = app_id
-        self.app_key = app_key
-        self.app_key_password = app_key_password
+    def __init__(self, context=None):
+        self.__context = context
 
-    def get_app_key(self, crypto):
-        # type: (Crypto) -> PrivateKey
-        """Gets the application PrivateKey used to authenticate Publish/Revoke Card requests."""
-        if self.app_key_password:
-            return crypto.import_private_key(bytearray(self.app_key), self.app_key_password)
-        else:
-            return crypto.import_private_key(bytearray(self.app_key))
+    def create_user(self, identity, identity_type):
+        # type: (str, str) -> IdentityUser
+        """Create identity for user"""
+        return IdentityUser(self.__context, identity, identity_type)
+
+    def create_app(self, identity):
+        # type: (str) -> IdentityApplication
+        """Create identity for application"""
+        return IdentityApplication(self.__context, identity)
+
+    def create_email(self, identity):
+        # type: (str) -> IdentityEmail
+        """Create identity for email"""
+        return IdentityEmail(self.__context, identity)

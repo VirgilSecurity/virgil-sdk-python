@@ -33,6 +33,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from virgil_sdk.api import VirgilBuffer
+from virgil_sdk.client import Card
 from virgil_sdk.client import RequestSigner
 from virgil_sdk.client import Utils
 from virgil_sdk.client.requests import CreateCardRequest
@@ -116,61 +117,40 @@ class VirgilCard(object):
         )
         return VirgilBuffer.from_string(card_json).to_string("base64")
 
-    def check_identity(self, time_to_live=3600, count_to_live=1):
-        # type: (int, int) -> dict
-        """Initiates an identity verification process for current Card indentity type. It is only working for
-        Global identity types like Email.
-        Args:
-            time_to_live: Limit the lifetime of the token in econds (maximum value is 60 * 60 * 24 * 365 = 1 year).
-            count_to_live: Restrict the number of validation token usages (maximum value is 100).
-        Returns:
-            Information about operation etc...
-        """
-        action_id = self.__context.client.verify_identity(self.identity, self.identity_type, self.custom_fields)
-        attempt = {
-            "action_id": action_id,
-            "time_to_live": time_to_live,
-            "count_to_live": count_to_live,
-            "identity": self.identity,
-            "identity_type": self.identity_type
-        }
-        return attempt
-
     def publish(self):
         # type: () -> None
         """Publishes a current VirgilCard to the Virgil Security services."""
-        create_card_request = CreateCardRequest(
-            self.identity,
-            self.identity_type,
-            self.__public_key,
-            self.__card.data
-        )
-        create_card_request.signatures = self.__card.signatures
-        create_card_request.snapshot = self.__card.snapshot
-        request_signer = RequestSigner(self.__context.crypto)
-        request_signer.authority_sign(
-            create_card_request,
-            self.__context.credentials.app_id,
-            self.__context.credentials.get_app_key(self.__context.crypto)
-        )
-        self.__card = self.__context.client.create_card_from_request(create_card_request)
+        if self.__card.scope == Card.Scope.GLOBAL:
+            self.__publish_global()
+        else:
+            create_card_request = CreateCardRequest(
+                self.identity,
+                self.identity_type,
+                self.__public_key,
+                self.__card.data
+            )
+            create_card_request.signatures = self.__card.signatures
+            create_card_request.snapshot = self.__card.snapshot
+            request_signer = RequestSigner(self.__context.crypto)
+            request_signer.authority_sign(
+                create_card_request,
+                self.__context.credentials.app_id,
+                self.__context.credentials.get_app_key(self.__context.crypto)
+            )
+            self.__card = self.__context.client.create_card_from_request(create_card_request)
 
-    def publish_global(self, identity_token):
+    def __publish_global(self):
         # type: (str) -> None
         """Publishes a current VirgilCard to the Virgil Security services into global scope.
-        Args:
-            identity_token: identity validation token
         Raises:
             ValueError if identity token empty
         """
-        if not identity_token:
-            raise ValueError("Identity validation token empty")
 
         create_global_card_request = CreateGlobalCardRequest(
             self.identity,
             self.identity_type,
             self.__public_key,
-            identity_token,
+            self.__card.validation_token,
             self.__card.data
         )
         create_global_card_request.signatures = self.__card.signatures

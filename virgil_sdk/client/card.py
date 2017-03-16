@@ -53,6 +53,7 @@ class Card(object):
             device_name=None,  # type: Optional[str]
             version=None,  # type: Optional[str]
             signatures=None,  # type: Optional[Dict[str]]
+            validation_token=None # type: Optional[str]
         ):
         # type: (...) -> None
         self.id = id
@@ -66,6 +67,7 @@ class Card(object):
         self.device_name = device_name
         self.version = version
         self.signatures = signatures or {}
+        self.validation_token = validation_token
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):

@@ -36,6 +36,7 @@ import os
 import unittest
 from test.client import config
 from virgil_sdk.api import Credentials
+from virgil_sdk.api import IdentitiesManager
 from virgil_sdk.api import VirgilCard
 
 from virgil_sdk.api import VirgilContext
@@ -58,11 +59,6 @@ class CardManagerTest(unittest.TestCase):
         self._context = None
         self.__key_pair_alice = self.__context.crypto.generate_keys()
         self.__key_pair_bob = self.__context.crypto.generate_keys()
-        self.__card_config = {
-            "identity": "alice",
-            "identity_type": "username",
-            "owner_key": VirgilKey(self.__context, self.__key_pair_alice.private_key)
-        }
         self.__global_card_config = {
             "identity": "bob",
             "identity_type": "email",
@@ -76,23 +72,42 @@ class CardManagerTest(unittest.TestCase):
         self._compatibility_data_path = None
         self._decode_data = None
 
-    def test_create(self):
+    def test_create_user(self):
+        identity = IdentitiesManager().create_user("alice", "username")
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
         cm = CardManager(self.__context)
-        card = cm.create(**self.__card_config)
+        card = cm.create(identity, owner_key)
         self.assertIsInstance(card, VirgilCard)
 
-    def test_create_global(self):
+    def test_create_email(self):
+        identity = IdentitiesManager().create_email("bob@localhost")
+        identity._validation_token = "test_token"
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
         cm = CardManager(self.__context)
-        card = cm.create(**self.__global_card_config)
+        card = cm.create(identity, owner_key)
+        self.assertIsInstance(card, VirgilCard)
+
+    def test_create_app(self):
+        identity = IdentitiesManager().create_app("someapp")
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
+        cm = CardManager(self.__context)
+        card = cm.create(identity, owner_key)
         self.assertIsInstance(card, VirgilCard)
 
     def test_find(self):
         cm = CardManager(self.__context)
-        card = cm.create(**self.__card_config)
-
-        cm.publish(card)
-        finded = cm.find("alice")
-        self.assertIn(card._VirgilCard__card, finded)
+        identity = IdentitiesManager().create_user("alice", "username")
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
+        card = cm.create(identity, owner_key)
+        try:
+            cm.publish(card)
+            finded = cm.find("alice")
+            self.assertIn(card._VirgilCard__card, finded)
+        finally:
+            try:
+                self.__cleanup_cards(card)
+            except Exception:
+                pass
 
     def test_import_card_unpublished_local(self):
         data = self.__compatibility_data["export_unpublished_local_virgil_card"]
@@ -108,7 +123,9 @@ class CardManagerTest(unittest.TestCase):
 
     def test_publish(self):
         cm = CardManager(self.__context)
-        card = cm.create(**self.__card_config)
+        identity = IdentitiesManager().create_user("alice", "username")
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
+        card = cm.create(identity, owner_key)
 
         try:
             card.publish()
@@ -122,7 +139,9 @@ class CardManagerTest(unittest.TestCase):
 
     def test_revoke(self):
         cm = CardManager(self.__context)
-        card = cm.create(**self.__card_config)
+        identity = IdentitiesManager().create_user("alice", "username")
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
+        card = cm.create(identity, owner_key)
         try:
             card.publish()
             self.assertIsInstance(cm.get(card.id), VirgilCard)
