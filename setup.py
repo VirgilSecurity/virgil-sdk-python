@@ -11,7 +11,7 @@ setup(
     author_email="support@virgilsecurity.com",
     url="https://virgilsecurity.com/",
     classifiers=[
-        "Development Status :: 5 Production/Stable",
+        "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: BSD License",
         "Natural Language :: English",
         "Programming Language :: Python :: 2.7",
