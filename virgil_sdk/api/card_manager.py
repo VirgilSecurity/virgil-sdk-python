@@ -77,7 +77,7 @@ class CardManager(object):
         return VirgilCard(self.context, card_model)
 
     def find(self, identities, identity_type=None):
-        # type: (List[str], Optional[str]) -> List[Card]
+        # type: (List[str], Optional[str]) -> List[VirgilCard]
         """Finds a VirgilCard's by specified identities in application scope.
         Args:
             identities: The list of sought identities
@@ -91,12 +91,13 @@ class CardManager(object):
             raise ValueError("Identities empty!")
         if identity_type:
             criteria = SearchCriteria(identities, identity_type, Card.Scope.APPLICATION)
-            return self.context.client.search_cards_by_criteria(criteria)
+            founded = self.context.client.search_cards_by_criteria(criteria)
         else:
-            return self.context.client.search_cards_by_identities(identities)
+            founded = self.context.client.search_cards_by_identities(identities)
+        return list(map(lambda x: VirgilCard(self.context, x), founded))
 
     def find_global(self, identities, identity_type=None):
-        # type: (List[str], Optional[str]) -> VirgilCard
+        # type: (List[str], Optional[str]) -> List[VirgilCard]
         """Finds VirgilCard's by specified identities and type in global scope.
         Args:
             identities: The list of sought identities
@@ -109,7 +110,8 @@ class CardManager(object):
         if not identities:
             raise ValueError("Identities empty!")
         criteria = SearchCriteria(identities, identity_type, Card.Scope.GLOBAL)
-        return self.context.client.search_cards_by_criteria(criteria)
+        founded = self.context.client.search_cards_by_criteria(criteria)
+        return list(map(lambda x: VirgilCard(self.context, x), founded))
 
     def import_card(self, exported_card):
         # type: (str) -> VirgilCard

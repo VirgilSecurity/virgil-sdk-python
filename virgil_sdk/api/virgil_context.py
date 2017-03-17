@@ -48,7 +48,7 @@ class VirgilContext(object):
             self,
             access_token=None,  # type: Optional[str]
             credentials=None,  # type: Optional[Creantials]
-            card_verifiers=None,  # type: Optional[list]
+            card_verifiers=None,  # type: Optional[List[CardVerifierInfo]]
             crypto=None,  # type: Optional[Crypto]
             key_storage=None,  # type: Optional[KeyStorage]
             client_params=None  # type: Optional[dict]
@@ -62,13 +62,6 @@ class VirgilContext(object):
         self._crypto = crypto
         self._key_storage = key_storage
         self._client = None
-
-    @property
-    def card_verifiers(self):
-        """Gets or sets a list of Virgil Card verifiers."""
-        if not self._card_verifiers:
-            self._card_verifiers = [CardValidator(self.crypto)]
-        return self._card_verifiers
 
     @property
     def crypto(self):
@@ -88,8 +81,15 @@ class VirgilContext(object):
     def client(self):
         """Gets a Virgil Security services client."""
         if not self._client:
+            validator = CardValidator(self.crypto)
+            if self._card_verifiers:
+                for verifier in self._card_verifiers:
+                    public_key = self.crypto.import_public_key(verifier.public_key.get_bytearray())
+                    validator.add_verifier(verifier.card_id, public_key)
             if self.client_params:
                 self._client = VirgilClient(*self.client_params)
+                self._client.card_validator = validator
             else:
                 self._client = VirgilClient(access_token=self.access_token)
+                self._client.card_validator = validator
         return self._client

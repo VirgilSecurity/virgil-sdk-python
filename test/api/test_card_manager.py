@@ -102,7 +102,7 @@ class CardManagerTest(unittest.TestCase):
         try:
             cm.publish(card)
             finded = cm.find("alice")
-            self.assertIn(card._VirgilCard__card, finded)
+            self.assertIn(card, finded)
         finally:
             try:
                 self.__cleanup_cards(card)

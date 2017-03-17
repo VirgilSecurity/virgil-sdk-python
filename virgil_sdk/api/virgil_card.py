@@ -62,8 +62,8 @@ class VirgilCard(object):
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
-    def encrypt(self, buffer):
-        # type: (VirgilBuffer) -> VirgilBuffer
+    def encrypt(self, data):
+        # type: (Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
         """Encrypts the specified data for current VirgilCard recipient.
         Args:
             buffer: The data to be encrypted.
@@ -72,13 +72,25 @@ class VirgilCard(object):
         Raises:
             ValueError if VirgilBuffer empty
         """
+
+        if isinstance(data, str):
+            buffer = VirgilBuffer.from_string(data)
+        elif isinstance(data, bytearray):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, bytes):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, VirgilBuffer):
+            buffer = data
+        else:
+            raise TypeError("Unsupported type of data")
+
         if not buffer:
             raise ValueError("VirgilBuffer empty")
-        cipher_data = self.__context.crypto.encrypt(buffer.get_bytearray(), self.__public_key)
+        cipher_data = self.__context.crypto.encrypt(buffer.get_bytearray(), self.public_key)
         return VirgilBuffer(cipher_data)
 
-    def verify(self, buffer, signature):
-        # type: (VirgilBuffer, VirgilBuffer) -> bool
+    def verify(self, data, signature):
+        # type: (Union[VirgilBuffer, str, bytearray, bytes], VirgilBuffer) -> bool
         """Verifies the specified buffer and signature with current VirgilCard recipient.
         Args:
             buffer: The data to be verified.
@@ -88,14 +100,26 @@ class VirgilCard(object):
         Raises:
             ValueError is buffer or signature empty
         """
-        if not buffer:
-            raise ValueError("VirgilBuffer empty")
+        if not data:
+            raise ValueError("Data empty")
         if not signature:
             raise ValueError("Signatures empty")
+
+        if isinstance(data, str):
+            buffer = VirgilBuffer.from_string(data)
+        elif isinstance(data, bytearray):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, bytes):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, VirgilBuffer):
+            buffer = data
+        else:
+            raise TypeError("Unsupported type of data")
+
         is_valid = self.__context.crypto.verify(
             buffer.get_bytearray(),
             signature.get_bytearray(),
-            self.__public_key
+            self.public_key
         )
         return is_valid
 
@@ -126,7 +150,7 @@ class VirgilCard(object):
             create_card_request = CreateCardRequest(
                 self.identity,
                 self.identity_type,
-                self.__public_key,
+                self.public_key,
                 self.__card.data
             )
             create_card_request.signatures = self.__card.signatures
@@ -149,7 +173,7 @@ class VirgilCard(object):
         create_global_card_request = CreateGlobalCardRequest(
             self.identity,
             self.identity_type,
-            self.__public_key,
+            self.public_key,
             self.__card.validation_token,
             self.__card.data
         )
@@ -182,7 +206,7 @@ class VirgilCard(object):
         return self.__card.data
 
     @property
-    def __public_key(self):
+    def public_key(self):
         # type: () -> PublicKey
         """Gets a Public key that is assigned to current VirgilCard."""
         return self.__context.crypto.import_public_key(self.__card.public_key)

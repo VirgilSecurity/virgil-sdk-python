@@ -68,7 +68,7 @@ class VirgilKeyTest(unittest.TestCase):
         vk = VirgilKey(context, private_key)
         data_string = "hello world"
         data = VirgilBuffer.from_string(data_string)
-        encrypted_data = bytearray(self.__crypto.encrypt(data.get_bytearray(), key_pair.public_key))
+        encrypted_data = VirgilBuffer(self.__crypto.encrypt(data.get_bytearray(), key_pair.public_key))
         self.assertEqual(data.get_bytearray(), vk.decrypt(encrypted_data).get_bytearray())
 
     def test_save(self):

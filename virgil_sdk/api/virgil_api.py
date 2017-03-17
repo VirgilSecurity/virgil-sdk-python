@@ -32,6 +32,7 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 from virgil_sdk.api import IdentitiesManager
+from virgil_sdk.api import VirgilBuffer
 from virgil_sdk.api import VirgilContext
 from virgil_sdk.api.card_manager import CardManager
 from virgil_sdk.api.key_manager import KeyManager
@@ -55,6 +56,30 @@ class Virgil(object):
         self.keys = KeyManager(self.__context)
         self.cards = CardManager(self.__context)
         self.identities = IdentitiesManager(self.__context)
+
+    def encrypt_for(self, cards, data):
+        # type: (List[VirgilCard], Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
+        """Encrypt to multiply cards"""
+
+        if cards:
+            public_keys = list(map(lambda x: x.public_key, cards))
+        else:
+            raise ValueError("Card list for encryption empty")
+
+        if isinstance(data, str):
+            buffer = VirgilBuffer.from_string(data)
+        elif isinstance(data, bytearray):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, bytes):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, VirgilBuffer):
+            buffer = data
+        else:
+            raise TypeError("Unsupported type of data")
+
+        cipher_data = self.__context.crypto.encrypt(buffer.get_bytearray(), *public_keys)
+        return VirgilBuffer(cipher_data)
+
 
     @property
     def __context(self):

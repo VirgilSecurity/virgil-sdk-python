@@ -78,9 +78,6 @@ class VirgilCardTest(unittest.TestCase):
         signature = self.__crypto.sign(data.get_bytearray(), self.__key_pair.private_key)
         self.assertTrue(vc.verify(data, VirgilBuffer(signature)))
 
-    def test_check_identity(self):
-        pass
-
     def test_publish(self):
         card_model = self.__get_card_model(scope=Card.Scope.APPLICATION)
         creds = Credentials(

@@ -60,7 +60,7 @@ class VirgilKey(object):
         return VirgilBuffer(self.__context.crypto.export_private_key(self.__private_key, password))
 
     def sign(self, data):
-        # type: (VirgilBuffer) -> VirgilBuffer
+        # type: (Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
         """ Generates a digital signature for specified data using current <see cref="VirgilKey"/>.
         Args:
             data: The data for which the digital signature will be generated.
@@ -71,10 +71,22 @@ class VirgilKey(object):
         """
         if not data:
             raise ValueError("No data for sign")
-        return VirgilBuffer(self.__context.crypto.sign(data.get_bytearray(), self.__private_key))
+
+        if isinstance(data, str):
+            buffer = VirgilBuffer.from_string(data)
+        elif isinstance(data, bytearray):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, bytes):
+            buffer = VirgilBuffer(data)
+        elif isinstance(data, VirgilBuffer):
+            buffer = data
+        else:
+            raise TypeError("Unsupported type of data")
+
+        return VirgilBuffer(self.__context.crypto.sign(buffer.get_bytearray(), self.__private_key))
 
     def decrypt(self, encrypted_data):
-        # type: (bytearray) -> VirgilBuffer
+        # type: (Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
         """Decrypts the specified cipher data using VirgilKey
         Args:
             encrypted_data: The encrypted data.
@@ -85,7 +97,19 @@ class VirgilKey(object):
         """
         if not encrypted_data:
             raise ValueError("No data for decrypt")
-        return VirgilBuffer(self.__context.crypto.decrypt(bytearray(encrypted_data), self.__private_key))
+
+        if isinstance(encrypted_data, str):
+            buffer = VirgilBuffer.from_string(encrypted_data, "base64")
+        elif isinstance(encrypted_data, bytearray):
+            buffer = VirgilBuffer(encrypted_data)
+        elif isinstance(encrypted_data, bytes):
+            buffer = VirgilBuffer(encrypted_data)
+        elif isinstance(encrypted_data, VirgilBuffer):
+            buffer = encrypted_data
+        else:
+            raise TypeError("Unsupported type of data")
+
+        return VirgilBuffer(self.__context.crypto.decrypt(buffer.get_bytearray(), self.__private_key))
 
     def save(self, key_name, password=None):
         # type: (str, Optional[str]) -> VirgilKey
@@ -101,7 +125,7 @@ class VirgilKey(object):
         return self
 
     def sign_then_encrypt(self, data_to_encrypt, recipients):
-        # type: (VirgilBuffer, List[VirgilCard]) -> VirgilBuffer
+        # type: (Union[VirgilBuffer, str, bytearray, bytes], List[VirgilCard]) -> VirgilBuffer
         """Encrypts and signs the data.
         Args:
             data_to_encrypt: The data to be encrypted.
@@ -113,17 +137,29 @@ class VirgilKey(object):
         """
         if not recipients:
             raise ValueError("No recipient specified")
+
+        if isinstance(data_to_encrypt, str):
+            buffer = VirgilBuffer.from_string(data_to_encrypt)
+        elif isinstance(data_to_encrypt, bytearray):
+            buffer = VirgilBuffer(data_to_encrypt)
+        elif isinstance(data_to_encrypt, bytes):
+            buffer = VirgilBuffer(data_to_encrypt)
+        elif isinstance(data_to_encrypt, VirgilBuffer):
+            buffer = data_to_encrypt
+        else:
+            raise TypeError("Unsupported type of data")
+
         public_keys = list(map(lambda x: x.public_key, recipients))
 
         cipher_data = self.__context.crypto.sign_then_encrypt(
-            data_to_encrypt.get_bytearray(),
+            buffer.get_bytearray(),
             self.__private_key,
             *public_keys
         )
         return VirgilBuffer(cipher_data)
 
-    def decrypt_then_verify(self, cipher_buffer, card):
-        # type: (VirgilBuffer, VirgilCard) -> VirgilBuffer
+    def decrypt_then_verify(self, cipher_data, card):
+        # type: (Union[VirgilBuffer, str, bytearray, bytes], VirgilCard) -> VirgilBuffer
         """Decrypts and verifies the data.
         Args:
             cipher_buffer: The data to be decrypted.
@@ -133,10 +169,22 @@ class VirgilKey(object):
         Raises:
             ValueError is cipher buffer not set or empty
         """
-        if not cipher_buffer:
+        if not cipher_data:
             raise ValueError("No cipher buffer specified")
+
+        if isinstance(cipher_data, str):
+            buffer = VirgilBuffer.from_string(cipher_data, "base64")
+        elif isinstance(cipher_data, bytearray):
+            buffer = VirgilBuffer(cipher_data)
+        elif isinstance(cipher_data, bytes):
+            buffer = VirgilBuffer(cipher_data)
+        elif isinstance(cipher_data, VirgilBuffer):
+            buffer = cipher_data
+        else:
+            raise TypeError("Unsupported type of data")
+
         plain_text = self.__context.crypto.decrypt_then_verify(
-            cipher_buffer.get_bytearray(),
+            buffer.get_bytearray(),
             self.__private_key,
             card.public_key
         )
