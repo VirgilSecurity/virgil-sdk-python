@@ -35,6 +35,7 @@ import json
 from virgil_sdk.cryptography.crypto import VirgilCrypto
 from virgil_sdk.client.utils import Utils
 
+
 class SignableRequest(object):
     """Base class for all API requests."""
 
@@ -123,14 +124,24 @@ class SignableRequest(object):
 
     @property
     def snapshot(self):
-        # type: () -> str
+        # type: () -> Tuple[*int]
         """Request data snapshot"""
         if not self._snapshot:
             self._snapshot = self.take_snapshot()
         return self._snapshot
+
+    @snapshot.setter
+    def snapshot(self, snapshot):
+        # type: (Tuple[*int]) -> None
+        self._snapshot = snapshot
 
     @property
     def signatures(self):
         # type: () -> Dict[str, str]
         """Request signatures"""
         return self._signatures
+
+    @signatures.setter
+    def signatures(self, signatures):
+        # type: (Dict[str, str]) -> None
+        self._signatures = signatures

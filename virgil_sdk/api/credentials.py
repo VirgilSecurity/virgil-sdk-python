@@ -31,44 +31,27 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import base64
-import json
 
-class Utils(object):
-    """Helpers used accross the project."""
 
-    @staticmethod
-    def strtobytes(source):
-        # type: (str) -> Tuple[*int]
-        """Convert string to bytes tuple used for all crypto methods."""
-        return tuple(bytearray(source))
+class Credentials(object):
+    """Provides credentials for application authentication using app_id and app_key
+    retrieved from development dashboard."""
 
-    @classmethod
-    def b64tobytes(cls, source):
-        # type: (str) -> Tuple[*int]
-        """Convert source to bytearray and encode using base64."""
-        return cls.strtobytes(cls.b64decode(source))
+    def __init__(
+        self,
+        app_id,  # type: str
+        app_key,  # type: bytes
+        app_key_password=None  # type: Optional[str]
+    ):
+        # type: (...) -> None
+        self.app_id = app_id
+        self.app_key = app_key
+        self.app_key_password = app_key_password
 
-    @staticmethod
-    def b64encode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and encode using base64."""
-        return base64.b64encode(bytearray(source)).decode("utf-8", "ignore")
-
-    @staticmethod
-    def b64decode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and decode using base64."""
-        return base64.b64decode(bytearray(source, "utf-8"))
-
-    @staticmethod
-    def json_loads(source):
-        # type: (Union[str, bytes, bytearray]) -> dict
-        """Convert source to bytearray and deserialize from json to python dict object."""
-        return json.loads(bytearray(source).decode())
-
-    @staticmethod
-    def json_dumps(source):
-        # type: (object) -> str
-        """Convert python dict to json string"""
-        return json.dumps(source)
+    def get_app_key(self, crypto):
+        # type: (Crypto) -> PrivateKey
+        """Gets the application PrivateKey used to authenticate Publish/Revoke Card requests."""
+        if self.app_key_password:
+            return crypto.import_private_key(bytearray(self.app_key), self.app_key_password)
+        else:
+            return crypto.import_private_key(bytearray(self.app_key))

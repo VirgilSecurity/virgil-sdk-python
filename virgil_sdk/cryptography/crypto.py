@@ -55,6 +55,7 @@ class VirgilCrypto(object):
     """
     def __init__(self):
         self.signature_hash_algorithm = HashAlgorithm.SHA384
+        self.key_pair_type = KeyPairType.Default
 
     _CUSTOM_PARAM_KEY_SIGNATURE = None
 
@@ -79,8 +80,8 @@ class VirgilCrypto(object):
         """
         return tuple(bytearray(source, 'utf-8'))
 
-    def generate_keys(self, key_pair_type=KeyPairType.Default):
-        # type: (Optional[int]) -> KeyPair
+    def generate_keys(self):
+        # type: () -> KeyPair
         """Generates asymmetric key pair that is comprised of both public and private keys by specified type.
 
         Args:
@@ -90,7 +91,7 @@ class VirgilCrypto(object):
         Returns:
             Generated key pair.
         """
-        native_type = KeyPairType.convert_to_native(key_pair_type)
+        native_type = KeyPairType.convert_to_native(self.key_pair_type)
         native_key_pair = VirgilKeyPair.generate(native_type)
         key_pair_id = self.compute_public_key_hash(native_key_pair.publicKey())
         private_key = PrivateKey(

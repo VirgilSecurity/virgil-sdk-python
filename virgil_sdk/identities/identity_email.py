@@ -31,44 +31,47 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import base64
-import json
+from virgil_sdk.client import Card
+from virgil_sdk.identities import Identity
 
-class Utils(object):
-    """Helpers used accross the project."""
 
-    @staticmethod
-    def strtobytes(source):
-        # type: (str) -> Tuple[*int]
-        """Convert string to bytes tuple used for all crypto methods."""
-        return tuple(bytearray(source))
+class IdentityEmail(Identity):
 
-    @classmethod
-    def b64tobytes(cls, source):
-        # type: (str) -> Tuple[*int]
-        """Convert source to bytearray and encode using base64."""
-        return cls.strtobytes(cls.b64decode(source))
+    def __init__(
+            self,
+            context,  # type: VirgilContext
+            value,  # type: str
+    ):
+        super(IdentityEmail, self).__init__(context, value, "email")
+        self.__action_id = None
+        self._validation_token = None
+        self.scope = Card.Scope.GLOBAL
 
-    @staticmethod
-    def b64encode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and encode using base64."""
-        return base64.b64encode(bytearray(source)).decode("utf-8", "ignore")
+    def check(self):
+        # type: () -> None
+        """Initiates an identification process for current identity"""
+        self.__action_id = self._context.client.verify_identity(self.value, self.type)
 
-    @staticmethod
-    def b64decode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and decode using base64."""
-        return base64.b64decode(bytearray(source, "utf-8"))
+    def confirm(self, confirmation_code):
+        # type: (str) -> None
+        """Second part of identification process - confirmation
+        Args:
+            confirmation_code: The confirmation code sended to client email.
+        """
+        self._validation_token = self._context.client.confirm_identity(self.__action_id, confirmation_code)
 
-    @staticmethod
-    def json_loads(source):
-        # type: (Union[str, bytes, bytearray]) -> dict
-        """Convert source to bytearray and deserialize from json to python dict object."""
-        return json.loads(bytearray(source).decode())
+    def is_confirmed(self):
+        # type: () -> bool
+        """Check the user has passed the identification
+        Returns:
+            Status of identification process
+        """
+        if self.validation_token:
+            return True
+        return False
 
-    @staticmethod
-    def json_dumps(source):
-        # type: (object) -> str
-        """Convert python dict to json string"""
-        return json.dumps(source)
+    @property
+    def validation_token(self):
+        # type: () -> str
+        """Validation token getter"""
+        return self._validation_token

@@ -31,44 +31,28 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import base64
-import json
+from virgil_sdk.identities import IdentityUser
+from virgil_sdk.identities import IdentityApplication
+from virgil_sdk.identities import IdentityEmail
 
-class Utils(object):
-    """Helpers used accross the project."""
 
-    @staticmethod
-    def strtobytes(source):
-        # type: (str) -> Tuple[*int]
-        """Convert string to bytes tuple used for all crypto methods."""
-        return tuple(bytearray(source))
+class IdentitiesManager(object):
+    """The IdentitiesManager represent the list of methods witch provides creating an identities"""
 
-    @classmethod
-    def b64tobytes(cls, source):
-        # type: (str) -> Tuple[*int]
-        """Convert source to bytearray and encode using base64."""
-        return cls.strtobytes(cls.b64decode(source))
+    def __init__(self, context=None):
+        self.__context = context
 
-    @staticmethod
-    def b64encode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and encode using base64."""
-        return base64.b64encode(bytearray(source)).decode("utf-8", "ignore")
+    def create_user(self, identity, identity_type):
+        # type: (str, str) -> IdentityUser
+        """Create identity for user"""
+        return IdentityUser(self.__context, identity, identity_type)
 
-    @staticmethod
-    def b64decode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and decode using base64."""
-        return base64.b64decode(bytearray(source, "utf-8"))
+    def create_app(self, identity):
+        # type: (str) -> IdentityApplication
+        """Create identity for application"""
+        return IdentityApplication(self.__context, identity)
 
-    @staticmethod
-    def json_loads(source):
-        # type: (Union[str, bytes, bytearray]) -> dict
-        """Convert source to bytearray and deserialize from json to python dict object."""
-        return json.loads(bytearray(source).decode())
-
-    @staticmethod
-    def json_dumps(source):
-        # type: (object) -> str
-        """Convert python dict to json string"""
-        return json.dumps(source)
+    def create_email(self, identity):
+        # type: (str) -> IdentityEmail
+        """Create identity for email"""
+        return IdentityEmail(self.__context, identity)

@@ -31,44 +31,30 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import base64
-import json
+from abc import abstractmethod
+from abc import ABCMeta
 
-class Utils(object):
-    """Helpers used accross the project."""
 
-    @staticmethod
-    def strtobytes(source):
-        # type: (str) -> Tuple[*int]
-        """Convert string to bytes tuple used for all crypto methods."""
-        return tuple(bytearray(source))
+class KeyStorage(object):
+    """Abstract for classes that represent
+        a cryptographic keys storage containers."""
+    __metaclass__ = ABCMeta
 
-    @classmethod
-    def b64tobytes(cls, source):
-        # type: (str) -> Tuple[*int]
-        """Convert source to bytearray and encode using base64."""
-        return cls.strtobytes(cls.b64decode(source))
+    @abstractmethod
+    def store(self, key_name, key_value):
+        # type: (str, bytes) -> None
+        """Stores the key to the given alias."""
+        raise NotImplementedError()
 
-    @staticmethod
-    def b64encode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and encode using base64."""
-        return base64.b64encode(bytearray(source)).decode("utf-8", "ignore")
+    @abstractmethod
+    def load(self, key_name):
+        # type: (str) -> bytes
+        """The requested key, or None if the given alias does not exist or does
+        not identify a key-related entry."""
+        raise NotImplementedError()
 
-    @staticmethod
-    def b64decode(source):
-        # type: (str) -> str
-        """Convert source to bytearray and decode using base64."""
-        return base64.b64decode(bytearray(source, "utf-8"))
-
-    @staticmethod
-    def json_loads(source):
-        # type: (Union[str, bytes, bytearray]) -> dict
-        """Convert source to bytearray and deserialize from json to python dict object."""
-        return json.loads(bytearray(source).decode())
-
-    @staticmethod
-    def json_dumps(source):
-        # type: (object) -> str
-        """Convert python dict to json string"""
-        return json.dumps(source)
+    @abstractmethod
+    def delete(self, key_name):
+        # type: (str) -> None
+        """Checks if the given alias exists in this keystorage."""
+        raise NotImplementedError()

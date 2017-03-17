@@ -2,6 +2,7 @@
 /dist
 *.egg-info
 *.pyc
+*.DS_Store
 _build/
 virgil/crypto/*virgil_crypto_python*
 .idea/
