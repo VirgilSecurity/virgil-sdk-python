@@ -1,5 +1,5 @@
 # Virgil Security Python SDK 
-[![PyPi](https://img.shields.io/pypi/v/nine.svg)](https://pypi.python.org/pypi/virgil-sdk)
+[![PyPI](https://img.shields.io/pypi/v/nine.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/Django.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/Django.svg)](https://pypi.python.org/pypi/virgil-sdk)
 
 [Installation](#installation) | [Encryption Example](#encryption-example) | [Initialization](#initialization) | [Documentation](#documentation) | [Support](#support)
 
