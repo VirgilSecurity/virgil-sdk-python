@@ -6,3 +6,4 @@
 _build/
 virgil/crypto/*virgil_crypto_python*
 .idea/
+/__pycache__
