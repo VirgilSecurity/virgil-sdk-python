@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -50,6 +50,7 @@ class VirgilBuffer(object):
     def get_bytearray(self):
         # type: () -> bytearray
         """Gets an array of bytes.
+
         Returns:
             A byte array
         """
@@ -60,9 +61,11 @@ class VirgilBuffer(object):
         # type: (str, str) -> VirgilBuffer
         """Creates a new VirgilBuffer containing the given string. If provided, the encoding parameter
         identifies the character encoding of string.
+
         Args:
             raw_string: String to encode.
             string_encoding: The encoding of string.
+
         Raises:
             ValueError when meet undeclared string encoding for VirgilBuffer
         """
@@ -78,8 +81,10 @@ class VirgilBuffer(object):
     def from_bytes(raw_bytes):
         # type: (Union[bytes, bytearray]) -> VirgilBuffer
         """Allocates a new VirgilBuffer using an array of bytes.
+
         Args:
             raw_bytes: An array of bytes to copy from.
+
         Returns:
             A new instance of VirgilBuffer class
         """
@@ -89,10 +94,13 @@ class VirgilBuffer(object):
         # type: (str) -> str
         """Decodes the current VirgilBuffer to a string according to the specified
         character encoding in string_encoding
+
         Args:
             string_encoding: The character encoding to decode to.
+
         Returns:
             A string that represents this instance.
+
         Raises:
             ValueError when meet undeclared string encoding for VirgilBuffer
         """
@@ -107,8 +115,8 @@ class VirgilBuffer(object):
     @staticmethod
     def __from_base64_string(raw_string):
         # type: (str) -> VirgilBuffer
-        """Initializes a new buffer from specified string,
-        which encodes binary data as base-64 digits.
+        """Initializes a new buffer from specified string, which encodes binary data as base-64 digits.
+
         Returns:
             A new instance of VirgilBuffer class.
         """
@@ -117,8 +125,8 @@ class VirgilBuffer(object):
     @staticmethod
     def __from_utf8_string(raw_string):
         # type: (str) -> VirgilBuffer
-        """Initializes a new buffer from specified string,
-        which encodes binary data as utf-8.
+        """Initializes a new buffer from specified string, which encodes binary data as utf-8.
+
         Returns:
             A new instance of VirgilBuffer class.
         """
@@ -129,6 +137,7 @@ class VirgilBuffer(object):
         # type: (str) -> VirgilBuffer
         """Initializes a new buffer from specified string,
         which encodes binary data as hexadecimal digits.
+
         Returns:
             A new instance of VirgilBuffer class.
         """
@@ -138,6 +147,7 @@ class VirgilBuffer(object):
         # type: () -> str
         """Converts all the bytes in current buffer to its equivalent string representation that
         is encoded with base-64 digits.
+
         Returns:
             The string representation of current buffer bytes.
         """
@@ -146,6 +156,7 @@ class VirgilBuffer(object):
     def __to_utf8_string(self):
         # type: () -> str
         """Decodes all the bytes in current buffer into a string.
+
         Returns:
             A string that contains the results of decoding the specified sequence of bytes
         """
@@ -155,6 +166,7 @@ class VirgilBuffer(object):
         # type: () -> str
         """Converts the numeric value of each element of a current buffer bytes to its
         equivalent hexadecimal string representation.
+
         Returns:
             The string representation of current buffer bytes
         """

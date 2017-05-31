@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -72,6 +72,7 @@ class CardValidator(object):
 
         Args:
             card: Card for validation.
+
         Returns:
             True if card signatures are valid, false otherwise.
         """
