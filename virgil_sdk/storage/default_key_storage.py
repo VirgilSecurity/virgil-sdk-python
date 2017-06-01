@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -60,9 +60,11 @@ class DefaultKeyStorage(KeyStorage):
     def store(self, key_name, key_value):
         # type: (str, bytes) -> None
         """Stores the key to the given alias.
+
         Args:
             key_name: key name in storage
             key_value: key value for store
+
         Raises:
             EnvironmentError if cannot identify operationg system for build user home path.
         """
@@ -76,10 +78,13 @@ class DefaultKeyStorage(KeyStorage):
     def load(self, key_name):
         # type: (str) -> bytes
         """Loads the key associated with the given alias.
+
         Args:
             key_name: key name in storage
+
         Returns:
             The requested key
+
         Raises:
             IOError if cannot find key file in storage folder
         """
@@ -91,8 +96,10 @@ class DefaultKeyStorage(KeyStorage):
     def delete(self, key_name):
         # type: (str) -> None
         """Checks if the given alias exists in this keystore.
+
         Args:
             key_name: key name in storage
+
         Raises:
             IOError if cannot find key file in storage folder
         """

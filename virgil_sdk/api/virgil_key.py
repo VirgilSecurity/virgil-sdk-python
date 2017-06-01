@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -54,6 +54,7 @@ class VirgilKey(object):
 
         Args:
             password: password for private
+
         Returns:
             VirgilBuffer containing private key data
         """
@@ -61,11 +62,14 @@ class VirgilKey(object):
 
     def sign(self, data):
         # type: (Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
-        """ Generates a digital signature for specified data using current <see cref="VirgilKey"/>.
+        """ Generates a digital signature for specified data using current VirgilKey.
+
         Args:
             data: The data for which the digital signature will be generated.
+
         Returns:
             A new buffer that containing the result from performing the operation.
+
         Raises:
             ValueError if data argument not set or empty
         """
@@ -88,10 +92,13 @@ class VirgilKey(object):
     def decrypt(self, encrypted_data):
         # type: (Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
         """Decrypts the specified cipher data using VirgilKey
+
         Args:
             encrypted_data: The encrypted data.
+
         Returns:
             A byte array containing the result from performing the operation.
+
         Raises:
             ValueError if encrypted_data argument not set or empty
         """
@@ -114,9 +121,11 @@ class VirgilKey(object):
     def save(self, key_name, password=None):
         # type: (str, Optional[str]) -> VirgilKey
         """Saves a current VirgilKey in secure storage.
+
         Args:
             key_name: The name of the key.
             password: The password (optional).
+
         Returns:
             Instance itself
         """
@@ -127,11 +136,14 @@ class VirgilKey(object):
     def sign_then_encrypt(self, data_to_encrypt, recipients):
         # type: (Union[VirgilBuffer, str, bytearray, bytes], List[VirgilCard]) -> VirgilBuffer
         """Encrypts and signs the data.
+
         Args:
             data_to_encrypt: The data to be encrypted.
             recipients: The list of VirgilCard recipients.
+
         Returns:
             The encrypted data
+
         Raises:
             ValueError if recipient argument not set or empty
         """
@@ -161,11 +173,14 @@ class VirgilKey(object):
     def decrypt_then_verify(self, cipher_data, card):
         # type: (Union[VirgilBuffer, str, bytearray, bytes], VirgilCard) -> VirgilBuffer
         """Decrypts and verifies the data.
+
         Args:
-            cipher_buffer: The data to be decrypted.
+            cipher_data: The data to be decrypted.
             card: The signer's VirgilCard.
+
         Returns:
             The decrypted data, which is the original plain text before encryption.
+
         Raises:
             ValueError is cipher buffer not set or empty
         """
@@ -193,6 +208,7 @@ class VirgilKey(object):
     def export_public_key(self):
         # type: () -> VirgilBuffer
         """Exports the Public key value from current VirgilKey
+
         Returns:
             A new VirgilBuffer that contains Public Key value.
         """

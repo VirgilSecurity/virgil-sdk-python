@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -44,6 +44,7 @@ class KeyManager(object):
     def generate(self):
         # type: () -> VirgilKey
         """Generates a new VirgilKey with default parameters.
+
         Returns:
             An instance of VirgilKey class.
         """
@@ -53,11 +54,14 @@ class KeyManager(object):
     def load(self, key_name, key_password=None):
         # type: (str, Optional[str]) -> VirgilKey
         """Loads the VirgilKey from current storage by specified key name.
+
         Args:
             key_name: The name of the Key.
             key_password: The Key password.
+
         Returns:
             An instance of VirgilKey class.
+
         Raises:
             ValueError when key name empty.
         """
@@ -70,9 +74,11 @@ class KeyManager(object):
     def import_key(self, key_buffer, key_password=None):
         # type: (VirgilBuffer, str) -> VirgilKey
         """Imports the VirgilKey from buffer.
+
         Args:
             key_buffer: The buffer with Key.
             key_password: The Key password.
+
         Returns:
             An instance of VirgilKey class.
         """

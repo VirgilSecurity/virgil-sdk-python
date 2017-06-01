@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -55,6 +55,7 @@ class IdentityEmail(Identity):
     def confirm(self, confirmation_code):
         # type: (str) -> None
         """Second part of identification process - confirmation
+
         Args:
             confirmation_code: The confirmation code sended to client email.
         """
@@ -63,6 +64,7 @@ class IdentityEmail(Identity):
     def is_confirmed(self):
         # type: () -> bool
         """Check the user has passed the identification
+
         Returns:
             Status of identification process
         """

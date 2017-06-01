@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -48,6 +48,7 @@ class IdentityUser(Identity):
 
     def is_confirmed(self):
         """Check the user has passed the identification
+
         Returns:
             Status of identification process
         """

@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -53,10 +53,12 @@ class CardManager(object):
         # type: (Union[IdentityUser, IdentityApplication, IdentityEmail], VirgilKey, dict) -> VirgilCard
         """Creates a new VirgilCard that is representing user's Public key and information
         about identity. This card has to be published to the Virgil's services.
+
         Args:
             identity: The user's identity.
             owner_key: The owner's VirgilKey.
             custom_fields: The custom fields
+
         Returns:
             A new instance of VirgilCard class, that is representing user's Public key.
         """
@@ -79,13 +81,16 @@ class CardManager(object):
     def find(self, identities, identity_type=None):
         # type: (List[str], Optional[str]) -> List[VirgilCard]
         """Finds a VirgilCard's by specified identities in application scope.
+
         Args:
             identities: The list of sought identities
             identity_type: Type of the identity.
+
         Returns:
             A List of found VirgilCard's.
+
         Raises:
-            ValueError when identities list empty
+            ValueError: when identities list empty
         """
         if not identities:
             raise ValueError("Identities empty!")
@@ -99,11 +104,14 @@ class CardManager(object):
     def find_global(self, identities, identity_type=None):
         # type: (List[str], Optional[str]) -> List[VirgilCard]
         """Finds VirgilCard's by specified identities and type in global scope.
+
         Args:
             identities: The list of sought identities
             identity_type: Type of the identity.
+
         Returns:
             A List of found VirgilCard's.
+
         Raises:
             ValueError when identities list empty
         """
@@ -116,8 +124,10 @@ class CardManager(object):
     def import_card(self, exported_card):
         # type: (str) -> VirgilCard
         """Imports a VirgilCard from specified buffer.
+
         Args:
             exported_card: A Card in string representation.
+
         Returns:
             An instance of VirgilCard.
         """
@@ -130,6 +140,7 @@ class CardManager(object):
     def publish(card):
         # type: (VirgilCard) -> None
         """Publishes a VirgilCard into global Virgil Services scope.
+
         Args:
             card: The Card to be published.
         """
@@ -138,6 +149,7 @@ class CardManager(object):
     def revoke(self, card):
         # type: (VirgilCard) -> None
         """Revokes a VirgilCard from Virgil Services.
+
         Args:
             card: The card to be revoked.
         """
@@ -155,10 +167,11 @@ class CardManager(object):
     def revoke_global(self, card, key, identity):
         # type: (VirgilCard, VirgilKey, Union[IdentityUser, IdentityApplication, IdentityEmail]) -> None
         """Revokes a global VirgilCard from Virgil Security services.
+
         Args:
             card: The Card to be revoked.
             key: The Key associated with the revoking Card.
-            identity_token: The identity token.
+            identity: The identity token.
         """
         revoke_global_card_request = RevokeGlobalCardRequest(
             card.id,
@@ -174,9 +187,10 @@ class CardManager(object):
     def get(self, card_id):
         # type: (str) -> VirgilCard
         """Gets a VirgilCard from Virgil Security services by specified Card ID.
+
         Args:
-            card_id: is a unique string that identifies the Card
-        within Virgil Security services.
+            card_id: is a unique string that identifies the Card within Virgil Security services.
+
         Returns:
             An instance of VirgilCard class.
         """
@@ -186,14 +200,17 @@ class CardManager(object):
     def __build_card_model(self, identity, identity_type, custom_fields, scope, owner_key, validation_token=None):
         # type: (str, str, dict, Card.Scope, VirgilKey) -> Card
         """Constructs the card model
+
         Args:
             identity: The user's identity.
             identity_type: Type of the identity.
             custom_fields: The custom fields (optional).
             scope: Card scope
             owner_key: The owner's VirgilKey.
+
         Returns:
             Card model for VirgilCard creation.
+
         Raises:
             ValueError when scope incorrect.
         """
