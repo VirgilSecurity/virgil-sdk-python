@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -65,10 +65,13 @@ class VirgilCard(object):
     def encrypt(self, data):
         # type: (Union[VirgilBuffer, str, bytearray, bytes]) -> VirgilBuffer
         """Encrypts the specified data for current VirgilCard recipient.
+
         Args:
             buffer: The data to be encrypted.
+
         Returns:
             Encrypted data
+
         Raises:
             ValueError if VirgilBuffer empty
         """
@@ -92,11 +95,14 @@ class VirgilCard(object):
     def verify(self, data, signature):
         # type: (Union[VirgilBuffer, str, bytearray, bytes], VirgilBuffer) -> bool
         """Verifies the specified buffer and signature with current VirgilCard recipient.
+
         Args:
             buffer: The data to be verified.
             signature: The signature used to verify the data integrity.
+
         Returns:
             Boolean verification result
+
         Raises:
             ValueError is buffer or signature empty
         """
@@ -126,6 +132,7 @@ class VirgilCard(object):
     def export(self):
         # type: () -> str
         """Exports a current VirgilCard instance into base64 encoded string.
+
         Returns:
             A base64 string that represents a VirgilCard.
         """

@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -79,7 +79,6 @@ class Virgil(object):
 
         cipher_data = self.__context.crypto.encrypt(buffer.get_bytearray(), *public_keys)
         return VirgilBuffer(cipher_data)
-
 
     @property
     def __context(self):

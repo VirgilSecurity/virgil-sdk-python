@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -226,10 +226,12 @@ class VirgilClient(object):
     def verify_identity(self, identity, identity_type, extra_fields=None):
         # type: (str, str, dict) -> str
         """Sends the request for identity verification, that's will be processed depending of specified type.
+
         Args:
             identity: An unique string that represents identity.
             identity_type: The type of identity.
             extra_fields: The extra fields.
+
         Returns:
             Action id that will be used in confirm identity
         """
@@ -254,6 +256,7 @@ class VirgilClient(object):
             confirmation_code: The confirmation code that was recived on email box.
             time_to_live: The time to live.
             count_to_live: The count to live.
+
         Returns:
             A string that represent an identity validation token.
         """
@@ -273,10 +276,12 @@ class VirgilClient(object):
     def is_identity_valid(self, identity, identity_type, validation_token):
         # type: (str, str, str) -> bool
         """Check validation token
+
         Args:
             identity: The identity value.
             identity_type: The type of identity.
             validation_token: The validation token.
+
         Returns:
             Returns true if validation token is valid.
         """
@@ -298,6 +303,7 @@ class VirgilClient(object):
     def validate_cards(self, cards):
         # type: (List[cards]) -> None
         """Validate cards signatures.
+
         Args:
             cards: list of cards to validate.
 
