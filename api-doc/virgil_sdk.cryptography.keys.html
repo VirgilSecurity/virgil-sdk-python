@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.cryptography.keys package &mdash; virgil-sdk-python  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="virgil-sdk-python  documentation" href="../index.html"/>
+        <link rel="up" title="virgil_sdk.cryptography package" href="virgil_sdk.cryptography.html"/>
+        <link rel="next" title="virgil_sdk.identities package" href="virgil_sdk.identities.html"/>
+        <link rel="prev" title="virgil_sdk.cryptography.hashes package" href="virgil_sdk.cryptography.hashes.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> virgil-sdk-python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.api.html">virgil_sdk.api package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html">virgil_sdk.client.http package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html">virgil_sdk.client.requests package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.html">virgil_sdk.cryptography package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.hashes.html">virgil_sdk.cryptography.hashes package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">virgil_sdk.cryptography.keys package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.cryptography.keys.key_pair">virgil_sdk.cryptography.keys.key_pair module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.cryptography.keys.key_pair_type">virgil_sdk.cryptography.keys.key_pair_type module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.cryptography.keys.private_key">virgil_sdk.cryptography.keys.private_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.cryptography.keys.public_key">virgil_sdk.cryptography.keys.public_key module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.cryptography.keys">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.identities.html">virgil_sdk.identities package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.storage.html">virgil_sdk.storage package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">virgil-sdk-python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Modules</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.cryptography.html">virgil_sdk.cryptography package</a> &raquo;</li>
+        
+      <li>virgil_sdk.cryptography.keys package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virgil-sdk-cryptography-keys-package">
+<h1>virgil_sdk.cryptography.keys package<a class="headerlink" href="#virgil-sdk-cryptography-keys-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-virgil_sdk.cryptography.keys.key_pair">
+<span id="virgil-sdk-cryptography-keys-key-pair-module"></span><h2>virgil_sdk.cryptography.keys.key_pair module<a class="headerlink" href="#module-virgil_sdk.cryptography.keys.key_pair" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.cryptography.keys.key_pair.KeyPair">
+<em class="property">class </em><code class="descclassname">virgil_sdk.cryptography.keys.key_pair.</code><code class="descname">KeyPair</code><span class="sig-paren">(</span><em>private_key</em>, <em>public_key</em><span class="sig-paren">)</span><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair.KeyPair" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<p>Class containing key pair information</p>
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair.KeyPair.private_key">
+<code class="descname">private_key</code><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair.KeyPair.private_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair.KeyPair.public_key">
+<code class="descname">public_key</code><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair.KeyPair.public_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.cryptography.keys.key_pair_type">
+<span id="virgil-sdk-cryptography-keys-key-pair-type-module"></span><h2>virgil_sdk.cryptography.keys.key_pair_type module<a class="headerlink" href="#module-virgil_sdk.cryptography.keys.key_pair_type" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType">
+<em class="property">class </em><code class="descclassname">virgil_sdk.cryptography.keys.key_pair_type.</code><code class="descname">KeyPairType</code><a class="reference internal" href="../_modules/virgil_sdk/cryptography/keys/key_pair_type.html#KeyPairType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Enumeration containing supported KeyPairTypes</p>
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.Default">
+<code class="descname">Default</code><em class="property"> = 0</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.Default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_BP256R1">
+<code class="descname">EC_BP256R1</code><em class="property"> = 8</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_BP256R1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_BP384R1">
+<code class="descname">EC_BP384R1</code><em class="property"> = 9</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_BP384R1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_BP512R1">
+<code class="descname">EC_BP512R1</code><em class="property"> = 10</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_BP512R1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_CURVE25519">
+<code class="descname">EC_CURVE25519</code><em class="property"> = 12</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_CURVE25519" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP256K1">
+<code class="descname">EC_SECP256K1</code><em class="property"> = 11</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP256K1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP256R1">
+<code class="descname">EC_SECP256R1</code><em class="property"> = 5</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP256R1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP384R1">
+<code class="descname">EC_SECP384R1</code><em class="property"> = 6</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP384R1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP521R1">
+<code class="descname">EC_SECP521R1</code><em class="property"> = 7</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.EC_SECP521R1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.FAST_EC_ED25519">
+<code class="descname">FAST_EC_ED25519</code><em class="property"> = 14</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.FAST_EC_ED25519" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.FAST_EC_X25519">
+<code class="descname">FAST_EC_X25519</code><em class="property"> = 13</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.FAST_EC_X25519" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_2048">
+<code class="descname">RSA_2048</code><em class="property"> = 1</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_2048" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_3072">
+<code class="descname">RSA_3072</code><em class="property"> = 2</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_3072" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_4096">
+<code class="descname">RSA_4096</code><em class="property"> = 3</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_4096" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_8192">
+<code class="descname">RSA_8192</code><em class="property"> = 4</em><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.RSA_8192" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.UnknownTypeException">
+<em class="property">exception </em><code class="descname">UnknownTypeException</code><span class="sig-paren">(</span><em>key_pair_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cryptography/keys/key_pair_type.html#KeyPairType.UnknownTypeException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.UnknownTypeException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>Exception raised when Unknown Type passed to convertion method</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.convert_to_native">
+<em class="property">classmethod </em><code class="descname">convert_to_native</code><span class="sig-paren">(</span><em>key_pair_type</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cryptography/keys/key_pair_type.html#KeyPairType.convert_to_native"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.convert_to_native" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts type enum value to native value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key_pair_type</strong> &#8211; type id for conversion.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Native library key pair type id.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.UnknownTypeException" title="virgil_sdk.cryptography.keys.key_pair_type.KeyPairType.UnknownTypeException"><code class="xref py py-exc docutils literal"><span class="pre">UnknownTypeException</span></code></a> &#8211; if type is not supported.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.cryptography.keys.private_key">
+<span id="virgil-sdk-cryptography-keys-private-key-module"></span><h2>virgil_sdk.cryptography.keys.private_key module<a class="headerlink" href="#module-virgil_sdk.cryptography.keys.private_key" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.cryptography.keys.private_key.PrivateKey">
+<em class="property">class </em><code class="descclassname">virgil_sdk.cryptography.keys.private_key.</code><code class="descname">PrivateKey</code><span class="sig-paren">(</span><em>receiver_id</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#virgil_sdk.cryptography.keys.private_key.PrivateKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<p>Class containing private key information</p>
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.private_key.PrivateKey.receiver_id">
+<code class="descname">receiver_id</code><a class="headerlink" href="#virgil_sdk.cryptography.keys.private_key.PrivateKey.receiver_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.private_key.PrivateKey.value">
+<code class="descname">value</code><a class="headerlink" href="#virgil_sdk.cryptography.keys.private_key.PrivateKey.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.cryptography.keys.public_key">
+<span id="virgil-sdk-cryptography-keys-public-key-module"></span><h2>virgil_sdk.cryptography.keys.public_key module<a class="headerlink" href="#module-virgil_sdk.cryptography.keys.public_key" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.cryptography.keys.public_key.PublicKey">
+<em class="property">class </em><code class="descclassname">virgil_sdk.cryptography.keys.public_key.</code><code class="descname">PublicKey</code><span class="sig-paren">(</span><em>receiver_id</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#virgil_sdk.cryptography.keys.public_key.PublicKey" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></p>
+<p>Class containing public key information</p>
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.public_key.PublicKey.receiver_id">
+<code class="descname">receiver_id</code><a class="headerlink" href="#virgil_sdk.cryptography.keys.public_key.PublicKey.receiver_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.cryptography.keys.public_key.PublicKey.value">
+<code class="descname">value</code><a class="headerlink" href="#virgil_sdk.cryptography.keys.public_key.PublicKey.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.cryptography.keys">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-virgil_sdk.cryptography.keys" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="virgil_sdk.identities.html" class="btn btn-neutral float-right" title="virgil_sdk.identities package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="virgil_sdk.cryptography.hashes.html" class="btn btn-neutral" title="virgil_sdk.cryptography.hashes package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Virgil Security.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

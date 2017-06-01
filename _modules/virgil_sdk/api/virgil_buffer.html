@@ -1,0 +1,402 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.api.virgil_buffer &mdash; virgil-sdk-python  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="virgil-sdk-python  documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> virgil-sdk-python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">Modules</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">virgil-sdk-python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>virgil_sdk.api.virgil_buffer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for virgil_sdk.api.virgil_buffer</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2016-2017 Virgil Security Inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Lead Maintainer: Virgil Security Inc. &lt;support@virgilsecurity.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Redistribution and use in source and binary forms, with or without</span>
+<span class="c1"># modification, are permitted provided that the following conditions are</span>
+<span class="c1"># met:</span>
+<span class="c1">#</span>
+<span class="c1">#     (1) Redistributions of source code must retain the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer.</span>
+<span class="c1">#</span>
+<span class="c1">#     (2) Redistributions in binary form must reproduce the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer in</span>
+<span class="c1">#     the documentation and/or other materials provided with the</span>
+<span class="c1">#     distribution.</span>
+<span class="c1">#</span>
+<span class="c1">#     (3) Neither the name of the copyright holder nor the names of its</span>
+<span class="c1">#     contributors may be used to endorse or promote products derived from</span>
+<span class="c1">#     this software without specific prior written permission.</span>
+<span class="c1">#</span>
+<span class="c1"># THIS SOFTWARE IS PROVIDED BY THE AUTHOR &#39;&#39;AS IS&#39;&#39; AND ANY EXPRESS OR</span>
+<span class="c1"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c1"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c1"># DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,</span>
+<span class="c1"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c1"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="c1"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
+<span class="c1"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
+<span class="c1"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING</span>
+<span class="c1"># IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span>
+<span class="c1"># POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">binascii</span>
+
+
+<div class="viewcode-block" id="VirgilBuffer"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.api.html#virgil_sdk.api.virgil_buffer.VirgilBuffer">[docs]</a><span class="k">class</span> <span class="nc">VirgilBuffer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The VirgilBuffer class provides a list of methods that</span>
+<span class="sd">    simplify the work with an array of bytes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">raw_bytes</span>  <span class="c1"># type: Union[bytes, bytearray]</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (...) -&gt; None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_buffered_bytes</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">raw_bytes</span><span class="p">)</span>
+
+<div class="viewcode-block" id="VirgilBuffer.get_bytearray"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.api.html#virgil_sdk.api.virgil_buffer.VirgilBuffer.get_bytearray">[docs]</a>    <span class="k">def</span> <span class="nf">get_bytearray</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; bytearray</span>
+        <span class="sd">&quot;&quot;&quot;Gets an array of bytes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A byte array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__buffered_bytes</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="VirgilBuffer.from_string"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.api.html#virgil_sdk.api.virgil_buffer.VirgilBuffer.from_string">[docs]</a>    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">,</span> <span class="n">string_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">):</span>
+        <span class="c1"># type: (str, str) -&gt; VirgilBuffer</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new VirgilBuffer containing the given string. If provided, the encoding parameter</span>
+<span class="sd">        identifies the character encoding of string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            raw_string: String to encode.</span>
+<span class="sd">            string_encoding: The encoding of string.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError when meet undeclared string encoding for VirgilBuffer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">string_encoding</span> <span class="o">==</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="o">.</span><span class="n">__from_utf8_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">string_encoding</span> <span class="o">==</span> <span class="s2">&quot;hex&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="o">.</span><span class="n">__from_hex_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">string_encoding</span> <span class="o">==</span> <span class="s2">&quot;base64&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="o">.</span><span class="n">__from_base64_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Undeclared string encoding for VirgilBuffer&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="VirgilBuffer.from_bytes"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.api.html#virgil_sdk.api.virgil_buffer.VirgilBuffer.from_bytes">[docs]</a>    <span class="k">def</span> <span class="nf">from_bytes</span><span class="p">(</span><span class="n">raw_bytes</span><span class="p">):</span>
+        <span class="c1"># type: (Union[bytes, bytearray]) -&gt; VirgilBuffer</span>
+        <span class="sd">&quot;&quot;&quot;Allocates a new VirgilBuffer using an array of bytes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            raw_bytes: An array of bytes to copy from.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new instance of VirgilBuffer class</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="p">(</span><span class="n">raw_bytes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VirgilBuffer.to_string"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.api.html#virgil_sdk.api.virgil_buffer.VirgilBuffer.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string_encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;Decodes the current VirgilBuffer to a string according to the specified</span>
+<span class="sd">        character encoding in string_encoding</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            string_encoding: The character encoding to decode to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A string that represents this instance.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError when meet undeclared string encoding for VirgilBuffer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">string_encoding</span> <span class="o">==</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__to_utf8_string</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">string_encoding</span> <span class="o">==</span> <span class="s2">&quot;hex&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__to_hex_string</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">string_encoding</span> <span class="o">==</span> <span class="s2">&quot;base64&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__to_base64_string</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Undeclared string encoding for VirgilBuffer&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__from_base64_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; VirgilBuffer</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a new buffer from specified string, which encodes binary data as base-64 digits.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new instance of VirgilBuffer class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="p">(</span><span class="n">base64</span><span class="o">.</span><span class="n">b64decode</span><span class="p">(</span><span class="n">raw_string</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__from_utf8_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; VirgilBuffer</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a new buffer from specified string, which encodes binary data as utf-8.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new instance of VirgilBuffer class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="p">(</span><span class="n">raw_string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__from_hex_string</span><span class="p">(</span><span class="n">raw_string</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; VirgilBuffer</span>
+        <span class="sd">&quot;&quot;&quot;Initializes a new buffer from specified string,</span>
+<span class="sd">        which encodes binary data as hexadecimal digits.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new instance of VirgilBuffer class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">VirgilBuffer</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">a2b_hex</span><span class="p">(</span><span class="n">raw_string</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__to_base64_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;Converts all the bytes in current buffer to its equivalent string representation that</span>
+<span class="sd">        is encoded with base-64 digits.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The string representation of current buffer bytes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buffered_bytes</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__to_utf8_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;Decodes all the bytes in current buffer into a string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A string that contains the results of decoding the specified sequence of bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__buffered_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__to_hex_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;Converts the numeric value of each element of a current buffer bytes to its</span>
+<span class="sd">        equivalent hexadecimal string representation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The string representation of current buffer bytes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">binascii</span><span class="o">.</span><span class="n">b2a_hex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buffered_bytes</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__buffered_bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; bytearray</span>
+        <span class="sd">&quot;&quot;&quot;Buffered bytes&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffered_bytes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Buffer empty&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffered_bytes</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Virgil Security.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

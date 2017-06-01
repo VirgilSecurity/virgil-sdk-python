@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.client package &mdash; virgil-sdk-python  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="virgil-sdk-python  documentation" href="../index.html"/>
+        <link rel="up" title="Modules" href="../modules.html"/>
+        <link rel="next" title="virgil_sdk.client.http package" href="virgil_sdk.client.http.html"/>
+        <link rel="prev" title="virgil_sdk.api package" href="virgil_sdk.api.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> virgil-sdk-python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.api.html">virgil_sdk.api package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">virgil_sdk.client package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.http.html">virgil_sdk.client.http package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.requests.html">virgil_sdk.client.requests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client.card">virgil_sdk.client.card module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client.card_validator">virgil_sdk.client.card_validator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client.request_signer">virgil_sdk.client.request_signer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client.search_criteria">virgil_sdk.client.search_criteria module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client.utils">virgil_sdk.client.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client.virgil_client">virgil_sdk.client.virgil_client module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.client">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html">virgil_sdk.client.http package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html">virgil_sdk.client.requests package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.html">virgil_sdk.cryptography package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.hashes.html">virgil_sdk.cryptography.hashes package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.keys.html">virgil_sdk.cryptography.keys package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.identities.html">virgil_sdk.identities package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.storage.html">virgil_sdk.storage package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">virgil-sdk-python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../modules.html">Modules</a> &raquo;</li>
+        
+      <li>virgil_sdk.client package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virgil-sdk-client-package">
+<h1>virgil_sdk.client package<a class="headerlink" href="#virgil-sdk-client-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="virgil_sdk.client.http.html">virgil_sdk.client.http package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http.base_connection">virgil_sdk.client.http.base_connection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http.cards_service_connection">virgil_sdk.client.http.cards_service_connection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http.identity_service_connection">virgil_sdk.client.http.identity_service_connection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http.ra_service_connection">virgil_sdk.client.http.ra_service_connection module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http.request">virgil_sdk.client.http.request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http.urllib">virgil_sdk.client.http.urllib module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html#module-virgil_sdk.client.http">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="virgil_sdk.client.requests.html">virgil_sdk.client.requests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#module-virgil_sdk.client.requests.creata_global_card_request">virgil_sdk.client.requests.creata_global_card_request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#module-virgil_sdk.client.requests.create_card_request">virgil_sdk.client.requests.create_card_request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#module-virgil_sdk.client.requests.revoke_card_request">virgil_sdk.client.requests.revoke_card_request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#module-virgil_sdk.client.requests.revoke_global_card_request">virgil_sdk.client.requests.revoke_global_card_request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#module-virgil_sdk.client.requests.signable_request">virgil_sdk.client.requests.signable_request module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html#module-virgil_sdk.client.requests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-virgil_sdk.client.card">
+<span id="virgil-sdk-client-card-module"></span><h2>virgil_sdk.client.card module<a class="headerlink" href="#module-virgil_sdk.client.card" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.client.card.Card">
+<em class="property">class </em><code class="descclassname">virgil_sdk.client.card.</code><code class="descname">Card</code><span class="sig-paren">(</span><em>identity</em>, <em>identity_type</em>, <em>public_key</em>, <em>scope=None</em>, <em>id=None</em>, <em>snapshot=None</em>, <em>data=None</em>, <em>device=None</em>, <em>device_name=None</em>, <em>version=None</em>, <em>signatures=None</em>, <em>validation_token=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/card.html#Card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.card.Card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Model representing cards information.</p>
+<dl class="class">
+<dt id="virgil_sdk.client.card.Card.Scope">
+<em class="property">class </em><code class="descname">Scope</code><a class="reference internal" href="../_modules/virgil_sdk/client/card.html#Card.Scope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.card.Card.Scope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Card scope enumeration.</p>
+<dl class="attribute">
+<dt id="virgil_sdk.client.card.Card.Scope.APPLICATION">
+<code class="descname">APPLICATION</code><em class="property"> = 'application'</em><a class="headerlink" href="#virgil_sdk.client.card.Card.Scope.APPLICATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.card.Card.Scope.GLOBAL">
+<code class="descname">GLOBAL</code><em class="property"> = 'global'</em><a class="headerlink" href="#virgil_sdk.client.card.Card.Scope.GLOBAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.client.card.Card.from_response">
+<em class="property">classmethod </em><code class="descname">from_response</code><span class="sig-paren">(</span><em>response</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/card.html#Card.from_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.card.Card.from_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new Card from response containing json-encoded snapshot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>response</strong> &#8211; Cards service response containing base64 encoded content_snapshot.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Card model restored from snapshot.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.client.card_validator">
+<span id="virgil-sdk-client-card-validator-module"></span><h2>virgil_sdk.client.card_validator module<a class="headerlink" href="#module-virgil_sdk.client.card_validator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.client.card_validator.CardValidator">
+<em class="property">class </em><code class="descclassname">virgil_sdk.client.card_validator.</code><code class="descname">CardValidator</code><span class="sig-paren">(</span><em>crypto</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/card_validator.html#CardValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.card_validator.CardValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class used for cards signatures validation.</p>
+<dl class="method">
+<dt id="virgil_sdk.client.card_validator.CardValidator.add_verifier">
+<code class="descname">add_verifier</code><span class="sig-paren">(</span><em>card_id</em>, <em>public_key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/card_validator.html#CardValidator.add_verifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.card_validator.CardValidator.add_verifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add signature verifier.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>card_id</strong> &#8211; Card identifier</li>
+<li><strong>public_key</strong> &#8211; Public key used for signature verification.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.card_validator.CardValidator.is_valid">
+<code class="descname">is_valid</code><span class="sig-paren">(</span><em>card</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/card_validator.html#CardValidator.is_valid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.card_validator.CardValidator.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates Card using verifiers.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>card</strong> &#8211; Card for validation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if card signatures are valid, false otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.card_validator.CardValidator.verifiers">
+<code class="descname">verifiers</code><a class="headerlink" href="#virgil_sdk.client.card_validator.CardValidator.verifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifiers dict used for validation.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.client.request_signer">
+<span id="virgil-sdk-client-request-signer-module"></span><h2>virgil_sdk.client.request_signer module<a class="headerlink" href="#module-virgil_sdk.client.request_signer" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.client.request_signer.RequestSigner">
+<em class="property">class </em><code class="descclassname">virgil_sdk.client.request_signer.</code><code class="descname">RequestSigner</code><span class="sig-paren">(</span><em>crypto</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/request_signer.html#RequestSigner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.request_signer.RequestSigner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class used for signing api requests.</p>
+<dl class="method">
+<dt id="virgil_sdk.client.request_signer.RequestSigner.authority_sign">
+<code class="descname">authority_sign</code><span class="sig-paren">(</span><em>signable_request</em>, <em>signer_id</em>, <em>private_key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/request_signer.html#RequestSigner.authority_sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.request_signer.RequestSigner.authority_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign passed request with authority private key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>signable_request</strong> &#8211; request for signing.</li>
+<li><strong>signer_id</strong> &#8211; authority id.</li>
+<li><strong>private_key</strong> &#8211; authority private key to sign with.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.request_signer.RequestSigner.self_sign">
+<code class="descname">self_sign</code><span class="sig-paren">(</span><em>signable_request</em>, <em>private_key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/request_signer.html#RequestSigner.self_sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.request_signer.RequestSigner.self_sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign passed request with private key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>signable_request</strong> &#8211; request for signing.</li>
+<li><strong>private_key</strong> &#8211; private key to sign with.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.client.search_criteria">
+<span id="virgil-sdk-client-search-criteria-module"></span><h2>virgil_sdk.client.search_criteria module<a class="headerlink" href="#module-virgil_sdk.client.search_criteria" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.client.search_criteria.SearchCriteria">
+<em class="property">class </em><code class="descclassname">virgil_sdk.client.search_criteria.</code><code class="descname">SearchCriteria</code><span class="sig-paren">(</span><em>identities</em>, <em>identity_type=None</em>, <em>scope=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/search_criteria.html#SearchCriteria"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.search_criteria.SearchCriteria" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class holds criteria for searching Cards.</p>
+<dl class="classmethod">
+<dt id="virgil_sdk.client.search_criteria.SearchCriteria.by_app_bundle">
+<em class="property">classmethod </em><code class="descname">by_app_bundle</code><span class="sig-paren">(</span><em>bundle</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/search_criteria.html#SearchCriteria.by_app_bundle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.search_criteria.SearchCriteria.by_app_bundle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new search criteria for searching cards by application bundle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bundle</strong> &#8211; Application bundle.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Search criteria for searching by bundle.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.client.search_criteria.SearchCriteria.by_identities">
+<em class="property">classmethod </em><code class="descname">by_identities</code><span class="sig-paren">(</span><em>identities</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/search_criteria.html#SearchCriteria.by_identities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.search_criteria.SearchCriteria.by_identities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new search criteria for searching cards by identities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identities</strong> &#8211; Identities value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Search criteria with provided identities.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.client.search_criteria.SearchCriteria.by_identity">
+<em class="property">classmethod </em><code class="descname">by_identity</code><span class="sig-paren">(</span><em>identity</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/search_criteria.html#SearchCriteria.by_identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.search_criteria.SearchCriteria.by_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new search criteria for searching cards by identity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identity</strong> &#8211; Identity value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Search criteria with provided identity.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.client.utils">
+<span id="virgil-sdk-client-utils-module"></span><h2>virgil_sdk.client.utils module<a class="headerlink" href="#module-virgil_sdk.client.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.client.utils.Utils">
+<em class="property">class </em><code class="descclassname">virgil_sdk.client.utils.</code><code class="descname">Utils</code><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Helpers used accross the project.</p>
+<dl class="staticmethod">
+<dt id="virgil_sdk.client.utils.Utils.b64decode">
+<em class="property">static </em><code class="descname">b64decode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils.b64decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils.b64decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert source to bytearray and decode using base64.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="virgil_sdk.client.utils.Utils.b64encode">
+<em class="property">static </em><code class="descname">b64encode</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils.b64encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils.b64encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert source to bytearray and encode using base64.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.client.utils.Utils.b64tobytes">
+<em class="property">classmethod </em><code class="descname">b64tobytes</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils.b64tobytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils.b64tobytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert source to bytearray and encode using base64.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="virgil_sdk.client.utils.Utils.json_dumps">
+<em class="property">static </em><code class="descname">json_dumps</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils.json_dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils.json_dumps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert python dict to json string</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="virgil_sdk.client.utils.Utils.json_loads">
+<em class="property">static </em><code class="descname">json_loads</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils.json_loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils.json_loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert source to bytearray and deserialize from json to python dict object.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="virgil_sdk.client.utils.Utils.strtobytes">
+<em class="property">static </em><code class="descname">strtobytes</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/utils.html#Utils.strtobytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.utils.Utils.strtobytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert string to bytes tuple used for all crypto methods.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.client.virgil_client">
+<span id="virgil-sdk-client-virgil-client-module"></span><h2>virgil_sdk.client.virgil_client module<a class="headerlink" href="#module-virgil_sdk.client.virgil_client" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient">
+<em class="property">class </em><code class="descclassname">virgil_sdk.client.virgil_client.</code><code class="descname">VirgilClient</code><span class="sig-paren">(</span><em>access_token=None</em>, <em>cards_service_url='https://cards.virgilsecurity.com'</em>, <em>cards_read_only_service_url='https://cards-ro.virgilsecurity.com'</em>, <em>identity_service_url='https://identity.virgilsecurity.com'</em>, <em>ra_service_url='https://ra.virgilsecurity.com'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Virgil API client</p>
+<p>Contains methods for searching and managing cards.</p>
+<dl class="exception">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.InvalidCardException">
+<em class="property">exception </em><code class="descname">InvalidCardException</code><span class="sig-paren">(</span><em>invalid_cards</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.InvalidCardException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.InvalidCardException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></p>
+<p>Exception raised when card is not valid</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.card_validator">
+<code class="descname">card_validator</code><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.card_validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Card validator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.cards_connection">
+<code class="descname">cards_connection</code><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.cards_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cards service connection used for creating and revoking cards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.confirm_identity">
+<code class="descname">confirm_identity</code><span class="sig-paren">(</span><em>action_id</em>, <em>confirmation_code</em>, <em>time_to_live=3600</em>, <em>count_to_live=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.confirm_identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.confirm_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confirms the identity using confirmation code, that has been generated to confirm an identity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>action_id</strong> &#8211; The action identifier that was obtained on verification step.</li>
+<li><strong>confirmation_code</strong> &#8211; The confirmation code that was recived on email box.</li>
+<li><strong>time_to_live</strong> &#8211; The time to live.</li>
+<li><strong>count_to_live</strong> &#8211; The count to live.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string that represent an identity validation token.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.create_card_from_request">
+<code class="descname">create_card_from_request</code><span class="sig-paren">(</span><em>create_request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.create_card_from_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.create_card_from_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new card from signed creation request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>create_request</strong> &#8211; signed card creation request.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Created card from server response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li>VirgilClient.InvalidCardException if client has validator</li>
+<li>and returned card signatures are not valid.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.create_global_card_from_request">
+<code class="descname">create_global_card_from_request</code><span class="sig-paren">(</span><em>create_request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.create_global_card_from_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.create_global_card_from_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new global card from signed creation request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>create_request</strong> &#8211; signed card creation request.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Created global card from server response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li>VirgilClient.InvalidCardException if client has validator</li>
+<li>and returned card signatures are not valid.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.get_card">
+<code class="descname">get_card</code><span class="sig-paren">(</span><em>card_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.get_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.get_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get card by id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>card_id</strong> &#8211; id of the card to get.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Found card from server response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li>VirgilClient.InvalidCardException if client has validator</li>
+<li>and retrieved card signatures are not valid.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.identity_conection">
+<code class="descname">identity_conection</code><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.identity_conection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity service connection used for verify and validation cards</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.is_identity_valid">
+<code class="descname">is_identity_valid</code><span class="sig-paren">(</span><em>identity</em>, <em>identity_type</em>, <em>validation_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.is_identity_valid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.is_identity_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check validation token</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>identity</strong> &#8211; The identity value.</li>
+<li><strong>identity_type</strong> &#8211; The type of identity.</li>
+<li><strong>validation_token</strong> &#8211; The validation token.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns true if validation token is valid.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.ra_connection">
+<code class="descname">ra_connection</code><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.ra_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registration authority service connection used for</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.read_cards_connection">
+<code class="descname">read_cards_connection</code><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.read_cards_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cards service connection used for getting and searching cards.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.revoke_card_from_request">
+<code class="descname">revoke_card_from_request</code><span class="sig-paren">(</span><em>revocation_request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.revoke_card_from_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.revoke_card_from_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revoke card using signed revocation request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>revocation_request</strong> &#8211; signed card revocation request.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.revoke_global_card_from_request">
+<code class="descname">revoke_global_card_from_request</code><span class="sig-paren">(</span><em>revocation_request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.revoke_global_card_from_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.revoke_global_card_from_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revoke global card using signed revocation request.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>revocation_request</strong> &#8211; signed card revocation request.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.search_cards_by_criteria">
+<code class="descname">search_cards_by_criteria</code><span class="sig-paren">(</span><em>search_criteria</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.search_cards_by_criteria"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.search_cards_by_criteria" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search cards by specified search criteria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>search_criteria</strong> &#8211; constructed search criteria.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Found cards from server response.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li>VirgilClient.InvalidCardException if client has validator</li>
+<li>and cards are not valid.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.search_cards_by_identities">
+<code class="descname">search_cards_by_identities</code><span class="sig-paren">(</span><em>*identities</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.search_cards_by_identities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.search_cards_by_identities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search cards by specified identities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>identities</strong> &#8211; identity values for search.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Found cards from server response.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.validate_cards">
+<code class="descname">validate_cards</code><span class="sig-paren">(</span><em>cards</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.validate_cards"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.validate_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate cards signatures.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cards</strong> &#8211; list of cards to validate.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">VirgilClient.InvalidCardException if some cards are not valid.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.client.virgil_client.VirgilClient.verify_identity">
+<code class="descname">verify_identity</code><span class="sig-paren">(</span><em>identity</em>, <em>identity_type</em>, <em>extra_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/client/virgil_client.html#VirgilClient.verify_identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.client.virgil_client.VirgilClient.verify_identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the request for identity verification, that&#8217;s will be processed depending of specified type.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>identity</strong> &#8211; An unique string that represents identity.</li>
+<li><strong>identity_type</strong> &#8211; The type of identity.</li>
+<li><strong>extra_fields</strong> &#8211; The extra fields.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Action id that will be used in confirm identity</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.client">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-virgil_sdk.client" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="virgil_sdk.client.http.html" class="btn btn-neutral float-right" title="virgil_sdk.client.http package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="virgil_sdk.api.html" class="btn btn-neutral" title="virgil_sdk.api package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Virgil Security.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
