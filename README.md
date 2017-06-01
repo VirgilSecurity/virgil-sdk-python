@@ -1,7 +1,7 @@
 # Virgil Security Python SDK 
 [![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
 
-[Installation](#installation) | [Encryption Example](#encryption-example) | [Initialization](#initialization) | [Documentation](#documentation) | [Support](#support)
+[Installation](#installation) | [Encryption Example](#encryption-example) | [Initialization](#initialization) | [Documentation](#documentation) | [Support](#support) | [Reference API][_reference_api]
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
@@ -94,6 +94,7 @@ Virgil Security has a powerful set of APIs, and the documentation is there to ge
 * [Guides][_guides]
   * [Virgil Cards][_guide_virgil_cards]
   * [Virgil Keys][_guide_virgil_keys]
+* [Reference API][_reference_api]
 
 ## License
 
@@ -116,3 +117,4 @@ Our developer support team is here to help you. You can find us on [Twitter](htt
 [_guide_virgil_keys]: https://developer.virgilsecurity.com/docs/python/guides/virgil-key/generating
 [_guide_encryption]: https://developer.virgilsecurity.com/docs/python/guides/encryption/encrypting
 [_initialize_root]: https://developer.virgilsecurity.com/docs/python/guides/settings/initialize-sdk-on-client
+[_reference_api]: https://virgilsecurity.github.io/virgil-sdk-python
