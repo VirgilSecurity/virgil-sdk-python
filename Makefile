@@ -46,7 +46,7 @@ docs:
 	sphinx-build ./docs ${DOCS_DEST}
 
 wheel:
-	${PYTHON3} setup.py bdist_wheel --universal
+	${PYTHON3} setup.py bdist_wheel --universal --python-tag py2.py3
 	$(call clean_after_wheel)
 
 upload_testpypi:
