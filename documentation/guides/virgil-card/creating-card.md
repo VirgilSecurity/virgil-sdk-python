@@ -1,7 +1,7 @@
 # Creating Card
 
 This guide shows how to create a user's **Virgil Card** – the main entity of **Virgil Services**.
-Every user/device is represented by Virgil Card with all necessary identificational information.
+Every user/device is represented by Virgil Card with all necessary identification information.
 
 Every developer can create a user's **Virgil Card** (visible within the Application) or **Global Virgil Card** (visible to anybody and not related to the Application).
 
