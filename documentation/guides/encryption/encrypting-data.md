@@ -6,11 +6,11 @@ Encryption can be used to provide high levels of security to network communicati
 
 For original information about encryption, its syntax and parameters, follow the link [here](https://github.com/VirgilSecurity/virgil/blob/wiki/wiki/glossary.md#encryption).
 
-Before you begin to encrypt data, set up your project environment using [getting started](https://github.com/VirgilSecurity/virgil-sdk-python/blob/docs-review/documentation/guides/configuration/client-configuration.md) guide.
+Before you begin to encrypt data, set up your project environment using [getting started](/documentation/guides/configuration/client-configuration.md) guide.
 
 The Data Encryption procedure is shown in the figure below.
 
-![Virgil Encryption Intro](https://github.com/VirgilSecurity/virgil-sdk-python/blob/docs-review/documentation/img/Encryption_introduction.png "Data encryption")
+![Virgil Encryption Intro](/documentation/img/Encryption_introduction.png "Data encryption")
 
 In order to encrypt a **message**, Alice has to have:
  - Bob's Virgil Cards, which should be published on **Virgil Services**.
@@ -40,5 +40,5 @@ virgil = Virgil("[YOUR_ACCESS_TOKEN_HERE]")
   # encrypt the message using found Virgil Cards
   cipher_text = virgil.encrypt_for(bob_cards, message).to_string("base64")
   ```
-  
+
 Now Alice can send encrypted message to Bob.

@@ -73,4 +73,4 @@ $virgilApi->Cards->publish($importedCard);
 
 At the Virgil Services, the Virgil Card(s) will be also signed. Developers can verify the signature of the Virgil Card owner, the Virgil Services, and the Application Server at any time.
 
-See our guide on [Validating Cards](https://github.com/VirgilSecurity/virgil-sdk-python/blob/docs-review/documentation/guides/virgil-key/generating-key.md) to see more examples of Card Validation.
+See our guide on [Validating Cards](/documentation/guides/virgil-key/generating-key.md) to see more examples of Card Validation.

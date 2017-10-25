@@ -4,11 +4,11 @@ This guide is a short tutorial on how to create a **Digital Signature** with Vir
 
 See our [Use Cases](https://github.com/VirgilSecurity/virgil-sdk-python/tree/docs-review/documentation) to find out what you can do with Digital Signature.
 
-Set up your project environment before starting to create a Digital Signature, with the [getting started](https://github.com/VirgilSecurity/virgil-sdk-python/blob/docs-review/documentation/guides/configuration/client-configuration.md) guide.
+Set up your project environment before starting to create a Digital Signature, with the [getting started](/documentation/guides/configuration/client-configuration.md) guide.
 
 The **Signature Creation** procedure is shown in the figure below.
 
-![Virgil Signature Intro](https://github.com/VirgilSecurity/virgil-sdk-python/blob/docs-review/documentation/img/Signature_introduction.png "Create Signature")
+![Virgil Signature Intro](/documentation/img/Signature_introduction.png "Create Signature")
 
 In order to create a Digital Signature and sign the message, Alice has to have her **Virgil Key**.
 
@@ -45,6 +45,6 @@ data_buff = VirgilBuffer.from_string(message)
 signature = alice_key.sign(data_buff)
 ```
 
-See our guide on [Loading Keys](https://github.com/VirgilSecurity/virgil-sdk-python/blob/docs-review/documentation/guides/virgil-key/loading-key.md) for more examples.
+See our guide on [Loading Keys](/documentation/guides/virgil-key/loading-key.md) for more examples.
 
 Now Alice can send a signed message to Bob.
