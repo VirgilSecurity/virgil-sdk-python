@@ -2,7 +2,7 @@
 
 This guide shows how to save a **Virgil Key** from the default storage after its [generation](/documentation/guides/virgil-key/generating-key.md).
 
-Before you begin to generate a Virgil Key, Set up your project environment with the [getting started](/documentation/guides/configuration/client-configuration.md) guide.
+Before you begin to generate a Virgil Key, Set up your project environment with the [getting started](/documentation/guides/configuration/client.md) guide.
 
 In order to save the Virgil Key we need to:
 

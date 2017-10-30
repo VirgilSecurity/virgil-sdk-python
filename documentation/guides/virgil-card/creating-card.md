@@ -17,7 +17,7 @@ Each Virgil Card contains a  permanent digital signature that provides data inte
 
 ### Let's start to create a user's Virgil Card
 
-Set up your project environment before you begin to create a user's Virgil Card, with the [getting started](/documentation/guides/configuration/client-configuration.md) guide.
+Set up your project environment before you begin to create a user's Virgil Card, with the [getting started](/documentation/guides/configuration/client.md) guide.
 
 
 The Virgil Card creation procedure is shown in the figure below.
