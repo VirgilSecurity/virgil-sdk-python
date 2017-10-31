@@ -36,7 +36,7 @@ virgil = Virgil("[YOUR_ACCESS_TOKEN_HERE]")
 Users' Virgil Card creation is carried out on the client side.
 
 2. Once the SDK is ready, we can proceed to the next step:
-  – Generate and save a **Virgil Key** (it's also necessary to enter the Virgil Key's name and password)
+  – Generate and save a Virgil Key (it's also necessary to enter the Virgil Key's name and password)
   – Create a Virgil Card using the recently generated Virgil Key
 
 
@@ -56,7 +56,7 @@ alice_card = virgil.cards.create(identity, alice_key)
 
 The Virgil Key will be saved into default device storage. Developers can also change the Virgil Key's storage directory as needed during Virgil SDK initialization.
 
-Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
+**Warning**: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
 
 3. Developers have to transmit the Virgil Card to the App's server side where it will be signed, validated and then published on Virgil Services (this is necessary for further operations with the Virgil Card).
 
