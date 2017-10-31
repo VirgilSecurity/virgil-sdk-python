@@ -50,7 +50,7 @@ virgil = Virgil(context=context)
 
 
 
-## Encryption / Decryption Example Example
+## Encryption / Decryption Example
 
 Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and devices. With users' Virgil Cards, you can easily encrypt any data at Client Side.
 
