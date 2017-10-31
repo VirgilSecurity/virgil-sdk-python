@@ -18,7 +18,7 @@ Set up the client side. After users register at your Application Server, provide
 ## <a name="head3"></a> Register Users
 Now you need to register the users who will encrypt data.
 
-In order to encrypt a data each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
+In order to encrypt a data, each user must have his own tools, which allow him to perform cryptographic operations, and these tools must contain the necessary information to identify users. In Virgil Security, these tools are the Virgil Key and the Virgil Card.
 
 ![Virgil Card](/documentation/img/Card_introduct.png "Create Virgil Card")
 
@@ -28,7 +28,7 @@ When we have already set up the Virgil SDK on the server & client sides, we can 
 ### Generate Keys and Create Virgil Card
 Use the Virgil SDK on the client side to generate a new Key Pair, and then create a user's Virgil Card using the recently generated Virgil Key. All keys are generated and stored on the client side.
 
-In this example, we will pass on the user's username and a password, which will lock in their private encryption key. Each Virgil Card is signed by a user's Virgil Key, which guarantees the Virgil Card's content integrity over its life cycle.
+In this example, we will pass on the user's username and a password, which will lock in their private encryption key. Each Virgil Card is signed by a user's Virgil Key, which guarantees the Virgil Card content integrity over its life cycle.
 
 ```python
 # generate a new Virgil Key
@@ -44,7 +44,7 @@ alice_identity = virgil.identities.create_user("alice")
 alice_card = virgil.cards.create(alice_identity, alice_key)
 ```
 
-Warning: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
+**Warning**: Virgil doesn't keep a copy of your Virgil Key. If you lose a Virgil Key, there is no way to recover it.
 
 It should be noted that recently created user Virgil Cards will be visible only for application users because they are related to the Application.
 
