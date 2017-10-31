@@ -27,7 +27,7 @@ virgil = Virgil()
 2. Once the SDK is ready we can proceed to the next step:
 
 
-- Generate and save the **Virgil Key** (it's also necessary to enter the Virgil Key's name and password).
+- Generate and save the Virgil Key (it's also necessary to enter the Virgil Key's name and password).
 - Create a Global Virgil Card using their recently generated Virgil Key (they will need to enter some identifying information).
 
 
