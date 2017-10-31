@@ -8,7 +8,7 @@ Use **Virgil** to verify the integrity of data at any point. **Data Integrity** 
 <!-- ![Virgil Signature Intro](/img/Signature_introduction.png "Data integrity") -->
 
 ## <a name="head1"></a> Set Up Server
-Your server should be able to authorize your users, store Application's Virgil Key and use **Virgil SDK** for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](/documentation/guides/configuration/server.md).
+Your server should be able to authorize your users, store Application Virgil Key and use **Virgil SDK** for cryptographic operations or for some requests to Virgil Services. You can configure your server using the [Setup Guide](/documentation/guides/configuration/server.md).
 
 
 ## <a name="head2"></a> Set Up Clients
@@ -16,7 +16,7 @@ Set up the client side to provide your users with an access token after their re
 
 
 ## <a name="head3"></a> Register Users
-Now you need to register users. We will need to create a Virgil Key and Card for each user that will be sending verified data. Cards are stored with Virgil and contain your user's public encryption keys.
+Now you need to register users. We need to create a Virgil Key and Card for each user that will be sending verified data. Cards are stored with Virgil and contain your user's public encryption keys.
 
 ![Virgil Card](/documentation/img/Card_introduct.png "Create Virgil Card")
 
@@ -51,7 +51,7 @@ Read more about Virgil Cards and their types [here](/documentation/guides/virgil
 
 ### Transmit the Cards to Your Server
 
-Next, you must serialize and transmit this cards to your server, where you will Approve & Publish Users' Cards.
+Next, you must serialize and transmit this cards to your server, where you will approve & publish Users' Cards.
 
 ```python
 # export a Virgil Card to string
@@ -78,7 +78,7 @@ data_buff = VirgilBuffer.from_string(message)
 signature = alice_key.sign(data_buff)
 ```
 
-To create a signature, you need to load Alice's Virgil Key. The [Loading Key](/documentation/guides/virgil-key/loading-key.md) guide provides more details
+To create a signature, you need to load Alice's Virgil Key. The [Loading Key](/documentation/guides/virgil-key/loading-key.md) guide provides more details.
 
 ### Transmission
 
