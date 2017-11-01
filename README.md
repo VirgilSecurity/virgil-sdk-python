@@ -1,7 +1,7 @@
 # Virgil Security Python SDK
 [![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
 
-[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption-example) |  [Documentation](#documentation) | [Support](#support)
+[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption-example) |  [Documentation](#documentation) | [Reference API][_reference_api] | [Support](#support)
 
 [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless authentication, and ensure data integrity.
 
@@ -96,7 +96,7 @@ Virgil Security has a powerful set of APIs and the documentation to help you get
 * [Configuration](/documentation/guides/configuration)
   * [Set Up Client Side](/documentation/guides/configuration/client.md)
   * [Set Up Server Side](/documentation/guides/configuration/server.md)
-* [Reference API](https://virgilsecurity.github.io/virgil-sdk-python)
+* [Reference API][_reference_api]
 
 ## License
 
@@ -107,3 +107,4 @@ This library is released under the [3-clause BSD License](LICENSE.md).
 Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email][support].
 
 [support]: mailto:support@virgilsecurity.com
+[_reference_api]: https://virgilsecurity.github.io/virgil-sdk-python
