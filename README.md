@@ -96,6 +96,7 @@ Virgil Security has a powerful set of APIs and the documentation to help you get
 * [Configuration](/documentation/guides/configuration)
   * [Set Up Client Side](/documentation/guides/configuration/client.md)
   * [Set Up Server Side](/documentation/guides/configuration/server.md)
+* [Reference API](https://virgilsecurity.github.io/virgil-sdk-python)
 
 ## License
 
