@@ -61,7 +61,7 @@ exported_card = alice_card.export()
 send_to_srv(exported_card)
 ```
 
-Use the **approve & publish users guide** to publish users Virgil Cards on Virgil Services.
+Use the [approve & publish users](https://github.com/VirgilSecurity/virgil-sdk-python/blob/v4/documentation/guides/configuration/server.md#-approve--publish-cards) guide to publish users Virgil Cards on Virgil Services.
 
 ## <a name="head4"></a> Sign Data
 
