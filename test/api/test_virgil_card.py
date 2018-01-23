@@ -82,7 +82,7 @@ class VirgilCardTest(unittest.TestCase):
         card_model = self.__get_card_model(scope=Card.Scope.APPLICATION)
         creds = Credentials(
             config.VIRGIL_APP_ID,
-            self.__crypto.strtobytes(open(config.VIRGIL_APP_KEY_PATH, "r").read()),
+            open(config.VIRGIL_APP_KEY_PATH, "rb").read(),
             config.VIRGIL_APP_KEY_PASSWORD
         )
         context = VirgilContext(access_token=config.VIRGIL_ACCESS_TOKEN, credentials=creds)
