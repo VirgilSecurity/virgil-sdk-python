@@ -115,6 +115,13 @@ class CardManagerTest(unittest.TestCase):
         imported_card = cm.import_card(data["exported_card"])
         self.assertEqual(imported_card.id, data["card_id"])
 
+    def test_import_card_unpublished_local_without_id(self):
+        data = self.__compatibility_data["export_unpublished_local_virgil_card_without_id"]
+        cm = CardManager(self.__context)
+        imported_card = cm.import_card(data["exported_card"])
+        imported_card_id = self.__crypto.calculate_fingerprint(bytearray(imported_card._VirgilCard__card.snapshot)).to_hex
+        self.assertEqual(imported_card_id, data["card_id"])
+
     def test_import_card_published_global(self):
         data = self.__compatibility_data["export_published_global_virgil_card"]
         cm = CardManager(self.__context)

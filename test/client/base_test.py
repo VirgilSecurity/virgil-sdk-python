@@ -53,8 +53,8 @@ class BaseTest(unittest.TestCase):
     def _app_private_key(self):
         if self.__app_private_key:
             return self.__app_private_key
-        with open(config.VIRGIL_APP_KEY_PATH, "r") as key_file:
-            raw_private_key = self._crypto.strtobytes(key_file.read())
+        with open(config.VIRGIL_APP_KEY_PATH, "rb") as key_file:
+            raw_private_key = bytearray(key_file.read())
 
         self.__app_private_key = self._crypto.import_private_key(
             key_data=raw_private_key,

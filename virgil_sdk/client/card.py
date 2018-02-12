@@ -108,9 +108,10 @@ class Card(object):
         snapshot = Utils.b64decode(response["content_snapshot"])
         snapshot_model = Utils.json_loads(snapshot)
         info = snapshot_model.get("info", {}) or {}
+        card_version = response["meta"]["card_version"] if "card_version" in response["meta"].keys() else None
 
         return cls(
-            id=response["id"],
+            id=response.get("id", None),
             snapshot=snapshot,
             identity=snapshot_model["identity"],
             identity_type=snapshot_model["identity_type"],
@@ -119,6 +120,6 @@ class Card(object):
             device_name=info.get("device_name"),
             data=snapshot_model.get("data", {}),
             scope=snapshot_model["scope"],
-            version=response["meta"]["card_version"],
+            version=card_version,
             signatures=response["meta"]["signs"]
         )
