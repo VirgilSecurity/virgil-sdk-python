@@ -49,9 +49,14 @@ wheel:
 	${PYTHON3} setup.py bdist_wheel --universal --python-tag py2.py3
 	$(call clean_after_wheel)
 
+
 upload_testpypi:
-	${PYTHON3} setup.py register -r pypitest
-	${PYTHON3} setup.py bdist upload -r pypitest
+	# old style
+#	${PYTHON3} setup.py register -r pypitest
+#	${PYTHON3} setup.py bdist upload -r pypitest
+
+	# new style
+	twine updload -r pypitest dist/*
 
 clean:
 	$(call clean_api_docs)
