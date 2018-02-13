@@ -56,7 +56,7 @@ upload_testpypi:
 #	${PYTHON3} setup.py bdist upload -r pypitest
 
 	# new style
-	twine updload -r pypitest dist/*
+	twine upload -r pypitest dist/*
 
 clean:
 	$(call clean_api_docs)
