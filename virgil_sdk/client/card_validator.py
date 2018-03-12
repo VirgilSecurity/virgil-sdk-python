@@ -77,7 +77,7 @@ class CardValidator(object):
             True if card signatures are valid, false otherwise.
         """
         if card.version == "3.0":
-            return True
+            return False
         fingerprint = self.crypto.calculate_fingerprint(
             Utils.strtobytes(card.snapshot)
         )
