@@ -33,19 +33,28 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-class CardSignature(object):
-    """
-    CardSignature provides signature for Card.
-    """
+class CardClient(object):
 
     def __init__(
         self,
-        signer=None,  # type: str
-        signature=None,  # type: bytearray
-        snapshot=None,  # type: bytearray
-        extra_fields=None  # type: dict
+        service_url=None
     ):
-        self.signer = signer
-        self.signature = signature
-        self.snapshot = snapshot
-        self.extra_fields = extra_fields
+        self._service_url = service_url
+
+    def publish(self, raw_card, token):
+        # type: (RawSignedModel, str) -> RawSignedModel
+        pass
+
+    def search(self, identity, token):
+        # type: (str, str) -> List[RawSignedModel]
+        pass
+
+    def get(self, card_id, token):
+        # type: (str, str) -> Tuple[RawSignedModel, bool]
+        pass
+
+    @property
+    def service_url(self):
+        if not self._service_url:
+            self._service_url = ""
+        return self._service_url

@@ -33,40 +33,22 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-class CardManager(object):
-    """The CardsManager class provides a list of methods to manage the VirgilCard entities."""
+class RawSignedModel(object):
 
-    def __init__(
-        self,
-        card_crypto,
-        access_token_provider,
-        card_verifier,
-        sign_callback,
-        api_url=None,
-    ):
-        self._card_crypto = card_crypto
-        self._model_signer = None
-        self._card_client = None
-        self._card_verifier = card_verifier
-        self._sign_callback = sign_callback
-        self._access_token_provider = access_token_provider
-        self.__api_url = api_url
+    def __init__(self):
+        self._content_snapshot = None
+        self._signatures = None
+
+    def __str__(self):
+        pass
+
+    def to_json(self):
+        pass
 
     @property
-    def model_signer(self):
-        if not self._model_signer:
-            self._model_signer = ModelSigner(self._card_crypto)
-        return self._model_signer
+    def content_snapshot(self):
+        return self._content_snapshot
 
     @property
-    def card_client(self):
-        if not self._card_client:
-            if self.__api_url:
-                self._card_client = CardClient(self.__api_url)
-            else:
-                self._card_client = CardClient()
-        return self._card_client
-
-    @card_client.setter
-    def card_client(self, card_client):
-        self._card_client = card_client
+    def signatures(self):
+        return self._signatures
