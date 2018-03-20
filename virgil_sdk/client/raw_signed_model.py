@@ -31,19 +31,29 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.raw_card_content import RawCardContent
 
 
 class RawSignedModel(object):
 
-    def __init__(self):
-        self._content_snapshot = None
+    def __init__(
+        self,
+        content_snapshot
+    ):
+        self._content_snapshot = content_snapshot
         self._signatures = None
-
-    def __str__(self):
-        pass
 
     def to_json(self):
         pass
+
+    def to_base64(self):
+        pass
+
+    def add_signature(self, signature):
+        if signature in self._signatures:
+            raise ValueError("Attempt to add an existing signature")
+        else:
+            self._signatures.append(signature)
 
     @property
     def content_snapshot(self):
@@ -52,3 +62,11 @@ class RawSignedModel(object):
     @property
     def signatures(self):
         return self._signatures
+
+    @classmethod
+    def generate_from_card(cls, card):
+        pass
+
+    @classmethod
+    def generate(cls, private_key, public_key, identity, created_at, previous_card_id=None, extra_fields=None):
+        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)

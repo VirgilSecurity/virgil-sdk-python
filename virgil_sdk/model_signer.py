@@ -45,6 +45,6 @@ class ModelSigner(object):
         # type: (RawSignedModel, str, dict, bytearray, PrivateKey) -> None
         pass
 
-    def self_sign(self, model, extra_fields, additional_data, private_key):
-        # type: (RawSignedModel, dict, bytearray, PrivateKey) -> None
+    def self_sign(self, model, private_key, extra_fields=None, additional_data=None):
+        # type: (RawSignedModel, PrivateKey, dict, bytearray) -> None
         pass

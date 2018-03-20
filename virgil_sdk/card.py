@@ -31,9 +31,10 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.raw_card_content import RawCardContent
 
 
-class Card(object):
+class Card(RawCardContent):
     """
     The Card class is the main entity of Virgil Services. Every user/device is
     represented with a Virgil Card which contains a public key and information about identity.
@@ -52,16 +53,12 @@ class Card(object):
         is_outdated=False  # type: bool
     ):
         # type: (...) -> None
+        super(Card).__init__(identity, public_key, version, created_at, previous_card_id)
         self._id = card_id
-        self._identity = identity
-        self._public_key = public_key
-        self._version = version
-        self._created_at = created_at
         self.__signatures = signatures
-        self._previous_card_id = previous_card_id
-        self.previous_card = None
+        self._previous_card = None
         self._content_snapshot = content_snapshot
-        self.is_outdated = is_outdated
+        self._is_outdated = is_outdated
 
     @property
     def id(self):
@@ -73,58 +70,12 @@ class Card(object):
         return self._id
 
     @property
-    def identity(self):
-        """
-        Gets the identity value that can be anything which identifies the user in your application.
-        Returns:
-            User identity.
-        """
-        return self._identity
+    def previous_card(self):
+        return self._previous_card
 
     @property
-    def public_key(self):
-        """
-        Gets the public key.
-        Returns:
-            Public key.
-        """
-        return self._public_key
-
-    @property
-    def version(self):
-        """
-        Gets the version of the card.
-        Returns:
-            Card version.
-        """
-        return self._version
-
-    @property
-    def created_at(self):
-        """
-        Gets the date and time fo card creation in UTC.
-        Returns:
-            Creation date in UTC datetime.
-        """
-        return self._created_at
-
-    @property
-    def previous_card_id(self):
-        """
-        Get previous Card ID that current card is used to override to.
-        Returns:
-            Previous card id.
-        """
-        return self._previous_card_id
-
-    @property
-    def content_snapshot(self):
-        """
-        Get the snapshot of CardContent.
-        Returns:
-            Content snapshot.
-        """
-        return self._content_snapshot
+    def is_outdated(self):
+        return self._is_outdated
 
     @property
     def signatures(self):

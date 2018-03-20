@@ -31,6 +31,11 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import datetime
+from typing import Optional, List
+
+from .client import RawSignedModel
+from .card import Card
 from .verification.virgil_card_verifier import VirgilCardVerifier
 from .client.card_client import CardClient
 from .model_signer import ModelSigner
@@ -54,6 +59,48 @@ class CardManager(object):
         self._sign_callback = sign_callback
         self._access_token_provider = access_token_provider
         self.__api_url = api_url
+
+    def generate_raw_card(self, private_key, public_key, identity, previous_card_id="", extra_fields=None):
+        # type: (PrivateKey, PublicKey, str, Optional[str], Optional[dict]) -> RawSignedModel
+        current_time = int(datetime.datetime.utcnow().timestamp())
+        raw_card = RawSignedModel.generate(private_key, public_key, identity, previous_card_id, extra_fields)
+        self.model_signer.self_sign(raw_card, private_key, extra_fields=extra_fields)
+        return raw_card
+
+    def publish_card(self, *args, **kwargs):
+        # type: (RawSignedModel) -> Card
+        """
+        raw_card=None || private_key=None, public_key=None, identity=None, previous_card_id=None, extra_fields=None
+        """
+        pass
+
+    def get_card(self, card_id):
+        # type: (str) -> Card
+        pass
+
+    def search_card(self, identity):
+        # type: (str) -> List[Card]
+        pass
+
+    def import_card(self, card_to_import):
+        # type: (Union[str, dict, RawSignedModel]) -> Card
+        if isinstance(card_to_import, str):
+            pass
+        elif isinstance(card_to_import, dict):
+            pass
+        elif isinstance(card_to_import, RawSignedModel):
+            pass
+        else:
+            raise TypeError("Unexpected type for card import")
+
+    def export_card_to_string(self):
+        pass
+
+    def export_card_to_json(self):
+        pass
+
+    def export_card_to_raw_card(self):
+        pass
 
     @property
     def model_signer(self):
