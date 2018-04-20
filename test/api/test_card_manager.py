@@ -109,6 +109,25 @@ class CardManagerTest(unittest.TestCase):
             except Exception:
                 pass
 
+    def test_find_multiply(self):
+        cm = CardManager(self.__context)
+        identity_alice = IdentitiesManager().create_user("alice", "username")
+        identity_bob = IdentitiesManager().create_user("bob", "username")
+        alice_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
+        bob_key = VirgilKey(self.__context, self.__key_pair_bob.private_key)
+        alice_card = cm.create(identity_alice, alice_key)
+        bob_card = cm.create(identity_bob, bob_key)
+        try:
+            cm.publish(alice_card)
+            cm.publish(bob_card)
+            finded = cm.find(["alice", "bob"])
+            self.assertIn(alice_card, finded) and self.assertIn(bob_card, finded)
+        finally:
+            try:
+                self.__cleanup_cards(alice_card)
+            except Exception:
+                pass
+
     def test_import_card_unpublished_local(self):
         data = self.__compatibility_data["export_unpublished_local_virgil_card"]
         cm = CardManager(self.__context)
