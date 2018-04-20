@@ -105,7 +105,7 @@ class Card(object):
         Returns:
             Card model restored from snapshot.
         """
-        snapshot = Utils.b64decode(response["content_snapshot"])
+        snapshot = tuple(bytearray(Utils.b64decode(response["content_snapshot"])))
         snapshot_model = Utils.json_loads(snapshot)
         info = snapshot_model.get("info", {}) or {}
         card_version = response["meta"]["card_version"] if "card_version" in response["meta"].keys() else None
