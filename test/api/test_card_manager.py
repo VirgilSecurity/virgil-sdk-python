@@ -144,6 +144,23 @@ class CardManagerTest(unittest.TestCase):
             except Exception:
                 pass
 
+    def test_publish_imported_card(self):
+        identity = IdentitiesManager().create_user("alice", "username")
+        owner_key = VirgilKey(self.__context, self.__key_pair_alice.private_key)
+        cm = CardManager(self.__context)
+        original_card = cm.create(identity, owner_key)
+        exported_card = original_card.export()
+        card = cm.import_card(exported_card)
+        try:
+            card.publish()
+            self.assertIsInstance(cm.get(original_card.id), VirgilCard)
+            self.assertEqual(cm.get(original_card.id).identity, card.identity)
+        finally:
+            try:
+                self.__cleanup_cards(card)
+            except Exception:
+                pass
+
     def test_revoke(self):
         cm = CardManager(self.__context)
         identity = IdentitiesManager().create_user("alice", "username")
