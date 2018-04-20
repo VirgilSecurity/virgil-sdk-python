@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="virgil-sdk",
-    version="4.2.2",
+    version="4.2.3",
     packages=find_packages(),
     install_requires=[
         'virgil-crypto',
@@ -18,6 +18,7 @@ setup(
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
         "Topic :: Security :: Cryptography",
         ],
     license="BSD",

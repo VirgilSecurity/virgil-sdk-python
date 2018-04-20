@@ -98,7 +98,11 @@ class CardManager(object):
             criteria = SearchCriteria(identities, identity_type, Card.Scope.APPLICATION)
             founded = self.context.client.search_cards_by_criteria(criteria)
         else:
-            founded = self.context.client.search_cards_by_identities(identities)
+
+            if isinstance(identities, list):
+                founded = self.context.client.search_cards_by_identities(*identities)
+            else:
+                founded = self.context.client.search_cards_by_identities(identities)
         return list(map(lambda x: VirgilCard(self.context, x), founded))
 
     def find_global(self, identities, identity_type=None):
