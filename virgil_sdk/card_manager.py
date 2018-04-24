@@ -63,7 +63,7 @@ class CardManager(object):
     def generate_raw_card(self, private_key, public_key, identity, previous_card_id="", extra_fields=None):
         # type: (PrivateKey, PublicKey, str, Optional[str], Optional[dict]) -> RawSignedModel
         current_time = int(datetime.datetime.utcnow().timestamp())
-        raw_card = RawSignedModel.generate(private_key, public_key, identity, previous_card_id, extra_fields)
+        raw_card = RawSignedModel.generate(public_key, identity, current_time, previous_card_id)
         self.model_signer.self_sign(raw_card, private_key, extra_fields=extra_fields)
         return raw_card
 
@@ -117,12 +117,12 @@ class CardManager(object):
                 self._card_client = CardClient()
         return self._card_client
 
+    @card_client.setter
+    def card_client(self, card_client):
+        self._card_client = card_client
+
     @property
     def card_verifier(self):
         if not self._card_verifier:
             self._card_verifier = VirgilCardVerifier(self._card_crypto)
         return self._card_verifier
-
-    @card_client.setter
-    def card_client(self, card_client):
-        self._card_client = card_client

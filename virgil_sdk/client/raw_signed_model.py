@@ -31,6 +31,9 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import json
+from base64 import b64encode, b64decode
+
 from virgil_sdk.raw_card_content import RawCardContent
 
 
@@ -44,10 +47,10 @@ class RawSignedModel(object):
         self._signatures = None
 
     def to_json(self):
-        pass
+        return self._content_snapshot.decode()
 
-    def to_base64(self):
-        pass
+    def to_string(self):
+        return b64encode(self._content_snapshot)
 
     def add_signature(self, signature):
         if signature in self._signatures:
@@ -64,9 +67,14 @@ class RawSignedModel(object):
         return self._signatures
 
     @classmethod
-    def generate_from_card(cls, card):
-        pass
+    def generate(cls, public_key, identity, created_at, previous_card_id=None):
+        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
+        return RawSignedModel(raw_card.content_snapshot)
 
     @classmethod
-    def generate(cls, private_key, public_key, identity, created_at, previous_card_id=None, extra_fields=None):
-        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
+    def from_string(cls, raw_signed_model_string):
+        return RawSignedModel(b64decode(raw_signed_model_string))
+
+    @classmethod
+    def from_json(cls, raw_signed_model_json):
+        return RawSignedModel(json.dumps(raw_signed_model_json).encode())
