@@ -43,4 +43,4 @@ class CardVerifierInfo(object):
             public_key  # type: VirgilBuffer
     ):
         self.card_id = card_id
-        self._public_key = public_key
+        self.public_key = public_key
