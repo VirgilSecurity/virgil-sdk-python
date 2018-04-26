@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="virgil-sdk",
-    version="4.2.3",
+    version="4.2.4",
     packages=find_packages(),
     install_requires=[
         'virgil-crypto',
