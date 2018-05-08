@@ -31,6 +31,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.card_signature import CardSignature
 from virgil_sdk.raw_card_content import RawCardContent
 
 
@@ -59,6 +60,19 @@ class Card(RawCardContent):
         self._previous_card = None
         self._content_snapshot = content_snapshot
         self._is_outdated = is_outdated
+
+    @classmethod
+    def from_signed_model(cls, card_crypto, raw_singed_model):
+        card = cls.from_snapshot(raw_singed_model.content_snapshot)
+        card._public_key = card_crypto.import_public_key(card.public_key)
+        signatures = list()
+        if raw_singed_model.signatures:
+            for sign in raw_singed_model.signatures:
+                card_signature = CardSignature(sign.signer, sign.signature, sign.snapshot, sign.extra_fields)
+                signatures.append(card_signature)
+        card._signatures = signatures
+        card._is_outdated = False
+        return card
 
     @property
     def id(self):

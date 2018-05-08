@@ -34,6 +34,7 @@
 import datetime
 from typing import Optional, List
 
+from virgil_sdk.raw_card_content import RawCardContent
 from .client import RawSignedModel
 from .card import Card
 from .verification.virgil_card_verifier import VirgilCardVerifier
@@ -68,11 +69,17 @@ class CardManager(object):
         return raw_card
 
     def publish_card(self, *args, **kwargs):
-        # type: (RawSignedModel) -> Card
+        # type: (...) -> Card
         """
         raw_card=None || private_key=None, public_key=None, identity=None, previous_card_id=None, extra_fields=None
         """
-        pass
+        if len(args) == 1 and isinstance(args[0], RawSignedModel):
+            return self.__publish_raw_card(*args)
+        elif len(kwargs.keys()) == 1 and "raw_card" in kwargs.keys():
+            return self.__publish_raw_card(**kwargs)
+        else:
+            raw_card = self.generate_raw_card(**kwargs)
+            return self.__publish_raw_card(raw_card)
 
     def get_card(self, card_id):
         # type: (str) -> Card
@@ -101,6 +108,14 @@ class CardManager(object):
 
     def export_card_to_raw_card(self):
         pass
+
+    def __publish_raw_card(self, raw_card):
+        # type: (RawSignedModel) -> Card
+        card_content = RawCardContent.from_snapshot(raw_card)
+        token = self._access_token_provider.get_token(card_content.identity, "publish")
+        published_model = self.card_client.publish(raw_card, token)
+        card = Card.from_signed_model(self._card_crypto, published_model)
+        return card
 
     @property
     def model_signer(self):

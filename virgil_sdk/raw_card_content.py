@@ -51,6 +51,17 @@ class RawCardContent(object):
         self._previous_card_id = previous_card_id
         self._content_snapshot = None
 
+    @classmethod
+    def from_snapshot(cls, content_snapshot):
+        card_content = cls
+        loaded_snapshot = json.loads(content_snapshot.decode())
+        card_content._identity = loaded_snapshot["Identity"]
+        card_content._public_key = loaded_snapshot["PublicKey"]
+        card_content._version = loaded_snapshot["Version"]
+        card_content._created_at = loaded_snapshot["CreatedAt"]
+        card_content._previous_card_id = loaded_snapshot["PreviousCardId"]
+        return card_content
+
     @property
     def identity(self):
         """
@@ -103,6 +114,7 @@ class RawCardContent(object):
                 "Identity": self.identity,
                 "PublicKey": self.public_key,
                 "Version": self.version,
+                "CreatedAt": self.created_at,
                 "PreviousCardId": self.previous_card_id
             }
             self._content_snapshot = json.dumps(content).encode()
