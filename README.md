@@ -18,7 +18,7 @@ The Virgil SDK allows developers to get up and running with Virgil API quickly a
 
 ## Installation
 
-The Virgil Python SDK is provided as a package named *virgil-sdk*. The package is distributed via Pypi package management system.
+The Virgil Python SDK is provided as a package named [*virgil-sdk*](https://pypi.org/project/virgil-sdk/). The package is distributed via [PyPI](https://pypi.org/) package management system.
 
 To install the pip package use the command below:
 ```bash
