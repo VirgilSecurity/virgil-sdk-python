@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -31,51 +31,25 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
-from base64 import b64encode, b64decode
 
-from virgil_sdk.cards.raw_card_content import RawCardContent
+"""Module containing urllib importing logic"""
+import sys
+PYTHON_VERSION = sys.version_info[0]
+if PYTHON_VERSION == 3:
+    import urllib.request as urllib2
+else:
+    import urllib2
 
 
-class RawSignedModel(object):
+class RequestWithMethod(urllib2.Request, object):
+    """urllib-compatible Request class containing request method"""
 
-    def __init__(
-        self,
-        content_snapshot,
-        signatures=None
-    ):
-        self._content_snapshot = content_snapshot
-        self._signatures = signatures
+    def __init__(self, *args, **kwargs):
+        self._method = kwargs.pop('method', None)
+        super(RequestWithMethod, self).__init__(*args, **kwargs)
 
-    def to_json(self):
-        return json.dumps({"content_snapshot": self.content_snapshot, "signatures": self.signatures})
-
-    def to_string(self):
-        return b64encode(self.to_json())
-
-    def add_signature(self, signature):
-        if signature in self._signatures:
-            raise ValueError("Attempt to add an existing signature")
+    def get_method(self):
+        if self._method:
+            return self._method
         else:
-            self._signatures.append(signature)
-
-    @property
-    def content_snapshot(self):
-        return self._content_snapshot
-
-    @property
-    def signatures(self):
-        return self._signatures
-
-    @classmethod
-    def generate(cls, public_key, identity, created_at, previous_card_id=None):
-        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
-        return RawSignedModel(raw_card.content_snapshot)
-
-    @classmethod
-    def from_string(cls, raw_signed_model_string):
-        return RawSignedModel(b64decode(raw_signed_model_string))
-
-    @classmethod
-    def from_json(cls, raw_signed_model_json):
-        return RawSignedModel(json.loads(raw_signed_model_json.decode()))
+            return super(RequestWithMethod, self).get_method()

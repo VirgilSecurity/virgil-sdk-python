@@ -31,8 +31,8 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from virgil_sdk.card_signature import CardSignature
-from virgil_sdk.raw_card_content import RawCardContent
+from virgil_sdk.cards.card_signature import CardSignature
+from virgil_sdk.cards.raw_card_content import RawCardContent
 
 
 class Card(RawCardContent):
@@ -59,10 +59,10 @@ class Card(RawCardContent):
         self.__signatures = signatures
         self._previous_card = None
         self._content_snapshot = content_snapshot
-        self._is_outdated = is_outdated
+        self.is_outdated = is_outdated
 
     @classmethod
-    def from_signed_model(cls, card_crypto, raw_singed_model):
+    def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
         card._public_key = card_crypto.import_public_key(card.public_key)
         signatures = list()
@@ -71,7 +71,7 @@ class Card(RawCardContent):
                 card_signature = CardSignature(sign.signer, sign.signature, sign.snapshot, sign.extra_fields)
                 signatures.append(card_signature)
         card._signatures = signatures
-        card._is_outdated = False
+        card._is_outdated = is_oudated
         return card
 
     @property
@@ -86,10 +86,6 @@ class Card(RawCardContent):
     @property
     def previous_card(self):
         return self._previous_card
-
-    @property
-    def is_outdated(self):
-        return self._is_outdated
 
     @property
     def signatures(self):

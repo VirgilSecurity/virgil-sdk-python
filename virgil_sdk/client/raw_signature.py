@@ -35,10 +35,15 @@
 
 class RawSignature(object):
 
-    def __init__(self):
-        self.__signer = None
-        self.__snapshot = None
-        self.__signature = None
+    def __init__(
+        self,
+        signer,
+        signature,
+        signature_snapshot
+    ):
+        self.__signer = signer
+        self.__snapshot = signature_snapshot
+        self.__signature = signature
 
     @property
     def signer(self):

@@ -31,51 +31,38 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
-from base64 import b64encode, b64decode
-
-from virgil_sdk.cards.raw_card_content import RawCardContent
 
 
-class RawSignedModel(object):
+class JwtBodyContent(object):
 
     def __init__(
-        self,
-        content_snapshot,
-        signatures=None
+            self,
+            app_id,
+            identity,
+            issued_at,
+            expires_at,
+            data
     ):
-        self._content_snapshot = content_snapshot
-        self._signatures = signatures
-
-    def to_json(self):
-        return json.dumps({"content_snapshot": self.content_snapshot, "signatures": self.signatures})
-
-    def to_string(self):
-        return b64encode(self.to_json())
-
-    def add_signature(self, signature):
-        if signature in self._signatures:
-            raise ValueError("Attempt to add an existing signature")
-        else:
-            self._signatures.append(signature)
+        self.__identity_prefix = "identity-"
+        self.__subject_prefix = "virgil-"
+        self._app_id = app_id
+        self._identity = identity
+        self._issued_at = issued_at
+        self._expires_at = expires_at
+        self._additional_data = data
+        self._issuer = str(self.__subject_prefix + self._app_id)
+        self._subject = str(self.__identity_prefix + self._identity)
 
     @property
-    def content_snapshot(self):
-        return self._content_snapshot
+    def subject_prefix(self):
+        return self.__subject_prefix
 
     @property
-    def signatures(self):
-        return self._signatures
+    def identity_prefix(self):
+        return self.__identity_prefix
 
-    @classmethod
-    def generate(cls, public_key, identity, created_at, previous_card_id=None):
-        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
-        return RawSignedModel(raw_card.content_snapshot)
+    @property
+    def issuer(self):
+        return self._issuer
 
-    @classmethod
-    def from_string(cls, raw_signed_model_string):
-        return RawSignedModel(b64decode(raw_signed_model_string))
 
-    @classmethod
-    def from_json(cls, raw_signed_model_json):
-        return RawSignedModel(json.loads(raw_signed_model_json.decode()))

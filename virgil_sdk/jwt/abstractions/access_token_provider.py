@@ -31,20 +31,13 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from abc import ABCMeta, abstractmethod
 
 
-class ModelSigner(object):
+class AccessTokenProvider(object):
 
-    def __init__(
-        self,
-        card_crypto
-    ):
-        self.__card_crypto = card_crypto
+    __metaclass__ = ABCMeta
 
-    def sign(self, model, signer, extra_fields, additional_data, private_key):
-        # type: (RawSignedModel, str, dict, bytearray, PrivateKey) -> None
-        pass
-
-    def self_sign(self, model, private_key, extra_fields=None, additional_data=None):
-        # type: (RawSignedModel, PrivateKey, dict, bytearray) -> None
-        pass
+    @abstractmethod
+    def get_token(self, token_context):
+        raise NotImplementedError()

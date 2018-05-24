@@ -31,15 +31,17 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import datetime
-from typing import Optional, List
 
-from virgil_sdk.raw_card_content import RawCardContent
-from .client import RawSignedModel
+import datetime
+from typing import Optional, List, Union
+
+from virgil_sdk.jwt.token_context import TokenContext
+from virgil_sdk.cards.raw_card_content import RawCardContent
+from virgil_sdk.client import RawSignedModel
 from .card import Card
-from .verification.virgil_card_verifier import VirgilCardVerifier
-from .client.card_client import CardClient
-from .model_signer import ModelSigner
+from virgil_sdk.verification.virgil_card_verifier import VirgilCardVerifier
+from virgil_sdk.client.card_client import CardClient
+from virgil_sdk.signers.model_signer import ModelSigner
 
 
 class CardManager(object):
@@ -51,7 +53,7 @@ class CardManager(object):
         access_token_provider,
         card_verifier,
         sign_callback,
-        api_url="",
+        api_url="https://api.virgilsecurity.com",
     ):
         self._card_crypto = card_crypto
         self._model_signer = None
@@ -83,39 +85,77 @@ class CardManager(object):
 
     def get_card(self, card_id):
         # type: (str) -> Card
-        pass
+        token_context = TokenContext(None, "get")
+        access_token = self._access_token_provider.get_token(token_context)
+        card = self.card_client.get(card_id, access_token)
+        if card.id is not card_id:
+            raise ValueError("Invalid card")
+        self.__validate(card)
+        return card
 
     def search_card(self, identity):
         # type: (str) -> List[Card]
-        pass
+        if not identity:
+            raise ValueError("Missing identity for search")
+        token_context = TokenContext(None, "search")
+        access_token = self._access_token_provider.get_token(token_context)
+        raw_cards = self.card_client.search(identity, access_token.to_string())
+        cards = list(map(lambda x: Card.from_signed_model(self._card_crypto, x), raw_cards))
+        if any(list(map(lambda x: x.identity is not  identity, cards))):
+            raise Exception("Invalid cards")
+        map(lambda x: self.__validate(x), cards)
+        return self._linked_card_list(cards)
 
     def import_card(self, card_to_import):
         # type: (Union[str, dict, RawSignedModel]) -> Card
         if isinstance(card_to_import, str):
-            pass
-        elif isinstance(card_to_import, dict):
-            pass
+            card = Card.from_signed_model(RawSignedModel.from_string(card_to_import), self._card_crypto)
+        elif isinstance(card_to_import, Union[dict, bytes]):
+            card = Card.from_signed_model(RawSignedModel.from_json(card_to_import), self._card_crypto)
         elif isinstance(card_to_import, RawSignedModel):
-            pass
+            card = Card.from_signed_model(card_to_import, self._card_crypto)
+        elif card_to_import is None:
+            raise ValueError("Missing card to import")
         else:
             raise TypeError("Unexpected type for card import")
+        self.__validate(card)
+        return card
 
-    def export_card_to_string(self):
-        pass
+    def export_card_to_string(self, card):
+        return self.export_card_to_raw_card(card).to_string()
 
-    def export_card_to_json(self):
-        pass
+    def export_card_to_json(self, card):
+        return self.export_card_to_raw_card(card).to_json()
 
-    def export_card_to_raw_card(self):
-        pass
+    def export_card_to_raw_card(self, card):
+        raw_signed_model = RawSignedModel(card.content_snapshot)
+        for signature in card.signatures:
+            raw_signed_model.add_signature(signature)
+        return raw_signed_model
 
     def __publish_raw_card(self, raw_card):
         # type: (RawSignedModel) -> Card
         card_content = RawCardContent.from_snapshot(raw_card)
-        token = self._access_token_provider.get_token(card_content.identity, "publish")
-        published_model = self.card_client.publish(raw_card, token)
+        token = self._access_token_provider.get_token(card_content.identity, "publish_card")
+        published_model = self.card_client.publish_card(raw_card, token)
         card = Card.from_signed_model(self._card_crypto, published_model)
         return card
+
+    def __validate(self, card):
+        if card is None:
+            raise ValueError("Missing card for validation")
+        if not self.card_verifier.verify_card(card):
+            raise Exception("Card verification failed!")
+
+    def _linked_card_list(self, card_list):
+        unsorted = dict(map(lambda x: (x.id, x), card_list))
+        for card in card_list:
+            if card.previous_card_id:
+                if card.previous_card_id in unsorted.keys():
+                    unsorted[card.previous_card_id].is_outdated = True
+                    card.previous_card = unsorted[card.previous_card_id]
+                    del unsorted[card.previous_card_id]
+        return list(unsorted.values())
 
     @property
     def model_signer(self):

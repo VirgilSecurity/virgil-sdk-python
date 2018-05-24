@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -31,51 +31,45 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
-from base64 import b64encode, b64decode
-
-from virgil_sdk.cards.raw_card_content import RawCardContent
+from .base_request import BaseRequest
 
 
-class RawSignedModel(object):
+class Request(BaseRequest):
+    """Http request wrapper.
+    Attributes:
+        endpoint: request endpoint
+        body: request body
+        headers: dict of request additional headers
+        method: http request method
+    """
+    GET = 'GET'
+    POST = 'POST'
+    PUT = 'PUT'
+    DELETE = 'DELETE'
 
-    def __init__(
-        self,
-        content_snapshot,
-        signatures=None
-    ):
-        self._content_snapshot = content_snapshot
-        self._signatures = signatures
+    def __init__(self, endpoint, body=None, method=None, headers=None):
+        # type: (str, Optional[str], Optional[str], Optional[headers]) -> None
+        """Constructs new Request object."""
+        self._endpoint = endpoint
+        self._body = body
+        self._headers = headers if headers else {}
+        self._method = method
 
-    def to_json(self):
-        return json.dumps({"content_snapshot": self.content_snapshot, "signatures": self.signatures})
-
-    def to_string(self):
-        return b64encode(self.to_json())
-
-    def add_signature(self, signature):
-        if signature in self._signatures:
-            raise ValueError("Attempt to add an existing signature")
-        else:
-            self._signatures.append(signature)
-
-    @property
-    def content_snapshot(self):
-        return self._content_snapshot
+    def authorization(self, access_token):
+        self._headers.update({"Authorization": "Virgil {}".format(access_token)})
 
     @property
-    def signatures(self):
-        return self._signatures
+    def endpoint(self):
+        return self._endpoint
 
-    @classmethod
-    def generate(cls, public_key, identity, created_at, previous_card_id=None):
-        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
-        return RawSignedModel(raw_card.content_snapshot)
+    @property
+    def body(self):
+        return self._body
 
-    @classmethod
-    def from_string(cls, raw_signed_model_string):
-        return RawSignedModel(b64decode(raw_signed_model_string))
+    @property
+    def headers(self):
+        return self._headers
 
-    @classmethod
-    def from_json(cls, raw_signed_model_json):
-        return RawSignedModel(json.loads(raw_signed_model_json.decode()))
+    @property
+    def method(self):
+        return self._method

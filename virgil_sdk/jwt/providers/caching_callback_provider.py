@@ -31,51 +31,22 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
-from base64 import b64encode, b64decode
+import datetime
 
-from virgil_sdk.cards.raw_card_content import RawCardContent
+from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvider
 
 
-class RawSignedModel(object):
+class CachingCallbackProvider(AccessTokenProvider):
 
-    def __init__(
-        self,
-        content_snapshot,
-        signatures=None
-    ):
-        self._content_snapshot = content_snapshot
-        self._signatures = signatures
+    TOKEN_TTL = 5  # 5 seconds
 
-    def to_json(self):
-        return json.dumps({"content_snapshot": self.content_snapshot, "signatures": self.signatures})
+    def __init__(self, renew_jwt_callback):
+        self.__renew_jwt_callback = renew_jwt_callback
+        self.__access_token = None
 
-    def to_string(self):
-        return b64encode(self.to_json())
-
-    def add_signature(self, signature):
-        if signature in self._signatures:
-            raise ValueError("Attempt to add an existing signature")
+    def get_token(self, token_context):
+        if self.__access_token and not self.__access_token.is_expired(datetime.datetime.now().timestamp() + self.TOKEN_TTL):
+            return self.__access_token
         else:
-            self._signatures.append(signature)
-
-    @property
-    def content_snapshot(self):
-        return self._content_snapshot
-
-    @property
-    def signatures(self):
-        return self._signatures
-
-    @classmethod
-    def generate(cls, public_key, identity, created_at, previous_card_id=None):
-        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
-        return RawSignedModel(raw_card.content_snapshot)
-
-    @classmethod
-    def from_string(cls, raw_signed_model_string):
-        return RawSignedModel(b64decode(raw_signed_model_string))
-
-    @classmethod
-    def from_json(cls, raw_signed_model_json):
-        return RawSignedModel(json.loads(raw_signed_model_json.decode()))
+            self.__access_token = self.__renew_jwt_callback(token_context)
+            return self.__access_token
