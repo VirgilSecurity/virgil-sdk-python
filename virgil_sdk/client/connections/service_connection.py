@@ -31,7 +31,12 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import json
+import ssl
+
 from .base_connection import BaseConnection
+from .urllib import urllib2
+from .urllib import RequestWithMethod
 
 
 class ServiceConnection(BaseConnection):
@@ -40,7 +45,42 @@ class ServiceConnection(BaseConnection):
         self.__base_url = base_url
 
     def send(self, request):
-        pass
+        prepared_request = self._prepare_request(request)
+        ctx = ssl.create_default_context()
+        try:
+            response = urllib2.urlopen(prepared_request, context=ctx)
+            result = response.read()
+            return json.loads(result.decode())
+        except urllib2.HTTPError as exception:
+            try:
+                error_res = exception.read()
+                error_body = json.loads(error_res.decode())
+                error_code = error_body['code'] or error_body['error']['code']
+                exception.msg = self._errors[error_code]
+                raise
+            except ValueError:
+                raise exception
+
+    def _prepare_request(self, request):
+        # type (http.Request) -> urllib.RequestWithMethod
+        """Converts http request to urllib-compatible request.
+        Args:
+            request: http.Request object containing sending request data.
+        Returns:
+            urllib-compatible request object.
+        """
+        url = self.base_url + request.endpoint
+        data = request.body
+        if data:
+            data = json.dumps(data).encode()
+        headers = request.headers or {}
+        prepared_request = RequestWithMethod(
+            url,
+            method=request.method,
+            data=data,
+            headers=headers
+        )
+        return prepared_request
 
     @property
     def base_url(self):

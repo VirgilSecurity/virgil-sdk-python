@@ -38,8 +38,8 @@ class AccessToken(object):
 
     __metaclass__ = ABCMeta
 
-    @abstractmethod
     @property
+    @abstractmethod
     def identity(self):
         raise NotImplementedError()
 

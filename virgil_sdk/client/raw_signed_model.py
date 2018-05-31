@@ -45,13 +45,17 @@ class RawSignedModel(object):
         signatures=None
     ):
         self._content_snapshot = content_snapshot
-        self._signatures = signatures
+        self._signatures = signatures or []
 
     def to_json(self):
-        return json.dumps({"content_snapshot": self.content_snapshot, "signatures": self.signatures})
+        return json.dumps(
+            {"content_snapshot": self.content_snapshot, "signatures": self.signatures},
+            separators=(',', ':'),
+            sort_keys=True
+        )
 
     def to_string(self):
-        return b64encode(self.to_json())
+        return b64encode(self.to_json().encode()).decode()
 
     def add_signature(self, signature):
         if signature in self._signatures:
@@ -74,8 +78,8 @@ class RawSignedModel(object):
 
     @classmethod
     def from_string(cls, raw_signed_model_string):
-        return RawSignedModel(b64decode(raw_signed_model_string))
+        return RawSignedModel(**json.loads(b64decode(raw_signed_model_string).decode()))
 
     @classmethod
     def from_json(cls, raw_signed_model_json):
-        return RawSignedModel(json.loads(raw_signed_model_json.decode()))
+        return RawSignedModel(**json.loads(raw_signed_model_json))

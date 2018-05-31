@@ -31,6 +31,8 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from base64 import b64decode
+
 from virgil_sdk.cards.card_signature import CardSignature
 from virgil_sdk.cards.raw_card_content import RawCardContent
 
@@ -64,7 +66,8 @@ class Card(RawCardContent):
     @classmethod
     def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
-        card._public_key = card_crypto.import_public_key(card.public_key)
+
+        card._public_key = card_crypto.import_public_key(bytearray(b64decode(card._public_key)))
         signatures = list()
         if raw_singed_model.signatures:
             for sign in raw_singed_model.signatures:

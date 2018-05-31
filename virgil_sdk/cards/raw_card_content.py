@@ -31,7 +31,9 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import datetime
 import json
+from base64 import b64decode, b64encode
 
 
 class RawCardContent(object):
@@ -53,14 +55,24 @@ class RawCardContent(object):
 
     @classmethod
     def from_snapshot(cls, content_snapshot):
-        card_content = cls
-        loaded_snapshot = json.loads(content_snapshot.decode())
-        card_content._identity = loaded_snapshot["Identity"]
-        card_content._public_key = loaded_snapshot["PublicKey"]
-        card_content._version = loaded_snapshot["Version"]
-        card_content._created_at = loaded_snapshot["CreatedAt"]
-        card_content._previous_card_id = loaded_snapshot["PreviousCardId"]
+        card_content = cls.__new__(cls)
+        loaded_snapshot = json.loads(b64decode(content_snapshot).decode())
+        card_content._identity = loaded_snapshot["identity"]
+        card_content._public_key = loaded_snapshot["public_key"]
+        card_content._version = loaded_snapshot["version"]
+        card_content._created_at = loaded_snapshot["created_at"]
+        if "previous_card_id" in loaded_snapshot.keys():
+            card_content._previous_card_id = loaded_snapshot["previous_card_id"]
+        else:
+            card_content._previous_card_id = None
+        card_content._content_snapshot = None
         return card_content
+
+    @classmethod
+    def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
+        card = cls.from_snapshot(raw_singed_model.content_snapshot)
+        card._public_key = card_crypto.import_public_key(bytearray(b64decode(card._public_key)))
+        return card
 
     @property
     def identity(self):
@@ -111,11 +123,14 @@ class RawCardContent(object):
     def content_snapshot(self):
         if not self._content_snapshot:
             content = {
-                "Identity": self.identity,
-                "PublicKey": self.public_key,
-                "Version": self.version,
-                "CreatedAt": self.created_at,
-                "PreviousCardId": self.previous_card_id
+                "identity": self._identity,
+                "public_key": b64encode(bytearray(self._public_key.value)).decode(),
+                "version": self._version,
+                "created_at": self._created_at,
             }
-            self._content_snapshot = json.dumps(content).encode()
-        return self.content_snapshot
+            if self._previous_card_id:
+                content.update({"previous_card_id": self._previous_card_id})
+            self._content_snapshot = b64encode(
+                json.dumps(content, sort_keys=True, separators=(',', ':')
+                           ).encode()).decode()
+        return self._content_snapshot

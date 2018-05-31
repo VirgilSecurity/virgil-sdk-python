@@ -32,6 +32,7 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import json
+from base64 import b64decode, b64encode
 
 from virgil_sdk.client.raw_signature import RawSignature
 
@@ -48,7 +49,7 @@ class ModelSigner(object):
         self.__card_crypto = card_crypto
 
     def sign(self, model, signer, signer_private_key, signature_snapshot=None, extra_fields=None):
-        # type: (RawSignedModel, str, PrivateKey, bytearray, dict) -> None
+        # type: (RawSignedModel, str, PrivateKey, Union[bytearray, bytes], dict) -> None
 
         if model.signatures:
             if any(list(filter(lambda x: x.signer == signer, model.signatures))):
@@ -58,17 +59,17 @@ class ModelSigner(object):
             signature_snapshot = bytearray(json.dumps(str(extra_fields)))
 
         if signature_snapshot:
-            extended_snapshot = bytearray(model.content_snapshot) + bytearray(signature_snapshot)
+            extended_snapshot = b64encode(bytearray(b64decode(model.content_snapshot)) + bytearray(signature_snapshot))
         else:
             extended_snapshot = model.content_snapshot
 
-        signature_bytes = self.__card_crypto.generate_signature(extended_snapshot, signer_private_key)
+        signature_bytes = self.__card_crypto.sign(bytearray(b64decode(extended_snapshot)), signer_private_key)
 
         signature = RawSignature(signer, signature_bytes, signature_snapshot)
-        model.signatures.add_signature(signature)
+        model.add_signature(signature)
 
     def self_sign(self, model, signer_private_key, signature_snapshot=None, extra_fields=None):
-        # type: (RawSignedModel, PrivateKey, bytearray, dict) -> None
+        # type: (RawSignedModel, PrivateKey, Union[bytearray, bytes], dict) -> None
         if extra_fields and not signature_snapshot:
             signature_snapshot = bytearray(json.dumps(str(extra_fields)))
         self.sign(model, self.SELF_SIGNER, signer_private_key, signature_snapshot)

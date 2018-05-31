@@ -31,18 +31,11 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from abc import ABCMeta, abstractmethod
 
 
-class BaseConnection(object):
+import os
 
-    __metaclass__ = ABCMeta
-
-    @property
-    @abstractmethod
-    def base_url(self):
-        raise NotImplementedError()
-
-    @abstractmethod
-    def send(self, request):
-        raise NotImplementedError()
+VIRGIL_APP_ID = os.environ.get("VIRGIL_APP_ID_V5", "")
+VIRGIL_APP_KEY_PATH = os.environ.get("VIRGIL_APP_KEY_PATH_V5", "")
+VIRGIL_APP_KEY_PASSWORD = os.environ.get("VIRGIL_APP_KEY_PASSWORD_V5", "")
+VIRGIL_APP_BUNDLE = os.environ.get("VIRGIL_APP_BUNDLE_V5", "")

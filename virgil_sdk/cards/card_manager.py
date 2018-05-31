@@ -33,7 +33,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import datetime
-from typing import Optional, List, Union
 
 from virgil_sdk.jwt.token_context import TokenContext
 from virgil_sdk.cards.raw_card_content import RawCardContent

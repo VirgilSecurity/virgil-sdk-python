@@ -48,7 +48,7 @@ class Request(BaseRequest):
     DELETE = 'DELETE'
 
     def __init__(self, endpoint, body=None, method=None, headers=None):
-        # type: (str, Optional[str], Optional[str], Optional[headers]) -> None
+        # type: (str, Optional[str], Optional[str], Optional[dict]) -> None
         """Constructs new Request object."""
         self._endpoint = endpoint
         self._body = body

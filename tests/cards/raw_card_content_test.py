@@ -31,18 +31,21 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from abc import ABCMeta, abstractmethod
+from tests import BaseTest
+from virgil_sdk.cards import RawCardContent
+from virgil_sdk.client import RawSignedModel
 
 
-class BaseConnection(object):
+class RawCardContentTest(BaseTest):
 
-    __metaclass__ = ABCMeta
+    def test_create_from_signed_model_string(self):
+        # STC-1
+        raw_signed_model = RawSignedModel.from_string(self._compatibility_data["STC-1.as_string"])
+        raw_card_content = RawCardContent.from_signed_model(self._crypto, raw_signed_model)
+        self.assertEqual(raw_signed_model.content_snapshot, raw_card_content.content_snapshot)
 
-    @property
-    @abstractmethod
-    def base_url(self):
-        raise NotImplementedError()
-
-    @abstractmethod
-    def send(self, request):
-        raise NotImplementedError()
+    def test_create_from_signed_model_json(self):
+        # STC-1
+        raw_signed_model = RawSignedModel.from_json(self._compatibility_data["STC-1.as_json"])
+        raw_card_content = RawCardContent.from_signed_model(self._crypto, raw_signed_model)
+        self.assertEqual(raw_signed_model.content_snapshot, raw_card_content.content_snapshot)

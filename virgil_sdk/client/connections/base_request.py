@@ -38,22 +38,22 @@ class BaseRequest(object):
 
     __metaclass__ = ABCMeta
 
-    @abstractmethod
     @property
+    @abstractmethod
     def endpoint(self):
         raise NotImplementedError()
 
-    @abstractmethod
     @property
+    @abstractmethod
     def method(self):
         raise NotImplementedError()
 
-    @abstractmethod
     @property
+    @abstractmethod
     def headers(self):
         raise NotImplementedError()
 
-    @abstractmethod
     @property
+    @abstractmethod
     def body(self):
         raise NotImplementedError()
