@@ -33,8 +33,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
 import json
-from base64 import b64encode, b64decode
+from base64 import b64encode
 
+from virgil_sdk.utils.b64decoder import b64_decode
+from .jwt_header_content import JwtHeaderContent
+from .jwt_body_content import JwtBodyContent
 from virgil_sdk.jwt.abstractions.access_token import AccessToken
 
 
@@ -44,11 +47,13 @@ class Jwt(AccessToken):
         self._header_content = jwt_header_content
         self._body_content = jwt_body_content
         self._signature_data = signature_data
-        self._without_singature = b64encode(json.dumps(self._header_content) + "." + json.dumps(self._body_content))
-        self._unsigned_data = b64decode(self._without_singature)
-        self._string_representation = self._without_singature
+        self._without_signature = b64encode(json.dumps(self._header_content.json, sort_keys=True).encode()).decode()\
+                                  + "." +\
+                                  b64encode(json.dumps(self._body_content.json, sort_keys=True).encode()).decode()
+        self._unsigned_data = self._without_signature.encode()
+        self._string_representation = self._without_signature
         if self._signature_data:
-            self._string_representation += "." + b64encode(self._signature_data)
+            self._string_representation += "." + b64encode(bytes(self._signature_data)).decode()
 
     def __str__(self):
         return self._string_representation
@@ -59,6 +64,14 @@ class Jwt(AccessToken):
     def __bytes__(self):
         return self._unsigned_data
 
+    def __eq__(self, other):
+        return all([
+            self._body_content == other._body_content,
+            self._header_content == other._header_content,
+            self.unsigned_data == other.unsigned_data,
+            self.signature_data == other.signature_data,
+        ])
+
     @classmethod
     def from_string(cls, jwt_string):
         parts = jwt_string.split(".")
@@ -66,17 +79,18 @@ class Jwt(AccessToken):
             raise ValueError("Wrong JWT format.")
 
         try:
-            cls._header_content = json.loads(str(b64decode(parts[0])))
-            cls._body_content = json.loads(str(b64decode(parts[1])))
-            cls._signature_data = b64decode(parts[2])
+            jwt = cls.__new__(cls)
+            jwt._header_content = JwtHeaderContent.from_json(json.loads(str(b64_decode(parts[0]).decode())))
+            jwt._body_content = JwtBodyContent.from_json(json.loads(str(b64_decode(parts[1]).decode())))
+            jwt._signature_data = b64_decode(parts[2])
         except Exception:
             raise ValueError("Wrong JWT format.")
 
-        cls._body_content.app_id = cls._body_content.issuer.replace(cls._body_content.subject_prefix, "")
-        cls._body_content.identity = cls._body_content.subject.replace(cls._body_content.identity_prefix, "")
-        cls._unsigned_data = str(str(b64decode(parts[0])) + "." + str(b64decode(parts[1]))).encode()
-        cls._string_representation = jwt_string
-        return cls
+        jwt._body_content._app_id = jwt._body_content.issuer.replace(jwt._body_content.subject_prefix, "")
+        jwt._body_content._identity = jwt._body_content.subject.replace(jwt._body_content.identity_prefix, "")
+        jwt._unsigned_data = str(parts[0] + "." + parts[1]).encode()
+        jwt._string_representation = jwt_string
+        return jwt
 
     def to_string(self):
         return self._string_representation
@@ -85,7 +99,7 @@ class Jwt(AccessToken):
         if not expiration_timestamp:
             expiration_time = datetime.datetime.utcnow()
         else:
-            expiration_time = datetime.datetime.fromtimestamp(expiration_timestamp)
+            expiration_time = datetime.datetime.utcfromtimestamp(expiration_timestamp)
         return expiration_time >= self._body_content.expires_at
 
     @property

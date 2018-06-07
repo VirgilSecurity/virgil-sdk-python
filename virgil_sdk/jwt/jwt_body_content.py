@@ -31,9 +31,13 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import datetime
+from collections import OrderedDict
 
 
 class JwtBodyContent(object):
+    __IDENTITY_PREFIX = "identity-"
+    __SUBJECT_PREFIX = "virgil-"
 
     def __init__(
             self,
@@ -43,26 +47,57 @@ class JwtBodyContent(object):
             expires_at,
             data
     ):
-        self.__identity_prefix = "identity-"
-        self.__subject_prefix = "virgil-"
         self._app_id = app_id
         self._identity = identity
         self._issued_at = issued_at
         self._expires_at = expires_at
         self._additional_data = data
-        self._issuer = str(self.__subject_prefix + self._app_id)
-        self._subject = str(self.__identity_prefix + self._identity)
+        self._issuer = str(self.__SUBJECT_PREFIX + self._app_id)
+        self.subject = str(self.__IDENTITY_PREFIX + self._identity)
+
+    def __eq__(self, other):
+        return all([
+            self._issued_at == other._issued_at,
+            self._expires_at == other._expires_at,
+            self._additional_data == other._additional_data,
+            self.issuer == other.issuer,
+            self.subject == other.subject
+        ])
+
+    @classmethod
+    def from_json(cls, json_loaded_dict):
+        body_content = cls.__new__(cls)
+        body_content._issued_at = datetime.datetime.fromtimestamp(json_loaded_dict["iat"])
+        body_content._expires_at = datetime.datetime.fromtimestamp(json_loaded_dict["exp"])
+        body_content._additional_data = json_loaded_dict["ada"]
+        body_content._issuer = json_loaded_dict["iss"]
+        body_content.subject = json_loaded_dict["sub"]
+        return body_content
+
+    @property
+    def json(self):
+        return OrderedDict({
+            "iat": self._issued_at.timestamp(),
+            "exp": self._expires_at.timestamp(),
+            "ada": self._additional_data,
+            "iss": self.issuer,
+            "sub": self.subject
+        })
 
     @property
     def subject_prefix(self):
-        return self.__subject_prefix
+        return self.__SUBJECT_PREFIX
 
     @property
     def identity_prefix(self):
-        return self.__identity_prefix
+        return self.__IDENTITY_PREFIX
 
     @property
     def issuer(self):
         return self._issuer
+
+    @property
+    def expires_at(self):
+        return self._expires_at
 
 

@@ -42,6 +42,6 @@ class CallbackJwtProvider(AccessTokenProvider):
 
     def get_token(self, token_context):
         if token_context:
-            return Jwt(self.__get_token_callback(token_context))
+            return Jwt.from_string(self.__get_token_callback(token_context))
         else:
             raise ValueError("Empty token context")

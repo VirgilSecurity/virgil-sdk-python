@@ -32,7 +32,6 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
-from base64 import b64decode
 
 from .jwt import Jwt
 from .jwt_header_content import JwtHeaderContent
@@ -66,10 +65,10 @@ class JwtGenerator(object):
             data
         )
         jwt_header = JwtHeaderContent(
-            self._access_token_signer.algoritm,
+            self._access_token_signer.algorithm,
             self._api_public_key_id
         )
-        unsigned_jwt = Jwt(jwt_header, jwt_body)
-        jwt_bytes = b64decode(unsigned_jwt.to_string())
+        unsigned_jwt = Jwt(jwt_header, jwt_body).unsigned_data
+        jwt_bytes = unsigned_jwt
         signature = self._access_token_signer.generate_token_signature(jwt_bytes, self._api_key)
-        return Jwt(jwt_header, jwt_body, signature)
+        return Jwt(jwt_header, jwt_body, bytes(signature))

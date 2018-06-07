@@ -31,6 +31,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from collections import OrderedDict
 
 
 class JwtHeaderContent(object):
@@ -49,6 +50,32 @@ class JwtHeaderContent(object):
         self._key_id = key_id
         self._access_token_type = access_token_type
         self._content_type = content_type
+
+    def __eq__(self, other):
+        return all([
+            self.algorithm == other.algorithm,
+            self.key_id == other.key_id,
+            self.access_token_type == other.access_token_type,
+            self.content_type == other.content_type
+        ])
+
+    @classmethod
+    def from_json(cls, json_loaded_dict):
+        header_content = cls.__new__(cls)
+        header_content._algorithm = json_loaded_dict["alg"]
+        header_content._access_token_type = json_loaded_dict["typ"]
+        header_content._content_type = json_loaded_dict["cty"]
+        header_content._key_id = json_loaded_dict["kid"]
+        return header_content
+
+    @property
+    def json(self):
+        return OrderedDict({
+            "alg": self.algorithm,
+            "typ": self.access_token_type,
+            "cty": self.content_type,
+            "kid": self.key_id
+        })
 
     @property
     def algorithm(self):

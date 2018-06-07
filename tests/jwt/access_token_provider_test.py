@@ -31,13 +31,24 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import time
+
+from tests.base_test import BaseTest
+from virgil_sdk.jwt import TokenContext
+from virgil_sdk.jwt.providers import CachingCallbackProvider
 
 
-import os
+class CachingJwtProviderTest(BaseTest):
 
-VIRGIL_APP_ID = os.environ.get("VIRGIL_APP_ID_V5", "")
-VIRGIL_API_KEY_ID = os.environ.get("VIRGIL_API_KEY_ID_V5", "")
-VIRGIL_API_PUBLIC_KEY = os.environ.get("VIRGIL_API_PUBLIC_KEY_V5", "")
-VIRGIL_APP_KEY_PATH = os.environ.get("VIRGIL_APP_KEY_PATH_V5", "")
-VIRGIL_APP_KEY_PASSWORD = os.environ.get("VIRGIL_APP_KEY_PASSWORD_V5", "")
-VIRGIL_APP_BUNDLE = os.environ.get("VIRGIL_APP_BUNDLE_V5", "")
+    def test_return_valid_token(self):
+        provider = CachingCallbackProvider(self._get_token_from_server, 10)
+        jwt = provider.get_token(TokenContext("some_identity", "some_operation"))
+        jwt2 = provider.get_token(TokenContext("some_identity", "some_operation"))
+        self.assertEqual(jwt, jwt2)
+
+    def test_return_new_token_when_expired(self):
+        provider = CachingCallbackProvider(self._get_token_from_server, 1)
+        jwt = provider.get_token(TokenContext("some_identity", "some_operation"))
+        time.sleep(2)
+        jwt2 = provider.get_token(TokenContext("some_identity", "some_operation"))
+        self.assertNotEqual(jwt, jwt2)

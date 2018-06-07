@@ -58,7 +58,8 @@ class CardClient(BaseCardClient):
 
         request = Request(
             "/card/v5",
-            Request.POST
+            raw_card.content_snapshot,
+            method=Request.POST
         )
 
         request.authorization(token)

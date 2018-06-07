@@ -31,10 +31,16 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import datetime
+import binascii
+import os
+from base64 import b64decode
 
+from virgil_crypto.card_crypto import CardCrypto
+
+from tests import config
 from virgil_sdk.cards import RawCardContent
 from virgil_sdk.client import RawSignedModel
+from virgil_sdk.jwt import JwtGenerator
 from virgil_sdk.signers import ModelSigner
 
 
@@ -53,10 +59,11 @@ class DataGenerator(object):
         pass
 
     def generate_card_id(self):
-        pass
+        return self.generate_app_id()
 
-    def generate_app_id(self):
-        pass
+    @staticmethod
+    def generate_app_id():
+        return str(binascii.hexlify(os.urandom(32)).decode())
 
     def generate_card_signature(self):
         pass
@@ -79,7 +86,7 @@ class DataGenerator(object):
             previous_card_id=previous_card_id
         )
         model = RawSignedModel(raw_card_content.content_snapshot)
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
 
         if add_self_sign:
             signer.self_sign(model, key_pair.private_key)
@@ -98,5 +105,18 @@ class DataGenerator(object):
     def generate_card_manager(self):
         pass
 
-    def generate_token(self):
-        pass
+    def generate_token(self, private_key, signer, token_ttl):
+        api_public_key_id = config.VIRGIL_API_KEY_ID
+        app_id = config.VIRGIL_APP_ID
+
+        jwt_generator = JwtGenerator(
+            app_id,
+            private_key,
+            api_public_key_id,
+            token_ttl,
+            signer
+        )
+
+        additional_data = {"username": "some_username"}
+        token = jwt_generator.generate_token("some_identity", additional_data)
+        return token

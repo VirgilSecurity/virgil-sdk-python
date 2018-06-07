@@ -63,7 +63,7 @@ class ModelSigner(object):
         else:
             extended_snapshot = model.content_snapshot
 
-        signature_bytes = self.__card_crypto.sign(bytearray(b64decode(extended_snapshot)), signer_private_key)
+        signature_bytes = self.__card_crypto.generate_signature(bytearray(b64decode(extended_snapshot)), signer_private_key)
 
         signature = RawSignature(signer, signature_bytes, signature_snapshot)
         model.add_signature(signature)

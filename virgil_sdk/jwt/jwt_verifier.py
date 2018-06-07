@@ -47,13 +47,13 @@ class JwtVerifier(object):
         self._api_public_key_id = api_public_key_id
 
     def verify_token(self, jwt_token):
-        if jwt_token.header_content.key_id is not self._api_public_key_id or\
-            jwt_token.header_content.algorithm is not self._access_token_signer.algorithm or\
-            jwt_token.header_content.content_type is not JwtHeaderContent.ACCESS_TOKEN_TYPE or\
-            jwt_token.header_content.content_type is not JwtHeaderContent.CONTENT_TYPE:
+        if jwt_token._header_content.key_id != self._api_public_key_id or\
+            jwt_token._header_content.algorithm != self._access_token_signer.algorithm or\
+            jwt_token._header_content.access_token_type != JwtHeaderContent.ACCESS_TOKEN_TYPE or\
+            jwt_token._header_content.content_type != JwtHeaderContent.CONTENT_TYPE:
             return False
         return self._access_token_signer.verify_token_signature(
-            jwt_token.signature_data,
+            bytearray(jwt_token.signature_data),
             jwt_token.unsigned_data,
             self._api_public_key
         )

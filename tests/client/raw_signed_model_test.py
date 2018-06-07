@@ -81,5 +81,5 @@ class RawSignedModelSignerTest(BaseTest):
         raw_signed_model = RawSignedModel.from_json(self._compatibility_data["STC-1.as_json"])
         raw_card_content = RawCardContent.from_signed_model(self._crypto, raw_signed_model)
         raw_signed_model_from_raw_card_content = RawSignedModel(raw_card_content.content_snapshot)
-        self.assertEquals(raw_signed_model.content_snapshot, raw_signed_model_from_raw_card_content.content_snapshot)
-        self.assertDictEqual(raw_signed_model.__dict__, raw_signed_model_from_raw_card_content.__dict__)
+        self.assertEqual(raw_signed_model.content_snapshot, raw_signed_model_from_raw_card_content.content_snapshot)
+        self.assertDictEqual(vars(raw_signed_model), vars(raw_signed_model_from_raw_card_content))

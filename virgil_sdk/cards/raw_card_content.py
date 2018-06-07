@@ -124,7 +124,7 @@ class RawCardContent(object):
         if not self._content_snapshot:
             content = {
                 "identity": self._identity,
-                "public_key": b64encode(bytearray(self._public_key.value)).decode(),
+                "public_key": b64encode(bytearray(self._public_key.raw_key)).decode(),
                 "version": self._version,
                 "created_at": self._created_at,
             }

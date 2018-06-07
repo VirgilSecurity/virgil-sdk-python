@@ -32,7 +32,9 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
+from functools import partial
 
+from virgil_sdk.jwt import Jwt
 from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvider
 
 
@@ -40,13 +42,14 @@ class CachingCallbackProvider(AccessTokenProvider):
 
     TOKEN_TTL = 5  # 5 seconds
 
-    def __init__(self, renew_jwt_callback):
-        self.__renew_jwt_callback = renew_jwt_callback
+    def __init__(self, renew_jwt_callback, token_ttl=TOKEN_TTL):
+        self._token_ttl = token_ttl
+        self.__renew_jwt_callback = partial(renew_jwt_callback, token_ttl=token_ttl)
         self.__access_token = None
 
     def get_token(self, token_context):
-        if self.__access_token and not self.__access_token.is_expired(datetime.datetime.now().timestamp() + self.TOKEN_TTL):
-            return self.__access_token
-        else:
-            self.__access_token = self.__renew_jwt_callback(token_context)
-            return self.__access_token
+        if self.__access_token:
+            if not self.__access_token.is_expired():
+                return self.__access_token
+        self.__access_token = Jwt.from_string(self.__renew_jwt_callback(token_context))
+        return self.__access_token

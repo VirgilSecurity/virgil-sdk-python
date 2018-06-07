@@ -55,8 +55,8 @@ class ServiceConnection(BaseConnection):
             try:
                 error_res = exception.read()
                 error_body = json.loads(error_res.decode())
-                error_code = error_body['code'] or error_body['error']['code']
-                exception.msg = self._errors[error_code]
+                if isinstance(error_body, dict) and "message" in error_body.keys():
+                    exception.msg = error_body["message"]
                 raise
             except ValueError:
                 raise exception

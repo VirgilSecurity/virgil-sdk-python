@@ -34,9 +34,20 @@
 import json
 import os
 import unittest
+from base64 import b64decode
+
+from virgil_crypto.access_token_signer import AccessTokenSigner
+from virgil_crypto.card_crypto import CardCrypto
+
 from tests import config
 
 from virgil_crypto import VirgilCrypto
+
+from tests.data.data_generator import DataGenerator
+from virgil_sdk import VirgilCardVerifier, CardManager
+from virgil_sdk.client import RawSignedModel
+from virgil_sdk.jwt import JwtGenerator, Jwt
+from virgil_sdk.jwt.providers import CallbackJwtProvider
 
 
 class BaseTest(unittest.TestCase):
@@ -46,6 +57,7 @@ class BaseTest(unittest.TestCase):
         self.__compatibility_data = None
         self.__app_private_key = None
         self.__crypto = None
+        self._data_generator = DataGenerator(self._crypto)
 
     @property
     def _crypto(self):
@@ -59,7 +71,7 @@ class BaseTest(unittest.TestCase):
         if self.__app_private_key:
             return self.__app_private_key
         with open(config.VIRGIL_APP_KEY_PATH, "rb") as key_file:
-            raw_private_key = bytearray(key_file.read())
+            raw_private_key = bytearray(b64decode(key_file.read()))
 
         self.__app_private_key = self._crypto.import_private_key(
             key_data=raw_private_key,
@@ -90,3 +102,59 @@ class BaseTest(unittest.TestCase):
         )
         self.__compatibility_data_path = data_file_path
         return data_file_path
+
+    def _get_token_from_server(self, token_context, token_ttl=5):
+        return self.__emulate_server_jwt_response(token_context, token_ttl)
+
+    def __emulate_server_jwt_response(self, token_context, token_ttl):
+        data = {"username": "my_username"}
+        builder = JwtGenerator(
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
+            config.VIRGIL_API_KEY_ID,
+            token_ttl,
+            AccessTokenSigner()
+        )
+        identity = self.some_hash(token_context.identity)
+        return builder.generate_token(identity, data).to_string()
+
+    def __emulate_server_app_sign_response(self, model_sting):
+        raw_signed_model = RawSignedModel.from_string(model_sting)
+        return raw_signed_model.to_string()
+
+    @staticmethod
+    def some_hash(identity):
+        if not identity:
+            return "my_default_identity"
+        return identity
+
+    def publish_card(self, username, previous_card_id=None):
+        key_pair = self._crypto.generate_keys()
+        return self.__get_manager().publish_card(
+            identity=username,
+            public_key=key_pair.public_key,
+            private_key=key_pair.private_key,
+            previous_card_id=previous_card_id,
+            extra_fields={
+                "some_meta_key": "some_meta_val"
+            }
+        )
+
+    def __get_manager(self):
+
+        def sign_callback(model):
+            response = self.__emulate_server_app_sign_response(model.to_string())
+            return RawSignedModel.from_string(response)
+
+        validator = VirgilCardVerifier(self._crypto)
+        validator._VirgilCardVerifier__virgil_public_key_base64 = ""
+        manager = CardManager(
+            CardCrypto(),
+            api_url="",
+            access_token_provider=CallbackJwtProvider(self._get_token_from_server),
+            sign_callback=sign_callback,
+            card_verifier=validator
+        )
+        return manager
+
+

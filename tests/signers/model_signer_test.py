@@ -34,22 +34,19 @@
 import os
 from base64 import b64decode
 
+from virgil_crypto.card_crypto import CardCrypto
+
 from tests.base_test import BaseTest
-from tests.data.data_generator import DataGenerator
 from virgil_sdk.signers import ModelSigner
 
 
 class ModelSignerTest(BaseTest):
 
-    def __init__(self, *args, **kwargs):
-        super(ModelSignerTest, self).__init__(*args, **kwargs)
-        self._data_generator = DataGenerator(self._crypto)
-
     def test_self_sign_valid_signature(self):
         # STC-8
         self_key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair)
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 0)
         signer.self_sign(raw_signed_model, self_key_pair.private_key)
         self.assertEqual(len(raw_signed_model.signatures), 1)
@@ -67,7 +64,7 @@ class ModelSignerTest(BaseTest):
         # STC-9
         self_key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair)
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 0)
         signature_snapshot = os.urandom(32)
         signer.self_sign(raw_signed_model, self_key_pair.private_key, signature_snapshot=signature_snapshot)
@@ -79,14 +76,14 @@ class ModelSignerTest(BaseTest):
         # STC-8
         self_key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair, add_self_sign=True)
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
         self.assertRaises(ValueError, signer.self_sign, raw_signed_model, self_key_pair.private_key)
 
     def test_extra_sign_valid_signature(self):
         self_key_pair = self._crypto.generate_keys()
         extra_key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair, add_self_sign=True)
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 1)
         signer.sign(raw_signed_model, "test_id", extra_key_pair.private_key)
         self.assertEqual(len(raw_signed_model.signatures), 2)
@@ -102,7 +99,7 @@ class ModelSignerTest(BaseTest):
         self_key_pair = self._crypto.generate_keys()
         extra_key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair, add_self_sign=True)
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 1)
         signature_snapshot = os.urandom(32)
         signer.sign(raw_signed_model, "test_id", extra_key_pair.private_key, signature_snapshot=signature_snapshot)
@@ -123,5 +120,5 @@ class ModelSignerTest(BaseTest):
         raw_signed_model = self._data_generator.generate_raw_signed_model(
             self_key_pair, add_self_sign=True, extra_key_pair=extra_key_pair
         )
-        signer = ModelSigner(self._crypto)
+        signer = ModelSigner(CardCrypto())
         self.assertRaises(ValueError, signer.sign, raw_signed_model, "extra", extra_key_pair.private_key)
