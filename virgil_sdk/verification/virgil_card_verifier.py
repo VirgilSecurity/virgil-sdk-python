@@ -31,9 +31,9 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from base64 import b64decode
 
 from virgil_sdk.signers.model_signer import ModelSigner
+from virgil_sdk.utils.b64utils import b64_decode
 from .card_verifier import CardVerifier
 
 
@@ -92,21 +92,23 @@ class VirgilCardVerifier(CardVerifier):
         return True
 
     def __get_public_key(self, signer_public_key_base64):
-        public_key_bytes = b64decode(signer_public_key_base64)
+        public_key_bytes = b64_decode(signer_public_key_base64)
         return self._crypto.import_public_key(public_key_bytes)
 
     def __validate_signer_signature(self, card, signer_public_key, signer_type):
         signature = None
-        if len(card.signatures) == 1:
-            if card.signatures[0].signer == signer_type:
-                signature = card.signatures[0]
+        for sign in card.signatures:
+            if sign.signer == signer_type:
+                signature = sign
+                break
+
         if signature:
             if signature.snapshot:
-                extended_snapshot = bytearray(card.content_snapshot) + bytearray(signature.snapshot)
+                extended_snapshot = bytearray(b64_decode(card.content_snapshot)) + bytearray(b64_decode(signature.snapshot))
             else:
-                extended_snapshot = card.content_snapshot
+                extended_snapshot = bytearray(b64_decode(card.content_snapshot))
 
-            if self._crypto.verify_signature(signature.signature, extended_snapshot, signer_public_key):
+            if self._crypto.verify_signature(b64_decode(signature.signature), extended_snapshot, signer_public_key):
                 return True
         return False
 

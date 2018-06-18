@@ -31,44 +31,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import datetime
-
-from .jwt import Jwt
-from .jwt_header_content import JwtHeaderContent
-from .jwt_body_content import JwtBodyContent
 
 
-class JwtGenerator(object):
-
-    def __init__(
-        self,
-        app_id,
-        api_key,
-        api_public_key_id,
-        lifetime,
-        access_token_signer
-    ):
-        self._app_id = app_id
-        self._api_key = api_key
-        self._lifetime = lifetime
-        self._api_public_key_id = api_public_key_id
-        self._access_token_signer = access_token_signer
-
-    def generate_token(self, identity, data=None):
-        issued_at = datetime.datetime.now()
-        expires_at = datetime.datetime.fromtimestamp(issued_at.timestamp() + self._lifetime)
-        jwt_body = JwtBodyContent(
-            self._app_id,
-            identity,
-            issued_at,
-            expires_at,
-            data
-        )
-        jwt_header = JwtHeaderContent(
-            self._access_token_signer.algorithm,
-            self._api_public_key_id
-        )
-        unsigned_jwt = Jwt(jwt_header, jwt_body).unsigned_data
-        jwt_bytes = unsigned_jwt
-        signature = self._access_token_signer.generate_token_signature(jwt_bytes, self._api_key)
-        return Jwt(jwt_header, jwt_body, bytes(signature))
+class CardVerificationException(Exception):
+    pass

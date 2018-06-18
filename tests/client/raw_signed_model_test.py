@@ -33,7 +33,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import json
 from base64 import b64decode
-from collections import OrderedDict
 
 from tests import BaseTest
 from virgil_sdk.cards import RawCardContent
@@ -65,8 +64,8 @@ class RawSignedModelSignerTest(BaseTest):
         rsm_string = rsm.to_string()
         self.assertEqual(self._compatibility_data["STC-2.as_string"], rsm_string)
         self.assertEqual(
-            json.loads(b64decode(self._compatibility_data["STC-2.as_string"]).decode())["signatures"],
-            rsm.signatures
+            json.dumps(json.loads(b64decode(self._compatibility_data["STC-2.as_string"]).decode())["signatures"], sort_keys=True),
+            json.dumps(list(map(lambda x: x.to_json(), rsm.signatures)), sort_keys=True)
         )
 
     def test_generate_full_model_from_json(self):
@@ -74,7 +73,7 @@ class RawSignedModelSignerTest(BaseTest):
         rsm = RawSignedModel.from_json(self._compatibility_data["STC-2.as_json"])
         rsm_json = rsm.to_json()
         self.assertDictEqual(json.loads(self._compatibility_data["STC-2.as_json"]), json.loads(rsm_json))
-        self.assertEqual(json.loads(self._compatibility_data["STC-2.as_json"])["signatures"], rsm.signatures)
+        self.assertEqual(json.dumps(json.loads(self._compatibility_data["STC-2.as_json"])["signatures"], sort_keys=True), json.dumps(list(map(lambda x: x.to_json(), rsm.signatures)), sort_keys=True))
 
     def test_create_from_raw_card_content(self):
         # STC-1

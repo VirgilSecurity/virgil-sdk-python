@@ -32,6 +32,8 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from .client_exception import ClientException
+from .unauthorized_client_exception import UnauthorizedClientException
 from .raw_signed_model import RawSignedModel
 from .raw_signature import RawSignature
 from .base_card_client import BaseCardClient

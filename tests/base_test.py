@@ -103,7 +103,7 @@ class BaseTest(unittest.TestCase):
         self.__compatibility_data_path = data_file_path
         return data_file_path
 
-    def _get_token_from_server(self, token_context, token_ttl=5):
+    def _get_token_from_server(self, token_context, token_ttl=20):
         return self.__emulate_server_jwt_response(token_context, token_ttl)
 
     def __emulate_server_jwt_response(self, token_context, token_ttl):
@@ -140,19 +140,23 @@ class BaseTest(unittest.TestCase):
             }
         )
 
+    def get_card(self, card_id):
+        return self.__get_manager().get_card(card_id)
+
+    def search_card(self, identity):
+        return self.__get_manager().search_card(identity)
+
+    def sign_callback(self, model):
+        response = self.__emulate_server_app_sign_response(model.to_string())
+        return RawSignedModel.from_string(response)
+
     def __get_manager(self):
 
-        def sign_callback(model):
-            response = self.__emulate_server_app_sign_response(model.to_string())
-            return RawSignedModel.from_string(response)
-
-        validator = VirgilCardVerifier(self._crypto)
-        validator._VirgilCardVerifier__virgil_public_key_base64 = ""
+        validator = VirgilCardVerifier(CardCrypto())
         manager = CardManager(
             CardCrypto(),
-            api_url="",
             access_token_provider=CallbackJwtProvider(self._get_token_from_server),
-            sign_callback=sign_callback,
+            sign_callback=self.sign_callback,
             card_verifier=validator
         )
         return manager

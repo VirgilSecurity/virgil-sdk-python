@@ -40,9 +40,8 @@ from virgil_crypto.card_crypto import CardCrypto
 
 from tests import config
 from tests.base_test import BaseTest
-from virgil_sdk.client.connections.urllib import urllib2
 from virgil_sdk.cards import RawCardContent
-from virgil_sdk.client import CardClient, RawSignedModel
+from virgil_sdk.client import CardClient, RawSignedModel, ClientException
 from virgil_sdk.jwt import JwtGenerator
 from virgil_sdk.signers import ModelSigner
 
@@ -55,7 +54,7 @@ class CardClientTest(BaseTest):
         jwt = self.__jwt_signed_wrong_key(identity)
         client = CardClient()
         self.assertRaises(
-            urllib2.HTTPError,
+            ClientException,
             client.publish_card,
             self.__generate_raw_signed_model(identity),
             jwt.to_string()
@@ -66,7 +65,7 @@ class CardClientTest(BaseTest):
         jwt = self.__jwt_signed_wrong_key(b64encode(os.urandom(15)).decode())
         client = CardClient()
         self.assertRaises(
-            urllib2.HTTPError,
+            ClientException,
             client.get_card,
             self._data_generator.generate_card_id(),
             jwt.to_string()
@@ -77,10 +76,10 @@ class CardClientTest(BaseTest):
         jwt = self.__jwt_signed_wrong_key(b64encode(os.urandom(15)).decode())
         client = CardClient()
         self.assertRaises(
-            urllib2.HTTPError,
+            ClientException,
             client.search_card,
             b64encode(os.urandom(15)).decode(),
-            jwt.to_string()
+            jwt
         )
 
     def test_publish_card_with_wrong_token_identity(self):
@@ -92,7 +91,7 @@ class CardClientTest(BaseTest):
         )
         client = CardClient()
         self.assertRaises(
-            urllib2.HTTPError,
+            ClientException,
             client.publish_card,
             self.__generate_raw_signed_model(b64encode(os.urandom(15)).decode()),
             jwt.to_string()

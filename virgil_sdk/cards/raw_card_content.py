@@ -31,9 +31,11 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import datetime
 import json
-from base64 import b64decode, b64encode
+from base64 import b64encode
+from collections import OrderedDict
+
+from virgil_sdk.utils.b64utils import b64_decode
 
 
 class RawCardContent(object):
@@ -42,8 +44,8 @@ class RawCardContent(object):
         self,
         identity,
         public_key,
-        version,
         created_at,
+        version="5.0",
         previous_card_id=None
     ):
         self._identity = identity
@@ -53,10 +55,20 @@ class RawCardContent(object):
         self._previous_card_id = previous_card_id
         self._content_snapshot = None
 
+    def to_json(self):
+        return OrderedDict({
+            "identity": self.identity,
+            "public_key": self.public_key,
+            "version": self.version,
+            "created_at": self.created_at,
+            "previous_card_id": self.previous_card_id,
+            "content_snapshot": self.content_snapshot
+        })
+
     @classmethod
     def from_snapshot(cls, content_snapshot):
         card_content = cls.__new__(cls)
-        loaded_snapshot = json.loads(b64decode(content_snapshot).decode())
+        loaded_snapshot = json.loads(b64_decode(content_snapshot).decode())
         card_content._identity = loaded_snapshot["identity"]
         card_content._public_key = loaded_snapshot["public_key"]
         card_content._version = loaded_snapshot["version"]
@@ -71,7 +83,7 @@ class RawCardContent(object):
     @classmethod
     def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
-        card._public_key = card_crypto.import_public_key(bytearray(b64decode(card._public_key)))
+        card._public_key = card_crypto.import_public_key(bytearray(b64_decode(card._public_key)))
         return card
 
     @property

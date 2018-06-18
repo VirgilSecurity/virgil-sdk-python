@@ -33,6 +33,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import os
 from base64 import b64encode
+from time import sleep
 
 from tests import BaseTest
 from virgil_sdk.jwt import TokenContext, Jwt
@@ -45,7 +46,9 @@ class AccessTokenProviderTest(BaseTest):
         call_back_provider = CallbackJwtProvider(self._get_token_from_server)
         context = TokenContext("test_identity", "some_operation")
         token1 = call_back_provider.get_token(context)
+        sleep(1)
         token2 = call_back_provider.get_token(context)
+        self.assertNotEqual(token1.to_string(), token2.to_string())
         self.assertNotEqual(token1, token2)
 
     def test_get_invalid_token_from_server(self):

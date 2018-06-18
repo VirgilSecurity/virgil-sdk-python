@@ -34,6 +34,7 @@
 import json
 import ssl
 
+from virgil_sdk.client import ClientException, UnauthorizedClientException
 from .base_connection import BaseConnection
 from .urllib import urllib2
 from .urllib import RequestWithMethod
@@ -50,14 +51,24 @@ class ServiceConnection(BaseConnection):
         try:
             response = urllib2.urlopen(prepared_request, context=ctx)
             result = response.read()
-            return json.loads(result.decode())
+            return json.loads(result.decode()), dict(response.getheaders())
         except urllib2.HTTPError as exception:
+            client_errors = {
+                400: "Request Error",
+                401: "Authorization Error",
+                404: "Entity Not Found",
+                405: "Method Not Allowed",
+                500: "Internal Server Error"
+            }
             try:
                 error_res = exception.read()
                 error_body = json.loads(error_res.decode())
-                if isinstance(error_body, dict) and "message" in error_body.keys():
-                    exception.msg = error_body["message"]
-                raise
+                if isinstance(error_body, dict) and "message" in error_body.keys() and "code" in error_body.keys():
+                    raise ClientException(error_body["message"], error_body["code"]) from None
+                if exception.code in client_errors.keys():
+                    if exception.code == 401:
+                        raise UnauthorizedClientException(client_errors[exception.code], exception.code) from None
+                    raise ClientException(client_errors[exception.code], exception.code) from None
             except ValueError:
                 raise exception
 

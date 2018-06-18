@@ -32,9 +32,10 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import json
-from base64 import b64decode, b64encode
+from base64 import b64encode
 
 from virgil_sdk.client.raw_signature import RawSignature
+from virgil_sdk.utils.b64utils import b64_decode
 
 
 class ModelSigner(object):
@@ -56,14 +57,14 @@ class ModelSigner(object):
                 raise ValueError("The model already has this signature")
 
         if extra_fields and not signature_snapshot:
-            signature_snapshot = bytearray(json.dumps(str(extra_fields)))
+            signature_snapshot = bytearray(json.dumps(str(extra_fields)).encode())
 
         if signature_snapshot:
-            extended_snapshot = b64encode(bytearray(b64decode(model.content_snapshot)) + bytearray(signature_snapshot))
+            extended_snapshot = b64encode(bytearray(b64_decode(model.content_snapshot)) + bytearray(signature_snapshot))
         else:
             extended_snapshot = model.content_snapshot
 
-        signature_bytes = self.__card_crypto.generate_signature(bytearray(b64decode(extended_snapshot)), signer_private_key)
+        signature_bytes = self.__card_crypto.generate_signature(bytearray(b64_decode(extended_snapshot)), signer_private_key)
 
         signature = RawSignature(signer, signature_bytes, signature_snapshot)
         model.add_signature(signature)
@@ -71,5 +72,5 @@ class ModelSigner(object):
     def self_sign(self, model, signer_private_key, signature_snapshot=None, extra_fields=None):
         # type: (RawSignedModel, PrivateKey, Union[bytearray, bytes], dict) -> None
         if extra_fields and not signature_snapshot:
-            signature_snapshot = bytearray(json.dumps(str(extra_fields)))
+            signature_snapshot = json.dumps(extra_fields).encode()
         self.sign(model, self.SELF_SIGNER, signer_private_key, signature_snapshot)

@@ -31,26 +31,10 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import binascii
-from base64 import urlsafe_b64decode
 
 
-def b64_decode(data):
-    """Decode base64, padding being optional.
+class ClientException(Exception):
 
-    Args:
-        data: Base64 data as an ASCII byte string
-    Returns:
-        The decoded byte string.
-
-    """
-    try:
-        return urlsafe_b64decode(data)
-    except binascii.Error as e:
-        missing_padding = len(data) % 4
-        if missing_padding != 0:
-            if isinstance(data, str):
-                data += '=' * (4 - missing_padding)
-            if isinstance(data, bytes) or isinstance(data, bytearray):
-                data += b'=' * (4 - missing_padding)
-        return urlsafe_b64decode(data)
+    def __init__(self, message, error_codes):
+        super(Exception, self).__init__(message)
+        self.errors = error_codes

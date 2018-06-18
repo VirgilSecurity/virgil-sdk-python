@@ -33,6 +33,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import json
 
+from virgil_sdk.client import RawSignedModel
 from .base_card_client import BaseCardClient
 from .connections.request import Request
 from .connections.service_connection import ServiceConnection
@@ -58,15 +59,13 @@ class CardClient(BaseCardClient):
 
         request = Request(
             "/card/v5",
-            raw_card.content_snapshot,
+            json.loads(raw_card.to_json()),
             method=Request.POST
         )
 
         request.authorization(token)
-
-        response = self.__connection.send(request)
-
-        return json.loads(response)
+        response, headers = self.__connection.send(request)
+        return RawSignedModel(**response)
 
     def search_card(self, identity, token):
         # type: (str, str) -> List[RawSignedModel]
@@ -78,14 +77,13 @@ class CardClient(BaseCardClient):
 
         request = Request(
             "/card/v5/actions/search",
-            json.dumps({"Identity": identity}),
+            {"identity": identity},
             Request.POST,
         )
 
         request.authorization(token)
 
-        response = self.__connection.send(request)
-
+        response, headers = self.__connection.send(request)
         cards = self.__parse_cards_from_response(response)
 
         return cards
@@ -104,13 +102,13 @@ class CardClient(BaseCardClient):
 
         request.authorization(token)
 
-        response = self.__connection.send(request)
+        response, headers = self.__connection.send(request)
 
-        card_raw = json.loads(response)
+        card_raw = RawSignedModel(**response)
 
         superseded = False
-        if response.headers and "X-Virgil-Is-Superseeded" in response.headers.keys():
-            if response.headers["X-Virgil-Is-Superseeded"]:
+        if headers and "X-Virgil-Is-Superseeded" in headers.keys():
+            if headers["X-Virgil-Is-Superseeded"]:
                 superseded = True
 
         return card_raw, superseded
@@ -122,7 +120,13 @@ class CardClient(BaseCardClient):
         return self._api_url
 
     def __parse_cards_from_response(self, response):
-        pass
+        if response:
+            result = list()
+            for card in response:
+                result.append(RawSignedModel(**card))
+            return result
+        else:
+            return response
 
     @property
     def __connection(self):

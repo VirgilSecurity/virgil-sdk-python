@@ -33,14 +33,15 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import binascii
 import os
-from base64 import b64decode
 
 from virgil_crypto.card_crypto import CardCrypto
 
 from tests import config
+from virgil_sdk import CardManager, VirgilCardVerifier
 from virgil_sdk.cards import RawCardContent
 from virgil_sdk.client import RawSignedModel
 from virgil_sdk.jwt import JwtGenerator
+from virgil_sdk.jwt.abstractions import AccessTokenProvider
 from virgil_sdk.signers import ModelSigner
 
 
@@ -52,21 +53,12 @@ class DataGenerator(object):
     def generate_key_pair(self):
         return self._crypto.generate_keys()
 
-    def generate_virgil_key_pair(self):
-        pass
-
-    def generate_card(self):
-        pass
-
     def generate_card_id(self):
         return self.generate_app_id()
 
     @staticmethod
     def generate_app_id():
         return str(binascii.hexlify(os.urandom(32)).decode())
-
-    def generate_card_signature(self):
-        pass
 
     def generate_raw_signed_model(
             self,
@@ -76,7 +68,6 @@ class DataGenerator(object):
             extra_key_pair=None,
             previous_card_id=None
     ):
-        # create_time = datetime.datetime.utcfromtimestamp(1515686245)
         create_time = 1515686245
         raw_card_content = RawCardContent(
             created_at=create_time,
@@ -92,18 +83,19 @@ class DataGenerator(object):
             signer.self_sign(model, key_pair.private_key)
 
         if virgil_key_pair:
-            signer.sign(model, ModelSigner.VIRGIL_SIGNER, virgil_key_pair.privte_key)
+            signer.sign(model, ModelSigner.VIRGIL_SIGNER, virgil_key_pair.private_key)
 
         if extra_key_pair:
             signer.sign(model, "extra", extra_key_pair.private_key)
 
         return model
 
-    def generate_raw_card_content(self):
-        pass
-
-    def generate_card_manager(self):
-        pass
+    def generate_card_manager(self, token_provider=AccessTokenProvider()):
+        return CardManager(
+            CardCrypto(),
+            token_provider,
+            VirgilCardVerifier(CardCrypto(), False, False)
+        )
 
     def generate_token(self, private_key, signer, token_ttl):
         api_public_key_id = config.VIRGIL_API_KEY_ID

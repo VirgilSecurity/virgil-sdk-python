@@ -31,13 +31,16 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from base64 import b64decode
+import binascii
+import json
+from base64 import b64encode
 
 from virgil_sdk.cards.card_signature import CardSignature
-from virgil_sdk.cards.raw_card_content import RawCardContent
+from virgil_sdk.client import RawSignature
+from virgil_sdk.utils.b64utils import b64_decode
 
 
-class Card(RawCardContent):
+class Card(object):
     """
     The Card class is the main entity of Virgil Services. Every user/device is
     represented with a Virgil Card which contains a public key and information about identity.
@@ -56,24 +59,60 @@ class Card(RawCardContent):
         is_outdated=False  # type: bool
     ):
         # type: (...) -> None
-        super(Card).__init__(identity, public_key, version, created_at, previous_card_id)
+        super(Card, self).__init__(identity, public_key, version, created_at, previous_card_id)
         self._id = card_id
+        self._identity = identity
+        self._version = version
+        self._created_at = created_at
+        self._previous_card_id = previous_card_id
+        self._public_key = public_key
         self.__signatures = signatures
-        self._previous_card = None
+        self.previous_card = None
         self._content_snapshot = content_snapshot
         self.is_outdated = is_outdated
 
     @classmethod
+    def __generate_card_id(cls, card_crypto, content_snapshot):
+        fingerprint = card_crypto.generate_sha512(content_snapshot)
+        id = binascii.hexlify(bytearray(fingerprint)[:32]).decode()
+        return id
+
+    @classmethod
+    def from_snapshot(cls, content_snapshot):
+        card_content = cls.__new__(cls)
+        loaded_snapshot = json.loads(b64_decode(content_snapshot).decode())
+        card_content._identity = loaded_snapshot["identity"]
+        card_content._public_key = loaded_snapshot["public_key"]
+        card_content._version = loaded_snapshot["version"]
+        card_content._created_at = loaded_snapshot["created_at"]
+        if "previous_card_id" in loaded_snapshot.keys():
+            card_content._previous_card_id = loaded_snapshot["previous_card_id"]
+        else:
+            card_content._previous_card_id = None
+        card_content._content_snapshot = None
+        return card_content
+
+    @classmethod
     def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
+        card.previous_card = None
+        card.is_outdated = is_oudated
 
-        card._public_key = card_crypto.import_public_key(bytearray(b64decode(card._public_key)))
+        card._id = cls.__generate_card_id(card_crypto, b64_decode(raw_singed_model.content_snapshot))
+        card._public_key = card_crypto.import_public_key(bytearray(b64_decode(card._public_key)))
         signatures = list()
         if raw_singed_model.signatures:
             for sign in raw_singed_model.signatures:
-                card_signature = CardSignature(sign.signer, sign.signature, sign.snapshot, sign.extra_fields)
-                signatures.append(card_signature)
-        card._signatures = signatures
+                if isinstance(sign, dict):
+                    card_signature = CardSignature(**sign)
+                    signatures.append(card_signature)
+                if isinstance(sign, CardSignature):
+                    card_signature = sign
+                    signatures.append(card_signature)
+                if isinstance(sign, RawSignature):
+                    card_signature = CardSignature(sign.signer, sign.signature, sign.snapshot)
+                    signatures.append(card_signature)
+        card.__signatures = signatures
         card._is_outdated = is_oudated
         return card
 
@@ -87,8 +126,49 @@ class Card(RawCardContent):
         return self._id
 
     @property
-    def previous_card(self):
-        return self._previous_card
+    def identity(self):
+        """
+        Gets the identity value that can be anything which identifies the user in your application.
+        Returns:
+            User identity.
+        """
+        return self._identity
+
+    @property
+    def public_key(self):
+        """
+        Gets the public key.
+        Returns:
+            Public key.
+        """
+        return self._public_key
+
+    @property
+    def version(self):
+        """
+        Gets the version of the card.
+        Returns:
+            Card version.
+        """
+        return self._version
+
+    @property
+    def created_at(self):
+        """
+        Gets the date and time fo card creation in UTC.
+        Returns:
+            Creation date in UTC datetime.
+        """
+        return self._created_at
+
+    @property
+    def previous_card_id(self):
+        """
+        Get previous Card ID that current card is used to override to.
+        Returns:
+            Previous card id.
+        """
+        return self._previous_card_id
 
     @property
     def signatures(self):
@@ -98,3 +178,20 @@ class Card(RawCardContent):
             List of signatures
         """
         return self.__signatures
+
+    @property
+    def content_snapshot(self):
+        if not self._content_snapshot:
+            content = {
+                "identity": self._identity,
+                "public_key": b64encode(bytearray(self._public_key.raw_key)).decode(),
+                "version": self._version,
+                "created_at": self._created_at,
+            }
+            if self._previous_card_id:
+                content.update({"previous_card_id": self._previous_card_id})
+            self._content_snapshot = b64encode(
+                json.dumps(content, sort_keys=True, separators=(',', ':')
+                           ).encode()).decode()
+        return self._content_snapshot
+

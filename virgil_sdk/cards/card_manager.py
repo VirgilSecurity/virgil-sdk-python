@@ -31,12 +31,14 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
 import datetime
+import json
+from json import JSONDecodeError
 
 from virgil_sdk.jwt.token_context import TokenContext
 from virgil_sdk.cards.raw_card_content import RawCardContent
-from virgil_sdk.client import RawSignedModel
+from virgil_sdk.client import RawSignedModel, UnauthorizedClientException
+from virgil_sdk.verification import CardVerificationException
 from .card import Card
 from virgil_sdk.verification.virgil_card_verifier import VirgilCardVerifier
 from virgil_sdk.client.card_client import CardClient
@@ -51,8 +53,9 @@ class CardManager(object):
         card_crypto,
         access_token_provider,
         card_verifier,
-        sign_callback,
+        sign_callback=None,
         api_url="https://api.virgilsecurity.com",
+        retry_on_unauthorized=False
     ):
         self._card_crypto = card_crypto
         self._model_signer = None
@@ -60,6 +63,7 @@ class CardManager(object):
         self._card_verifier = card_verifier
         self._sign_callback = sign_callback
         self._access_token_provider = access_token_provider
+        self.__retry_on_unauthorized = retry_on_unauthorized
         self.__api_url = api_url
 
     def generate_raw_card(self, private_key, public_key, identity, previous_card_id="", extra_fields=None):
@@ -79,16 +83,18 @@ class CardManager(object):
         elif len(kwargs.keys()) == 1 and "raw_card" in kwargs.keys():
             return self.__publish_raw_card(**kwargs)
         else:
-            raw_card = self.generate_raw_card(**kwargs)
-            return self.__publish_raw_card(raw_card)
+            raw_card = self.generate_raw_card(*args, **kwargs)
+            raw_published_card = self.__publish_raw_card(raw_card)
+            return Card.from_signed_model(self._card_crypto, raw_published_card)
 
     def get_card(self, card_id):
         # type: (str) -> Card
         token_context = TokenContext(None, "get")
         access_token = self._access_token_provider.get_token(token_context)
-        card = self.card_client.get(card_id, access_token)
-        if card.id is not card_id:
-            raise ValueError("Invalid card")
+        raw_card, is_outdated = self.__try_execute(self.card_client.get_card, card_id, access_token, token_context)
+        card = Card.from_signed_model(self._card_crypto, raw_card, is_outdated)
+        if card.id != card_id:
+            raise CardVerificationException("Invalid card")
         self.__validate(card)
         return card
 
@@ -98,21 +104,27 @@ class CardManager(object):
             raise ValueError("Missing identity for search")
         token_context = TokenContext(None, "search")
         access_token = self._access_token_provider.get_token(token_context)
-        raw_cards = self.card_client.search(identity, access_token.to_string())
+        raw_cards = self.__try_execute(self.card_client.search_card, identity, access_token, token_context)
         cards = list(map(lambda x: Card.from_signed_model(self._card_crypto, x), raw_cards))
-        if any(list(map(lambda x: x.identity is not  identity, cards))):
-            raise Exception("Invalid cards")
+        if any(list(map(lambda x: x.identity != identity, cards))):
+            raise CardVerificationException("Invalid cards")
         map(lambda x: self.__validate(x), cards)
         return self._linked_card_list(cards)
 
     def import_card(self, card_to_import):
         # type: (Union[str, dict, RawSignedModel]) -> Card
         if isinstance(card_to_import, str):
-            card = Card.from_signed_model(RawSignedModel.from_string(card_to_import), self._card_crypto)
-        elif isinstance(card_to_import, Union[dict, bytes]):
-            card = Card.from_signed_model(RawSignedModel.from_json(card_to_import), self._card_crypto)
+            try:
+                if isinstance(json.loads(card_to_import), dict):
+                    card = Card.from_signed_model(self._card_crypto, RawSignedModel.from_json(card_to_import))
+                else:
+                    raise JSONDecodeError
+            except JSONDecodeError:
+                card = Card.from_signed_model(self._card_crypto, RawSignedModel.from_string(card_to_import))
+        elif isinstance(card_to_import, dict) or isinstance(card_to_import, bytes):
+            card = Card.from_signed_model(self._card_crypto, RawSignedModel.from_json(card_to_import))
         elif isinstance(card_to_import, RawSignedModel):
-            card = Card.from_signed_model(card_to_import, self._card_crypto)
+            card = Card.from_signed_model(self._card_crypto, card_to_import)
         elif card_to_import is None:
             raise ValueError("Missing card to import")
         else:
@@ -134,19 +146,37 @@ class CardManager(object):
 
     def __publish_raw_card(self, raw_card):
         # type: (RawSignedModel) -> Card
-        card_content = RawCardContent.from_snapshot(raw_card)
-        token = self._access_token_provider.get_token(card_content.identity, "publish_card")
-        published_model = self.card_client.publish_card(raw_card, token)
+        card_content = RawCardContent.from_signed_model(self._card_crypto, raw_card)
+        token_context = TokenContext(card_content.identity, "publish_card")
+        token = self._access_token_provider.get_token(token_context)
+        published_model = self.__try_execute(self.card_client.publish_card, raw_card, token, token_context)
+        if published_model.content_snapshot != raw_card.content_snapshot:
+            raise CardVerificationException("Publishing returns invalid card")
         card = Card.from_signed_model(self._card_crypto, published_model)
+        self.__validate(card)
         return card
 
     def __validate(self, card):
         if card is None:
             raise ValueError("Missing card for validation")
         if not self.card_verifier.verify_card(card):
-            raise Exception("Card verification failed!")
+            raise CardVerificationException("Card verification failed!")
 
-    def _linked_card_list(self, card_list):
+    def __try_execute(self, card_function, card_arg, token, context):
+        attempts_number = 2 if self.__retry_on_unauthorized else 1
+        result = None
+        while attempts_number > 0:
+            try:
+                result = card_function(card_arg, token)
+            except UnauthorizedClientException as e:
+                token = self._access_token_provider.get_token(context, True)
+                if attempts_number-1 < 1:
+                    raise e
+            attempts_number -= 1
+        return result
+
+    @staticmethod
+    def _linked_card_list(card_list):
         unsorted = dict(map(lambda x: (x.id, x), card_list))
         for card in card_list:
             if card.previous_card_id:

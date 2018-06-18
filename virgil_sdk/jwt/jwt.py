@@ -33,9 +33,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
 import json
-from base64 import b64encode
 
-from virgil_sdk.utils.b64decoder import b64_decode
+from virgil_sdk.utils.b64utils import b64_decode, b64_encode
 from .jwt_header_content import JwtHeaderContent
 from .jwt_body_content import JwtBodyContent
 from virgil_sdk.jwt.abstractions.access_token import AccessToken
@@ -47,13 +46,13 @@ class Jwt(AccessToken):
         self._header_content = jwt_header_content
         self._body_content = jwt_body_content
         self._signature_data = signature_data
-        self._without_signature = b64encode(json.dumps(self._header_content.json, sort_keys=True).encode()).decode()\
+        self._without_signature = b64_encode(json.dumps(self._header_content.json, sort_keys=True).encode())\
                                   + "." +\
-                                  b64encode(json.dumps(self._body_content.json, sort_keys=True).encode()).decode()
+                                  b64_encode(json.dumps(self._body_content.json, sort_keys=True).encode())
         self._unsigned_data = self._without_signature.encode()
         self._string_representation = self._without_signature
         if self._signature_data:
-            self._string_representation += "." + b64encode(bytes(self._signature_data)).decode()
+            self._string_representation += "." + b64_encode(bytes(self._signature_data))
 
     def __str__(self):
         return self._string_representation

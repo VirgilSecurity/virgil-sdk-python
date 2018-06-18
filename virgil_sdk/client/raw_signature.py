@@ -31,6 +31,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from base64 import b64encode
 
 
 class RawSignature(object):
@@ -39,11 +40,27 @@ class RawSignature(object):
         self,
         signer,
         signature,
-        signature_snapshot
+        signature_snapshot=None
     ):
-        self.__signer = signer
-        self.__snapshot = signature_snapshot
-        self.__signature = signature
+        self.__signer = signer  # type: str
+        self.__snapshot = signature_snapshot  # type: Union[bytes, bytearray]
+        self.__signature = signature  # type: Union[bytes, bytearray]
+
+    def __str__(self):
+        return str(self.to_json())
+
+    def __unicode__(self):
+        return str(self.to_json())
+
+    def to_json(self):
+        res = {
+            "signer": self.signer,
+            "signature": b64encode(bytearray(self.signature)).decode(),
+
+        }
+        if self.snapshot:
+            res["snapshot"] = b64encode(bytearray(self.snapshot)).decode()
+        return res
 
     @property
     def signer(self):

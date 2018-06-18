@@ -31,6 +31,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from base64 import b64encode
 
 
 class CardSignature(object):
@@ -42,13 +43,26 @@ class CardSignature(object):
         self,
         signer,  # type: str
         signature,  # type: bytearray
-        snapshot,  # type: bytearray
-        extra_fields  # type: dict
+        snapshot=None,  # type: bytearray
+        extra_fields=None  # type: dict
     ):
         self._signer = signer
         self._signature = signature
         self._snapshot = snapshot
         self._extra_fields = extra_fields
+
+    def to_json(self):
+        res = {
+            "signer": self.signer,
+            "signature": b64encode(bytearray(self.signature)).decode(),
+
+        }
+        if self.snapshot:
+            res["snapshot"] = b64encode(bytearray(self.snapshot)).decode()
+
+        if self._extra_fields:
+            res["extra_fields"] = b64encode(bytearray(self.extra_fields)).decode()
+        return res
 
     @property
     def signer(self):
@@ -61,3 +75,7 @@ class CardSignature(object):
     @property
     def snapshot(self):
         return self._snapshot
+
+    @property
+    def extra_fields(self):
+        return self._extra_fields

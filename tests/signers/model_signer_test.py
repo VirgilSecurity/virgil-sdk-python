@@ -32,12 +32,12 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import os
-from base64 import b64decode
 
 from virgil_crypto.card_crypto import CardCrypto
 
 from tests.base_test import BaseTest
 from virgil_sdk.signers import ModelSigner
+from virgil_sdk.utils.b64utils import b64_decode
 
 
 class ModelSignerTest(BaseTest):
@@ -55,7 +55,7 @@ class ModelSignerTest(BaseTest):
         self.assertEqual(self_signature.snapshot, None)
         self.assertTrue(
             self._crypto.verify(
-                bytearray(b64decode(raw_signed_model.content_snapshot)),
+                bytearray(b64_decode(raw_signed_model.content_snapshot)),
                 self_signature.signature, self_key_pair.public_key
             )
         )
@@ -90,7 +90,7 @@ class ModelSignerTest(BaseTest):
         extra_signature = raw_signed_model.signatures[-1]
         self.assertEqual(extra_signature.signer, "test_id")
         self.assertTrue(self._crypto.verify(
-                bytearray(b64decode(raw_signed_model.content_snapshot)),
+                bytearray(b64_decode(raw_signed_model.content_snapshot)),
                 extra_signature.signature, extra_key_pair.public_key
             )
         )
@@ -107,7 +107,7 @@ class ModelSignerTest(BaseTest):
         extra_signature = raw_signed_model.signatures[-1]
         self.assertEqual(extra_signature.signer, "test_id")
         self.assertEqual(extra_signature.snapshot, signature_snapshot)
-        extended_snapshot = bytearray(b64decode(raw_signed_model.content_snapshot)) + signature_snapshot
+        extended_snapshot = bytearray(b64_decode(raw_signed_model.content_snapshot)) + signature_snapshot
         self.assertTrue(self._crypto.verify(
             extended_snapshot,
             extra_signature.signature,

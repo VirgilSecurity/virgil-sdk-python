@@ -35,27 +35,29 @@ import json
 from base64 import b64encode, b64decode
 
 from virgil_sdk.cards.raw_card_content import RawCardContent
+from .raw_signature import RawSignature
+from virgil_sdk.utils.b64utils import b64_decode
 
 
 class RawSignedModel(object):
 
     def __init__(
         self,
-        content_snapshot,
-        signatures=None
+        content_snapshot,  # type: Union[bytes, bytearray]
+        signatures=None  # List[RawSignature]
     ):
         self._content_snapshot = content_snapshot
         self._signatures = signatures or []
 
     def to_json(self):
         return json.dumps(
-            {"content_snapshot": self.content_snapshot, "signatures": self.signatures},
+            {"content_snapshot": self.content_snapshot, "signatures": list(map(lambda x: x.to_json(), self.signatures))},
             separators=(',', ':'),
             sort_keys=True
         )
 
     def to_string(self):
-        return b64encode(self.to_json().encode()).decode()
+        return b64encode(str(self.to_json()).encode()).decode()
 
     def add_signature(self, signature):
         if signature in self._signatures:
@@ -73,13 +75,35 @@ class RawSignedModel(object):
 
     @classmethod
     def generate(cls, public_key, identity, created_at, previous_card_id=None):
-        raw_card = RawCardContent(identity, public_key, created_at, previous_card_id)
+        raw_card = RawCardContent(
+            identity=identity,
+            public_key=public_key,
+            created_at=created_at,
+            previous_card_id=previous_card_id
+        )
         return RawSignedModel(raw_card.content_snapshot)
 
     @classmethod
     def from_string(cls, raw_signed_model_string):
-        return RawSignedModel(**json.loads(b64decode(raw_signed_model_string).decode()))
+        return cls.from_json(b64_decode(raw_signed_model_string).decode())
 
     @classmethod
     def from_json(cls, raw_signed_model_json):
-        return RawSignedModel(**json.loads(raw_signed_model_json))
+        loaded_json = json.loads(raw_signed_model_json)
+        content_snapshot = loaded_json["content_snapshot"]
+        signatures = []
+        for sign in loaded_json["signatures"]:
+            if "signature_snapshot" in sign.keys():
+                signature = RawSignature(
+                    sign["signer"],
+                    b64decode(sign["signature"]),
+                    b64decode(sign["signature_snapshot"])
+                )
+                signatures.append(signature)
+            else:
+                signature = RawSignature(
+                    sign["signer"],
+                    b64decode(sign["signature"])
+                )
+                signatures.append(signature)
+        return RawSignedModel(content_snapshot, signatures)

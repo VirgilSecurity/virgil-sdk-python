@@ -67,8 +67,8 @@ class JwtBodyContent(object):
     @classmethod
     def from_json(cls, json_loaded_dict):
         body_content = cls.__new__(cls)
-        body_content._issued_at = datetime.datetime.fromtimestamp(json_loaded_dict["iat"])
-        body_content._expires_at = datetime.datetime.fromtimestamp(json_loaded_dict["exp"])
+        body_content._issued_at = datetime.datetime.utcfromtimestamp(json_loaded_dict["iat"])
+        body_content._expires_at = datetime.datetime.utcfromtimestamp(json_loaded_dict["exp"])
         body_content._additional_data = json_loaded_dict["ada"]
         body_content._issuer = json_loaded_dict["iss"]
         body_content.subject = json_loaded_dict["sub"]
@@ -76,13 +76,18 @@ class JwtBodyContent(object):
 
     @property
     def json(self):
-        return OrderedDict({
-            "iat": self._issued_at.timestamp(),
-            "exp": self._expires_at.timestamp(),
+        raw = OrderedDict({
+            "iat": int(self._issued_at.timestamp()),
+            "exp": int(self._expires_at.timestamp()),
             "ada": self._additional_data,
             "iss": self.issuer,
             "sub": self.subject
         })
+        result = OrderedDict({})
+        for key in raw:
+            if raw[key]:
+                result[key] = raw[key]
+        return result
 
     @property
     def subject_prefix(self):
