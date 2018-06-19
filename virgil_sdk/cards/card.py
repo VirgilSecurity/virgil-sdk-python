@@ -73,12 +73,30 @@ class Card(object):
 
     @classmethod
     def __generate_card_id(cls, card_crypto, content_snapshot):
+        # type: (Any, dict) -> str
+        """
+        Generate card id from content snapshot
+        Args:
+            card_crypto: Users CardCrypto witch provides cryptographic operations.
+            content_snapshot: Card content snapshot
+        Returns:
+            Generated Card id.
+        """
         fingerprint = card_crypto.generate_sha512(content_snapshot)
         id = binascii.hexlify(bytearray(fingerprint)[:32]).decode()
         return id
 
     @classmethod
     def from_snapshot(cls, content_snapshot):
+        # type: (str) -> Card
+        """
+        Creates card from content snapshot.
+        Args:
+            content_snapshot: Model content snapshot.
+
+        Returns:
+            Card created from model content snapshot.
+        """
         card_content = cls.__new__(cls)
         loaded_snapshot = json.loads(b64_decode(content_snapshot).decode())
         card_content._identity = loaded_snapshot["identity"]
@@ -94,6 +112,17 @@ class Card(object):
 
     @classmethod
     def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
+        # type: (Any, RawSignedModel, bool) -> Card
+        """
+        Creates card from SignedModel snapshot and signatures.
+        Args:
+            card_crypto: Users CardCrypto witch provides cryptographic operations.
+            raw_singed_model: Card RawSignedModel
+            is_oudated: State of obsolescence
+
+        Returns:
+            Card created from RawSignedModel.
+        """
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
         card.previous_card = None
         card.is_outdated = is_oudated
@@ -181,6 +210,11 @@ class Card(object):
 
     @property
     def content_snapshot(self):
+        """
+        Card content snapshot
+        Returns:
+            Card snapshot.
+        """
         if not self._content_snapshot:
             content = {
                 "identity": self._identity,

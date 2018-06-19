@@ -46,6 +46,17 @@ class ServiceConnection(BaseConnection):
         self.__base_url = base_url
 
     def send(self, request):
+        # type: (Request) -> Tuple[dict, dict]
+        """
+        Sends an HTTP request to the API.
+        Args:
+            request: The HTTP request details.
+        Returns:
+            Response.
+        Raises:
+            ClientException: Gets some connection or api errors.
+            UnauthorizedClientException: Request without or wrong access token.
+        """
         prepared_request = self._prepare_request(request)
         ctx = ssl.create_default_context()
         try:
@@ -95,4 +106,7 @@ class ServiceConnection(BaseConnection):
 
     @property
     def base_url(self):
+        """
+        Gets api url.
+        """
         return self.__base_url

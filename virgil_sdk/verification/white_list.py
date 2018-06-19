@@ -34,12 +34,18 @@
 
 
 class WhiteList(object):
+    """The Whitelist implements a collection of VerifierCredentials
+    that is used for card verification in VirgilCardVerifier."""
 
     def __init__(self):
         self.__verifiers_credentials = list()
 
     @property
     def verifiers_credentials(self):
+        """
+        The collection of VerifierCredentials
+        that is used for card verification in VirgilCardVerifier.
+        """
         return self.__verifiers_credentials
 
     @verifiers_credentials.setter

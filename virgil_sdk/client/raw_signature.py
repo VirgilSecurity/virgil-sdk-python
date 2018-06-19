@@ -35,16 +35,19 @@ from base64 import b64encode
 
 
 class RawSignature(object):
+    """
+    RawSignature provides signature for RawSignedModel.
+    """
 
     def __init__(
         self,
-        signer,
-        signature,
-        signature_snapshot=None
+        signer,  # type: str
+        signature,  # type: Union[bytes, bytearray]
+        signature_snapshot=None  # type: Union[bytes, bytearray]
     ):
-        self.__signer = signer  # type: str
-        self.__snapshot = signature_snapshot  # type: Union[bytes, bytearray]
-        self.__signature = signature  # type: Union[bytes, bytearray]
+        self.__signer = signer
+        self.__snapshot = signature_snapshot
+        self.__signature = signature
 
     def __str__(self):
         return str(self.to_json())
@@ -53,6 +56,7 @@ class RawSignature(object):
         return str(self.to_json())
 
     def to_json(self):
+        """RawSignature json representation."""
         res = {
             "signer": self.signer,
             "signature": b64encode(bytearray(self.signature)).decode(),
@@ -64,12 +68,21 @@ class RawSignature(object):
 
     @property
     def signer(self):
+        """
+        Signer id. It must be unique among the RawSignedModel signatures.
+        """
         return self.__signer
 
     @property
     def snapshot(self):
+        """
+        Additional data.
+        """
         return self.__snapshot
 
     @property
     def signature(self):
+        """
+        Signature data.
+        """
         return self.__signature

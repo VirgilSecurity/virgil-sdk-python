@@ -40,6 +40,10 @@ from virgil_sdk.utils.b64utils import b64_decode
 
 
 class RawSignedModel(object):
+    """
+    The RawSignedModel provides transitional model of <see cref="Card"/>
+    and used by CardClient.
+    """
 
     def __init__(
         self,
@@ -50,6 +54,9 @@ class RawSignedModel(object):
         self._signatures = signatures or []
 
     def to_json(self):
+        """
+        RawSignedModel json representation.
+        """
         return json.dumps(
             {"content_snapshot": self.content_snapshot, "signatures": list(map(lambda x: x.to_json(), self.signatures))},
             separators=(',', ':'),
@@ -57,9 +64,22 @@ class RawSignedModel(object):
         )
 
     def to_string(self):
+        """
+        Serialize to base64 encoded string.
+        Returns:
+            Base64 encoded string.
+        """
         return b64encode(str(self.to_json()).encode()).decode()
 
     def add_signature(self, signature):
+        # type: (RawSignature) -> None
+        """
+        Add signature to RawSignedModel list.
+        Args:
+            signature: Card signature.
+        Raises:
+            ValueError: Attempt to add existing signature.
+        """
         if signature in self._signatures:
             raise ValueError("Attempt to add an existing signature")
         else:
@@ -67,14 +87,31 @@ class RawSignedModel(object):
 
     @property
     def content_snapshot(self):
+        """
+        Snapshot of RawCardContent.
+        """
         return self._content_snapshot
 
     @property
     def signatures(self):
+        """
+        A list of signatures.
+        """
         return self._signatures
 
     @classmethod
     def generate(cls, public_key, identity, created_at, previous_card_id=None):
+        # type: (PublicKey, str, int, Optional[str]) -> RawSignedModel
+        """
+        Generate card RawSignedModel.
+        Args:
+            public_key: Card public key.
+            identity: Unique card identity.
+            created_at: Creation timestamp.
+            previous_card_id: Previous card ID.
+        Returns:
+            Generate RawSignedModel instance.
+        """
         raw_card = RawCardContent(
             identity=identity,
             public_key=public_key,
@@ -85,10 +122,14 @@ class RawSignedModel(object):
 
     @classmethod
     def from_string(cls, raw_signed_model_string):
+        # type: (str) -> RawSignedModel
+        """Deserialize RawSignedModel from base64 encoded string."""
         return cls.from_json(b64_decode(raw_signed_model_string).decode())
 
     @classmethod
     def from_json(cls, raw_signed_model_json):
+        # type: (Union[str, bytes, bytearray]) -> RawSignedModel
+        """Deserialize RawSignedModel from json representation."""
         loaded_json = json.loads(raw_signed_model_json)
         content_snapshot = loaded_json["content_snapshot"]
         signatures = []

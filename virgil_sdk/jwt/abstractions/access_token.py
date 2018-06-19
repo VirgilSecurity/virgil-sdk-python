@@ -35,14 +35,23 @@ from abc import ABCMeta, abstractmethod
 
 
 class AccessToken(object):
+    """
+    The AccessToken provides abstract for access token.
+    """
 
     __metaclass__ = ABCMeta
 
     @property
     @abstractmethod
     def identity(self):
+        """
+        Get token identity.
+        """
         raise NotImplementedError()
 
     @abstractmethod
     def to_string(self):
+        """
+        Get token string representation.
+        """
         raise NotImplementedError()

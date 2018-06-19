@@ -35,9 +35,17 @@ from abc import ABCMeta, abstractmethod
 
 
 class CardVerifier(object):
+    """The CardVerifier provides abstract for card verification process."""
 
     __metaclass__ = ABCMeta
 
     @abstractmethod
     def verify_card(self, card):
+        """
+        Verify the specified card.
+        Args:
+            card: The instance of Card to be verified.
+        Returns:
+            True if card is verified, False otherwise
+        """
         raise NotImplementedError()

@@ -35,16 +35,17 @@ from collections import OrderedDict
 
 
 class JwtHeaderContent(object):
+    """JwtHeaderContent represents header of Jwt"""
 
     ACCESS_TOKEN_TYPE = "JWT"
     CONTENT_TYPE = "virgil-jwt;v=1"
 
     def __init__(
         self,
-        algorithm,
-        key_id,
-        access_token_type=ACCESS_TOKEN_TYPE,
-        content_type=CONTENT_TYPE
+        algorithm,  # type: str
+        key_id,  # type: str
+        access_token_type=ACCESS_TOKEN_TYPE,  # type: str
+        content_type=CONTENT_TYPE  # type: str
     ):
         self._algorithm = algorithm
         self._key_id = key_id
@@ -61,6 +62,14 @@ class JwtHeaderContent(object):
 
     @classmethod
     def from_json(cls, json_loaded_dict):
+        # type: (Union[dict, str, bytes, bytearray]) -> JwtHeaderContent
+        """
+        Initializes a new instance of the JwtHeaderContent from json representation.
+        Args:
+            json_loaded_dict: JwtHeaderContent json representation
+        Returns:
+            A new instance of JwtHeaderContent.
+        """
         header_content = cls.__new__(cls)
         header_content._algorithm = json_loaded_dict["alg"]
         header_content._access_token_type = json_loaded_dict["typ"]
@@ -70,6 +79,7 @@ class JwtHeaderContent(object):
 
     @property
     def json(self):
+        """JwtHeaderContent json representation."""
         return OrderedDict({
             "alg": self.algorithm,
             "typ": self.access_token_type,
@@ -79,16 +89,20 @@ class JwtHeaderContent(object):
 
     @property
     def algorithm(self):
+        """Signature algorithm."""
         return self._algorithm
 
     @property
     def key_id(self):
+        """Id of public key which is used for jwt signature verification."""
         return self._key_id
 
     @property
     def access_token_type(self):
+        """Access token type."""
         return self._access_token_type
 
     @property
     def content_type(self):
+        """Access token content type."""
         return self._content_type

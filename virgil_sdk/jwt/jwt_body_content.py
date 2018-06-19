@@ -36,16 +36,20 @@ from collections import OrderedDict
 
 
 class JwtBodyContent(object):
+    """
+    JwtBodyContent represents content of Jwt.
+    """
+
     __IDENTITY_PREFIX = "identity-"
     __SUBJECT_PREFIX = "virgil-"
 
     def __init__(
             self,
-            app_id,
-            identity,
-            issued_at,
-            expires_at,
-            data
+            app_id,  # type: str
+            identity,  # type: str
+            issued_at,  # type: datetime
+            expires_at,  # type: datetime
+            data  # type: dict
     ):
         self._app_id = app_id
         self._identity = identity
@@ -66,6 +70,8 @@ class JwtBodyContent(object):
 
     @classmethod
     def from_json(cls, json_loaded_dict):
+        # type: (Union[str, bytes, bytearray]) -> JwtBodyContent
+        """Initializes a new instance of the JwtBodyContent from json representation."""
         body_content = cls.__new__(cls)
         body_content._issued_at = datetime.datetime.utcfromtimestamp(json_loaded_dict["iat"])
         body_content._expires_at = datetime.datetime.utcfromtimestamp(json_loaded_dict["exp"])
@@ -76,6 +82,7 @@ class JwtBodyContent(object):
 
     @property
     def json(self):
+        """JwtBodyContent json representation."""
         raw = OrderedDict({
             "iat": int(self._issued_at.timestamp()),
             "exp": int(self._expires_at.timestamp()),
@@ -99,10 +106,15 @@ class JwtBodyContent(object):
 
     @property
     def issuer(self):
+        """Jwt issuer."""
         return self._issuer
 
     @property
     def expires_at(self):
+        """When jwt expire."""
         return self._expires_at
 
-
+    @property
+    def identity(self):
+        """Jwt identity."""
+        return self._identity

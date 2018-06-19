@@ -40,17 +40,28 @@ from .connections.service_connection import ServiceConnection
 
 
 class CardClient(BaseCardClient):
+    """
+    The CardClient class provides operations with Virgil Cards service.
+    """
 
     def __init__(
         self,
-        api_url="https://api.virgilsecurity.com",
-        connection=None
+        api_url="https://api.virgilsecurity.com",  # type: str
+        connection=None  # type: ServiceConnection
     ):
         self._connection = connection
         self._api_url = api_url
 
     def publish_card(self, raw_card, token):
         # type: (RawSignedModel, str) -> RawSignedModel
+        """
+        Publishes card in Virgil Cards service.
+        Args:
+            raw_card: An instance of RawSignedModel class.
+            token: The string representation of Jwt token.
+        Returns:
+            Published raw card.
+        """
         if not raw_card:
             raise ValueError("Missing raw card")
 
@@ -69,6 +80,14 @@ class CardClient(BaseCardClient):
 
     def search_card(self, identity, token):
         # type: (str, str) -> List[RawSignedModel]
+        """
+        Searches a cards on Virgil Services by specified identity.
+        Args:
+            identity: The identity.
+            token: The string representation of Jwt token.
+        Returns:
+           A list of found cards in raw form.
+        """
         if not identity:
             raise ValueError("Missing identity")
 
@@ -90,6 +109,17 @@ class CardClient(BaseCardClient):
 
     def get_card(self, card_id, token):
         # type: (str, str) -> Tuple[RawSignedModel, bool]
+        """
+        Gets a card from Virgil Services by specified card ID.
+        Args:
+            card_id: The Card ID.
+            token: The string representation of Jwt token.
+        Returns:
+            An instance of RawSignedModel class and flag,
+            which determines whether or not this raw card is superseded.
+        Raises:
+            ValueError: Missed argument.
+        """
         if not card_id:
             raise ValueError("Missing card id")
 
@@ -115,6 +145,9 @@ class CardClient(BaseCardClient):
 
     @property
     def api_url(self):
+        """
+        Get service url.
+        """
         if not self._api_url:
             self._api_url = "https://api.virgilsecurity.com"
         return self._api_url

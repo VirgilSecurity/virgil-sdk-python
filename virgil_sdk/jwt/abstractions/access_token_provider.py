@@ -35,9 +35,15 @@ from abc import ABCMeta, abstractmethod
 
 
 class AccessTokenProvider(object):
+    """
+    The AccessTokenProvider provides abstract to get access token.
+    """
 
     __metaclass__ = ABCMeta
 
     @abstractmethod
     def get_token(self, token_context):
+        """
+        Gets access token.
+        """
         raise NotImplementedError()

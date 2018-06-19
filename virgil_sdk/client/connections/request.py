@@ -36,7 +36,7 @@ from .base_request import BaseRequest
 
 class Request(BaseRequest):
     """Http request wrapper.
-    Attributes:
+    Args:
         endpoint: request endpoint
         body: request body
         headers: dict of request additional headers
@@ -56,20 +56,37 @@ class Request(BaseRequest):
         self._method = method
 
     def authorization(self, access_token):
+        """
+        Add authorization token to request.
+        Args:
+            access_token: Service access token.
+        """
         self._headers.update({"Authorization": "Virgil {}".format(access_token)})
 
     @property
     def endpoint(self):
+        """
+        Gets the endpoint. Does not include server base address
+        """
         return self._endpoint
 
     @property
     def body(self):
+        """
+        Gets the requests body.
+        """
         return self._body
 
     @property
     def headers(self):
+        """
+        Gets the http headers.
+        """
         return self._headers
 
     @property
     def method(self):
+        """
+        Gets the request method.
+        """
         return self._method

@@ -34,4 +34,7 @@
 
 
 class CardVerificationException(Exception):
+    """
+    Represents errors occurred during card validation.
+    """
     pass

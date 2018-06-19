@@ -39,13 +39,24 @@ from .jwt_body_content import JwtBodyContent
 
 
 class JwtGenerator(object):
+    """
+    The JwtGenerator class implements Jwt generation.
+
+    Args:
+        app_id: Application id. Take it on https://dashboard.virgilsecurity.com
+        api_key: Private Key which will be used for signing generated access tokens. Take it on
+                 https://dashboard.virgilsecurity.com/api-keys
+        api_public_key_id: Key Id of take it on https://dashboard.virgilsecurity.com/api-keys
+        lifetime: Lifetime of generated tokens.
+        access_token_signer: An instance of AccessTokenSigner that is used to generate token signature using api_key.
+    """
 
     def __init__(
         self,
-        app_id,
-        api_key,
-        api_public_key_id,
-        lifetime,
+        app_id,  # type: str
+        api_key,  # type: str
+        api_public_key_id,  # type: str
+        lifetime,  # type: int
         access_token_signer
     ):
         self._app_id = app_id
@@ -55,6 +66,15 @@ class JwtGenerator(object):
         self._access_token_signer = access_token_signer
 
     def generate_token(self, identity, data=None):
+        # type: (str, Optional[dict]) -> Jwt
+        """
+        Generates new JWT using specified identity and additional data.
+        Args:
+            identity: Identity to generate with.
+            data: Dictionary with additional data which will be kept in jwt body.
+        Returns:
+            A new instance of Jwt.
+        """
         issued_at = datetime.datetime.now()
         expires_at = datetime.datetime.fromtimestamp(issued_at.timestamp() + self._lifetime)
         jwt_body = JwtBodyContent(

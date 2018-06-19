@@ -38,13 +38,16 @@ from .card_verifier import CardVerifier
 
 
 class VirgilCardVerifier(CardVerifier):
+    """
+    The VirgilCardVerifier represents card verification process.
+    """
 
     def __init__(
         self,
         crypto,
-        verify_self_signature=True,
-        verify_virgil_signature=True,
-        white_lists=list()
+        verify_self_signature=True,  # type: bool
+        verify_virgil_signature=True,  # type: bool
+        white_lists=list()  # type: list
     ):
         self._crypto = crypto
         self.verify_self_signature = verify_self_signature
@@ -54,6 +57,17 @@ class VirgilCardVerifier(CardVerifier):
 
     def verify_card(self, card):
         # type: (Card) -> bool
+        """
+        To verify the specified card.
+
+        To set up rule for verification of self signature use verify_self_signature.
+        To set up rule for verification of virgil service signature use verify_virgil_signature.
+        To set up Whitelists use white_lists.
+        Args:
+            card: The instance of Card to verify.
+        Returns:
+            True is card is verified according to set rules, otherwise False.
+        """
         if self.verify_self_signature and not self.__validate_signer_signature(
                 card,
                 card.public_key,
@@ -114,6 +128,7 @@ class VirgilCardVerifier(CardVerifier):
 
     @property
     def white_lists(self):
+        """Get white lists."""
         return self.__white_lists
 
     @white_lists.setter

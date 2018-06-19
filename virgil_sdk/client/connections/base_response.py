@@ -35,20 +35,32 @@ from abc import ABCMeta, abstractmethod
 
 
 class BaseResponse(object):
+    """
+    Represents a generic HTTP response.
+    """
 
     __metaclass__ = ABCMeta
 
     @abstractmethod
     @property
     def body(self):
+        """
+        Raw response body.
+        """
         raise NotImplementedError()
 
     @abstractmethod
     @property
     def headers(self):
+        """
+        Information about the API.
+        """
         raise NotImplementedError()
 
     @abstractmethod
     @property
     def status_code(self):
+        """
+        The response status code.
+        """
         raise NotImplementedError()

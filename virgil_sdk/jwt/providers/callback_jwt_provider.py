@@ -36,11 +36,26 @@ from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvide
 
 
 class CallbackJwtProvider(AccessTokenProvider):
+    """
+    The CallbackJwtProvider class provides an opportunity to get access token using callback mechanism.
+    """
 
-    def __init__(self, get_token_callback):
+    def __init__(
+        self,
+        get_token_callback  # type: function
+    ):
         self.__get_token_callback = get_token_callback
 
     def get_token(self, token_context):
+        """
+        Gets access token by provided callback.
+        Args:
+            token_context: Access token context.
+        Returns:
+            Instance of access token.
+        Raises:
+            ValueError: Token context empty.
+        """
         if token_context:
             return Jwt.from_string(self.__get_token_callback(token_context))
         else:

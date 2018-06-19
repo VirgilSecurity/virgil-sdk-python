@@ -32,7 +32,7 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-"""Module containing urllib importing logic"""
+"""Module containing urllib importing logic for version compatibility."""
 import sys
 PYTHON_VERSION = sys.version_info[0]
 if PYTHON_VERSION == 3:
@@ -49,6 +49,7 @@ class RequestWithMethod(urllib2.Request, object):
         super(RequestWithMethod, self).__init__(*args, **kwargs)
 
     def get_method(self):
+        """Get http method"""
         if self._method:
             return self._method
         else:

@@ -35,6 +35,7 @@ from .jwt_header_content import JwtHeaderContent
 
 
 class JwtVerifier(object):
+    """The JwtVerifier provides verification for Jwt."""
 
     def __init__(
             self,
@@ -47,6 +48,14 @@ class JwtVerifier(object):
         self._api_public_key_id = api_public_key_id
 
     def verify_token(self, jwt_token):
+        # type: (Jwt) -> bool
+        """
+        To verify specified token.
+        Args:
+            jwt_token: An instance of Jwt to be verified.
+        Returns:
+            True if token is verified, otherwise False.
+        """
         if jwt_token._header_content.key_id != self._api_public_key_id or\
             jwt_token._header_content.algorithm != self._access_token_signer.algorithm or\
             jwt_token._header_content.access_token_type != JwtHeaderContent.ACCESS_TOKEN_TYPE or\

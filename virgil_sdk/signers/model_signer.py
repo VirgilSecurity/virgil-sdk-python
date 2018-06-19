@@ -39,6 +39,9 @@ from virgil_sdk.utils.b64utils import b64_decode
 
 
 class ModelSigner(object):
+    """
+    The ModelSigner class provides signing operation for RawSignedModel.
+    """
 
     SELF_SIGNER = "self"
     VIRGIL_SIGNER = "virgil"
@@ -51,7 +54,15 @@ class ModelSigner(object):
 
     def sign(self, model, signer, signer_private_key, signature_snapshot=None, extra_fields=None):
         # type: (RawSignedModel, str, PrivateKey, Union[bytearray, bytes], dict) -> None
-
+        """
+        Adds signature to the specified RawSignedModel using specified signer.
+        Args:
+            model: The instance of RawSignedModel to be signed.
+            signer:
+            signer_private_key: The instance of PrivateKey to sign with.
+            signature_snapshot: Some additional raw bytes to be signed with model.
+            extra_fields: Dictionary with additional data to be signed with model.
+        """
         if model.signatures:
             if any(list(filter(lambda x: x.signer == signer, model.signatures))):
                 raise ValueError("The model already has this signature")
@@ -70,6 +81,15 @@ class ModelSigner(object):
         model.add_signature(signature)
 
     def self_sign(self, model, signer_private_key, signature_snapshot=None, extra_fields=None):
+        # type: (RawSignedModel, PrivateKey, Union[bytearray, bytes], dict) -> None
+        """
+        Adds owner's signature to the specified RawSignedModel using specified signer.
+        Args:
+            model: The instance of RawSignedModel to be signed.
+            signer_private_key: The instance of PrivateKey to sign with.
+            signature_snapshot: Some additional raw bytes to be signed with model.
+            extra_fields: Dictionary with additional data to be signed with model.
+        """
         # type: (RawSignedModel, PrivateKey, Union[bytearray, bytes], dict) -> None
         if extra_fields and not signature_snapshot:
             signature_snapshot = json.dumps(extra_fields).encode()

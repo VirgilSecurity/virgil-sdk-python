@@ -41,8 +41,16 @@ from virgil_sdk.jwt.abstractions.access_token import AccessToken
 
 
 class Jwt(AccessToken):
+    """
+    The Jwt class implements abstract AccessToken in terms of Virgil JWT.
+    """
 
-    def __init__(self, jwt_header_content=None, jwt_body_content=None, signature_data=None):
+    def __init__(
+        self,
+        jwt_header_content=None,  # type: JwtHeaderContent
+        jwt_body_content=None,  # type: JwtBodyContent
+        signature_data=None  # type: Union[bytes, bytearray]
+    ):
         self._header_content = jwt_header_content
         self._body_content = jwt_body_content
         self._signature_data = signature_data
@@ -73,6 +81,17 @@ class Jwt(AccessToken):
 
     @classmethod
     def from_string(cls, jwt_string):
+        # type: (str) -> Jwt
+        """
+        Initializes a new instance of the Jwt class using its string representation.
+        Args:
+            jwt_string: String representation of signed jwt. It must be equal to:
+                        base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body) "." + base64UrlEncode(Jwt Signature).
+        Returns:
+            Initialized instance of Jwt.
+        Raises:
+            ValueError: Wrong jwt format.
+        """
         parts = jwt_string.split(".")
         if len(parts) is not 3:
             raise ValueError("Wrong JWT format.")
@@ -92,9 +111,15 @@ class Jwt(AccessToken):
         return jwt
 
     def to_string(self):
+        """
+        Jwt string representation.
+        """
         return self._string_representation
 
     def is_expired(self, expiration_timestamp=None):
+        """
+        Whether or not token is expired.
+        """
         if not expiration_timestamp:
             expiration_time = datetime.datetime.utcnow()
         else:
@@ -103,12 +128,19 @@ class Jwt(AccessToken):
 
     @property
     def unsigned_data(self):
+        """
+        String representation of jwt without signature.
+        It equals to:
+        base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body)
+        """
         return self._unsigned_data
 
     @property
     def signature_data(self):
+        """Gets a digital signature of jwt."""
         return self._signature_data
 
     @property
     def identity(self):
+        """Jwt identity."""
         return self._body_content.identity

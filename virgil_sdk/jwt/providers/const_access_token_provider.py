@@ -35,9 +35,19 @@ from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvide
 
 
 class ConstAccessTokenProvider(AccessTokenProvider):
+    """
+    The ConstAccessTokenProvider class provides an opportunity to use constant access token.
+    """
 
     def __init__(self, access_token):
         self._access_token = access_token
 
     def get_token(self, context=None):
+        """
+        Gets access token.
+        Args:
+            context: TokenContext
+        Returns:
+            Instance of access token.
+        """
         return self._access_token

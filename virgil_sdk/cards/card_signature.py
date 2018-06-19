@@ -52,6 +52,11 @@ class CardSignature(object):
         self._extra_fields = extra_fields
 
     def to_json(self):
+        """
+        Card signature json representation.
+        Returns:
+            Serialize signature to json.
+        """
         res = {
             "signer": self.signer,
             "signature": b64encode(bytearray(self.signature)).decode(),
@@ -66,16 +71,36 @@ class CardSignature(object):
 
     @property
     def signer(self):
+        """
+        Gets the type of signer signature.
+        Returns:
+            Type of signer signature.
+        """
         return self._signer
 
     @property
     def signature(self):
+        """
+        Get the generated digital signature.
+        Returns:
+            Digital signature.
+        """
         return self._signature
 
     @property
     def snapshot(self):
+        """
+        Get the signature snapshot.
+        Returns:
+            Signature snapshot.
+        """
         return self._snapshot
 
     @property
     def extra_fields(self):
+        """
+        Get the custom fields associated with the signature.
+        Returns:
+            Custom fields.
+        """
         return self._extra_fields

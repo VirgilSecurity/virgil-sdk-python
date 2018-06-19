@@ -68,6 +68,17 @@ class CardManager(object):
 
     def generate_raw_card(self, private_key, public_key, identity, previous_card_id="", extra_fields=None):
         # type: (PrivateKey, PublicKey, str, Optional[str], Optional[dict]) -> RawSignedModel
+        """
+
+        Args:
+            private_key: PrivateKey for generate self signature.
+            public_key: Card Public key.
+            identity: Unique identity value.
+            previous_card_id: Previous card id that current card is used to override to.
+            extra_fields: The additional data associated with the card.
+        Returns:
+            The instance of newly published Card.
+        """
         current_time = int(datetime.datetime.utcnow().timestamp())
         raw_card = RawSignedModel.generate(public_key, identity, current_time, previous_card_id)
         self.model_signer.self_sign(raw_card, private_key, extra_fields=extra_fields)
@@ -76,7 +87,30 @@ class CardManager(object):
     def publish_card(self, *args, **kwargs):
         # type: (...) -> Card
         """
-        raw_card=None || private_key=None, public_key=None, identity=None, previous_card_id=None, extra_fields=None
+        Publish a new Card using specified params.
+        Args:
+            *args:
+                raw_card: Unpublished raw signed model.
+
+                or
+
+                private_key: PrivateKey for generate self signature.
+                public_key: Card Public key.
+                identity: Unique identity value.
+                previous_card_id: Previous card id that current card is used to override to.
+                extra_fields: The additional data associated with the card.
+            **kwargs:
+                raw_card: Unpublished raw signed model.
+
+                or
+
+                private_key: PrivateKey for generate self signature.
+                public_key: Card Public key.
+                identity: Unique identity value.
+                previous_card_id: Previous card id that current card is used to override to.
+                extra_fields: The additional data associated with the card.
+        Returns:
+            The instance of newly published Card.
         """
         if len(args) == 1 and isinstance(args[0], RawSignedModel):
             return self.__publish_raw_card(*args)
@@ -89,6 +123,13 @@ class CardManager(object):
 
     def get_card(self, card_id):
         # type: (str) -> Card
+        """
+        Gets the card by specified ID.
+        Args:
+            card_id: The card ID to be found.
+        Returns:
+            The instance of found Card
+        """
         token_context = TokenContext(None, "get")
         access_token = self._access_token_provider.get_token(token_context)
         raw_card, is_outdated = self.__try_execute(self.card_client.get_card, card_id, access_token, token_context)
@@ -100,6 +141,13 @@ class CardManager(object):
 
     def search_card(self, identity):
         # type: (str) -> List[Card]
+        """
+        Searches for cards by specified identity.
+        Args:
+            identity: The identity to be found.
+        Returns:
+            The list of found Card.
+        """
         if not identity:
             raise ValueError("Missing identity for search")
         token_context = TokenContext(None, "search")
@@ -113,6 +161,13 @@ class CardManager(object):
 
     def import_card(self, card_to_import):
         # type: (Union[str, dict, RawSignedModel]) -> Card
+        """
+        Imports and verifies Card.
+        Args:
+            card_to_import: Exported data of signed model.
+        Returns:
+            Imported and verified card.
+        """
         if isinstance(card_to_import, str):
             try:
                 if isinstance(json.loads(card_to_import), dict):
@@ -133,12 +188,36 @@ class CardManager(object):
         return card
 
     def export_card_to_string(self, card):
+        # type: (Card) -> str
+        """
+        Exports the specified card as a BASE64 string.
+        Args:
+            card: Card instance to be exported.
+        Returns:
+            Serialize card to base64.
+        """
         return self.export_card_to_raw_card(card).to_string()
 
     def export_card_to_json(self, card):
+        # type: (Card) -> str
+        """
+        Exports the specified card as a json.
+        Args:
+            card: Card instance to be exported.
+        Returns:
+            Serialize card to json.
+        """
         return self.export_card_to_raw_card(card).to_json()
 
     def export_card_to_raw_card(self, card):
+        # type: (Card) -> RawSignedModel
+        """
+        Exports the specified card as a RawSignedModel.
+        Args:
+            card: Card instance to be exported.
+        Returns:
+            Reeturns instance of RawSignedModel representing Card.
+        """
         raw_signed_model = RawSignedModel(card.content_snapshot)
         for signature in card.signatures:
             raw_signed_model.add_signature(signature)
@@ -157,12 +236,14 @@ class CardManager(object):
         return card
 
     def __validate(self, card):
+        # type: (Card) -> None
         if card is None:
             raise ValueError("Missing card for validation")
         if not self.card_verifier.verify_card(card):
             raise CardVerificationException("Card verification failed!")
 
     def __try_execute(self, card_function, card_arg, token, context):
+        # type: (function, Any, str, TokenContext) -> Any
         attempts_number = 2 if self.__retry_on_unauthorized else 1
         result = None
         while attempts_number > 0:
@@ -177,6 +258,7 @@ class CardManager(object):
 
     @staticmethod
     def _linked_card_list(card_list):
+        # type: (List[Card]) -> List[Card]
         unsorted = dict(map(lambda x: (x.id, x), card_list))
         for card in card_list:
             if card.previous_card_id:
@@ -188,12 +270,22 @@ class CardManager(object):
 
     @property
     def model_signer(self):
+        """
+        Card signer.
+        Returns:
+            Returns instance of ModelSigner witch provides sign operations.
+        """
         if not self._model_signer:
             self._model_signer = ModelSigner(self._card_crypto)
         return self._model_signer
 
     @property
     def card_client(self):
+        """
+        Card service client.
+        Returns:
+            Returns an instance of CardClient with provides card service operations.
+        """
         if not self._card_client:
             if self.__api_url:
                 self._card_client = CardClient(self.__api_url)
@@ -207,6 +299,11 @@ class CardManager(object):
 
     @property
     def card_verifier(self):
+        """
+            Card verifier.
+        Returns:
+            Returns an instance of CardVerifier which provides card verification.
+        """
         if not self._card_verifier:
             self._card_verifier = VirgilCardVerifier(self._card_crypto)
         return self._card_verifier

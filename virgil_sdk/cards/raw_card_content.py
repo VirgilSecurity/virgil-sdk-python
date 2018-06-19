@@ -39,14 +39,17 @@ from virgil_sdk.utils.b64utils import b64_decode
 
 
 class RawCardContent(object):
+    """
+    RawCardContent provides content of Virgil Card.
+    """
 
     def __init__(
         self,
-        identity,
-        public_key,
-        created_at,
-        version="5.0",
-        previous_card_id=None
+        identity,  # type: str
+        public_key,  # type: PublicKey
+        created_at,  # type datetime
+        version="5.0",  # type: str
+        previous_card_id=None  # type: str
     ):
         self._identity = identity
         self._public_key = public_key
@@ -56,6 +59,11 @@ class RawCardContent(object):
         self._content_snapshot = None
 
     def to_json(self):
+        """
+        Raw card content json representation.
+        Returns:
+            Serialize raw card content to json.
+        """
         return OrderedDict({
             "identity": self.identity,
             "public_key": self.public_key,
@@ -67,6 +75,14 @@ class RawCardContent(object):
 
     @classmethod
     def from_snapshot(cls, content_snapshot):
+        # type: (dict) -> RawCardContent
+        """
+        RawCardContent deserializer from snapshot representation.
+        Args:
+            content_snapshot: RawCardContent serialized snapshot.
+        Returns:
+            Loaded RawCardContent instance.
+        """
         card_content = cls.__new__(cls)
         loaded_snapshot = json.loads(b64_decode(content_snapshot).decode())
         card_content._identity = loaded_snapshot["identity"]
@@ -82,6 +98,16 @@ class RawCardContent(object):
 
     @classmethod
     def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
+        # type: (Any, RawSignedModel, bool) -> RawCardContent
+        """
+        RawCardContent deserializer from RawSignedModel representation.
+        Args:
+            card_crypto: CardCrypto witch provides crypto operations.
+            raw_singed_model: Card raw signed model.
+            is_oudated: State of obsolescence.
+        Returns:
+            Loaded RawCardContent instance.
+        """
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
         card._public_key = card_crypto.import_public_key(bytearray(b64_decode(card._public_key)))
         return card
@@ -133,6 +159,11 @@ class RawCardContent(object):
 
     @property
     def content_snapshot(self):
+        """
+        RawCardContent snapshot.
+        Returns:
+            Snapshot of RawCardContent.
+        """
         if not self._content_snapshot:
             content = {
                 "identity": self._identity,

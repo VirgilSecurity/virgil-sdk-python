@@ -34,6 +34,7 @@
 
 
 class TokenContext(object):
+    """TokenContext provides payload for CallbackJwtProvider.get_token(TokenContext)"""
 
     def __init__(
         self,
@@ -49,16 +50,20 @@ class TokenContext(object):
 
     @property
     def operation(self):
+        """Operation for which token is needed."""
         return self._operation
 
     @property
     def identity(self):
+        """Identity that should be used in access token."""
         return self._identity
 
     @property
     def force_reload(self):
+        """You can set up token cache in CachingCallbackProvider.get_token and reset cached token if True."""
         return self._force_reload
 
     @property
     def service(self):
+        """Service for which token is needed."""
         return self._service
