@@ -33,24 +33,24 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
 import os
-from base64 import b64encode
 
 from virgil_crypto.access_token_signer import AccessTokenSigner
 from virgil_crypto.card_crypto import CardCrypto
 
-from tests import config
-from tests.base_test import BaseTest
+from virgil_sdk.tests import config
+from virgil_sdk.tests.base_test import BaseTest
 from virgil_sdk.cards import RawCardContent
 from virgil_sdk.client import CardClient, RawSignedModel, ClientException
 from virgil_sdk.jwt import JwtGenerator
 from virgil_sdk.signers import ModelSigner
+from virgil_sdk.utils import Utils
 
 
 class CardClientTest(BaseTest):
 
     def test_publish_card_with_wrong_key(self):
         # STC-25
-        identity = b64encode(os.urandom(15)).decode()
+        identity = Utils.b64encode(bytes(os.urandom(15)))
         jwt = self.__jwt_signed_wrong_key(identity)
         client = CardClient()
         self.assertRaises(
@@ -62,7 +62,7 @@ class CardClientTest(BaseTest):
 
     def test_get_card_with_wrong_key(self):
         # STC-25
-        jwt = self.__jwt_signed_wrong_key(b64encode(os.urandom(15)).decode())
+        jwt = self.__jwt_signed_wrong_key(Utils.b64encode(os.urandom(15)))
         client = CardClient()
         self.assertRaises(
             ClientException,
@@ -73,19 +73,19 @@ class CardClientTest(BaseTest):
 
     def test_search_card_with_wrong_key(self):
         # STC-25
-        jwt = self.__jwt_signed_wrong_key(b64encode(os.urandom(15)).decode())
+        jwt = self.__jwt_signed_wrong_key(Utils.b64encode(os.urandom(15)))
         client = CardClient()
         self.assertRaises(
             ClientException,
             client.search_card,
-            b64encode(os.urandom(15)).decode(),
+            Utils.b64encode(os.urandom(15)),
             jwt
         )
 
     def test_publish_card_with_wrong_token_identity(self):
         # STC-27
         jwt = self.__generate_jwt(
-            b64encode(os.urandom(15)).decode(),
+            Utils.b64encode(os.urandom(15)),
             self._app_private_key,
             config.VIRGIL_API_KEY_ID
         )
@@ -93,7 +93,7 @@ class CardClientTest(BaseTest):
         self.assertRaises(
             ClientException,
             client.publish_card,
-            self.__generate_raw_signed_model(b64encode(os.urandom(15)).decode()),
+            self.__generate_raw_signed_model(Utils.b64encode(os.urandom(15))),
             jwt.to_string()
         )
 
@@ -105,7 +105,7 @@ class CardClientTest(BaseTest):
     def __generate_raw_signed_model(self, identity):
         key_pair = self._crypto.generate_keys()
         raw_card_content = RawCardContent(
-            created_at=datetime.datetime.utcnow().timestamp(),
+            created_at=Utils.to_timestamp(datetime.datetime.utcnow()),
             identity=identity,
             public_key=key_pair.public_key,
             version="5.0"

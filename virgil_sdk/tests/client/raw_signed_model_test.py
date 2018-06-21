@@ -32,11 +32,11 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import json
-from base64 import b64decode
 
-from tests import BaseTest
+from virgil_sdk.tests import BaseTest
 from virgil_sdk.cards import RawCardContent
 from virgil_sdk.client import RawSignedModel
+from virgil_sdk.utils import Utils
 
 
 class RawSignedModelSignerTest(BaseTest):
@@ -47,7 +47,7 @@ class RawSignedModelSignerTest(BaseTest):
         rsm_string = rsm.to_string()
         self.assertEqual(self._compatibility_data["STC-1.as_string"], rsm_string)
         self.assertEqual(
-            json.loads(b64decode(self._compatibility_data["STC-1.as_string"]).decode())["signatures"],
+            Utils.json_loads(Utils.b64decode(self._compatibility_data["STC-1.as_string"]))["signatures"],
             rsm.signatures
         )
 
@@ -64,7 +64,10 @@ class RawSignedModelSignerTest(BaseTest):
         rsm_string = rsm.to_string()
         self.assertEqual(self._compatibility_data["STC-2.as_string"], rsm_string)
         self.assertEqual(
-            json.dumps(json.loads(b64decode(self._compatibility_data["STC-2.as_string"]).decode())["signatures"], sort_keys=True),
+            json.dumps(
+                json.loads(Utils.b64decode(self._compatibility_data["STC-2.as_string"]).decode())["signatures"],
+                sort_keys=True
+            ),
             json.dumps(list(map(lambda x: x.to_json(), rsm.signatures)), sort_keys=True)
         )
 
@@ -73,7 +76,10 @@ class RawSignedModelSignerTest(BaseTest):
         rsm = RawSignedModel.from_json(self._compatibility_data["STC-2.as_json"])
         rsm_json = rsm.to_json()
         self.assertDictEqual(json.loads(self._compatibility_data["STC-2.as_json"]), json.loads(rsm_json))
-        self.assertEqual(json.dumps(json.loads(self._compatibility_data["STC-2.as_json"])["signatures"], sort_keys=True), json.dumps(list(map(lambda x: x.to_json(), rsm.signatures)), sort_keys=True))
+        self.assertEqual(
+            json.dumps(json.loads(self._compatibility_data["STC-2.as_json"])["signatures"], sort_keys=True),
+            json.dumps(list(map(lambda x: x.to_json(), rsm.signatures)), sort_keys=True)
+        )
 
     def test_create_from_raw_card_content(self):
         # STC-1

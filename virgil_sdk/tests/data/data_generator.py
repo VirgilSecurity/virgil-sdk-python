@@ -36,7 +36,7 @@ import os
 
 from virgil_crypto.card_crypto import CardCrypto
 
-from tests import config
+from virgil_sdk.tests import config
 from virgil_sdk import CardManager, VirgilCardVerifier
 from virgil_sdk.cards import RawCardContent
 from virgil_sdk.client import RawSignedModel
@@ -49,6 +49,15 @@ class DataGenerator(object):
 
     def __init__(self, crypto):
         self._crypto = crypto
+
+    def generate_empty_access_token_provider(self):
+
+        class EmptyAccessTokenProvider(AccessTokenProvider):
+
+            def get_token(self, token_context):
+                pass
+
+        return EmptyAccessTokenProvider()
 
     def generate_key_pair(self):
         return self._crypto.generate_keys()
@@ -90,7 +99,9 @@ class DataGenerator(object):
 
         return model
 
-    def generate_card_manager(self, token_provider=AccessTokenProvider()):
+    def generate_card_manager(self, token_provider=None):
+        if not token_provider:
+            token_provider = self.generate_empty_access_token_provider()
         return CardManager(
             CardCrypto(),
             token_provider,

@@ -33,7 +33,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from virgil_sdk.signers.model_signer import ModelSigner
-from virgil_sdk.utils.b64utils import b64_decode
+from virgil_sdk.utils import Utils
 from .card_verifier import CardVerifier
 
 
@@ -106,8 +106,8 @@ class VirgilCardVerifier(CardVerifier):
         return True
 
     def __get_public_key(self, signer_public_key_base64):
-        public_key_bytes = b64_decode(signer_public_key_base64)
-        return self._crypto.import_public_key(public_key_bytes)
+        public_key_bytes = Utils.b64_decode(signer_public_key_base64)
+        return self._crypto.import_public_key(bytearray(public_key_bytes))
 
     def __validate_signer_signature(self, card, signer_public_key, signer_type):
         signature = None
@@ -118,11 +118,16 @@ class VirgilCardVerifier(CardVerifier):
 
         if signature:
             if signature.snapshot:
-                extended_snapshot = bytearray(b64_decode(card.content_snapshot)) + bytearray(b64_decode(signature.snapshot))
+                extended_snapshot = bytearray(Utils.b64_decode(card.content_snapshot))\
+                                    + bytearray(Utils.b64_decode(signature.snapshot))
             else:
-                extended_snapshot = bytearray(b64_decode(card.content_snapshot))
+                extended_snapshot = bytearray(Utils.b64_decode(card.content_snapshot))
 
-            if self._crypto.verify_signature(b64_decode(signature.signature), extended_snapshot, signer_public_key):
+            if self._crypto.verify_signature(
+                bytearray(Utils.b64_decode(signature.signature)),
+                extended_snapshot,
+                signer_public_key
+            ):
                 return True
         return False
 
@@ -132,7 +137,7 @@ class VirgilCardVerifier(CardVerifier):
         return self.__white_lists
 
     @white_lists.setter
-    def white_list(self, value):
+    def white_lists(self, value):
         if value:
             self.__white_lists = list()
             self.__white_lists += value

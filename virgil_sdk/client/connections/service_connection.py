@@ -31,8 +31,8 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
 import ssl
+from virgil_sdk.utils import Utils
 
 from virgil_sdk.client import ClientException, UnauthorizedClientException
 from .base_connection import BaseConnection
@@ -62,7 +62,10 @@ class ServiceConnection(BaseConnection):
         try:
             response = urllib2.urlopen(prepared_request, context=ctx)
             result = response.read()
-            return json.loads(result.decode()), dict(response.getheaders())
+            headers = dict()
+            for k, v in dict(response.info()).items():
+                headers.update({k.upper(): v})
+            return Utils.json_loads(result.decode()), headers
         except urllib2.HTTPError as exception:
             client_errors = {
                 400: "Request Error",
@@ -73,13 +76,16 @@ class ServiceConnection(BaseConnection):
             }
             try:
                 error_res = exception.read()
-                error_body = json.loads(error_res.decode())
+                if error_res:
+                    error_body = Utils.json_loads(bytes(error_res))
+                else:
+                    error_body = error_res
                 if isinstance(error_body, dict) and "message" in error_body.keys() and "code" in error_body.keys():
-                    raise ClientException(error_body["message"], error_body["code"]) from None
+                    Utils.raise_from(ClientException(error_body["message"], error_body["code"]))
                 if exception.code in client_errors.keys():
                     if exception.code == 401:
-                        raise UnauthorizedClientException(client_errors[exception.code], exception.code) from None
-                    raise ClientException(client_errors[exception.code], exception.code) from None
+                        Utils.raise_from(UnauthorizedClientException(client_errors[exception.code], exception.code))
+                    Utils.raise_from(ClientException(client_errors[exception.code], exception.code))
             except ValueError:
                 raise exception
 
@@ -94,7 +100,7 @@ class ServiceConnection(BaseConnection):
         url = self.base_url + request.endpoint
         data = request.body
         if data:
-            data = json.dumps(data).encode()
+            data = Utils.json_dumps(data).encode()
         headers = request.headers or {}
         prepared_request = RequestWithMethod(
             url,

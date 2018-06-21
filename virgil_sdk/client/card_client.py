@@ -31,9 +31,9 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
 
 from virgil_sdk.client import RawSignedModel
+from virgil_sdk.utils import Utils
 from .base_card_client import BaseCardClient
 from .connections.request import Request
 from .connections.service_connection import ServiceConnection
@@ -70,7 +70,7 @@ class CardClient(BaseCardClient):
 
         request = Request(
             "/card/v5",
-            json.loads(raw_card.to_json()),
+            Utils.json_loads(raw_card.to_json()),
             method=Request.POST
         )
 
@@ -137,8 +137,8 @@ class CardClient(BaseCardClient):
         card_raw = RawSignedModel(**response)
 
         superseded = False
-        if headers and "X-Virgil-Is-Superseeded" in headers.keys():
-            if headers["X-Virgil-Is-Superseeded"]:
+        if headers and "X-VIRGIL-IS-SUPERSEEDED" in headers.keys():
+            if headers["X-VIRGIL-IS-SUPERSEEDED"]:
                 superseded = True
 
         return card_raw, superseded

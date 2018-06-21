@@ -32,9 +32,8 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
-import json
 
-from virgil_sdk.utils.b64utils import b64_decode, b64_encode
+from virgil_sdk.utils import Utils
 from .jwt_header_content import JwtHeaderContent
 from .jwt_body_content import JwtBodyContent
 from virgil_sdk.jwt.abstractions.access_token import AccessToken
@@ -54,13 +53,13 @@ class Jwt(AccessToken):
         self._header_content = jwt_header_content
         self._body_content = jwt_body_content
         self._signature_data = signature_data
-        self._without_signature = b64_encode(json.dumps(self._header_content.json, sort_keys=True).encode())\
+        self._without_signature = Utils.b64_encode(Utils.json_dumps(self._header_content.json, sort_keys=True).encode())\
                                   + "." +\
-                                  b64_encode(json.dumps(self._body_content.json, sort_keys=True).encode())
+                                  Utils.b64_encode(Utils.json_dumps(self._body_content.json, sort_keys=True).encode())
         self._unsigned_data = self._without_signature.encode()
         self._string_representation = self._without_signature
         if self._signature_data:
-            self._string_representation += "." + b64_encode(bytes(self._signature_data))
+            self._string_representation += "." + Utils.b64_encode(bytes(self._signature_data))
 
     def __str__(self):
         return self._string_representation
@@ -98,15 +97,15 @@ class Jwt(AccessToken):
 
         try:
             jwt = cls.__new__(cls)
-            jwt._header_content = JwtHeaderContent.from_json(json.loads(str(b64_decode(parts[0]).decode())))
-            jwt._body_content = JwtBodyContent.from_json(json.loads(str(b64_decode(parts[1]).decode())))
-            jwt._signature_data = b64_decode(parts[2])
-        except Exception:
+            jwt._header_content = JwtHeaderContent.from_json(Utils.json_loads(Utils.b64_decode(parts[0])))
+            jwt._body_content = JwtBodyContent.from_json(Utils.json_loads(Utils.b64_decode(parts[1])))
+            jwt._signature_data = bytearray(Utils.b64_decode(parts[2]))
+        except Exception as e:
             raise ValueError("Wrong JWT format.")
 
         jwt._body_content._app_id = jwt._body_content.issuer.replace(jwt._body_content.subject_prefix, "")
         jwt._body_content._identity = jwt._body_content.subject.replace(jwt._body_content.identity_prefix, "")
-        jwt._unsigned_data = str(parts[0] + "." + parts[1]).encode()
+        jwt._unsigned_data = bytearray(parts[0] + "." + parts[1], "utf-8")
         jwt._string_representation = jwt_string
         return jwt
 
@@ -121,7 +120,7 @@ class Jwt(AccessToken):
         Whether or not token is expired.
         """
         if not expiration_timestamp:
-            expiration_time = datetime.datetime.utcnow()
+            expiration_time = datetime.datetime.now()
         else:
             expiration_time = datetime.datetime.utcfromtimestamp(expiration_timestamp)
         return expiration_time >= self._body_content.expires_at

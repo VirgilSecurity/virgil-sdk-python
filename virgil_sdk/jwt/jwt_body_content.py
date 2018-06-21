@@ -34,6 +34,8 @@
 import datetime
 from collections import OrderedDict
 
+from virgil_sdk.utils import Utils
+
 
 class JwtBodyContent(object):
     """
@@ -84,8 +86,8 @@ class JwtBodyContent(object):
     def json(self):
         """JwtBodyContent json representation."""
         raw = OrderedDict({
-            "iat": int(self._issued_at.timestamp()),
-            "exp": int(self._expires_at.timestamp()),
+            "iat": Utils.to_timestamp(self._issued_at),
+            "exp": Utils.to_timestamp(self._expires_at),
             "ada": self._additional_data,
             "iss": self.issuer,
             "sub": self.subject

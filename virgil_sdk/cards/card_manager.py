@@ -32,17 +32,23 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
-import json
-from json import JSONDecodeError
+import sys
 
 from virgil_sdk.jwt.token_context import TokenContext
 from virgil_sdk.cards.raw_card_content import RawCardContent
 from virgil_sdk.client import RawSignedModel, UnauthorizedClientException
+from virgil_sdk.utils import Utils
 from virgil_sdk.verification import CardVerificationException
 from .card import Card
 from virgil_sdk.verification.virgil_card_verifier import VirgilCardVerifier
 from virgil_sdk.client.card_client import CardClient
 from virgil_sdk.signers.model_signer import ModelSigner
+
+if sys.version_info[0] == 3:
+    from json import JSONDecodeError
+else:
+    class JSONDecodeError(Exception):
+        pass
 
 
 class CardManager(object):
@@ -79,7 +85,7 @@ class CardManager(object):
         Returns:
             The instance of newly published Card.
         """
-        current_time = int(datetime.datetime.utcnow().timestamp())
+        current_time = Utils.to_timestamp(datetime.datetime.utcnow())
         raw_card = RawSignedModel.generate(public_key, identity, current_time, previous_card_id)
         self.model_signer.self_sign(raw_card, private_key, extra_fields=extra_fields)
         return raw_card
@@ -168,13 +174,14 @@ class CardManager(object):
         Returns:
             Imported and verified card.
         """
-        if isinstance(card_to_import, str):
+        if isinstance(card_to_import, str) or Utils.check_unicode(card_to_import):
+            card_to_import = str(card_to_import)
             try:
-                if isinstance(json.loads(card_to_import), dict):
+                if isinstance(Utils.json_loads(card_to_import), dict):
                     card = Card.from_signed_model(self._card_crypto, RawSignedModel.from_json(card_to_import))
                 else:
                     raise JSONDecodeError
-            except JSONDecodeError:
+            except (JSONDecodeError, ValueError) as e:
                 card = Card.from_signed_model(self._card_crypto, RawSignedModel.from_string(card_to_import))
         elif isinstance(card_to_import, dict) or isinstance(card_to_import, bytes):
             card = Card.from_signed_model(self._card_crypto, RawSignedModel.from_json(card_to_import))
@@ -216,7 +223,7 @@ class CardManager(object):
         Args:
             card: Card instance to be exported.
         Returns:
-            Reeturns instance of RawSignedModel representing Card.
+            Returns instance of RawSignedModel representing Card.
         """
         raw_signed_model = RawSignedModel(card.content_snapshot)
         for signature in card.signatures:

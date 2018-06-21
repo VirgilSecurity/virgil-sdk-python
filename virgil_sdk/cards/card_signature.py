@@ -31,7 +31,7 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from base64 import b64encode
+from virgil_sdk.utils import Utils
 
 
 class CardSignature(object):
@@ -59,14 +59,14 @@ class CardSignature(object):
         """
         res = {
             "signer": self.signer,
-            "signature": b64encode(bytearray(self.signature)).decode(),
+            "signature": Utils.b64encode(self.signature),
 
         }
         if self.snapshot:
-            res["snapshot"] = b64encode(bytearray(self.snapshot)).decode()
+            res["snapshot"] = Utils.b64encode(self.snapshot)
 
         if self._extra_fields:
-            res["extra_fields"] = b64encode(bytearray(self.extra_fields)).decode()
+            res["extra_fields"] = Utils.b64encode(self.extra_fields)
         return res
 
     @property

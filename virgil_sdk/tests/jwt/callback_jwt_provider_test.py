@@ -32,12 +32,12 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import os
-from base64 import b64encode
 from time import sleep
 
-from tests import BaseTest
+from virgil_sdk.tests import BaseTest
 from virgil_sdk.jwt import TokenContext, Jwt
 from virgil_sdk.jwt.providers import CallbackJwtProvider, ConstAccessTokenProvider
+from virgil_sdk.utils import Utils
 
 
 class AccessTokenProviderTest(BaseTest):
@@ -53,7 +53,7 @@ class AccessTokenProviderTest(BaseTest):
 
     def test_get_invalid_token_from_server(self):
         def failed_get_from_server(context):
-            return b64encode(os.urandom(30)).decode()
+            return Utils.b64encode(os.urandom(30))
 
         callback_provider = CallbackJwtProvider(failed_get_from_server)
         context = TokenContext("test_identity", "some_operation")
@@ -62,7 +62,7 @@ class AccessTokenProviderTest(BaseTest):
     def test_get_const_access_token(self):
         token_from_server = self._get_token_from_server(
             TokenContext(
-                b64encode(os.urandom(20)).decode(),
+                Utils.b64encode(os.urandom(20)),
                 "some_operation"
             )
         )
@@ -70,16 +70,16 @@ class AccessTokenProviderTest(BaseTest):
         const_token_provider = ConstAccessTokenProvider(jwt)
         token1 = const_token_provider.get_token(
             TokenContext(
-                b64encode(os.urandom(10)).decode(),
-                b64encode(os.urandom(10)).decode(),
+                Utils.b64encode(os.urandom(10)),
+                Utils.b64encode(os.urandom(10)),
                 True
             )
         )
 
         token2 = const_token_provider.get_token(
             TokenContext(
-                b64encode(os.urandom(10)).decode(),
-                b64encode(os.urandom(10)).decode(),
+                Utils.b64encode(os.urandom(10)),
+                Utils.b64encode(os.urandom(10)),
                 True
             )
         )
@@ -88,7 +88,7 @@ class AccessTokenProviderTest(BaseTest):
     def test_imported_token_compare_with_origin(self):
         callback_provider = CallbackJwtProvider(self._get_token_from_server)
         context = TokenContext(
-            b64encode(os.urandom(20)).decode(),
+            Utils.b64encode(os.urandom(20)),
             "some_operation"
         )
         token = callback_provider.get_token(context)

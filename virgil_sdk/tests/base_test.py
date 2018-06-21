@@ -34,20 +34,19 @@
 import json
 import os
 import unittest
-from base64 import b64decode
 
 from virgil_crypto.access_token_signer import AccessTokenSigner
 from virgil_crypto.card_crypto import CardCrypto
-
-from tests import config
+from virgil_sdk.tests import config
 
 from virgil_crypto import VirgilCrypto
 
-from tests.data.data_generator import DataGenerator
+from virgil_sdk.tests.data.data_generator import DataGenerator
 from virgil_sdk import VirgilCardVerifier, CardManager
 from virgil_sdk.client import RawSignedModel
-from virgil_sdk.jwt import JwtGenerator, Jwt
+from virgil_sdk.jwt import JwtGenerator
 from virgil_sdk.jwt.providers import CallbackJwtProvider
+from virgil_sdk.utils import Utils
 
 
 class BaseTest(unittest.TestCase):
@@ -71,7 +70,7 @@ class BaseTest(unittest.TestCase):
         if self.__app_private_key:
             return self.__app_private_key
         with open(config.VIRGIL_APP_KEY_PATH, "rb") as key_file:
-            raw_private_key = bytearray(b64decode(key_file.read()))
+            raw_private_key = bytearray(Utils.b64decode(key_file.read()))
 
         self.__app_private_key = self._crypto.import_private_key(
             key_data=raw_private_key,

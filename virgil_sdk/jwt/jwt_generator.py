@@ -33,6 +33,7 @@
 # POSSIBILITY OF SUCH DAMAGE.
 import datetime
 
+from virgil_sdk.utils import Utils
 from .jwt import Jwt
 from .jwt_header_content import JwtHeaderContent
 from .jwt_body_content import JwtBodyContent
@@ -54,7 +55,7 @@ class JwtGenerator(object):
     def __init__(
         self,
         app_id,  # type: str
-        api_key,  # type: str
+        api_key,  # type: Any
         api_public_key_id,  # type: str
         lifetime,  # type: int
         access_token_signer
@@ -76,7 +77,7 @@ class JwtGenerator(object):
             A new instance of Jwt.
         """
         issued_at = datetime.datetime.now()
-        expires_at = datetime.datetime.fromtimestamp(issued_at.timestamp() + self._lifetime)
+        expires_at = datetime.datetime.utcfromtimestamp(Utils.to_timestamp(issued_at) + self._lifetime)
         jwt_body = JwtBodyContent(
             self._app_id,
             identity,
@@ -90,5 +91,5 @@ class JwtGenerator(object):
         )
         unsigned_jwt = Jwt(jwt_header, jwt_body).unsigned_data
         jwt_bytes = unsigned_jwt
-        signature = self._access_token_signer.generate_token_signature(jwt_bytes, self._api_key)
-        return Jwt(jwt_header, jwt_body, bytes(signature))
+        signature = self._access_token_signer.generate_token_signature(bytearray(jwt_bytes), self._api_key)
+        return Jwt(jwt_header, jwt_body, bytearray(signature))

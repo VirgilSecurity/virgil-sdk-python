@@ -31,11 +31,9 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-import json
-from base64 import b64encode
 from collections import OrderedDict
 
-from virgil_sdk.utils.b64utils import b64_decode
+from virgil_sdk.utils import Utils
 
 
 class RawCardContent(object):
@@ -84,7 +82,7 @@ class RawCardContent(object):
             Loaded RawCardContent instance.
         """
         card_content = cls.__new__(cls)
-        loaded_snapshot = json.loads(b64_decode(content_snapshot).decode())
+        loaded_snapshot = Utils.json_loads(Utils.b64_decode(content_snapshot))
         card_content._identity = loaded_snapshot["identity"]
         card_content._public_key = loaded_snapshot["public_key"]
         card_content._version = loaded_snapshot["version"]
@@ -97,19 +95,18 @@ class RawCardContent(object):
         return card_content
 
     @classmethod
-    def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
-        # type: (Any, RawSignedModel, bool) -> RawCardContent
+    def from_signed_model(cls, card_crypto, raw_singed_model):
+        # type: (Any, RawSignedModel) -> RawCardContent
         """
         RawCardContent deserializer from RawSignedModel representation.
         Args:
             card_crypto: CardCrypto witch provides crypto operations.
             raw_singed_model: Card raw signed model.
-            is_oudated: State of obsolescence.
         Returns:
             Loaded RawCardContent instance.
         """
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
-        card._public_key = card_crypto.import_public_key(bytearray(b64_decode(card._public_key)))
+        card._public_key = card_crypto.import_public_key(bytearray(Utils.b64_decode(card._public_key)))
         return card
 
     @property
@@ -167,13 +164,13 @@ class RawCardContent(object):
         if not self._content_snapshot:
             content = {
                 "identity": self._identity,
-                "public_key": b64encode(bytearray(self._public_key.raw_key)).decode(),
+                "public_key": Utils.b64encode(self._public_key.raw_key),
                 "version": self._version,
                 "created_at": self._created_at,
             }
             if self._previous_card_id:
                 content.update({"previous_card_id": self._previous_card_id})
-            self._content_snapshot = b64encode(
-                json.dumps(content, sort_keys=True, separators=(',', ':')
-                           ).encode()).decode()
+            self._content_snapshot = Utils.b64encode(
+                Utils.json_dumps(content, sort_keys=True, separators=(',', ':')).encode()
+            )
         return self._content_snapshot

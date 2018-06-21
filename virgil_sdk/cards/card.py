@@ -32,12 +32,10 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 import binascii
-import json
-from base64 import b64encode
 
 from virgil_sdk.cards.card_signature import CardSignature
 from virgil_sdk.client import RawSignature
-from virgil_sdk.utils.b64utils import b64_decode
+from virgil_sdk.utils import Utils
 
 
 class Card(object):
@@ -82,9 +80,9 @@ class Card(object):
         Returns:
             Generated Card id.
         """
-        fingerprint = card_crypto.generate_sha512(content_snapshot)
-        id = binascii.hexlify(bytearray(fingerprint)[:32]).decode()
-        return id
+        fingerprint = card_crypto.generate_sha512(bytearray(content_snapshot))
+        card_id = binascii.hexlify(bytearray(fingerprint)[:32]).decode()
+        return card_id
 
     @classmethod
     def from_snapshot(cls, content_snapshot):
@@ -98,7 +96,7 @@ class Card(object):
             Card created from model content snapshot.
         """
         card_content = cls.__new__(cls)
-        loaded_snapshot = json.loads(b64_decode(content_snapshot).decode())
+        loaded_snapshot = Utils.json_loads(Utils.b64_decode(content_snapshot))
         card_content._identity = loaded_snapshot["identity"]
         card_content._public_key = loaded_snapshot["public_key"]
         card_content._version = loaded_snapshot["version"]
@@ -111,24 +109,24 @@ class Card(object):
         return card_content
 
     @classmethod
-    def from_signed_model(cls, card_crypto, raw_singed_model, is_oudated=False):
+    def from_signed_model(cls, card_crypto, raw_singed_model, is_outdated=False):
         # type: (Any, RawSignedModel, bool) -> Card
         """
         Creates card from SignedModel snapshot and signatures.
         Args:
             card_crypto: Users CardCrypto witch provides cryptographic operations.
             raw_singed_model: Card RawSignedModel
-            is_oudated: State of obsolescence
+            is_outdated: State of obsolescence
 
         Returns:
             Card created from RawSignedModel.
         """
         card = cls.from_snapshot(raw_singed_model.content_snapshot)
         card.previous_card = None
-        card.is_outdated = is_oudated
+        card.is_outdated = is_outdated
 
-        card._id = cls.__generate_card_id(card_crypto, b64_decode(raw_singed_model.content_snapshot))
-        card._public_key = card_crypto.import_public_key(bytearray(b64_decode(card._public_key)))
+        card._id = cls.__generate_card_id(card_crypto, Utils.b64_decode(raw_singed_model.content_snapshot))
+        card._public_key = card_crypto.import_public_key(bytearray(Utils.b64_decode(card._public_key)))
         signatures = list()
         if raw_singed_model.signatures:
             for sign in raw_singed_model.signatures:
@@ -142,7 +140,7 @@ class Card(object):
                     card_signature = CardSignature(sign.signer, sign.signature, sign.snapshot)
                     signatures.append(card_signature)
         card.__signatures = signatures
-        card._is_outdated = is_oudated
+        card._is_outdated = is_outdated
         return card
 
     @property
@@ -218,14 +216,14 @@ class Card(object):
         if not self._content_snapshot:
             content = {
                 "identity": self._identity,
-                "public_key": b64encode(bytearray(self._public_key.raw_key)).decode(),
+                "public_key": Utils.b64encode(self._public_key.raw_key),
                 "version": self._version,
                 "created_at": self._created_at,
             }
             if self._previous_card_id:
                 content.update({"previous_card_id": self._previous_card_id})
-            self._content_snapshot = b64encode(
-                json.dumps(content, sort_keys=True, separators=(',', ':')
-                           ).encode()).decode()
+            self._content_snapshot = Utils.b64encode(
+                Utils.json_dumps(content, sort_keys=True, separators=(',', ':')).encode()
+            )
         return self._content_snapshot
 

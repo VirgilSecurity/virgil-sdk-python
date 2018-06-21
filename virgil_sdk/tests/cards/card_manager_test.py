@@ -35,27 +35,26 @@ import binascii
 import datetime
 import os
 import uuid
-from base64 import b64encode
 
 from virgil_crypto.access_token_signer import AccessTokenSigner
 from virgil_crypto.card_crypto import CardCrypto
 
-from tests import config
-from tests.base_test import BaseTest
+from virgil_sdk.tests import config
+from virgil_sdk.tests.base_test import BaseTest
 from virgil_sdk.cards import RawCardContent
 from virgil_sdk.client import RawSignedModel, ClientException
 from virgil_sdk import CardManager, VirgilCardVerifier
 from virgil_sdk.jwt import JwtGenerator
 from virgil_sdk.signers import ModelSigner
+from virgil_sdk.utils import Utils
 from virgil_sdk.verification import CardVerificationException
 
 
 class CardManagerTest(BaseTest):
 
-    class FakeTokenProvider(BaseTest):
+    class FakeTokenProvider(object):
 
         def __init__(self, token_generator, additional_token_generator=None):
-            super(CardManagerTest.FakeTokenProvider, self).__init__()
             self.token_generator = token_generator
             self.additional_token_generator = additional_token_generator
 
@@ -74,7 +73,7 @@ class CardManagerTest(BaseTest):
         def get_token(self, token_context):
             return self._token
 
-    class NeggativeVerifier(object):
+    class NegativeVerifier(object):
 
         @staticmethod
         def verify_card(card):
@@ -102,7 +101,7 @@ class CardManagerTest(BaseTest):
         outdated_card = self.get_card(alica_card.id)
         self.assertTrue(outdated_card.is_outdated)
 
-    def test_search_card_by_identity_with_two_releated_cards_return_one_actual_cards(self):
+    def test_search_card_by_identity_with_two_related_cards_return_one_actual_cards(self):
         alice_name = "alice-" + str(uuid.uuid4())
         alice_card = self.publish_card(alice_name)
         new_alice_card = self.publish_card(alice_name, alice_card.id)
@@ -216,10 +215,8 @@ class CardManagerTest(BaseTest):
         )
 
     def test_send_second_request_to_client_expired_token_retry_on_unauthorized(self):
-        class FakeTokenProvider(BaseTest):
-
+        class FakeTokenProvider(object):
             def __init__(self, identity, token_generator, additional_token_generator=None):
-                super(FakeTokenProvider, self).__init__()
                 self.identity = identity
                 self.token_generator = token_generator
                 self.additional_token_generator = additional_token_generator
@@ -272,8 +269,8 @@ class CardManagerTest(BaseTest):
     def test_get_invalid_card(self):
         class FakeCardClient(object):
 
-            def __init__(self, raw_sined_model):
-                self._raw_signed_model = raw_sined_model
+            def __init__(self, raw_signed_model):
+                self._raw_signed_model = raw_signed_model
 
             def publish_card(self, raw_signed_model, access_token):
                 return self._raw_signed_model
@@ -284,7 +281,7 @@ class CardManagerTest(BaseTest):
             def search_card(self, identity, access_token):
                 return [self._raw_signed_model]
 
-        validator = self.NeggativeVerifier()
+        validator = self.NegativeVerifier()
         jwt_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
@@ -293,7 +290,7 @@ class CardManagerTest(BaseTest):
             AccessTokenSigner()
         )
 
-        identity = b64encode(os.urandom(20)).decode()
+        identity = Utils.b64encode(os.urandom(20))
         token = jwt_generator.generate_token(identity)
         access_token_provider = self.EchoTokenProvider(token)
         key_pair = self._crypto.generate_keys()
@@ -303,7 +300,7 @@ class CardManagerTest(BaseTest):
         client = FakeCardClient(model)
 
         card_id = self._data_generator.generate_card_id()
-        search_idenitity = b64encode(os.urandom(20)).decode()
+        search_identity = Utils.b64encode(os.urandom(20))
         manager = CardManager(
             CardCrypto(),
             access_token_provider,
@@ -315,7 +312,7 @@ class CardManagerTest(BaseTest):
         self.assertRaises(CardVerificationException, manager.import_card, model.to_string())
         self.assertRaises(CardVerificationException, manager.get_card, card_id)
         self.assertRaises(CardVerificationException, manager.publish_card, model)
-        self.assertRaises(CardVerificationException, manager.search_card, search_idenitity)
+        self.assertRaises(CardVerificationException, manager.search_card, search_identity)
         self.assertRaises(CardVerificationException, manager.import_card, model)
 
     def test_gets_card_with_different_id(self):
@@ -338,7 +335,7 @@ class CardManagerTest(BaseTest):
         raw_card_content = RawCardContent(
             identity="test",
             public_key=key_pair.public_key,
-            created_at=datetime.datetime.now().timestamp(),
+            created_at=Utils.to_timestamp(datetime.datetime.now()),
             version="5.0"
         )
         model = RawSignedModel(raw_card_content.content_snapshot)
@@ -351,7 +348,7 @@ class CardManagerTest(BaseTest):
             datetime.timedelta(minutes=10).seconds,
             AccessTokenSigner()
         )
-        identity = b64encode(os.urandom(20)).decode()
+        identity = Utils.b64encode(os.urandom(20))
         token = jwt_generator.generate_token(identity)
         access_token_provider = self.EchoTokenProvider(token)
         card_id = self._data_generator.generate_app_id()
