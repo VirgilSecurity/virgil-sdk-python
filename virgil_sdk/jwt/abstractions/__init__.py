@@ -32,5 +32,5 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from .access_token import AccessToken
+from .access_token_provider import AccessTokenProvider

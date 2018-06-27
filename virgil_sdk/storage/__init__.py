@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2017 Virgil Security Inc.
+# Copyright (C) 2016-2018 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -31,5 +31,5 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from .private_key_storage import PrivateKeyStorage
 from .key_storage import KeyStorage
-from .default_key_storage import DefaultKeyStorage

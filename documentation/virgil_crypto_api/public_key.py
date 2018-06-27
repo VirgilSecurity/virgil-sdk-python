@@ -32,5 +32,14 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from abc import ABCMeta
+
+
+class PublicKey(object):
+    """
+    The PublicKey object represents an opaque reference to keying material that is managed by the agent.
+    """
+
+    __metaclass__ = ABCMeta
+
+    pass

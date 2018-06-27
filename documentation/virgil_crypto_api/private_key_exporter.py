@@ -32,5 +32,20 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+from abc import ABCMeta, abstractmethod
+from .private_key import PrivateKey
+
+
+class PrivateKeyExporter(object):
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def export_private_key(self, private_key):
+        # type: (PrivateKey) -> bytearray
+        raise NotImplementedError()
+
+    def import_private_key(self):
+        # type: (bytearray) -> PrivateKey
+        raise NotImplementedError()

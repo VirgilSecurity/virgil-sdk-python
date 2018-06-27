@@ -51,11 +51,6 @@ wheel:
 
 
 upload_testpypi:
-	# old style
-#	${PYTHON3} setup.py register -r pypitest
-#	${PYTHON3} setup.py bdist upload -r pypitest
-
-	# new style
 	twine upload -r pypitest dist/*
 
 clean:

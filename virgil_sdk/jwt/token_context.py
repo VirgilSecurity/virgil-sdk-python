@@ -32,5 +32,38 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class TokenContext(object):
+    """TokenContext provides payload for CallbackJwtProvider.get_token(TokenContext)"""
+
+    def __init__(
+        self,
+        identity,
+        operation,
+        force_reload=False,
+        service=None
+    ):
+        self._operation = operation
+        self._identity = identity
+        self._force_reload = force_reload
+        self._service = service
+
+    @property
+    def operation(self):
+        """Operation for which token is needed."""
+        return self._operation
+
+    @property
+    def identity(self):
+        """Identity that should be used in access token."""
+        return self._identity
+
+    @property
+    def force_reload(self):
+        """You can set up token cache in CachingCallbackProvider.get_token and reset cached token if True."""
+        return self._force_reload
+
+    @property
+    def service(self):
+        """Service for which token is needed."""
+        return self._service

@@ -32,5 +32,7 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from .card import Card
+from .raw_card_content import RawCardContent
+from .card_signature import CardSignature
+from .card_manager import CardManager

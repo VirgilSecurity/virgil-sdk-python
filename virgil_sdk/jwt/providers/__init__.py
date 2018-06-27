@@ -32,5 +32,6 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from .const_access_token_provider import ConstAccessTokenProvider
+from .callback_jwt_provider import CallbackJwtProvider
+from .caching_callback_provider import CachingCallbackProvider

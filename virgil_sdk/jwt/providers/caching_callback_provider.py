@@ -31,6 +31,40 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from functools import partial
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from virgil_sdk.jwt import Jwt
+from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvider
+
+
+class CachingCallbackProvider(AccessTokenProvider):
+    """
+    The CachingCallbackProvider class provides an opportunity to get cached access token
+    or renew it using callback mechanism.
+    """
+
+    TOKEN_TTL = 5  # 5 seconds
+
+    def __init__(
+        self,
+        renew_jwt_callback,  # type: function
+        token_ttl=TOKEN_TTL  # type: int
+    ):
+        self._token_ttl = token_ttl
+        self.__renew_jwt_callback = partial(renew_jwt_callback, token_ttl=token_ttl)
+        self.__access_token = None
+
+    def get_token(self, token_context):
+        # type: (TokenContext) -> Jwt
+        """
+        Gets access token from cache or renew by provided callback if expired.
+        Args:
+            token_context: Access token context.
+        Returns:
+            Instance of access token.
+        """
+        if self.__access_token:
+            if not self.__access_token.is_expired():
+                return self.__access_token
+        self.__access_token = Jwt.from_string(self.__renew_jwt_callback(token_context))
+        return self.__access_token

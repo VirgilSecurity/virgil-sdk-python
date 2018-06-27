@@ -31,6 +31,39 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.utils import Utils
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class KeyEntry(object):
+
+    def __init__(
+        self,
+        name,  # type: str
+        value,  # type: bytes
+        meta  # type: dict
+    ):
+        self.__name = name
+        self.__value = value
+        self.__meta = meta
+
+    def to_json(self):
+        return Utils.json_dumps({
+            "name": self.__name,
+            "value": self.__value,
+            "meta": self.__meta
+        })
+
+    @property
+    def name(self):
+        """Key alias."""
+        return self.__name
+
+    @property
+    def value(self):
+        """Key representation."""
+        return self.__value
+
+    @property
+    def meta(self):
+        """Key meta data."""
+        return self.__meta

@@ -32,5 +32,12 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+import os
+
+VIRGIL_APP_ID = os.environ.get("VIRGIL_APP_ID_V5", "")
+VIRGIL_API_KEY_ID = os.environ.get("VIRGIL_API_KEY_ID_V5", "")
+VIRGIL_API_PUBLIC_KEY = os.environ.get("VIRGIL_API_PUBLIC_KEY_V5", "")
+VIRGIL_APP_KEY_PATH = os.environ.get("VIRGIL_APP_KEY_PATH_V5", "")
+VIRGIL_APP_KEY_PASSWORD = os.environ.get("VIRGIL_APP_KEY_PASSWORD_V5", "")
+VIRGIL_APP_BUNDLE = os.environ.get("VIRGIL_APP_BUNDLE_V5", "")

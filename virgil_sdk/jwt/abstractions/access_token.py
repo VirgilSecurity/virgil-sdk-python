@@ -31,6 +31,27 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from abc import ABCMeta, abstractmethod
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class AccessToken(object):
+    """
+    The AccessToken provides abstract for access token.
+    """
+
+    __metaclass__ = ABCMeta
+
+    @property
+    @abstractmethod
+    def identity(self):
+        """
+        Get token identity.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def to_string(self):
+        """
+        Get token string representation.
+        """
+        raise NotImplementedError()

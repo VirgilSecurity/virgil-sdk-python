@@ -31,6 +31,24 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+import time
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from virgil_sdk.tests.base_test import BaseTest
+from virgil_sdk.jwt import TokenContext
+from virgil_sdk.jwt.providers import CachingCallbackProvider
+
+
+class CachingJwtProviderTest(BaseTest):
+
+    def test_return_valid_token(self):
+        provider = CachingCallbackProvider(self._get_token_from_server, 10)
+        jwt = provider.get_token(TokenContext("some_identity", "some_operation"))
+        jwt2 = provider.get_token(TokenContext("some_identity", "some_operation"))
+        self.assertEqual(jwt, jwt2)
+
+    def test_return_new_token_when_expired(self):
+        provider = CachingCallbackProvider(self._get_token_from_server, 1)
+        jwt = provider.get_token(TokenContext("some_identity", "some_operation"))
+        time.sleep(2)
+        jwt2 = provider.get_token(TokenContext("some_identity", "some_operation"))
+        self.assertNotEqual(jwt, jwt2)

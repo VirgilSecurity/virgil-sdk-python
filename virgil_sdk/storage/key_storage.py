@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2017 Virgil Security Inc.
+# Copyright (C) 2016-2018 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -31,30 +31,83 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from abc import abstractmethod
-from abc import ABCMeta
+import hashlib
+import os
+import platform
+from virgil_sdk.utils import Utils
 
 
 class KeyStorage(object):
-    """Abstract for classes that represent
-        a cryptographic keys storage containers."""
-    __metaclass__ = ABCMeta
+    """The provides protected storage using the user
+    credentials to encrypt or decrypt keys."""
 
-    @abstractmethod
-    def store(self, key_name, key_value):
-        # type: (str, bytes) -> None
-        """Stores the key to the given alias."""
-        raise NotImplementedError()
+    def __init__(self):
+        # type: (...) -> None
+        super(KeyStorage, self).__init__()
+        self._key_storage_path = None
 
-    @abstractmethod
-    def load(self, key_name):
-        # type: (str) -> bytes
-        """The requested key, or None if the given alias does not exist or does
-        not identify a key-related entry."""
-        raise NotImplementedError()
+    @property
+    def __key_storage_path(self):
+        home = None
+        if platform.system() == "Windows":
+            home = os.getenv("HOMEPATH")
+        if platform.system() == "Linux" or platform.system() == "Darwin":
+            home = os.getenv("HOME")
+        if not home:
+            raise EnvironmentError("Can't identify operating system")
+        return os.path.join(home, ".virgil")
 
-    @abstractmethod
-    def delete(self, key_name):
+    def store(self, key_entry):
+        # type: (KeyEntry) -> None
+        """Stores the key and data to the given alias.
+        Args:
+            key_entry: Given key entry for store.
+        Raises:
+            EnvironmentError: if cannot identify operation system for build user home path.
+        """
+        if not key_entry:
+            raise ValueError("No key entry for store.")
+        key_file_path = os.path.join(self.__key_storage_path, self.__secure_key_file_name(key_entry.name))
+        if not os.path.exists(self.__key_storage_path):
+            os.mkdir(self.__key_storage_path)
+        if os.path.exists(key_file_path):
+            raise ValueError("Can't store key {}, key with the same name already stored".format(key_entry.name))
+        file = open(key_file_path, "wb")
+        file.write(key_entry.to_json().encode())
+        file.close()
+
+    def load(self, name):
+        # type: (str) -> dict
+        """Loads the key associated with the given alias.
+        Args:
+            name: Key name in storage.
+        Returns:
+            The requested key.
+        Raises:
+            IOError: if cannot find key file in storage folder
+        """
+        if not name:
+            raise ValueError("No alias provided for load key.")
+        key_file_path = os.path.join(self.__key_storage_path, self.__secure_key_file_name(name))
+        if not os.path.exists(key_file_path):
+            raise ValueError("Can't load key {}, not found in storage".format(name))
+        return Utils.json_loads(bytes(open(key_file_path, "rb").read()).decode())
+
+    def delete(self, name):
         # type: (str) -> None
-        """Checks if the given alias exists in this keystorage."""
-        raise NotImplementedError()
+        """Checks if the given alias exists in this keystore.
+        Args:
+            name: key name in storage
+        Raises:
+            IOError if cannot find key file in storage folder
+        """
+        if not name:
+            raise ValueError("No alias provided for key deleting.")
+        key_file_path = os.path.join(self.__key_storage_path, self.__secure_key_file_name(name))
+        if not os.path.exists(key_file_path):
+            raise ValueError("Can't delete key {}, file not found in storage".format(name))
+        os.remove(key_file_path)
+
+    @staticmethod
+    def __secure_key_file_name(key_name):
+        return hashlib.sha384(key_name.encode("utf-8")).hexdigest()

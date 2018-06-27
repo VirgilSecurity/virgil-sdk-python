@@ -31,6 +31,38 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from .jwt_header_content import JwtHeaderContent
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class JwtVerifier(object):
+    """The JwtVerifier provides verification for Jwt."""
+
+    def __init__(
+            self,
+            access_token_signer,
+            api_public_key,
+            api_public_key_id
+    ):
+        self._access_token_signer = access_token_signer
+        self._api_public_key = api_public_key
+        self._api_public_key_id = api_public_key_id
+
+    def verify_token(self, jwt_token):
+        # type: (Jwt) -> bool
+        """
+        To verify specified token.
+        Args:
+            jwt_token: An instance of Jwt to be verified.
+        Returns:
+            True if token is verified, otherwise False.
+        """
+        if jwt_token._header_content.key_id != self._api_public_key_id or\
+           jwt_token._header_content.algorithm != self._access_token_signer.algorithm or\
+           jwt_token._header_content.access_token_type != JwtHeaderContent.ACCESS_TOKEN_TYPE or\
+           jwt_token._header_content.content_type != JwtHeaderContent.CONTENT_TYPE:
+            return False
+        return self._access_token_signer.verify_token_signature(
+            bytearray(jwt_token.signature_data),
+            bytearray(jwt_token.unsigned_data),
+            self._api_public_key
+        )

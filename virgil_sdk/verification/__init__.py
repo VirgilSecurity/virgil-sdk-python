@@ -32,5 +32,8 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from .card_verifier import CardVerifier
+from .white_list import WhiteList
+from .verifier_credentials import VerifierCredentials
+from .virgil_card_verifier import VirgilCardVerifier
+from .card_verification_exception import CardVerificationException

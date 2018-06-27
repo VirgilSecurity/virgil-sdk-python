@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2017 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -31,6 +31,62 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from .base_request import BaseRequest
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class Request(BaseRequest):
+    """Http request wrapper.
+    Args:
+        endpoint: request endpoint
+        body: request body
+        headers: dict of request additional headers
+        method: http request method
+    """
+    GET = 'GET'
+    POST = 'POST'
+    PUT = 'PUT'
+    DELETE = 'DELETE'
+
+    def __init__(self, endpoint, body=None, method=GET, headers=None):
+        # type: (str, Optional[str], Optional[str], Optional[dict]) -> None
+        """Constructs new Request object."""
+        self._endpoint = endpoint
+        self._body = body
+        self._headers = headers if headers else {}
+        self._method = method
+
+    def authorization(self, access_token):
+        """
+        Add authorization token to request.
+        Args:
+            access_token: Service access token.
+        """
+        self._headers.update({"Authorization": "Virgil {}".format(access_token)})
+
+    @property
+    def endpoint(self):
+        """
+        Gets the endpoint. Does not include server base address
+        """
+        return self._endpoint
+
+    @property
+    def body(self):
+        """
+        Gets the requests body.
+        """
+        return self._body
+
+    @property
+    def headers(self):
+        """
+        Gets the http headers.
+        """
+        return self._headers
+
+    @property
+    def method(self):
+        """
+        Gets the request method.
+        """
+        return self._method

@@ -31,6 +31,46 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.tests import config
+from virgil_sdk.tests import BaseTest
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from virgil_crypto.access_token_signer import AccessTokenSigner
+from virgil_sdk.jwt import Jwt, JwtVerifier
+from virgil_sdk.utils import Utils
+
+
+class JwtVerifierTest(BaseTest):
+
+    def test_verify_imported_token(self):
+        # STC-22
+        private_key = self._app_private_key
+        public_key = self._crypto.extract_public_key(private_key)
+
+        signer = AccessTokenSigner()
+        jwt = self._data_generator.generate_token(private_key, signer, 300)
+        exported_token = jwt.to_string()
+        imported_token = Jwt.from_string(exported_token)
+        verifier = JwtVerifier(
+            signer,
+            public_key,
+            config.VIRGIL_API_KEY_ID
+        )
+        self.assertTrue(verifier.verify_token(jwt))
+        self.assertTrue(verifier.verify_token(imported_token))
+
+    def test_verify_created_in_another_sdk(self):
+        # STC-22
+        token_base64 = self._compatibility_data["STC-22.jwt"]
+        public_key_base64 = self._compatibility_data["STC-22.api_public_key_base64"]
+        key_id_base64 = self._compatibility_data["STC-22.api_key_id"]
+
+        jwt = Jwt.from_string(token_base64)
+        exported_token = jwt.to_string()
+        signer = AccessTokenSigner()
+        verifier = JwtVerifier(
+            signer,
+            self._crypto.import_public_key(Utils.strtobytes(Utils.b64decode(public_key_base64))),
+            key_id_base64
+        )
+        self.assertEqual(exported_token, token_base64)
+        self.assertTrue(verifier.verify_token(jwt))

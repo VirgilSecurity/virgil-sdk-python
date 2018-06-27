@@ -31,6 +31,57 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.utils import Utils
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class RawSignature(object):
+    """
+    RawSignature provides signature for RawSignedModel.
+    """
+
+    def __init__(
+        self,
+        signer,  # type: str
+        signature,  # type: Union[bytes, bytearray]
+        signature_snapshot=None  # type: Union[bytes, bytearray]
+    ):
+        self.__signer = signer
+        self.__snapshot = signature_snapshot
+        self.__signature = signature
+
+    def __str__(self):
+        return str(self.to_json())
+
+    def __unicode__(self):
+        return str(self.to_json())
+
+    def to_json(self):
+        """RawSignature json representation."""
+        res = {
+            "signer": self.signer,
+            "signature": Utils.b64encode(bytearray(self.signature))
+        }
+        if self.snapshot:
+            res["snapshot"] = Utils.b64encode(bytearray(self.snapshot))
+        return res
+
+    @property
+    def signer(self):
+        """
+        Signer id. It must be unique among the RawSignedModel signatures.
+        """
+        return self.__signer
+
+    @property
+    def snapshot(self):
+        """
+        Additional data.
+        """
+        return self.__snapshot
+
+    @property
+    def signature(self):
+        """
+        Signature data.
+        """
+        return self.__signature

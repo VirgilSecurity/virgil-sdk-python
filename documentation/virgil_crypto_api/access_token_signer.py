@@ -32,5 +32,27 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from abc import ABCMeta, abstractmethod
+
+from .private_key import PrivateKey
+from .public_key import PublicKey
+
+
+class AccessTokenSigner(object):
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def get_algorithm(self):
+        # type: () -> str
+        raise NotImplementedError()
+
+    @abstractmethod
+    def generate_token_signature(self, token_bytes, private_key):
+        # type: (bytearray, PrivateKey) -> bytearray
+        raise NotImplementedError()
+
+    @abstractmethod
+    def verify_token_signature(self, signature, token_bytes, public_key):
+        # type: (bytearray, bytearray, PublicKey) -> bool
+        raise NotImplementedError()

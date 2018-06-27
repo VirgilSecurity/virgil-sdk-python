@@ -31,6 +31,29 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from abc import ABCMeta, abstractmethod
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class BaseConnection(object):
+    """
+    A connection for making HTTP requests against URI endpoints.
+    """
+
+    __metaclass__ = ABCMeta
+
+    @property
+    @abstractmethod
+    def base_url(self):
+        """
+        Base address for the connection.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    def send(self, request):
+        """
+        Sends an HTTP request to the API.
+        Args:
+            request: The HTTP request details.
+        """
+        raise NotImplementedError()

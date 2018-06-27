@@ -31,6 +31,21 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.tests import BaseTest
+from virgil_sdk.cards import RawCardContent
+from virgil_sdk.client import RawSignedModel
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class RawCardContentTest(BaseTest):
+
+    def test_create_from_signed_model_string(self):
+        # STC-1
+        raw_signed_model = RawSignedModel.from_string(self._compatibility_data["STC-1.as_string"])
+        raw_card_content = RawCardContent.from_signed_model(self._crypto, raw_signed_model)
+        self.assertEqual(raw_signed_model.content_snapshot, raw_card_content.content_snapshot)
+
+    def test_create_from_signed_model_json(self):
+        # STC-1
+        raw_signed_model = RawSignedModel.from_json(self._compatibility_data["STC-1.as_json"])
+        raw_card_content = RawCardContent.from_signed_model(self._crypto, raw_signed_model)
+        self.assertEqual(raw_signed_model.content_snapshot, raw_card_content.content_snapshot)

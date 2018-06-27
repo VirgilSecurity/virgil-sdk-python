@@ -31,6 +31,21 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from abc import ABCMeta, abstractmethod
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class CardVerifier(object):
+    """The CardVerifier provides abstract for card verification process."""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def verify_card(self, card):
+        """
+        Verify the specified card.
+        Args:
+            card: The instance of Card to be verified.
+        Returns:
+            True if card is verified, False otherwise
+        """
+        raise NotImplementedError()

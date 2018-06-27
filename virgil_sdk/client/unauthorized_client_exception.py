@@ -31,6 +31,8 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from .client_exception import ClientException
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class UnauthorizedClientException(ClientException):
+    pass

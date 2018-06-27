@@ -31,6 +31,23 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvider
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class ConstAccessTokenProvider(AccessTokenProvider):
+    """
+    The ConstAccessTokenProvider class provides an opportunity to use constant access token.
+    """
+
+    def __init__(self, access_token):
+        self._access_token = access_token
+
+    def get_token(self, context=None):
+        """
+        Gets access token.
+        Args:
+            context: TokenContext
+        Returns:
+            Instance of access token.
+        """
+        return self._access_token

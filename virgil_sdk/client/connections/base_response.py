@@ -31,6 +31,36 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from abc import ABCMeta, abstractmethod
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class BaseResponse(object):
+    """
+    Represents a generic HTTP response.
+    """
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    @property
+    def body(self):
+        """
+        Raw response body.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    @property
+    def headers(self):
+        """
+        Information about the API.
+        """
+        raise NotImplementedError()
+
+    @abstractmethod
+    @property
+    def status_code(self):
+        """
+        The response status code.
+        """
+        raise NotImplementedError()
