@@ -4,108 +4,130 @@
 
 [Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption-example) |  [Documentation](#documentation) | [Reference API][_reference_api] | [Support](#support)
 
-[Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few steps, you can encrypt communication, securely store data, provide passwordless authentication, and ensure data integrity.
+<a href="https://developer.virgilsecurity.com/docs"><img width="230px" src="https://cdn.virgilsecurity.com/assets/images/github/logos/virgil-logo-red.png" align="left" hspace="10" vspace="6"></a> [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
 
-To initialize and use Virgil SDK, you need to have [Developer Account](https://developer.virgilsecurity.com/account/signin).
+The Virgil SDK allows developers to get up and running with Virgil API quickly and add full end-to-end security to their existing digital solutions to become HIPAA and GDPR compliant and more.
 
 ## Installation
 
-The Virgil Python SDK is provided as a package named *virgil-sdk*. The package is distributed via Pypi package management system.
+The Virgil Python SDK is provided as a package named *virgil_sdk*. The package is distributed via Pypi package management system. The package is available for:
+- Python 2.7.x
+- Python 3.x
 
 To install the pip package use the command below:
+
 ```bash
-pip install virgil-sdk
+pip install virgil_sdk
 ```
 
+## Usage Examples
 
-## Initialization
+Before start practicing with the usage examples be sure that the SDK is configured. Check out our [SDK configuration guides][_configure_sdk] for more information.
 
-Be sure that you have already registered at the [Dev Portal](https://developer.virgilsecurity.com/account/signin) and created your application.
-
-To initialize the SDK at the __Client Side__ you need only the __Access Token__ created for a client at [Dev Portal](https://developer.virgilsecurity.com/account/signin). The Access Token helps to authenticate client's requests.
-
-```python
-virgil = Virgil("[ACCESS_TOKEN]")
-```
-
-
-
-To initialize the SDK at the __Server Side__ you need the application credentials (__Access Token__, __App ID__, __App Key__ and __App Key Password__) you got during Application registration at the [Dev Portal](https://developer.virgilsecurity.com/account/signin).
+#### Generate and publish user's Cards with Public Keys inside on Cards Service
+Use the following lines of code to create and publish a user's Card with Public Key inside on Virgil Cards Service:
 
 ```python
-key_file_content = open("[YOUR_APP_KEY_FILEPATH_HERE]", "r").read()
-raw_private_key = VirgilCrypto().strtobytes(key_file_content)
+from virgil_crypto import VirgilCrypto
+from virgil_sdk.storage import PrivateKeyStorage
 
-creds = Credentials(
-    app_id="[YOUR_APP_ID_HERE]",
-    app_key=raw_private_key,
-    app_password="[YOUR_APP_KEY_PASSWORD_HERE]"
+crypto = VirgilCrypto()
+
+# generate a key pair
+key_pair = crypto.generate_keys()
+
+# save Alice private key into key sotrage
+private_key_storage = PrivateKeyStorage()
+private_key_storage.store(key_pair.private_key, "Alice")
+
+# create and publish user's card with identity Alice on the Card Service
+card = card_manager.publish_card(
+    identity="Alice",
+    private_key=key_pair.private_key,
+    public_key=key_pair.public_key
 )
-
-context = VirgilContext(
-    access_token="[YOUR_ACCESS_TOKEN_HERE]",
-    credentials=creds
-)
-virgil = Virgil(context=context)
 ```
 
+#### Sign then encrypt data
 
+Virgil SDK lets you use a user's Private key and his or her Cards to sign, then encrypt any kind of data.
 
-## Encryption / Decryption Example
-
-Virgil Security simplifies adding encryption to any application. With our SDK you may create unique Virgil Cards for your all users and devices. With users' Virgil Cards, you can easily encrypt any data at Client Side.
+In the following example, we load a Private Key from a customized Key Storage and get recipient's Card from the Virgil Cards Services. Recipient's Card contains a Public Key on which we will encrypt the data and verify a signature.
 
 ```python
-# find Alice's card(s) at Virgil Services
-alice_card = virgil.cards.find("alice")
+from virgil_sdk.utils import Utils
 
-# encrypt the message using Alice's Virgil cards
-message = "Hello Alice!"
-encrypted_message = alice_cards.encrypt(message)
+# prepare a message
+message_to_encrypt = "Hello, Bob!"
+data_to_encrypt = Utils.strtobytes(message_to_encrypt)
 
-# transmit the message with your preferred technology to Alice
-transmit_message(encrypted_message.to_string("base64"))
+# load a private key from a device storage
+alice_private_key, alice_private_key_additional_data = private_key_storage.load("Alice")
+
+# using CardManager search for Bob's cards on Cards Service
+cards = card_manager.search_card("Bob")
+bob_relevant_public_keys = list(map(lambda x: x.public_key, cards))
+
+# sign a message with a private key then encrypt using Bob's public keys
+encrypted_data = crypto.sign_then_encrypt(data_to_encrypt, alice_private_key, bob_relevant_public_keys)
 ```
 
-Alice uses her Virgil Private Key to decrypt the encrypted message.
-
+#### Decrypt then verify data
+Once the Users receive the signed and encrypted message, they can decrypt it with their own Private Key and verify signature with a Sender's Card:
 
 ```python
-# load Alice's Key from local storage.
-alice_key = virgil.keys.load("alice_key_1", "mypassword")
+# load private key from device storage
+bob_private_key, bob_private_key_additional_data = private_key_storage.load("Bob")
 
-# decrypt the message using the Alice Virgil key
-original_message = alice_key.decrypt(transfer_data).to_string()
+# using CardManager search for Alice's cards on Cards Service
+cards = card_manager.search_card("Alice")
+alice_relevant_public_keys = list(map(lambda x: x.public_key, cards))
+
+# decrypt with a private key and verify using one of Alice's public keys
+decrypted_data = crypto.decrypt_then_verify(encrypted_data, bob_private_key, alice_relevant_public_keys)
 ```
 
-__Next:__ On the page below you can find configuration documentation and the list of our guides and use cases where you can see appliance of Virgil Python SDK.
+## Docs
+Virgil Security has a powerful set of APIs, and the documentation below can get you started today.
 
+In order to use the Virgil SDK with your application, you will need to first configure your application. By default, the SDK will attempt to look for Virgil-specific settings in your application but you can change it during SDK configuration.
 
-## Documentation
-
-Virgil Security has a powerful set of APIs and the documentation to help you get started:
-
-* [Get Started](/documentation/get-started) documentation
-  * [Encrypted storage](/documentation/get-started/encrypted-storage.md)
-  * [Encrypted communication](/documentation/get-started/encrypted-communication.md)
-  * [Data integrity](/documentation/get-started/data-integrity.md)
-* [Guides](/documentation/guides)
-  * [Virgil Cards](/documentation/guides/virgil-card)
-  * [Virgil Keys](/documentation/guides/virgil-key)
-  * [Encryption](/documentation/guides/encryption)
-  * [Signature](/documentation/guides/signature)
-* [Configuration](/documentation/guides/configuration)
-  * [Set Up Client Side](/documentation/guides/configuration/client.md)
-  * [Set Up Server Side](/documentation/guides/configuration/server.md)
+* [Configure the SDK][_configure_sdk] documentation
+  * [Setup authentication][_setup_authentication] to make API calls to Virgil Services
+  * [Setup Card Manager][_card_manager] to manage user's Public Keys
+  * [Setup Card Verifier][_card_verifier] to verify signatures inside of user's Card
+  * [Setup Key storage][_key_storage] to store Private Keys
+  * [Setup your own Crypto library][_own_crypto] inside of the SDK
+* [More usage examples][_more_examples]
+  * [Create & publish a Card][_create_card] that has a Public Key on Virgil Cards Service
+  * [Search user's Card by user's identity][_search_card]
+  * [Get user's Card by its ID][_get_card]
+  * [Use Card for crypto operations][_use_card]
 * [Reference API][_reference_api]
+
 
 ## License
 
 This library is released under the [3-clause BSD License](LICENSE.md).
 
 ## Support
+Our developer support team is here to help you. Find out more information on our [Help Center](https://help.virgilsecurity.com/).
 
-Our developer support team is here to help you. You can find us on [Twitter](https://twitter.com/virgilsecurity) and [email][support].
+You can find us on [Twitter](https://twitter.com/VirgilSecurity) or send us email support@VirgilSecurity.com.
 
-[support]: mailto:support@virgilsecurity.com
-[_reference_api]: https://virgilsecurity.github.io/virgil-sdk-python
+Also, get extra help from our support team on [Slack](https://virgilsecurity.slack.com/join/shared_invite/enQtMjg4MDE4ODM3ODA4LTc2OWQwOTQ3YjNhNTQ0ZjJiZDc2NjkzYjYxNTI0YzhmNTY2ZDliMGJjYWQ5YmZiOGU5ZWEzNmJiMWZhYWVmYTM).
+
+[_virgil_crypto]: https://github.com/VirgilSecurity/virgil-sdk-crypto-net
+[_cards_service]: https://developer.virgilsecurity.com/docs/api-reference/card-service/v5
+[_use_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/use-card-for-crypto-operation
+[_get_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/get-card
+[_search_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/search-card
+[_create_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/create-card
+[_own_crypto]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-own-crypto-library
+[_key_storage]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-key-storage
+[_card_verifier]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-card-verifier
+[_card_manager]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-card-manager
+[_setup_authentication]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-authentication
+[_reference_api]: https://developer.virgilsecurity.com/docs/api-reference
+[_configure_sdk]: https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
+[_more_examples]: https://developer.virgilsecurity.com/docs/how-to#public-key-management
