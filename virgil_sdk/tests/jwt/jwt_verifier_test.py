@@ -53,7 +53,7 @@ class JwtVerifierTest(BaseTest):
         verifier = JwtVerifier(
             signer,
             public_key,
-            config.VIRGIL_API_KEY_ID
+            config.VIRGIL_API_PUB_KEY_ID
         )
         self.assertTrue(verifier.verify_token(jwt))
         self.assertTrue(verifier.verify_token(imported_token))

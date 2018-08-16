@@ -202,7 +202,7 @@ class CardManagerTest(BaseTest):
         token_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID,
+            config.VIRGIL_API_PUB_KEY_ID,
             0,
             AccessTokenSigner()
         )
@@ -233,7 +233,7 @@ class CardManagerTest(BaseTest):
         expired_jwt_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID,
+            config.VIRGIL_API_PUB_KEY_ID,
             1,
             AccessTokenSigner()
         )
@@ -241,7 +241,7 @@ class CardManagerTest(BaseTest):
         jwt_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID,
+            config.VIRGIL_API_PUB_KEY_ID,
             datetime.timedelta(minutes=10).seconds,
             AccessTokenSigner()
         )
@@ -285,7 +285,7 @@ class CardManagerTest(BaseTest):
         jwt_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID,
+            config.VIRGIL_API_PUB_KEY_ID,
             datetime.timedelta(minutes=10).seconds,
             AccessTokenSigner()
         )
@@ -344,7 +344,7 @@ class CardManagerTest(BaseTest):
         jwt_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID,
+            config.VIRGIL_API_PUB_KEY_ID,
             datetime.timedelta(minutes=10).seconds,
             AccessTokenSigner()
         )

@@ -110,7 +110,7 @@ class BaseTest(unittest.TestCase):
         builder = JwtGenerator(
             config.VIRGIL_APP_ID,
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID,
+            config.VIRGIL_API_PUB_KEY_ID,
             token_ttl,
             AccessTokenSigner()
         )
@@ -154,6 +154,7 @@ class BaseTest(unittest.TestCase):
         validator = VirgilCardVerifier(CardCrypto())
         manager = CardManager(
             CardCrypto(),
+            api_url=config.VIRGIL_API_URL,
             access_token_provider=CallbackJwtProvider(self._get_token_from_server),
             sign_callback=self.sign_callback,
             card_verifier=validator
