@@ -87,7 +87,7 @@ class CardClientTest(BaseTest):
         jwt = self.__generate_jwt(
             Utils.b64encode(os.urandom(15)),
             self._app_private_key,
-            config.VIRGIL_API_KEY_ID
+            config.VIRGIL_API_PUB_KEY_ID
         )
         client = CardClient()
         self.assertRaises(

@@ -109,7 +109,7 @@ class DataGenerator(object):
         )
 
     def generate_token(self, private_key, signer, token_ttl):
-        api_public_key_id = config.VIRGIL_API_KEY_ID
+        api_public_key_id = config.VIRGIL_API_PUB_KEY_ID
         app_id = config.VIRGIL_APP_ID
 
         jwt_generator = JwtGenerator(
