@@ -17,7 +17,7 @@ The Virgil Python SDK is provided as a package named *virgil_sdk*. The package i
 To install the pip package use the command below:
 
 ```bash
-pip install virgil_sdk
+pip install virgil-sdk
 ```
 
 ## Usage Examples
