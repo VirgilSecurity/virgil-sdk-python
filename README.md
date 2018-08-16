@@ -1,10 +1,12 @@
 # Virgil Security Python SDK
 [![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
 
+[Introduction](#introduction) | [SDK Features](#sdk-features) | [Installation](#installation) | [Initialization](#initialization) | [Usage Examples](#usage-examples) | [Docs](#docs) | [Support](#support)
 
-[Installation](#installation) | [Initialization](#initialization) | [Encryption / Decryption Example](#encryption-example) |  [Documentation](#documentation) | [Reference API][_reference_api] | [Support](#support)
+## Introduction
 
 <a href="https://developer.virgilsecurity.com/docs"><img width="230px" src="https://cdn.virgilsecurity.com/assets/images/github/logos/virgil-logo-red.png" align="left" hspace="10" vspace="6"></a> [Virgil Security](https://virgilsecurity.com) provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
+
 
 The Virgil SDK allows developers to get up and running with Virgil API quickly and add full end-to-end security to their existing digital solutions to become HIPAA and GDPR compliant and more.
 
@@ -13,6 +15,7 @@ The Virgil SDK allows developers to get up and running with Virgil API quickly a
 The Virgil Python SDK is provided as a package named *virgil_sdk*. The package is distributed via Pypi package management system. The package is available for:
 - Python 2.7.x
 - Python 3.x
+
 
 To install the pip package use the command below:
 
@@ -24,8 +27,10 @@ pip install virgil_sdk
 
 Before start practicing with the usage examples be sure that the SDK is configured. Check out our [SDK configuration guides][_configure_sdk] for more information.
 
+
 #### Generate and publish user's Cards with Public Keys inside on Cards Service
 Use the following lines of code to create and publish a user's Card with Public Key inside on Virgil Cards Service:
+
 
 ```python
 from virgil_crypto import VirgilCrypto
@@ -33,12 +38,14 @@ from virgil_sdk.storage import PrivateKeyStorage
 
 crypto = VirgilCrypto()
 
+
 # generate a key pair
 key_pair = crypto.generate_keys()
 
 # save Alice private key into key sotrage
 private_key_storage = PrivateKeyStorage()
 private_key_storage.store(key_pair.private_key, "Alice")
+
 
 # create and publish user's card with identity Alice on the Card Service
 card = card_manager.publish_card(
@@ -70,10 +77,12 @@ bob_relevant_public_keys = list(map(lambda x: x.public_key, cards))
 
 # sign a message with a private key then encrypt using Bob's public keys
 encrypted_data = crypto.sign_then_encrypt(data_to_encrypt, alice_private_key, bob_relevant_public_keys)
+
 ```
 
 #### Decrypt then verify data
 Once the Users receive the signed and encrypted message, they can decrypt it with their own Private Key and verify signature with a Sender's Card:
+
 
 ```python
 # load private key from device storage
@@ -87,6 +96,7 @@ alice_relevant_public_keys = list(map(lambda x: x.public_key, cards))
 decrypted_data = crypto.decrypt_then_verify(encrypted_data, bob_private_key, alice_relevant_public_keys)
 ```
 
+
 ## Docs
 Virgil Security has a powerful set of APIs, and the documentation below can get you started today.
 
@@ -97,6 +107,7 @@ In order to use the Virgil SDK with your application, you will need to first con
   * [Setup Card Manager][_card_manager] to manage user's Public Keys
   * [Setup Card Verifier][_card_verifier] to verify signatures inside of user's Card
   * [Setup Key storage][_key_storage] to store Private Keys
+
   * [Setup your own Crypto library][_own_crypto] inside of the SDK
 * [More usage examples][_more_examples]
   * [Create & publish a Card][_create_card] that has a Public Key on Virgil Cards Service
@@ -116,6 +127,7 @@ Our developer support team is here to help you. Find out more information on our
 You can find us on [Twitter](https://twitter.com/VirgilSecurity) or send us email support@VirgilSecurity.com.
 
 Also, get extra help from our support team on [Slack](https://virgilsecurity.slack.com/join/shared_invite/enQtMjg4MDE4ODM3ODA4LTc2OWQwOTQ3YjNhNTQ0ZjJiZDc2NjkzYjYxNTI0YzhmNTY2ZDliMGJjYWQ5YmZiOGU5ZWEzNmJiMWZhYWVmYTM).
+
 
 [_virgil_crypto]: https://github.com/VirgilSecurity/virgil-sdk-crypto-net
 [_cards_service]: https://developer.virgilsecurity.com/docs/api-reference/card-service/v5
