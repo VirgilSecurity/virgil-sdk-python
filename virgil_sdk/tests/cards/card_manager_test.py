@@ -250,10 +250,13 @@ class CardManagerTest(BaseTest):
 
         access_token_provider = FakeTokenProvider(identity, jwt_generator, expired_jwt_generator)
         validator = VirgilCardVerifier(CardCrypto())
+        if config.VIRGIL_CARD_SERVICE_PUBLIC_KEY:
+            validator._VirgilCardVerifier__virgil_public_key_base64 = config.VIRGIL_CARD_SERVICE_PUBLIC_KEY
         card_manager = CardManager(
             card_crypto=CardCrypto(),
             access_token_provider=access_token_provider,
             card_verifier=validator,
+            api_url=config.VIRGIL_API_URL,
             sign_callback=self.sign_callback
         )
         key_pair = self._crypto.generate_keys()

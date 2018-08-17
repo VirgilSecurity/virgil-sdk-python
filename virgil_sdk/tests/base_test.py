@@ -152,6 +152,8 @@ class BaseTest(unittest.TestCase):
     def __get_manager(self):
 
         validator = VirgilCardVerifier(CardCrypto())
+        if config.VIRGIL_CARD_SERVICE_PUBLIC_KEY:
+            validator._VirgilCardVerifier__virgil_public_key_base64 = config.VIRGIL_CARD_SERVICE_PUBLIC_KEY
         manager = CardManager(
             CardCrypto(),
             api_url=config.VIRGIL_API_URL,
