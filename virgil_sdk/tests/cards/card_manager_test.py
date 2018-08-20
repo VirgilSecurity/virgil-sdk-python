@@ -171,7 +171,7 @@ class CardManagerTest(BaseTest):
 
     def test_import_pure_card_from_json_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
-        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, True)
+        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_json = raw_signed_model.to_json()
         card = card_manager.import_card(raw_signed_model_json)
@@ -180,8 +180,7 @@ class CardManagerTest(BaseTest):
 
     def test_import_full_card_from_string_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
-        additional_key_pair = self._crypto.generate_keys()
-        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, True, key_pair, additional_key_pair)
+        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_string = raw_signed_model.to_string()
         card = card_manager.import_card(raw_signed_model_string)
@@ -190,8 +189,7 @@ class CardManagerTest(BaseTest):
 
     def test_import_full_card_from_json_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
-        additional_key_pair = self._crypto.generate_keys()
-        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, True, key_pair, additional_key_pair)
+        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_json = raw_signed_model.to_json()
         card = card_manager.import_card(raw_signed_model_json)
@@ -250,10 +248,13 @@ class CardManagerTest(BaseTest):
 
         access_token_provider = FakeTokenProvider(identity, jwt_generator, expired_jwt_generator)
         validator = VirgilCardVerifier(CardCrypto())
+        if config.VIRGIL_CARD_SERVICE_PUBLIC_KEY:
+            validator._VirgilCardVerifier__virgil_public_key_base64 = config.VIRGIL_CARD_SERVICE_PUBLIC_KEY
         card_manager = CardManager(
             card_crypto=CardCrypto(),
             access_token_provider=access_token_provider,
             card_verifier=validator,
+            api_url=config.VIRGIL_API_URL,
             sign_callback=self.sign_callback
         )
         key_pair = self._crypto.generate_keys()
