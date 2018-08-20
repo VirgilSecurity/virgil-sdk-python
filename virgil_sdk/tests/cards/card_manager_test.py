@@ -171,7 +171,7 @@ class CardManagerTest(BaseTest):
 
     def test_import_pure_card_from_json_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
-        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, True)
+        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_json = raw_signed_model.to_json()
         card = card_manager.import_card(raw_signed_model_json)
@@ -180,8 +180,7 @@ class CardManagerTest(BaseTest):
 
     def test_import_full_card_from_string_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
-        additional_key_pair = self._crypto.generate_keys()
-        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, True, key_pair, additional_key_pair)
+        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_string = raw_signed_model.to_string()
         card = card_manager.import_card(raw_signed_model_string)
@@ -190,8 +189,7 @@ class CardManagerTest(BaseTest):
 
     def test_import_full_card_from_json_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
-        additional_key_pair = self._crypto.generate_keys()
-        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, True, key_pair, additional_key_pair)
+        raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_json = raw_signed_model.to_json()
         card = card_manager.import_card(raw_signed_model_json)

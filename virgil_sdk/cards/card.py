@@ -140,7 +140,6 @@ class Card(object):
                     card_signature = CardSignature(sign.signer, sign.signature, sign.snapshot)
                     signatures.append(card_signature)
         card.__signatures = signatures
-        card._is_outdated = is_outdated
         return card
 
     @property
