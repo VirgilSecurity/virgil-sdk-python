@@ -80,7 +80,7 @@ class RawSignedModel(object):
         Raises:
             ValueError: Attempt to add existing signature.
         """
-        if signature in self._signatures:
+        if signature.signer in list(map(lambda x: x.signer, self._signatures)):
             raise ValueError("Attempt to add an existing signature")
         else:
             self._signatures.append(signature)
