@@ -76,7 +76,7 @@ class JwtGenerator(object):
         Returns:
             A new instance of Jwt.
         """
-        issued_at = datetime.datetime.now()
+        issued_at = datetime.datetime.utcnow()
         expires_at = datetime.datetime.utcfromtimestamp(Utils.to_timestamp(issued_at) + self._lifetime)
         jwt_body = JwtBodyContent(
             self._app_id,
