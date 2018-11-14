@@ -2,11 +2,15 @@ from setuptools import setup, find_packages
 
 setup(
     name="virgil-sdk",
-    version="5.0.0",
+    version="5.0.1",
     packages=find_packages(),
     install_requires=[
-        'virgil-crypto',
+        'virgil-crypto>3',
     ],
+    package_data={"virgil_sdk": [
+        "tests/*",
+        "tests/data/*.json"
+    ]},
     author="Virgil Security",
     author_email="support@virgilsecurity.com",
     url="https://virgilsecurity.com/",
@@ -19,6 +23,7 @@ setup(
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "Topic :: Security :: Cryptography",
         ],
     license="BSD",
