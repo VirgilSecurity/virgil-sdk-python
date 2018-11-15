@@ -43,6 +43,7 @@ before_install: |
   fi
 
 install:
+  - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
   - pip install .
 
 script:
