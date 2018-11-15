@@ -1,0 +1,54 @@
+os: linux
+
+language: python
+
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7-dev"
+
+matrix:
+  include:
+    - os: osx
+      language: generic
+      env: PYTHON=2.7.15 PYTHON_VERSION=2.7
+    - os: osx
+      language: generic
+      env: PYTHON=3.4.9 PYTHON_VERSION=3.4
+    - os: osx
+      language: generic
+      env: PYTHON=3.5.6 PYTHON_VERSION=3.5
+    - os: osx
+      language: generic
+      env: PYTHON=3.6.7 PYTHON_VERSION=3.6
+    - os: osx
+      language: generic
+      env: PYTHON=3.7.1 PYTHON_VERSION=3.7
+
+before_install: |
+  if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+    brew update
+    brew install openssl readline
+    brew outdated pyenv || brew upgrade pyenv
+    brew install pyenv-virtualenv
+    pyenv install $PYTHON
+    export PYENV_VERSION=$PYTHON
+    export PATH="/Users/travis/.pyenv/shims:${PATH}"
+    pyenv-virtualenv venv
+    source venv/bin/activate
+    python --version
+  fi
+
+install:
+  - pip install .
+
+script:
+  - pwd
+  - python -m unittest discover -s virgil_crypto/tests -p "*_test.py"
+
+notifications:
+  email:
+  - const_ant_in@virgilsecurity.com
