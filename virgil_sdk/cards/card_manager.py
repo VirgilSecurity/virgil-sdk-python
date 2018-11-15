@@ -44,7 +44,7 @@ from virgil_sdk.verification.virgil_card_verifier import VirgilCardVerifier
 from virgil_sdk.client.card_client import CardClient
 from virgil_sdk.signers.model_signer import ModelSigner
 
-if sys.version_info[0] == 3:
+if sys.version_info[0] == 3 and sys.version_info[1] != 4:
     from json import JSONDecodeError
 else:
     class JSONDecodeError(Exception):
