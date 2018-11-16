@@ -60,8 +60,10 @@ class KeyStorage(object):
     def store(self, key_entry):
         # type: (KeyEntry) -> None
         """Stores the key and data to the given alias.
+
         Args:
             key_entry: Given key entry for store.
+
         Raises:
             EnvironmentError: if cannot identify operation system for build user home path.
         """
@@ -79,10 +81,13 @@ class KeyStorage(object):
     def load(self, name):
         # type: (str) -> dict
         """Loads the key associated with the given alias.
+
         Args:
             name: Key name in storage.
+
         Returns:
             The requested key.
+
         Raises:
             IOError: if cannot find key file in storage folder
         """
@@ -96,8 +101,10 @@ class KeyStorage(object):
     def delete(self, name):
         # type: (str) -> None
         """Checks if the given alias exists in this keystore.
+
         Args:
             name: key name in storage
+
         Raises:
             IOError if cannot find key file in storage folder
         """

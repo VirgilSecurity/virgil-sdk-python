@@ -44,7 +44,7 @@ from virgil_sdk.verification.virgil_card_verifier import VirgilCardVerifier
 from virgil_sdk.client.card_client import CardClient
 from virgil_sdk.signers.model_signer import ModelSigner
 
-if sys.version_info[0] == 3:
+if sys.version_info[0] == 3 and sys.version_info[1] != 4:
     from json import JSONDecodeError
 else:
     class JSONDecodeError(Exception):
@@ -82,6 +82,7 @@ class CardManager(object):
             identity: Unique identity value.
             previous_card_id: Previous card id that current card is used to override to.
             extra_fields: The additional data associated with the card.
+
         Returns:
             The instance of newly published Card.
         """
@@ -94,12 +95,11 @@ class CardManager(object):
         # type: (...) -> Card
         """
         Publish a new Card using specified params.
+
         Args:
             *args:
                 raw_card: Unpublished raw signed model.
-
                 or
-
                 private_key: PrivateKey for generate self signature.
                 public_key: Card Public key.
                 identity: Unique identity value.
@@ -107,14 +107,13 @@ class CardManager(object):
                 extra_fields: The additional data associated with the card.
             **kwargs:
                 raw_card: Unpublished raw signed model.
-
                 or
-
                 private_key: PrivateKey for generate self signature.
                 public_key: Card Public key.
                 identity: Unique identity value.
                 previous_card_id: Previous card id that current card is used to override to.
                 extra_fields: The additional data associated with the card.
+
         Returns:
             The instance of newly published Card.
         """
@@ -131,8 +130,10 @@ class CardManager(object):
         # type: (str) -> Card
         """
         Gets the card by specified ID.
+
         Args:
             card_id: The card ID to be found.
+
         Returns:
             The instance of found Card
         """
@@ -149,8 +150,10 @@ class CardManager(object):
         # type: (str) -> List[Card]
         """
         Searches for cards by specified identity.
+
         Args:
             identity: The identity to be found.
+
         Returns:
             The list of found Card.
         """
@@ -169,8 +172,10 @@ class CardManager(object):
         # type: (Union[str, dict, RawSignedModel]) -> Card
         """
         Imports and verifies Card.
+
         Args:
             card_to_import: Exported data of signed model.
+
         Returns:
             Imported and verified card.
         """
@@ -198,8 +203,10 @@ class CardManager(object):
         # type: (Card) -> str
         """
         Exports the specified card as a BASE64 string.
+
         Args:
             card: Card instance to be exported.
+
         Returns:
             Serialize card to base64.
         """
@@ -209,8 +216,10 @@ class CardManager(object):
         # type: (Card) -> str
         """
         Exports the specified card as a json.
+
         Args:
             card: Card instance to be exported.
+
         Returns:
             Serialize card to json.
         """
@@ -220,8 +229,10 @@ class CardManager(object):
         # type: (Card) -> RawSignedModel
         """
         Exports the specified card as a RawSignedModel.
+
         Args:
             card: Card instance to be exported.
+
         Returns:
             Returns instance of RawSignedModel representing Card.
         """
@@ -279,6 +290,7 @@ class CardManager(object):
     def model_signer(self):
         """
         Card signer.
+
         Returns:
             Returns instance of ModelSigner witch provides sign operations.
         """
@@ -290,6 +302,7 @@ class CardManager(object):
     def card_client(self):
         """
         Card service client.
+
         Returns:
             Returns an instance of CardClient with provides card service operations.
         """
@@ -307,7 +320,8 @@ class CardManager(object):
     @property
     def card_verifier(self):
         """
-            Card verifier.
+        Card verifier.
+
         Returns:
             Returns an instance of CardVerifier which provides card verification.
         """

@@ -46,6 +46,7 @@ class PrivateKeyStorage(object):
         # type: (Any, Union[bytes, bytearray], dict) -> None
         """
         Stores the key to the given alias.
+
         Args:
             private_key: PrivateKey representation.
             name: Key name in storage.
@@ -64,8 +65,10 @@ class PrivateKeyStorage(object):
         """
         The requested key and meta data, or None if the given alias does not exist or does
         not identify a key-related entry.
+
         Args:
             name: Key name in storage.
+
         Returns:
             Tuple of key and additional data loaded from storage.
         """
@@ -79,6 +82,7 @@ class PrivateKeyStorage(object):
         # type: (str) -> None
         """
         Checks if the given alias exists in this storage and delete it.
+
         Args:
             name: Key alias in storage.
         """

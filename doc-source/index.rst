@@ -11,8 +11,7 @@ Virgil Security Python SDK
    :caption: Contents:
 
    installation
-   quickstart
-   modules
+   api-doc/modules
 
 
 Indices and tables

@@ -56,9 +56,11 @@ class CardClient(BaseCardClient):
         # type: (RawSignedModel, str) -> RawSignedModel
         """
         Publishes card in Virgil Cards service.
+
         Args:
             raw_card: An instance of RawSignedModel class.
             token: The string representation of Jwt token.
+
         Returns:
             Published raw card.
         """
@@ -82,9 +84,11 @@ class CardClient(BaseCardClient):
         # type: (str, str) -> List[RawSignedModel]
         """
         Searches a cards on Virgil Services by specified identity.
+
         Args:
             identity: The identity.
             token: The string representation of Jwt token.
+
         Returns:
            A list of found cards in raw form.
         """
@@ -111,12 +115,15 @@ class CardClient(BaseCardClient):
         # type: (str, str) -> Tuple[RawSignedModel, bool]
         """
         Gets a card from Virgil Services by specified card ID.
+
         Args:
             card_id: The Card ID.
             token: The string representation of Jwt token.
+
         Returns:
             An instance of RawSignedModel class and flag,
             which determines whether or not this raw card is superseded.
+
         Raises:
             ValueError: Missed argument.
         """

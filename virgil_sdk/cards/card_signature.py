@@ -54,6 +54,7 @@ class CardSignature(object):
     def to_json(self):
         """
         Card signature json representation.
+
         Returns:
             Serialize signature to json.
         """
@@ -69,6 +70,7 @@ class CardSignature(object):
     def signer(self):
         """
         Gets the type of signer signature.
+
         Returns:
             Type of signer signature.
         """
@@ -78,6 +80,7 @@ class CardSignature(object):
     def signature(self):
         """
         Get the generated digital signature.
+
         Returns:
             Digital signature.
         """
@@ -87,6 +90,7 @@ class CardSignature(object):
     def snapshot(self):
         """
         Get the signature snapshot.
+
         Returns:
             Signature snapshot.
         """
@@ -96,6 +100,7 @@ class CardSignature(object):
     def extra_fields(self):
         """
         Get the custom fields associated with the signature.
+
         Returns:
             Custom fields.
         """

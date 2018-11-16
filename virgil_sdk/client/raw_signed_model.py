@@ -66,6 +66,7 @@ class RawSignedModel(object):
     def to_string(self):
         """
         Serialize to base64 encoded string.
+
         Returns:
             Base64 encoded string.
         """
@@ -75,8 +76,10 @@ class RawSignedModel(object):
         # type: (RawSignature) -> None
         """
         Add signature to RawSignedModel list.
+
         Args:
             signature: Card signature.
+
         Raises:
             ValueError: Attempt to add existing signature.
         """
@@ -104,11 +107,13 @@ class RawSignedModel(object):
         # type: (PublicKey, str, int, Optional[str]) -> RawSignedModel
         """
         Generate card RawSignedModel.
+
         Args:
             public_key: Card public key.
             identity: Unique card identity.
             created_at: Creation timestamp.
             previous_card_id: Previous card ID.
+
         Returns:
             Generate RawSignedModel instance.
         """

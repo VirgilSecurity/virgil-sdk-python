@@ -70,9 +70,11 @@ class JwtGenerator(object):
         # type: (str, Optional[dict]) -> Jwt
         """
         Generates new JWT using specified identity and additional data.
+
         Args:
             identity: Identity to generate with.
             data: Dictionary with additional data which will be kept in jwt body.
+
         Returns:
             A new instance of Jwt.
         """
