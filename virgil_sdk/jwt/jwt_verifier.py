@@ -51,8 +51,10 @@ class JwtVerifier(object):
         # type: (Jwt) -> bool
         """
         To verify specified token.
+
         Args:
             jwt_token: An instance of Jwt to be verified.
+
         Returns:
             True if token is verified, otherwise False.
         """

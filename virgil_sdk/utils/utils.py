@@ -62,6 +62,7 @@ class Utils(object):
 
         Args:
             source: Base64 data as an ASCII byte string
+
         Returns:
             The decoded byte string.
 
@@ -88,6 +89,7 @@ class Utils(object):
 
         Args:
             Data for encoding.
+
         Returns:
             Encoded data without '=' sign
         """

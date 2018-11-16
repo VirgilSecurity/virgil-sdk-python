@@ -49,10 +49,13 @@ class ServiceConnection(BaseConnection):
         # type: (Request) -> Tuple[dict, dict]
         """
         Sends an HTTP request to the API.
+
         Args:
             request: The HTTP request details.
+
         Returns:
             Response.
+
         Raises:
             ClientException: Gets some connection or api errors.
             UnauthorizedClientException: Request without or wrong access token.
@@ -92,8 +95,10 @@ class ServiceConnection(BaseConnection):
     def _prepare_request(self, request):
         # type (http.Request) -> urllib.RequestWithMethod
         """Converts http request to urllib-compatible request.
+
         Args:
             request: http.Request object containing sending request data.
+
         Returns:
             urllib-compatible request object.
         """

@@ -36,6 +36,7 @@ from .base_request import BaseRequest
 
 class Request(BaseRequest):
     """Http request wrapper.
+
     Args:
         endpoint: request endpoint
         body: request body
@@ -58,6 +59,7 @@ class Request(BaseRequest):
     def authorization(self, access_token):
         """
         Add authorization token to request.
+
         Args:
             access_token: Service access token.
         """

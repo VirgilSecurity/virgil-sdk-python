@@ -83,11 +83,14 @@ class Jwt(AccessToken):
         # type: (str) -> Jwt
         """
         Initializes a new instance of the Jwt class using its string representation.
+
         Args:
             jwt_string: String representation of signed jwt. It must be equal to:
-                        base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body) "." + base64UrlEncode(Jwt Signature).
+                base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body) "." + base64UrlEncode(Jwt Signature).
+
         Returns:
             Initialized instance of Jwt.
+
         Raises:
             ValueError: Wrong jwt format.
         """

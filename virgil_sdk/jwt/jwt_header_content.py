@@ -65,8 +65,10 @@ class JwtHeaderContent(object):
         # type: (Union[dict, str, bytes, bytearray]) -> JwtHeaderContent
         """
         Initializes a new instance of the JwtHeaderContent from json representation.
+
         Args:
             json_loaded_dict: JwtHeaderContent json representation
+
         Returns:
             A new instance of JwtHeaderContent.
         """

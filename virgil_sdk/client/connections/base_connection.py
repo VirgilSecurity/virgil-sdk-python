@@ -53,6 +53,7 @@ class BaseConnection(object):
     def send(self, request):
         """
         Sends an HTTP request to the API.
+
         Args:
             request: The HTTP request details.
         """

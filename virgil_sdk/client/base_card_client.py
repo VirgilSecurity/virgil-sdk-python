@@ -44,9 +44,11 @@ class BaseCardClient(object):
     def search_card(self, identity, token):
         """
         Searches a cards on Virgil Services by specified identity.
+
         Args:
             identity: The identity.
             token: The string representation of Jwt token.
+
         Returns:
             A list of found cards in raw form.
         """
@@ -55,9 +57,11 @@ class BaseCardClient(object):
     def get_card(self, card_id, token):
         """
         Gets a card from Virgil Services by specified card ID.
+
         Args:
             card_id: The card ID.
             token: The string representation of Jwt token.
+
         Returns:
            An instance of RawSignedModel class and flag,
            which determines whether or not this raw card is superseded.
@@ -67,9 +71,11 @@ class BaseCardClient(object):
     def publish_card(self, request, token):
         """
         Publishes card in Virgil Cards service.
+
         Args:
             request: An instance of RawSignedModel class.
             token: The string representation of Jwt token.
+
         Returns:
             Published raw card.
         """

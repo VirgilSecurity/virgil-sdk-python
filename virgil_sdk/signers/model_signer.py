@@ -54,6 +54,7 @@ class ModelSigner(object):
         # type: (RawSignedModel, str, PrivateKey, Union[bytearray, bytes], dict) -> None
         """
         Adds signature to the specified RawSignedModel using specified signer.
+
         Args:
             model: The instance of RawSignedModel to be signed.
             signer:
@@ -85,6 +86,7 @@ class ModelSigner(object):
         # type: (RawSignedModel, PrivateKey, Union[bytearray, bytes], dict) -> None
         """
         Adds owner's signature to the specified RawSignedModel using specified signer.
+
         Args:
             model: The instance of RawSignedModel to be signed.
             signer_private_key: The instance of PrivateKey to sign with.

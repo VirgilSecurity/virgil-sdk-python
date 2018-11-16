@@ -43,8 +43,10 @@ class CardVerifier(object):
     def verify_card(self, card):
         """
         Verify the specified card.
+
         Args:
             card: The instance of Card to be verified.
+
         Returns:
             True if card is verified, False otherwise
         """
