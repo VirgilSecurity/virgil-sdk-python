@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.jwt package &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Virgil SDK Python v5 documentation" href="../index.html"/>
+        <link rel="up" title="virgil_sdk package" href="virgil_sdk.html"/>
+        <link rel="next" title="virgil_sdk.jwt.abstractions package" href="virgil_sdk.jwt.abstractions.html"/>
+        <link rel="prev" title="virgil_sdk.client.connections package" href="virgil_sdk.client.connections.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">virgil_sdk</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="virgil_sdk.html">virgil_sdk package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="virgil_sdk.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.cards.html">virgil_sdk.cards package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">virgil_sdk.jwt package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.signers.html">virgil_sdk.signers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.storage.html">virgil_sdk.storage package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.utils.html">virgil_sdk.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.verification.html">virgil_sdk.verification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virgil_sdk.html#module-virgil_sdk">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">virgil_sdk</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.html">virgil_sdk package</a> &raquo;</li>
+        
+      <li>virgil_sdk.jwt package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virgil-sdk-jwt-package">
+<h1>virgil_sdk.jwt package<a class="headerlink" href="#virgil-sdk-jwt-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="virgil_sdk.jwt.abstractions.html">virgil_sdk.jwt.abstractions package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.abstractions.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.abstractions.html#module-virgil_sdk.jwt.abstractions.access_token">virgil_sdk.jwt.abstractions.access_token module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.abstractions.html#module-virgil_sdk.jwt.abstractions.access_token_provider">virgil_sdk.jwt.abstractions.access_token_provider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.abstractions.html#module-virgil_sdk.jwt.abstractions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="virgil_sdk.jwt.providers.html">virgil_sdk.jwt.providers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.providers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.providers.html#module-virgil_sdk.jwt.providers.caching_callback_provider">virgil_sdk.jwt.providers.caching_callback_provider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.providers.html#module-virgil_sdk.jwt.providers.callback_jwt_provider">virgil_sdk.jwt.providers.callback_jwt_provider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.providers.html#module-virgil_sdk.jwt.providers.const_access_token_provider">virgil_sdk.jwt.providers.const_access_token_provider module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.jwt.providers.html#module-virgil_sdk.jwt.providers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-virgil_sdk.jwt.jwt">
+<span id="virgil-sdk-jwt-jwt-module"></span><h2>virgil_sdk.jwt.jwt module<a class="headerlink" href="#module-virgil_sdk.jwt.jwt" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.jwt.Jwt">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.jwt.</code><code class="descname">Jwt</code><span class="sig-paren">(</span><em>jwt_header_content=None</em>, <em>jwt_body_content=None</em>, <em>signature_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt.html#Jwt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="virgil_sdk.jwt.abstractions.html#virgil_sdk.jwt.abstractions.access_token.AccessToken" title="virgil_sdk.jwt.abstractions.access_token.AccessToken"><code class="xref py py-class docutils literal notranslate"><span class="pre">virgil_sdk.jwt.abstractions.access_token.AccessToken</span></code></a></p>
+<p>The Jwt class implements abstract AccessToken in terms of Virgil JWT.</p>
+<dl class="classmethod">
+<dt id="virgil_sdk.jwt.jwt.Jwt.from_string">
+<em class="property">classmethod </em><code class="descname">from_string</code><span class="sig-paren">(</span><em>jwt_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt.html#Jwt.from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt.from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes a new instance of the Jwt class using its string representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jwt_string</strong> – String representation of signed jwt. It must be equal to:
+base64UrlEncode(JWT Header) + “.” + base64UrlEncode(JWT Body) “.” + base64UrlEncode(Jwt Signature).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Initialized instance of Jwt.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – Wrong jwt format.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt.Jwt.identity">
+<code class="descname">identity</code><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jwt identity.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.jwt.jwt.Jwt.is_expired">
+<code class="descname">is_expired</code><span class="sig-paren">(</span><em>expiration_timestamp=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt.html#Jwt.is_expired"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt.is_expired" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether or not token is expired.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt.Jwt.signature_data">
+<code class="descname">signature_data</code><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt.signature_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a digital signature of jwt.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.jwt.jwt.Jwt.to_string">
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt.html#Jwt.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jwt string representation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt.Jwt.unsigned_data">
+<code class="descname">unsigned_data</code><a class="headerlink" href="#virgil_sdk.jwt.jwt.Jwt.unsigned_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>String representation of jwt without signature.
+It equals to:
+base64UrlEncode(JWT Header) + “.” + base64UrlEncode(JWT Body)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.jwt_body_content">
+<span id="virgil-sdk-jwt-jwt-body-content-module"></span><h2>virgil_sdk.jwt.jwt_body_content module<a class="headerlink" href="#module-virgil_sdk.jwt.jwt_body_content" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.jwt_body_content.</code><code class="descname">JwtBodyContent</code><span class="sig-paren">(</span><em>app_id</em>, <em>identity</em>, <em>issued_at</em>, <em>expires_at</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_body_content.html#JwtBodyContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>JwtBodyContent represents content of Jwt.</p>
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.expires_at">
+<code class="descname">expires_at</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.expires_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>When jwt expire.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.from_json">
+<em class="property">classmethod </em><code class="descname">from_json</code><span class="sig-paren">(</span><em>json_loaded_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_body_content.html#JwtBodyContent.from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes a new instance of the JwtBodyContent from json representation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.identity">
+<code class="descname">identity</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jwt identity.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.identity_prefix">
+<code class="descname">identity_prefix</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.identity_prefix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.issuer">
+<code class="descname">issuer</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.issuer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jwt issuer.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.json">
+<code class="descname">json</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.json" title="Permalink to this definition">¶</a></dt>
+<dd><p>JwtBodyContent json representation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_body_content.JwtBodyContent.subject_prefix">
+<code class="descname">subject_prefix</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_body_content.JwtBodyContent.subject_prefix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.jwt_generator">
+<span id="virgil-sdk-jwt-jwt-generator-module"></span><h2>virgil_sdk.jwt.jwt_generator module<a class="headerlink" href="#module-virgil_sdk.jwt.jwt_generator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.jwt_generator.JwtGenerator">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.jwt_generator.</code><code class="descname">JwtGenerator</code><span class="sig-paren">(</span><em>app_id</em>, <em>api_key</em>, <em>api_public_key_id</em>, <em>lifetime</em>, <em>access_token_signer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_generator.html#JwtGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_generator.JwtGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The JwtGenerator class implements Jwt generation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>app_id</strong> – Application id. Take it on <a class="reference external" href="https://dashboard.virgilsecurity.com">https://dashboard.virgilsecurity.com</a></li>
+<li><strong>api_key</strong> – Private Key which will be used for signing generated access tokens. Take it on
+<a class="reference external" href="https://dashboard.virgilsecurity.com/api-keys">https://dashboard.virgilsecurity.com/api-keys</a></li>
+<li><strong>api_public_key_id</strong> – Key Id of take it on <a class="reference external" href="https://dashboard.virgilsecurity.com/api-keys">https://dashboard.virgilsecurity.com/api-keys</a></li>
+<li><strong>lifetime</strong> – Lifetime of generated tokens.</li>
+<li><strong>access_token_signer</strong> – An instance of AccessTokenSigner that is used to generate token signature using api_key.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="virgil_sdk.jwt.jwt_generator.JwtGenerator.generate_token">
+<code class="descname">generate_token</code><span class="sig-paren">(</span><em>identity</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_generator.html#JwtGenerator.generate_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_generator.JwtGenerator.generate_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates new JWT using specified identity and additional data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>identity</strong> – Identity to generate with.</li>
+<li><strong>data</strong> – Dictionary with additional data which will be kept in jwt body.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A new instance of Jwt.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.jwt_header_content">
+<span id="virgil-sdk-jwt-jwt-header-content-module"></span><h2>virgil_sdk.jwt.jwt_header_content module<a class="headerlink" href="#module-virgil_sdk.jwt.jwt_header_content" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.jwt_header_content.</code><code class="descname">JwtHeaderContent</code><span class="sig-paren">(</span><em>algorithm</em>, <em>key_id</em>, <em>access_token_type='JWT'</em>, <em>content_type='virgil-jwt;v=1'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_header_content.html#JwtHeaderContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>JwtHeaderContent represents header of Jwt</p>
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.ACCESS_TOKEN_TYPE">
+<code class="descname">ACCESS_TOKEN_TYPE</code><em class="property"> = 'JWT'</em><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.ACCESS_TOKEN_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.CONTENT_TYPE">
+<code class="descname">CONTENT_TYPE</code><em class="property"> = 'virgil-jwt;v=1'</em><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.CONTENT_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.access_token_type">
+<code class="descname">access_token_type</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.access_token_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access token type.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.algorithm">
+<code class="descname">algorithm</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.algorithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signature algorithm.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.content_type">
+<code class="descname">content_type</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.content_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access token content type.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.from_json">
+<em class="property">classmethod </em><code class="descname">from_json</code><span class="sig-paren">(</span><em>json_loaded_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_header_content.html#JwtHeaderContent.from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes a new instance of the JwtHeaderContent from json representation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>json_loaded_dict</strong> – JwtHeaderContent json representation</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A new instance of JwtHeaderContent.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.json">
+<code class="descname">json</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.json" title="Permalink to this definition">¶</a></dt>
+<dd><p>JwtHeaderContent json representation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.key_id">
+<code class="descname">key_id</code><a class="headerlink" href="#virgil_sdk.jwt.jwt_header_content.JwtHeaderContent.key_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Id of public key which is used for jwt signature verification.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.jwt_verifier">
+<span id="virgil-sdk-jwt-jwt-verifier-module"></span><h2>virgil_sdk.jwt.jwt_verifier module<a class="headerlink" href="#module-virgil_sdk.jwt.jwt_verifier" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.jwt_verifier.JwtVerifier">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.jwt_verifier.</code><code class="descname">JwtVerifier</code><span class="sig-paren">(</span><em>access_token_signer</em>, <em>api_public_key</em>, <em>api_public_key_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_verifier.html#JwtVerifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_verifier.JwtVerifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The JwtVerifier provides verification for Jwt.</p>
+<dl class="method">
+<dt id="virgil_sdk.jwt.jwt_verifier.JwtVerifier.verify_token">
+<code class="descname">verify_token</code><span class="sig-paren">(</span><em>jwt_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/jwt_verifier.html#JwtVerifier.verify_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.jwt_verifier.JwtVerifier.verify_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>To verify specified token.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>jwt_token</strong> – An instance of Jwt to be verified.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if token is verified, otherwise False.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.token_context">
+<span id="virgil-sdk-jwt-token-context-module"></span><h2>virgil_sdk.jwt.token_context module<a class="headerlink" href="#module-virgil_sdk.jwt.token_context" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.token_context.TokenContext">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.token_context.</code><code class="descname">TokenContext</code><span class="sig-paren">(</span><em>identity</em>, <em>operation</em>, <em>force_reload=False</em>, <em>service=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/token_context.html#TokenContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.token_context.TokenContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>TokenContext provides payload for CallbackJwtProvider.get_token(TokenContext)</p>
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.token_context.TokenContext.force_reload">
+<code class="descname">force_reload</code><a class="headerlink" href="#virgil_sdk.jwt.token_context.TokenContext.force_reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>You can set up token cache in CachingCallbackProvider.get_token and reset cached token if True.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.token_context.TokenContext.identity">
+<code class="descname">identity</code><a class="headerlink" href="#virgil_sdk.jwt.token_context.TokenContext.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity that should be used in access token.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.token_context.TokenContext.operation">
+<code class="descname">operation</code><a class="headerlink" href="#virgil_sdk.jwt.token_context.TokenContext.operation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Operation for which token is needed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.token_context.TokenContext.service">
+<code class="descname">service</code><a class="headerlink" href="#virgil_sdk.jwt.token_context.TokenContext.service" title="Permalink to this definition">¶</a></dt>
+<dd><p>Service for which token is needed.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-virgil_sdk.jwt" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="virgil_sdk.jwt.abstractions.html" class="btn btn-neutral float-right" title="virgil_sdk.jwt.abstractions package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="virgil_sdk.client.connections.html" class="btn btn-neutral" title="virgil_sdk.client.connections package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Virgil Security.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'v5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

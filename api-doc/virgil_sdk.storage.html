@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>virgil_sdk.storage package &mdash; virgil-sdk-python  documentation</title>
+  <title>virgil_sdk.storage package &mdash; Virgil SDK Python v5 documentation</title>
   
 
   
@@ -35,9 +35,10 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="virgil-sdk-python  documentation" href="../index.html"/>
-        <link rel="up" title="Modules" href="../modules.html"/>
-        <link rel="prev" title="virgil_sdk.identities package" href="virgil_sdk.identities.html"/> 
+    <link rel="top" title="Virgil SDK Python v5 documentation" href="../index.html"/>
+        <link rel="up" title="virgil_sdk package" href="virgil_sdk.html"/>
+        <link rel="next" title="virgil_sdk.utils package" href="virgil_sdk.utils.html"/>
+        <link rel="prev" title="virgil_sdk.signers package" href="virgil_sdk.signers.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -56,7 +57,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> virgil-sdk-python
+            <a href="../index.html" class="icon icon-home"> Virgil SDK Python
           
 
           
@@ -89,21 +90,19 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quickstart</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.api.html">virgil_sdk.api package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.http.html">virgil_sdk.client.http package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.client.requests.html">virgil_sdk.client.requests package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.html">virgil_sdk.cryptography package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.hashes.html">virgil_sdk.cryptography.hashes package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.cryptography.keys.html">virgil_sdk.cryptography.keys package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="virgil_sdk.identities.html">virgil_sdk.identities package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">virgil_sdk.storage package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.storage.default_key_storage">virgil_sdk.storage.default_key_storage module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.storage.key_storage">virgil_sdk.storage.key_storage module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-virgil_sdk.storage">Module contents</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">virgil_sdk</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="virgil_sdk.html">virgil_sdk package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="virgil_sdk.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.cards.html">virgil_sdk.cards package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.jwt.html">virgil_sdk.jwt package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.signers.html">virgil_sdk.signers package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">virgil_sdk.storage package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.utils.html">virgil_sdk.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.verification.html">virgil_sdk.verification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virgil_sdk.html#module-virgil_sdk">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -122,7 +121,7 @@
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">virgil-sdk-python</a>
+          <a href="../index.html">Virgil SDK Python</a>
         
       </nav>
 
@@ -152,7 +151,9 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="modules.html">virgil_sdk</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.html">virgil_sdk package</a> &raquo;</li>
         
       <li>virgil_sdk.storage package</li>
     
@@ -176,67 +177,33 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-virgil_sdk.storage.default_key_storage">
-<span id="virgil-sdk-storage-default-key-storage-module"></span><h2>virgil_sdk.storage.default_key_storage module<a class="headerlink" href="#module-virgil_sdk.storage.default_key_storage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-virgil_sdk.storage.key_entry">
+<span id="virgil-sdk-storage-key-entry-module"></span><h2>virgil_sdk.storage.key_entry module<a class="headerlink" href="#module-virgil_sdk.storage.key_entry" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="virgil_sdk.storage.default_key_storage.DefaultKeyStorage">
-<em class="property">class </em><code class="descclassname">virgil_sdk.storage.default_key_storage.</code><code class="descname">DefaultKeyStorage</code><a class="reference internal" href="../_modules/virgil_sdk/storage/default_key_storage.html#DefaultKeyStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.default_key_storage.DefaultKeyStorage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#virgil_sdk.storage.key_storage.KeyStorage" title="virgil_sdk.storage.key_storage.KeyStorage"><code class="xref py py-class docutils literal"><span class="pre">virgil_sdk.storage.key_storage.KeyStorage</span></code></a></p>
-<p>The provides protected storage using the user
-credentials to encrypt or decrypt keys.</p>
-<dl class="method">
-<dt id="virgil_sdk.storage.default_key_storage.DefaultKeyStorage.delete">
-<code class="descname">delete</code><span class="sig-paren">(</span><em>key_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/default_key_storage.html#DefaultKeyStorage.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.default_key_storage.DefaultKeyStorage.delete" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if the given alias exists in this keystore.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key_name</strong> &#8211; key name in storage</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">IOError if cannot find key file in storage folder</td>
-</tr>
-</tbody>
-</table>
+<dt id="virgil_sdk.storage.key_entry.KeyEntry">
+<em class="property">class </em><code class="descclassname">virgil_sdk.storage.key_entry.</code><code class="descname">KeyEntry</code><span class="sig-paren">(</span><em>name</em>, <em>value</em>, <em>meta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_entry.html#KeyEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_entry.KeyEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="virgil_sdk.storage.key_entry.KeyEntry.meta">
+<code class="descname">meta</code><a class="headerlink" href="#virgil_sdk.storage.key_entry.KeyEntry.meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Key meta data.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.storage.key_entry.KeyEntry.name">
+<code class="descname">name</code><a class="headerlink" href="#virgil_sdk.storage.key_entry.KeyEntry.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Key alias.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="virgil_sdk.storage.default_key_storage.DefaultKeyStorage.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>key_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/default_key_storage.html#DefaultKeyStorage.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.default_key_storage.DefaultKeyStorage.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Loads the key associated with the given alias.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key_name</strong> &#8211; key name in storage</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The requested key</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body">IOError if cannot find key file in storage folder</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dt id="virgil_sdk.storage.key_entry.KeyEntry.to_json">
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_entry.html#KeyEntry.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_entry.KeyEntry.to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="method">
-<dt id="virgil_sdk.storage.default_key_storage.DefaultKeyStorage.store">
-<code class="descname">store</code><span class="sig-paren">(</span><em>key_name</em>, <em>key_value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/default_key_storage.html#DefaultKeyStorage.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.default_key_storage.DefaultKeyStorage.store" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stores the key to the given alias.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key_name</strong> &#8211; key name in storage</li>
-<li><strong>key_value</strong> &#8211; key value for store</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">EnvironmentError if cannot identify operationg system for build user home path.</p>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="attribute">
+<dt id="virgil_sdk.storage.key_entry.KeyEntry.value">
+<code class="descname">value</code><a class="headerlink" href="#virgil_sdk.storage.key_entry.KeyEntry.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Key representation.</p>
 </dd></dl>
 
 </dd></dl>
@@ -247,26 +214,116 @@ credentials to encrypt or decrypt keys.</p>
 <dl class="class">
 <dt id="virgil_sdk.storage.key_storage.KeyStorage">
 <em class="property">class </em><code class="descclassname">virgil_sdk.storage.key_storage.</code><code class="descname">KeyStorage</code><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Abstract for classes that represent
-a cryptographic keys storage containers.</p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The provides protected storage using the user
+credentials to encrypt or decrypt keys.</p>
 <dl class="method">
 <dt id="virgil_sdk.storage.key_storage.KeyStorage.delete">
-<code class="descname">delete</code><span class="sig-paren">(</span><em>key_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage.delete" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if the given alias exists in this keystorage.</p>
+<code class="descname">delete</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the given alias exists in this keystore.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – key name in storage</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body">IOError if cannot find key file in storage folder</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="virgil_sdk.storage.key_storage.KeyStorage.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>key_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>The requested key, or None if the given alias does not exist or does
-not identify a key-related entry.</p>
+<code class="descname">load</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the key associated with the given alias.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – Key name in storage.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The requested key.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">IOError</span></code> – if cannot find key file in storage folder</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="virgil_sdk.storage.key_storage.KeyStorage.store">
-<code class="descname">store</code><span class="sig-paren">(</span><em>key_name</em>, <em>key_value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage.store" title="Permalink to this definition">¶</a></dt>
+<code class="descname">store</code><span class="sig-paren">(</span><em>key_entry</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/key_storage.html#KeyStorage.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.key_storage.KeyStorage.store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the key and data to the given alias.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key_entry</strong> – Given key entry for store.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">EnvironmentError</span></code> – if cannot identify operation system for build user home path.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.storage.private_key_storage">
+<span id="virgil-sdk-storage-private-key-storage-module"></span><h2>virgil_sdk.storage.private_key_storage module<a class="headerlink" href="#module-virgil_sdk.storage.private_key_storage" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.storage.private_key_storage.PrivateKeyStorage">
+<em class="property">class </em><code class="descclassname">virgil_sdk.storage.private_key_storage.</code><code class="descname">PrivateKeyStorage</code><span class="sig-paren">(</span><em>key_storage=&lt;virgil_sdk.storage.key_storage.KeyStorage object&gt;</em>, <em>key_exporter=&lt;virgil_crypto.private_key_exporter.PrivateKeyExporter object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/private_key_storage.html#PrivateKeyStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.private_key_storage.PrivateKeyStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="virgil_sdk.storage.private_key_storage.PrivateKeyStorage.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/private_key_storage.html#PrivateKeyStorage.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.private_key_storage.PrivateKeyStorage.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the given alias exists in this storage and delete it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – Key alias in storage.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.storage.private_key_storage.PrivateKeyStorage.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/private_key_storage.html#PrivateKeyStorage.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.private_key_storage.PrivateKeyStorage.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>The requested key and meta data, or None if the given alias does not exist or does
+not identify a key-related entry.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> – Key name in storage.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Tuple of key and additional data loaded from storage.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.storage.private_key_storage.PrivateKeyStorage.store">
+<code class="descname">store</code><span class="sig-paren">(</span><em>private_key</em>, <em>name</em>, <em>meta=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/storage/private_key_storage.html#PrivateKeyStorage.store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.storage.private_key_storage.PrivateKeyStorage.store" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stores the key to the given alias.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>private_key</strong> – PrivateKey representation.</li>
+<li><strong>name</strong> – Key name in storage.</li>
+<li><strong>meta</strong> – Additional data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -287,8 +344,10 @@ not identify a key-related entry.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="virgil_sdk.utils.html" class="btn btn-neutral float-right" title="virgil_sdk.utils package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="virgil_sdk.identities.html" class="btn btn-neutral" title="virgil_sdk.identities package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="virgil_sdk.signers.html" class="btn btn-neutral" title="virgil_sdk.signers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -319,7 +378,7 @@ not identify a key-related entry.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'',
+            VERSION:'v5',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  false,
@@ -329,6 +388,7 @@ not identify a key-related entry.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

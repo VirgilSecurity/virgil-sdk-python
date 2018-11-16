@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.verification package &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Virgil SDK Python v5 documentation" href="../index.html"/>
+        <link rel="up" title="virgil_sdk package" href="virgil_sdk.html"/>
+        <link rel="prev" title="virgil_sdk.utils package" href="virgil_sdk.utils.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">virgil_sdk</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="virgil_sdk.html">virgil_sdk package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="virgil_sdk.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.cards.html">virgil_sdk.cards package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.jwt.html">virgil_sdk.jwt package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.signers.html">virgil_sdk.signers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.storage.html">virgil_sdk.storage package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.utils.html">virgil_sdk.utils package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">virgil_sdk.verification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virgil_sdk.html#module-virgil_sdk">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">virgil_sdk</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.html">virgil_sdk package</a> &raquo;</li>
+        
+      <li>virgil_sdk.verification package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virgil-sdk-verification-package">
+<h1>virgil_sdk.verification package<a class="headerlink" href="#virgil-sdk-verification-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-virgil_sdk.verification.card_verification_exception">
+<span id="virgil-sdk-verification-card-verification-exception-module"></span><h2>virgil_sdk.verification.card_verification_exception module<a class="headerlink" href="#module-virgil_sdk.verification.card_verification_exception" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="virgil_sdk.verification.card_verification_exception.CardVerificationException">
+<em class="property">exception </em><code class="descclassname">virgil_sdk.verification.card_verification_exception.</code><code class="descname">CardVerificationException</code><a class="reference internal" href="../_modules/virgil_sdk/verification/card_verification_exception.html#CardVerificationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.verification.card_verification_exception.CardVerificationException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Represents errors occurred during card validation.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.verification.card_verifier">
+<span id="virgil-sdk-verification-card-verifier-module"></span><h2>virgil_sdk.verification.card_verifier module<a class="headerlink" href="#module-virgil_sdk.verification.card_verifier" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.verification.card_verifier.CardVerifier">
+<em class="property">class </em><code class="descclassname">virgil_sdk.verification.card_verifier.</code><code class="descname">CardVerifier</code><a class="reference internal" href="../_modules/virgil_sdk/verification/card_verifier.html#CardVerifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.verification.card_verifier.CardVerifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The CardVerifier provides abstract for card verification process.</p>
+<dl class="method">
+<dt id="virgil_sdk.verification.card_verifier.CardVerifier.verify_card">
+<code class="descname">verify_card</code><span class="sig-paren">(</span><em>card</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/verification/card_verifier.html#CardVerifier.verify_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.verification.card_verifier.CardVerifier.verify_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify the specified card.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>card</strong> – The instance of Card to be verified.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if card is verified, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.verification.verifier_credentials">
+<span id="virgil-sdk-verification-verifier-credentials-module"></span><h2>virgil_sdk.verification.verifier_credentials module<a class="headerlink" href="#module-virgil_sdk.verification.verifier_credentials" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.verification.verifier_credentials.VerifierCredentials">
+<em class="property">class </em><code class="descclassname">virgil_sdk.verification.verifier_credentials.</code><code class="descname">VerifierCredentials</code><span class="sig-paren">(</span><em>signer</em>, <em>public_key_base64</em><span class="sig-paren">)</span><a class="headerlink" href="#virgil_sdk.verification.verifier_credentials.VerifierCredentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<p>The VerifierCredentials provides a signer’s identifier and its public key in base64.</p>
+<dl class="attribute">
+<dt id="virgil_sdk.verification.verifier_credentials.VerifierCredentials.public_key_base64">
+<code class="descname">public_key_base64</code><a class="headerlink" href="#virgil_sdk.verification.verifier_credentials.VerifierCredentials.public_key_base64" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.verification.verifier_credentials.VerifierCredentials.signer">
+<code class="descname">signer</code><a class="headerlink" href="#virgil_sdk.verification.verifier_credentials.VerifierCredentials.signer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.verification.virgil_card_verifier">
+<span id="virgil-sdk-verification-virgil-card-verifier-module"></span><h2>virgil_sdk.verification.virgil_card_verifier module<a class="headerlink" href="#module-virgil_sdk.verification.virgil_card_verifier" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier">
+<em class="property">class </em><code class="descclassname">virgil_sdk.verification.virgil_card_verifier.</code><code class="descname">VirgilCardVerifier</code><span class="sig-paren">(</span><em>crypto</em>, <em>verify_self_signature=True</em>, <em>verify_virgil_signature=True</em>, <em>white_lists=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/verification/virgil_card_verifier.html#VirgilCardVerifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#virgil_sdk.verification.card_verifier.CardVerifier" title="virgil_sdk.verification.card_verifier.CardVerifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">virgil_sdk.verification.card_verifier.CardVerifier</span></code></a></p>
+<p>The VirgilCardVerifier represents card verification process.</p>
+<dl class="method">
+<dt id="virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier.verify_card">
+<code class="descname">verify_card</code><span class="sig-paren">(</span><em>card</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/verification/virgil_card_verifier.html#VirgilCardVerifier.verify_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier.verify_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>To verify the specified card.</p>
+<p>To set up rule for verification of self signature use verify_self_signature.
+To set up rule for verification of virgil service signature use verify_virgil_signature.
+To set up Whitelists use white_lists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>card</strong> – The instance of Card to verify.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True is card is verified according to set rules, otherwise False.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier.white_lists">
+<code class="descname">white_lists</code><a class="headerlink" href="#virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier.white_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get white lists.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.verification.white_list">
+<span id="virgil-sdk-verification-white-list-module"></span><h2>virgil_sdk.verification.white_list module<a class="headerlink" href="#module-virgil_sdk.verification.white_list" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.verification.white_list.WhiteList">
+<em class="property">class </em><code class="descclassname">virgil_sdk.verification.white_list.</code><code class="descname">WhiteList</code><a class="reference internal" href="../_modules/virgil_sdk/verification/white_list.html#WhiteList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.verification.white_list.WhiteList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The Whitelist implements a collection of VerifierCredentials
+that is used for card verification in VirgilCardVerifier.</p>
+<dl class="attribute">
+<dt id="virgil_sdk.verification.white_list.WhiteList.verifiers_credentials">
+<code class="descname">verifiers_credentials</code><a class="headerlink" href="#virgil_sdk.verification.white_list.WhiteList.verifiers_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>The collection of VerifierCredentials
+that is used for card verification in VirgilCardVerifier.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.verification">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-virgil_sdk.verification" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="virgil_sdk.utils.html" class="btn btn-neutral" title="virgil_sdk.utils package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Virgil Security.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'v5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.jwt.providers package &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Virgil SDK Python v5 documentation" href="../index.html"/>
+        <link rel="up" title="virgil_sdk.jwt package" href="virgil_sdk.jwt.html"/>
+        <link rel="next" title="virgil_sdk.signers package" href="virgil_sdk.signers.html"/>
+        <link rel="prev" title="virgil_sdk.jwt.abstractions package" href="virgil_sdk.jwt.abstractions.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">virgil_sdk</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="virgil_sdk.html">virgil_sdk package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="virgil_sdk.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.cards.html">virgil_sdk.cards package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="virgil_sdk.jwt.html">virgil_sdk.jwt package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.signers.html">virgil_sdk.signers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.storage.html">virgil_sdk.storage package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.utils.html">virgil_sdk.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.verification.html">virgil_sdk.verification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virgil_sdk.html#module-virgil_sdk">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">virgil_sdk</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.html">virgil_sdk package</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.jwt.html">virgil_sdk.jwt package</a> &raquo;</li>
+        
+      <li>virgil_sdk.jwt.providers package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virgil-sdk-jwt-providers-package">
+<h1>virgil_sdk.jwt.providers package<a class="headerlink" href="#virgil-sdk-jwt-providers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-virgil_sdk.jwt.providers.caching_callback_provider">
+<span id="virgil-sdk-jwt-providers-caching-callback-provider-module"></span><h2>virgil_sdk.jwt.providers.caching_callback_provider module<a class="headerlink" href="#module-virgil_sdk.jwt.providers.caching_callback_provider" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.providers.caching_callback_provider.CachingCallbackProvider">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.providers.caching_callback_provider.</code><code class="descname">CachingCallbackProvider</code><span class="sig-paren">(</span><em>renew_jwt_callback</em>, <em>token_ttl=5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/providers/caching_callback_provider.html#CachingCallbackProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.providers.caching_callback_provider.CachingCallbackProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="virgil_sdk.jwt.abstractions.html#virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider" title="virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider</span></code></a></p>
+<p>The CachingCallbackProvider class provides an opportunity to get cached access token
+or renew it using callback mechanism.</p>
+<dl class="attribute">
+<dt id="virgil_sdk.jwt.providers.caching_callback_provider.CachingCallbackProvider.TOKEN_TTL">
+<code class="descname">TOKEN_TTL</code><em class="property"> = 5</em><a class="headerlink" href="#virgil_sdk.jwt.providers.caching_callback_provider.CachingCallbackProvider.TOKEN_TTL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.jwt.providers.caching_callback_provider.CachingCallbackProvider.get_token">
+<code class="descname">get_token</code><span class="sig-paren">(</span><em>token_context</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/providers/caching_callback_provider.html#CachingCallbackProvider.get_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.providers.caching_callback_provider.CachingCallbackProvider.get_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets access token from cache or renew by provided callback if expired.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>token_context</strong> – Access token context.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Instance of access token.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.providers.callback_jwt_provider">
+<span id="virgil-sdk-jwt-providers-callback-jwt-provider-module"></span><h2>virgil_sdk.jwt.providers.callback_jwt_provider module<a class="headerlink" href="#module-virgil_sdk.jwt.providers.callback_jwt_provider" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.providers.callback_jwt_provider.CallbackJwtProvider">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.providers.callback_jwt_provider.</code><code class="descname">CallbackJwtProvider</code><span class="sig-paren">(</span><em>get_token_callback</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/providers/callback_jwt_provider.html#CallbackJwtProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.providers.callback_jwt_provider.CallbackJwtProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="virgil_sdk.jwt.abstractions.html#virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider" title="virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider</span></code></a></p>
+<p>The CallbackJwtProvider class provides an opportunity to get access token using callback mechanism.</p>
+<dl class="method">
+<dt id="virgil_sdk.jwt.providers.callback_jwt_provider.CallbackJwtProvider.get_token">
+<code class="descname">get_token</code><span class="sig-paren">(</span><em>token_context</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/providers/callback_jwt_provider.html#CallbackJwtProvider.get_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.providers.callback_jwt_provider.CallbackJwtProvider.get_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets access token by provided callback.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>token_context</strong> – Access token context.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Instance of access token.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – Token context empty.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.providers.const_access_token_provider">
+<span id="virgil-sdk-jwt-providers-const-access-token-provider-module"></span><h2>virgil_sdk.jwt.providers.const_access_token_provider module<a class="headerlink" href="#module-virgil_sdk.jwt.providers.const_access_token_provider" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="virgil_sdk.jwt.providers.const_access_token_provider.ConstAccessTokenProvider">
+<em class="property">class </em><code class="descclassname">virgil_sdk.jwt.providers.const_access_token_provider.</code><code class="descname">ConstAccessTokenProvider</code><span class="sig-paren">(</span><em>access_token</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/providers/const_access_token_provider.html#ConstAccessTokenProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.providers.const_access_token_provider.ConstAccessTokenProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="virgil_sdk.jwt.abstractions.html#virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider" title="virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">virgil_sdk.jwt.abstractions.access_token_provider.AccessTokenProvider</span></code></a></p>
+<p>The ConstAccessTokenProvider class provides an opportunity to use constant access token.</p>
+<dl class="method">
+<dt id="virgil_sdk.jwt.providers.const_access_token_provider.ConstAccessTokenProvider.get_token">
+<code class="descname">get_token</code><span class="sig-paren">(</span><em>context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/jwt/providers/const_access_token_provider.html#ConstAccessTokenProvider.get_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.jwt.providers.const_access_token_provider.ConstAccessTokenProvider.get_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets access token.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>context</strong> – TokenContext</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Instance of access token.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-virgil_sdk.jwt.providers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-virgil_sdk.jwt.providers" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="virgil_sdk.signers.html" class="btn btn-neutral float-right" title="virgil_sdk.signers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="virgil_sdk.jwt.abstractions.html" class="btn btn-neutral" title="virgil_sdk.jwt.abstractions package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Virgil Security.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'v5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  false,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
