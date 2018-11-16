@@ -1,5 +1,5 @@
 # Virgil Security Python SDK
-[![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
+[![Travis (.com)](https://img.shields.io/travis/com/:user/:repo.svg)](https://github.com/VirgilSecurity/virgil-sdk-python/) [![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
 
 [Introduction](#introduction) | [SDK Features](#sdk-features) | [Installation](#installation) | [Initialization](#initialization) | [Usage Examples](#usage-examples) | [Docs](#docs) | [Support](#support)
 
@@ -129,17 +129,17 @@ You can find us on [Twitter](https://twitter.com/VirgilSecurity) or send us emai
 Also, get extra help from our support team on [Slack](https://virgilsecurity.slack.com/join/shared_invite/enQtMjg4MDE4ODM3ODA4LTc2OWQwOTQ3YjNhNTQ0ZjJiZDc2NjkzYjYxNTI0YzhmNTY2ZDliMGJjYWQ5YmZiOGU5ZWEzNmJiMWZhYWVmYTM).
 
 
-[_virgil_crypto]: https://github.com/VirgilSecurity/virgil-sdk-crypto-net
+[_virgil_crypto]: https://github.com/VirgilSecurity/virgil-crypto-python
 [_cards_service]: https://developer.virgilsecurity.com/docs/api-reference/card-service/v5
-[_use_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/use-card-for-crypto-operation
-[_get_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/get-card
-[_search_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/search-card
-[_create_card]: https://developer.virgilsecurity.com/docs/cs/how-to/public-key-management/v5/create-card
-[_own_crypto]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-own-crypto-library
-[_key_storage]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-key-storage
-[_card_verifier]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-card-verifier
-[_card_manager]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-card-manager
-[_setup_authentication]: https://developer.virgilsecurity.com/docs/cs/how-to/setup/v5/setup-authentication
-[_reference_api]: https://developer.virgilsecurity.com/docs/api-reference
+[_use_card]: https://developer.virgilsecurity.com/docs/python/how-to/public-key-management/v5/use-card-for-crypto-operation
+[_get_card]: https://developer.virgilsecurity.com/docs/python/how-to/public-key-management/v5/get-card
+[_search_card]: https://developer.virgilsecurity.com/docs/python/how-to/public-key-management/v5/search-card
+[_create_card]: https://developer.virgilsecurity.com/docs/python/how-to/public-key-management/v5/create-card
+[_own_crypto]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-own-crypto-library
+[_key_storage]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-key-storage
+[_card_verifier]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-card-verifier
+[_card_manager]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-card-manager
+[_setup_authentication]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-authentication
+[_reference_api]: https://virgilsecurity.github.io/virgil-sdk-python
 [_configure_sdk]: https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
 [_more_examples]: https://developer.virgilsecurity.com/docs/how-to#public-key-management
