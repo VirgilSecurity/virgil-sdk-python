@@ -45,8 +45,10 @@ class ConstAccessTokenProvider(AccessTokenProvider):
     def get_token(self, context=None):
         """
         Gets access token.
+
         Args:
             context: TokenContext
+
         Returns:
             Instance of access token.
         """

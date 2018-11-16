@@ -58,8 +58,10 @@ class CachingCallbackProvider(AccessTokenProvider):
         # type: (TokenContext) -> Jwt
         """
         Gets access token from cache or renew by provided callback if expired.
+
         Args:
             token_context: Access token context.
+
         Returns:
             Instance of access token.
         """

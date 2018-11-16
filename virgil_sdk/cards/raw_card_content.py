@@ -59,6 +59,7 @@ class RawCardContent(object):
     def to_json(self):
         """
         Raw card content json representation.
+
         Returns:
             Serialize raw card content to json.
         """
@@ -76,8 +77,10 @@ class RawCardContent(object):
         # type: (dict) -> RawCardContent
         """
         RawCardContent deserializer from snapshot representation.
+
         Args:
             content_snapshot: RawCardContent serialized snapshot.
+
         Returns:
             Loaded RawCardContent instance.
         """
@@ -99,9 +102,11 @@ class RawCardContent(object):
         # type: (Any, RawSignedModel) -> RawCardContent
         """
         RawCardContent deserializer from RawSignedModel representation.
+
         Args:
             card_crypto: CardCrypto witch provides crypto operations.
             raw_singed_model: Card raw signed model.
+
         Returns:
             Loaded RawCardContent instance.
         """
@@ -113,6 +118,7 @@ class RawCardContent(object):
     def identity(self):
         """
         Gets the identity value that can be anything which identifies the user in your application.
+
         Returns:
             User identity.
         """
@@ -122,6 +128,7 @@ class RawCardContent(object):
     def public_key(self):
         """
         Gets the public key.
+
         Returns:
             Public key.
         """
@@ -131,6 +138,7 @@ class RawCardContent(object):
     def version(self):
         """
         Gets the version of the card.
+
         Returns:
             Card version.
         """
@@ -140,6 +148,7 @@ class RawCardContent(object):
     def created_at(self):
         """
         Gets the date and time fo card creation in UTC.
+
         Returns:
             Creation date in UTC datetime.
         """
@@ -149,6 +158,7 @@ class RawCardContent(object):
     def previous_card_id(self):
         """
         Get previous Card ID that current card is used to override to.
+
         Returns:
             Previous card id.
         """
@@ -158,6 +168,7 @@ class RawCardContent(object):
     def content_snapshot(self):
         """
         RawCardContent snapshot.
+
         Returns:
             Snapshot of RawCardContent.
         """

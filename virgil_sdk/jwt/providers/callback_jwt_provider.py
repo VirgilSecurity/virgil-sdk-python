@@ -49,10 +49,13 @@ class CallbackJwtProvider(AccessTokenProvider):
     def get_token(self, token_context):
         """
         Gets access token by provided callback.
+
         Args:
             token_context: Access token context.
+
         Returns:
             Instance of access token.
+
         Raises:
             ValueError: Token context empty.
         """

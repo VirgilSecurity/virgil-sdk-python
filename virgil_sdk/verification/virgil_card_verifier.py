@@ -63,8 +63,10 @@ class VirgilCardVerifier(CardVerifier):
         To set up rule for verification of self signature use verify_self_signature.
         To set up rule for verification of virgil service signature use verify_virgil_signature.
         To set up Whitelists use white_lists.
+
         Args:
             card: The instance of Card to verify.
+
         Returns:
             True is card is verified according to set rules, otherwise False.
         """
