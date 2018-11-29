@@ -4,9 +4,6 @@ setup(
     name="virgil-sdk",
     version="5.0.1",
     packages=find_packages(),
-    install_requires=[
-        'virgil-crypto>3',
-    ],
     package_data={"virgil_sdk": [
         "tests/*",
         "tests/data/*.json"

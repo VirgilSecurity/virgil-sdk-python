@@ -160,6 +160,31 @@ class CardManagerTest(BaseTest):
         self.assertEqual(len(alice_cards), 1)
         self.assertEqual(alice_cards[0].id, card.id)
 
+    def test_search_multiply_cards_by_multiply_identities(self):
+        # STC-42
+        alice_name = "alice-" + str(uuid.uuid4())
+        old_alice_card = self.publish_card(alice_name)
+        new_alice_card = self.publish_card(alice_name, old_alice_card.id)
+        bob_name = "bob-" + str(uuid.uuid4())
+        bob_card = self.publish_card(bob_name)
+        found_cards = self.search_card([alice_name, bob_name])
+        self.assertEqual(len(found_cards), 2)
+        self.assertIsNotNone(new_alice_card.previous_card_id)
+        for card in found_cards:
+            self.assertIsNotNone(card.content_snapshot)
+        self.assertTrue(
+            any(
+                filter(
+                    lambda x: x.content_snapshot == new_alice_card.content_snapshot and x.previous_card,
+                    found_cards
+                )
+            )
+        )
+        self.assertTrue(
+            any(filter(lambda x: x.content_snapshot == bob_card.content_snapshot, found_cards))
+        )
+        self.assertFalse(new_alice_card.content_snapshot == bob_card.content_snapshot)
+
     def test_import_pure_card_from_string_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair)

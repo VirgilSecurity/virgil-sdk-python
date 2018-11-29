@@ -147,12 +147,12 @@ class CardManager(object):
         return card
 
     def search_card(self, identity):
-        # type: (str) -> List[Card]
+        # type: (Union[str, list]) -> List[Card]
         """
         Searches for cards by specified identity.
 
         Args:
-            identity: The identity to be found.
+            identity: The identity (or list of identity) to be found.
 
         Returns:
             The list of found Card.
@@ -163,8 +163,12 @@ class CardManager(object):
         access_token = self._access_token_provider.get_token(token_context)
         raw_cards = self.__try_execute(self.card_client.search_card, identity, access_token, token_context)
         cards = list(map(lambda x: Card.from_signed_model(self._card_crypto, x), raw_cards))
-        if any(list(map(lambda x: x.identity != identity, cards))):
-            raise CardVerificationException("Invalid cards")
+        if isinstance(identity, list):
+            if any(list(map(lambda x: x.identity not in identity, cards))):
+                raise CardVerificationException("Invalid cards")
+        else:
+            if any(list(map(lambda x: x.identity != identity, cards))):
+                raise CardVerificationException("Invalid cards")
         map(lambda x: self.__validate(x), cards)
         return self._linked_card_list(cards)
 

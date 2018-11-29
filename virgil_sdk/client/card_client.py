@@ -81,12 +81,12 @@ class CardClient(BaseCardClient):
         return RawSignedModel(**response)
 
     def search_card(self, identity, token):
-        # type: (str, str) -> List[RawSignedModel]
+        # type: (Union[str, list], str) -> List[RawSignedModel]
         """
         Searches a cards on Virgil Services by specified identity.
 
         Args:
-            identity: The identity.
+            identity: The identity (or list of identity).
             token: The string representation of Jwt token.
 
         Returns:
@@ -98,9 +98,16 @@ class CardClient(BaseCardClient):
         if not token:
             raise ValueError("Missing JWT token")
 
+        if isinstance(identity, str):
+            request_body = {"identity": identity}
+        elif isinstance(identity, list):
+            request_body = {"identities": identity}
+        else:
+            raise ValueError("Wrong identity(ies) type")
+
         request = Request(
             "/card/v5/actions/search",
-            {"identity": identity},
+            request_body,
             Request.POST,
         )
 

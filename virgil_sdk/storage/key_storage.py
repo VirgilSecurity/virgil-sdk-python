@@ -43,7 +43,6 @@ class KeyStorage(object):
 
     def __init__(self):
         # type: (...) -> None
-        super(KeyStorage, self).__init__()
         self._key_storage_path = None
 
     @property
@@ -96,7 +95,10 @@ class KeyStorage(object):
         key_file_path = os.path.join(self.__key_storage_path, self.__secure_key_file_name(name))
         if not os.path.exists(key_file_path):
             raise ValueError("Can't load key {}, not found in storage".format(name))
-        return Utils.json_loads(bytes(open(key_file_path, "rb").read()).decode())
+        key_file = open(key_file_path, "rb")
+        key_file_data = key_file.read()
+        key_file.close()
+        return Utils.json_loads(bytes(key_file_data).decode())
 
     def delete(self, name):
         # type: (str) -> None
