@@ -98,7 +98,7 @@ class CardClient(BaseCardClient):
         if not token:
             raise ValueError("Missing JWT token")
 
-        if isinstance(identity, str):
+        if isinstance(identity, str) or Utils.check_unicode(identity):
             request_body = {"identity": identity}
         elif isinstance(identity, list):
             request_body = {"identities": identity}
