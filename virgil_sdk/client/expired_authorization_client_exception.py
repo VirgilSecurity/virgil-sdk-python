@@ -31,11 +31,8 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-
 from .client_exception import ClientException
-from .unauthorized_client_exception import UnauthorizedClientException
-from .expired_authorization_client_exception import ExpiredAuthorizationClientException
-from .raw_signed_model import RawSignedModel
-from .raw_signature import RawSignature
-from .base_card_client import BaseCardClient
-from .card_client import CardClient
+
+
+class ExpiredAuthorizationClientException(ClientException):
+    pass

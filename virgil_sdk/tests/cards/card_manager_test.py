@@ -42,7 +42,7 @@ from virgil_crypto.card_crypto import CardCrypto
 from virgil_sdk.tests import config
 from virgil_sdk.tests.base_test import BaseTest
 from virgil_sdk.cards import RawCardContent
-from virgil_sdk.client import RawSignedModel, ClientException
+from virgil_sdk.client import RawSignedModel, ClientException, ExpiredAuthorizationClientException
 from virgil_sdk import CardManager, VirgilCardVerifier
 from virgil_sdk.jwt import JwtGenerator
 from virgil_sdk.signers import ModelSigner
@@ -232,7 +232,7 @@ class CardManagerTest(BaseTest):
         access_token_provider = self.FakeTokenProvider(token_generator)
         card_manager = self._data_generator.generate_card_manager(access_token_provider)
         self.assertRaises(
-            ClientException,
+            ExpiredAuthorizationClientException,
             card_manager.get_card,
             self._data_generator.generate_card_id()
         )

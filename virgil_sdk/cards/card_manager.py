@@ -36,7 +36,7 @@ import sys
 
 from virgil_sdk.jwt.token_context import TokenContext
 from virgil_sdk.cards.raw_card_content import RawCardContent
-from virgil_sdk.client import RawSignedModel, UnauthorizedClientException
+from virgil_sdk.client import RawSignedModel, ExpiredAuthorizationClientException
 from virgil_sdk.utils import Utils
 from virgil_sdk.verification import CardVerificationException
 from .card import Card
@@ -271,8 +271,8 @@ class CardManager(object):
         while attempts_number > 0:
             try:
                 result = card_function(card_arg, token)
-            except UnauthorizedClientException as e:
-                token = self._access_token_provider.get_token(context, True)
+            except ExpiredAuthorizationClientException as e:
+                token = self._access_token_provider.get_token(context)
                 if attempts_number-1 < 1:
                     raise e
             attempts_number -= 1
