@@ -34,6 +34,7 @@
 
 from .client_exception import ClientException
 from .unauthorized_client_exception import UnauthorizedClientException
+from .expired_authorization_client_exception import ExpiredAuthorizationClientException
 from .raw_signed_model import RawSignedModel
 from .raw_signature import RawSignature
 from .base_card_client import BaseCardClient

@@ -34,7 +34,7 @@
 import ssl
 from virgil_sdk.utils import Utils
 
-from virgil_sdk.client import ClientException, UnauthorizedClientException
+from virgil_sdk.client import ClientException, UnauthorizedClientException, ExpiredAuthorizationClientException
 from .base_connection import BaseConnection
 from .urllib import urllib2
 from .urllib import RequestWithMethod
@@ -84,10 +84,14 @@ class ServiceConnection(BaseConnection):
                 else:
                     error_body = error_res
                 if isinstance(error_body, dict) and "message" in error_body.keys() and "code" in error_body.keys():
-                    Utils.raise_from(ClientException(error_body["message"], error_body["code"]))
-                if exception.code in client_errors.keys():
-                    if exception.code == 401:
+                    if exception.code in client_errors.keys() and exception.code == 401:
+                        if int(error_body["code"]) == 20304:
+                            Utils.raise_from(
+                                ExpiredAuthorizationClientException(client_errors[exception.code], exception.code)
+                            )
                         Utils.raise_from(UnauthorizedClientException(client_errors[exception.code], exception.code))
+                    Utils.raise_from(ClientException(error_body["message"], error_body["code"]))
+                else:
                     Utils.raise_from(ClientException(client_errors[exception.code], exception.code))
             except ValueError:
                 raise exception

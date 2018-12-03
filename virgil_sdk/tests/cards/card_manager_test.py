@@ -35,19 +35,53 @@ import binascii
 import datetime
 import os
 import uuid
+from time import sleep
 
 from virgil_crypto.access_token_signer import AccessTokenSigner
 from virgil_crypto.card_crypto import CardCrypto
 
 from virgil_sdk.tests import config
 from virgil_sdk.tests.base_test import BaseTest
-from virgil_sdk.cards import RawCardContent
-from virgil_sdk.client import RawSignedModel, ClientException
+from virgil_sdk.cards import RawCardContent, Card
+from virgil_sdk.client import RawSignedModel, ClientException, ExpiredAuthorizationClientException
 from virgil_sdk import CardManager, VirgilCardVerifier
-from virgil_sdk.jwt import JwtGenerator
+from virgil_sdk.jwt import JwtGenerator, TokenContext
 from virgil_sdk.signers import ModelSigner
 from virgil_sdk.utils import Utils
 from virgil_sdk.verification import CardVerificationException
+
+
+class SlowedCardManager(CardManager):
+    def __init__(self, *args, **kwargs):
+        super(SlowedCardManager, self).__init__(*args, **kwargs)
+        self.__retry_on_unauthorized = kwargs.get("retry_on_unauthorized", False)
+        self.__api_url = kwargs.get("api_url", "https://api.virgilsecurity.com")
+
+    def __try_execute(self, card_function, card_arg, token, context):
+        # type: (function, Any, str, TokenContext) -> Any
+        attempts_number = 2 if self.__retry_on_unauthorized else 1
+        result = None
+        while attempts_number > 0:
+            try:
+                result = card_function(card_arg, token)
+            except ExpiredAuthorizationClientException as e:
+                token = self._access_token_provider.get_token(context)
+                if attempts_number - 1 < 1:
+                    raise e
+            attempts_number -= 1
+        return result
+
+    def get_card(self, card_id):
+        token_context = TokenContext(None, "get")
+        access_token = self._access_token_provider.get_token(token_context)
+        sleep(2)
+        raw_card, is_outdated = self.__try_execute(self.card_client.get_card, card_id, access_token,
+                                                   token_context)
+        card = Card.from_signed_model(self._card_crypto, raw_card, is_outdated)
+        if card.id != card_id:
+            raise CardVerificationException("Invalid card")
+        self.__validate(card)
+        return card
 
 
 class CardManagerTest(BaseTest):
@@ -160,6 +194,31 @@ class CardManagerTest(BaseTest):
         self.assertEqual(len(alice_cards), 1)
         self.assertEqual(alice_cards[0].id, card.id)
 
+    def test_search_multiply_cards_by_multiply_identities(self):
+        # STC-42
+        alice_name = "alice-" + str(uuid.uuid4())
+        old_alice_card = self.publish_card(alice_name)
+        new_alice_card = self.publish_card(alice_name, old_alice_card.id)
+        bob_name = "bob-" + str(uuid.uuid4())
+        bob_card = self.publish_card(bob_name)
+        found_cards = self.search_card([alice_name, bob_name])
+        self.assertEqual(len(found_cards), 2)
+        self.assertIsNotNone(new_alice_card.previous_card_id)
+        for card in found_cards:
+            self.assertIsNotNone(card.content_snapshot)
+        self.assertTrue(
+            any(
+                filter(
+                    lambda x: x.content_snapshot == new_alice_card.content_snapshot and x.previous_card,
+                    found_cards
+                )
+            )
+        )
+        self.assertTrue(
+            any(filter(lambda x: x.content_snapshot == bob_card.content_snapshot, found_cards))
+        )
+        self.assertFalse(new_alice_card.content_snapshot == bob_card.content_snapshot)
+
     def test_import_pure_card_from_string_create_equivalent_card(self):
         key_pair = self._crypto.generate_keys()
         raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair)
@@ -201,13 +260,22 @@ class CardManagerTest(BaseTest):
             config.VIRGIL_APP_ID,
             self._app_private_key,
             config.VIRGIL_API_PUB_KEY_ID,
-            0,
+            1,
             AccessTokenSigner()
         )
         access_token_provider = self.FakeTokenProvider(token_generator)
-        card_manager = self._data_generator.generate_card_manager(access_token_provider)
+        validator = VirgilCardVerifier(CardCrypto())
+        if config.VIRGIL_CARD_SERVICE_PUBLIC_KEY:
+            validator._VirgilCardVerifier__virgil_public_key_base64 = config.VIRGIL_CARD_SERVICE_PUBLIC_KEY
+        card_manager = SlowedCardManager(
+            card_crypto=CardCrypto(),
+            access_token_provider=access_token_provider,
+            card_verifier=validator,
+            api_url=config.VIRGIL_API_URL,
+            sign_callback=self.sign_callback
+        )
         self.assertRaises(
-            ClientException,
+            ExpiredAuthorizationClientException,
             card_manager.get_card,
             self._data_generator.generate_card_id()
         )

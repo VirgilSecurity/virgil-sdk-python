@@ -52,7 +52,7 @@ class CardClientTest(BaseTest):
         # STC-25
         identity = Utils.b64encode(bytes(os.urandom(15)))
         jwt = self.__jwt_signed_wrong_key(identity)
-        client = CardClient()
+        client = CardClient(api_url=config.VIRGIL_API_URL)
         self.assertRaises(
             ClientException,
             client.publish_card,
@@ -63,7 +63,7 @@ class CardClientTest(BaseTest):
     def test_get_card_with_wrong_key(self):
         # STC-25
         jwt = self.__jwt_signed_wrong_key(Utils.b64encode(os.urandom(15)))
-        client = CardClient()
+        client = CardClient(api_url=config.VIRGIL_API_URL)
         self.assertRaises(
             ClientException,
             client.get_card,
@@ -71,10 +71,49 @@ class CardClientTest(BaseTest):
             jwt.to_string()
         )
 
+    def test_search_cards_by_multiply_identities(self):
+        # STC-41
+        client = CardClient(api_url=config.VIRGIL_API_URL)
+
+        identity_1 = Utils.b64encode(os.urandom(15))
+        jwt_1 = self.__generate_jwt(
+            identity_1,
+            self._app_private_key,
+            config.VIRGIL_API_PUB_KEY_ID
+        )
+        raw_signed_model_1 = self.__generate_raw_signed_model(identity_1)
+        published_card_1 = client.publish_card(raw_signed_model_1, jwt_1.to_string())
+
+        identity_2 = Utils.b64encode(os.urandom(15))
+        jwt_2 = self.__generate_jwt(
+            identity_2,
+            self._app_private_key,
+            config.VIRGIL_API_PUB_KEY_ID
+        )
+        raw_signed_model_2 = self.__generate_raw_signed_model(identity_2)
+        published_card_2 = client.publish_card(raw_signed_model_2, jwt_2.to_string())
+
+        jwt_3 = self.__generate_jwt(
+            Utils.b64encode(os.urandom(15)),
+            self._app_private_key,
+            config.VIRGIL_API_PUB_KEY_ID
+        )
+        found_cards = client.search_card([identity_1, identity_2], jwt_3.to_string())
+        self.assertEqual(len(found_cards), 2)
+        self.assertTrue(
+            any(filter(lambda x: x.content_snapshot == published_card_1.content_snapshot, found_cards))
+        )
+        self.assertTrue(
+            any(filter(lambda x: x.content_snapshot == raw_signed_model_2.content_snapshot, found_cards))
+        )
+        self.assertFalse(
+            published_card_1 == published_card_2
+        )
+
     def test_search_card_with_wrong_key(self):
         # STC-25
         jwt = self.__jwt_signed_wrong_key(Utils.b64encode(os.urandom(15)))
-        client = CardClient()
+        client = CardClient(api_url=config.VIRGIL_API_URL)
         self.assertRaises(
             ClientException,
             client.search_card,
@@ -89,7 +128,7 @@ class CardClientTest(BaseTest):
             self._app_private_key,
             config.VIRGIL_API_PUB_KEY_ID
         )
-        client = CardClient()
+        client = CardClient(api_url=config.VIRGIL_API_URL)
         self.assertRaises(
             ClientException,
             client.publish_card,

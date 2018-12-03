@@ -1,5 +1,5 @@
 # Virgil Security Python SDK
-[![Travis (.com)](https://img.shields.io/travis/com/:user/:repo.svg)](https://github.com/VirgilSecurity/virgil-sdk-python/) [![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
+[![Travis (.com)](https://img.shields.io/travis/com/VirgilSecurity/sdk-python/master.svg)](https://travis-ci.com/VirgilSecurity/sdk-python) [![PyPI](https://img.shields.io/pypi/v/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/wheel/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk) [![PyPI](https://img.shields.io/pypi/pyversions/virgil-sdk.svg)](https://pypi.python.org/pypi/virgil-sdk)
 
 [Introduction](#introduction) | [SDK Features](#sdk-features) | [Installation](#installation) | [Usage Examples](#usage-examples) | [Docs](#docs) | [Support](#support)
 
@@ -140,6 +140,6 @@ Also, get extra help from our support team on [Slack](https://virgilsecurity.sla
 [_card_verifier]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-card-verifier
 [_card_manager]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-card-manager
 [_setup_authentication]: https://developer.virgilsecurity.com/docs/python/how-to/setup/v5/setup-authentication
-[_reference_api]: https://virgilsecurity.github.io/virgil-sdk-python
+[_reference_api]: https://virgilsecurity.github.io/sdk-python
 [_configure_sdk]: https://developer.virgilsecurity.com/docs/how-to#sdk-configuration
 [_more_examples]: https://developer.virgilsecurity.com/docs/how-to#public-key-management
