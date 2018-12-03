@@ -31,14 +31,13 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from virgil_crypto import PrivateKeyExporter
 from virgil_sdk.storage.key_storage import KeyStorage
 from virgil_sdk.storage.key_entry import KeyEntry
 
 
 class PrivateKeyStorage(object):
 
-    def __init__(self, key_storage=KeyStorage(), key_exporter=PrivateKeyExporter()):
+    def __init__(self, key_exporter, key_storage=KeyStorage()):
         self.key_storage = key_storage
         self.__key_exporter = key_exporter
 
@@ -54,7 +53,7 @@ class PrivateKeyStorage(object):
         """
         if not name:
             raise ValueError("No name provided for store.")
-        if not  private_key:
+        if not private_key:
             raise ValueError("No key provided for store.")
         exported_key_data = self.__key_exporter.export_private_key(private_key)
         key_entry = KeyEntry(name, exported_key_data, meta)

@@ -36,7 +36,7 @@ import sys
 
 from virgil_sdk.jwt.token_context import TokenContext
 from virgil_sdk.cards.raw_card_content import RawCardContent
-from virgil_sdk.client import RawSignedModel, UnauthorizedClientException
+from virgil_sdk.client import RawSignedModel, ExpiredAuthorizationClientException
 from virgil_sdk.utils import Utils
 from virgil_sdk.verification import CardVerificationException
 from .card import Card
@@ -147,12 +147,12 @@ class CardManager(object):
         return card
 
     def search_card(self, identity):
-        # type: (str) -> List[Card]
+        # type: (Union[str, list]) -> List[Card]
         """
         Searches for cards by specified identity.
 
         Args:
-            identity: The identity to be found.
+            identity: The identity (or list of identity) to be found.
 
         Returns:
             The list of found Card.
@@ -163,8 +163,12 @@ class CardManager(object):
         access_token = self._access_token_provider.get_token(token_context)
         raw_cards = self.__try_execute(self.card_client.search_card, identity, access_token, token_context)
         cards = list(map(lambda x: Card.from_signed_model(self._card_crypto, x), raw_cards))
-        if any(list(map(lambda x: x.identity != identity, cards))):
-            raise CardVerificationException("Invalid cards")
+        if isinstance(identity, list):
+            if any(list(map(lambda x: x.identity not in identity, cards))):
+                raise CardVerificationException("Invalid cards")
+        else:
+            if any(list(map(lambda x: x.identity != identity, cards))):
+                raise CardVerificationException("Invalid cards")
         map(lambda x: self.__validate(x), cards)
         return self._linked_card_list(cards)
 
@@ -267,8 +271,8 @@ class CardManager(object):
         while attempts_number > 0:
             try:
                 result = card_function(card_arg, token)
-            except UnauthorizedClientException as e:
-                token = self._access_token_provider.get_token(context, True)
+            except ExpiredAuthorizationClientException as e:
+                token = self._access_token_provider.get_token(context)
                 if attempts_number-1 < 1:
                     raise e
             attempts_number -= 1

@@ -31,6 +31,49 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from .private_key_exporter import PrivateKeyExporter
-from .private_key_storage import PrivateKeyStorage
-from .key_storage import KeyStorage
+
+
+class PrivateKeyExporter(object):
+    """
+    PrivateKeyExporter provides a list of methods that lets user to export and import private key.
+    Args:
+        password: The password for private key.
+    """
+
+    def __init__(
+        self,
+        crypto,
+        password=None  # type: str
+    ):
+        self.crypto = crypto
+        self.__password = password
+
+    def export_private_key(self, private_key):
+        # type: (PrivateKey) -> Union[bytes, bytearray]
+        """
+        Exports the PrivateKey into material representation. If PrivateKeyExporter was
+        instantiated with password then it will be used to export private key.
+        Args:
+            private_key: The private key.
+        Returns:
+            Private key in material representation of bytes.
+        """
+        if self.__password:
+            return self.crypto.export_private_key(private_key, self.__password)
+        else:
+            return self.crypto.export_private_key(private_key)
+
+    def import_private_key(self, key_data):
+        # type: (Union[bytes, bytearray]) -> PrivateKey
+        """
+        Imports the private key from its material representation. If PrivateKeyExporter was
+        instantiated with password then it will be used to import private key.
+        Args:
+            key_data: The private key material representation bytes.
+        Returns:
+            The instance of PrivateKey imported.
+        """
+        if self.__password:
+            return self.crypto.import_private_key(key_data, self.__password)
+        else:
+            return self.crypto.import_private_key(key_data)
