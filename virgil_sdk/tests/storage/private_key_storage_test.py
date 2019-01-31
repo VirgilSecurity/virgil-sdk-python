@@ -43,6 +43,7 @@ from virgil_sdk.tests import BaseTest
 class PrivateKeyStorageTest(BaseTest):
 
     def test_store(self):
+        # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         key_pair = self._crypto.generate_keys()
         private_key_exporter = PrivateKeyExporter(self._crypto)
@@ -54,18 +55,21 @@ class PrivateKeyStorageTest(BaseTest):
             os.remove(self.__filename_for_clean(private_key_storage, key_name))
 
     def test_store_empty_name(self):
+        # STC-7
         key_pair = self._crypto.generate_keys()
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.store, key_pair.private_key, None)
 
     def test_store_empty_key(self):
+        # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.store, None, key_name)
 
     def test_load(self):
+        # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         key_pair = self._crypto.generate_keys()
         additional_data = {"some_key": "some_val"}
@@ -80,12 +84,14 @@ class PrivateKeyStorageTest(BaseTest):
             os.remove(self.__filename_for_clean(private_key_storage, key_name))
 
     def test_load_unexisting_key(self):
+        # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(10)).decode()))
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.load, key_name)
 
     def test_delete(self):
+        # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         key_pair = self._crypto.generate_keys()
         private_key_exporter = PrivateKeyExporter(self._crypto)
@@ -99,12 +105,14 @@ class PrivateKeyStorageTest(BaseTest):
                 os.remove(self.__filename_for_clean(private_key_storage, key_name))
 
     def test_delete_unexisting_key(self):
+        # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(10)).decode()))
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.delete, key_name)
 
     def test_delete_empty_name(self):
+        # STC-7
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.delete, None)

@@ -47,7 +47,7 @@ class VirgilCardVerifier(CardVerifier):
         crypto,
         verify_self_signature=True,  # type: bool
         verify_virgil_signature=True,  # type: bool
-        white_lists=list()  # type: list
+        white_lists=list()  # type: List[WhiteList]
     ):
         self._crypto = crypto
         self.verify_self_signature = verify_self_signature
@@ -91,8 +91,6 @@ class VirgilCardVerifier(CardVerifier):
         verifiers_credentials_lists = list(map(lambda x: x.verifiers_credentials, self.white_lists))
 
         for verifiers_credentials in verifiers_credentials_lists:
-            if not verifiers_credentials or any(verifiers_credentials):
-                return False
 
             intersected_creds = list(filter(lambda x: x.signer in signers, verifiers_credentials))
 
@@ -126,7 +124,7 @@ class VirgilCardVerifier(CardVerifier):
                 extended_snapshot = bytearray(Utils.b64_decode(card.content_snapshot))
 
             if self._crypto.verify_signature(
-                bytearray(Utils.b64_decode(signature.signature)),
+                bytearray(signature.signature),
                 extended_snapshot,
                 signer_public_key
             ):
@@ -142,4 +140,7 @@ class VirgilCardVerifier(CardVerifier):
     def white_lists(self, value):
         if value:
             self.__white_lists = list()
-            self.__white_lists += value
+            if not isinstance(value, list):
+                self.__white_lists += [value]
+            else:
+                self.__white_lists += value
