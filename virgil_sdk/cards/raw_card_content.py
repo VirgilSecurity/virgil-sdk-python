@@ -47,7 +47,7 @@ class RawCardContent(object):
         public_key,  # type: PublicKey
         created_at,  # type datetime
         version="5.0",  # type: str
-        previous_card_id=None  # type: str
+        previous_card_id=None,  # type: str
     ):
         self._identity = identity
         self._public_key = public_key
@@ -94,7 +94,7 @@ class RawCardContent(object):
             card_content._previous_card_id = loaded_snapshot["previous_card_id"]
         else:
             card_content._previous_card_id = None
-        card_content._content_snapshot = None
+        card_content._content_snapshot = content_snapshot
         return card_content
 
     @classmethod

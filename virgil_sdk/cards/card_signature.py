@@ -65,6 +65,7 @@ class CardSignature(object):
         }
         if self.snapshot:
             res["snapshot"] = Utils.b64encode(self.snapshot)
+        return res
 
     @property
     def signer(self):
