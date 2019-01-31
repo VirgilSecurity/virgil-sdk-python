@@ -1,14 +1,15 @@
 from setuptools import setup, find_packages
+from virgil_sdk import __version__, __author__
 
 setup(
     name="virgil-sdk",
-    version="5.1.0",
+    version=__version__,
     packages=find_packages(),
     package_data={"virgil_sdk": [
         "tests/*",
         "tests/data/*.json"
     ]},
-    author="Virgil Security",
+    author=__author__,
     author_email="support@virgilsecurity.com",
     url="https://virgilsecurity.com/",
     classifiers=[

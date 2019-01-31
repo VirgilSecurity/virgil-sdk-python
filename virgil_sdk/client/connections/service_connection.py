@@ -42,8 +42,10 @@ from .urllib import RequestWithMethod
 
 class ServiceConnection(BaseConnection):
 
-    def __init__(self, base_url):
+    def __init__(self, base_url, adapters=None):
+        # type: (str, List[HttpRequestAdapter])->None
         self.__base_url = base_url
+        self.__adapters = adapters
 
     def send(self, request):
         # type: (Request) -> Tuple[dict, dict]
@@ -61,6 +63,11 @@ class ServiceConnection(BaseConnection):
             UnauthorizedClientException: Request without or wrong access token.
         """
         prepared_request = self._prepare_request(request)
+
+        if self.__adapters:
+            for adapter in self.__adapters:
+                prepared_request = adapter.adapt(prepared_request)
+
         ctx = ssl.create_default_context()
         try:
             response = urllib2.urlopen(prepared_request, context=ctx)

@@ -31,8 +31,38 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-__version__ = "5.1.0"
-__author__ = "Virgil Security"
+import platform
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+
+class VirgilAgentAdapter(object):
+    """Adds virgil-agent header to collect metrics in the Cloud"""
+
+    def __init__(self, product, version):
+        # type: (str, str)->None
+        self.__key = "virgil-agent"
+        self.__product = product
+        self.__family = "python"
+        self.__version = version
+        self.__platform = platform.system().lower()
+
+    def adapt(self, request):
+        # type: (Request)->Request
+        """
+        Adds virgil-agent header
+
+        Args:
+            request: request to modify
+
+        Returns:
+            same request with virgil-agent header
+        """
+        request_headers = request.headers
+        header_value = "{product};{family};{platform};{version}".format(
+            product=self.__product,
+            family=self.__family,
+            platform=self.__platform,
+            version=self.__version
+        )
+        request_headers.update({self.__key: header_value})
+        request.headers = request_headers
+        return request
