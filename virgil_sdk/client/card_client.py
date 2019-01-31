@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -32,7 +32,9 @@
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+from virgil_sdk import __version__
 from virgil_sdk.client import RawSignedModel
+from virgil_sdk.client.connections.virgil_agent_adapter import VirgilAgentAdapter
 from virgil_sdk.utils import Utils
 from .base_card_client import BaseCardClient
 from .connections.request import Request
@@ -49,8 +51,11 @@ class CardClient(BaseCardClient):
         api_url="https://api.virgilsecurity.com",  # type: str
         connection=None  # type: ServiceConnection
     ):
-        self._connection = connection
         self._api_url = api_url
+        self.__connection = connection or ServiceConnection(
+            self.api_url,
+            adapters=[VirgilAgentAdapter("sdk", __version__)]
+        )
 
     def publish_card(self, raw_card, token):
         # type: (RawSignedModel, str) -> RawSignedModel
@@ -162,8 +167,6 @@ class CardClient(BaseCardClient):
         """
         Get service url.
         """
-        if not self._api_url:
-            self._api_url = "https://api.virgilsecurity.com"
         return self._api_url
 
     def __parse_cards_from_response(self, response):
@@ -174,9 +177,3 @@ class CardClient(BaseCardClient):
             return result
         else:
             return response
-
-    @property
-    def __connection(self):
-        if self._connection is None:
-            self._connection = ServiceConnection(self.api_url)
-        return self._connection

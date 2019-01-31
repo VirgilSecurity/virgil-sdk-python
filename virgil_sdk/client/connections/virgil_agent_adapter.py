@@ -31,64 +31,38 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-from .base_request import BaseRequest
+import platform
 
 
-class Request(BaseRequest):
-    """Http request wrapper.
+class VirgilAgentAdapter(object):
+    """Adds virgil-agent header to collect metrics in the Cloud"""
 
-    Args:
-        endpoint: request endpoint
-        body: request body
-        headers: dict of request additional headers
-        method: http request method
-    """
-    GET = 'GET'
-    POST = 'POST'
-    PUT = 'PUT'
-    DELETE = 'DELETE'
+    def __init__(self, product, version):
+        # type: (str, str)->None
+        self.__key = "virgil-agent"
+        self.__product = product
+        self.__family = "python"
+        self.__version = version
+        self.__platform = platform.system().lower()
 
-    def __init__(self, endpoint, body=None, method=GET, headers=None):
-        # type: (str, Optional[str], Optional[str], Optional[dict]) -> None
-        """Constructs new Request object."""
-        self._endpoint = endpoint
-        self._body = body
-        self._headers = headers if headers else {}
-        self._method = method
-
-    def authorization(self, access_token):
+    def adapt(self, request):
+        # type: (Request)->Request
         """
-        Add authorization token to request.
+        Adds virgil-agent header
 
         Args:
-            access_token: Service access token.
-        """
-        self._headers.update({"Authorization": "Virgil {}".format(access_token)})
+            request: request to modify
 
-    @property
-    def endpoint(self):
+        Returns:
+            same request with virgil-agent header
         """
-        Gets the endpoint. Does not include server base address
-        """
-        return self._endpoint
-
-    @property
-    def body(self):
-        """
-        Gets the requests body.
-        """
-        return self._body
-
-    @property
-    def headers(self):
-        """
-        Gets the http headers.
-        """
-        return self._headers
-
-    @property
-    def method(self):
-        """
-        Gets the request method.
-        """
-        return self._method
+        request_headers = request.headers
+        header_value = "{product};{family};{platform};{version}".format(
+            product=self.__product,
+            family=self.__family,
+            platform=self.__platform,
+            version=self.__version
+        )
+        request_headers.update({self.__key: header_value})
+        request.headers = request_headers
+        return request
