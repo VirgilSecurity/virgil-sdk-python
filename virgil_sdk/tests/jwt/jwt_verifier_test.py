@@ -195,3 +195,19 @@ class JwtVerifierTest(BaseTest):
             "some_username",
             ("some text", "another text")
         )
+
+    def test_generate_token_with_empty_data(self):
+        key_pair = self._crypto.generate_keys()
+        api_public_key_id = config.VIRGIL_API_PUB_KEY_ID
+        app_id = config.VIRGIL_APP_ID
+        signer = AccessTokenSigner()
+
+        jwt_generator = JwtGenerator(
+            app_id,
+            key_pair.private_key,
+            api_public_key_id,
+            60,
+            signer
+        )
+        token = jwt_generator.generate_token(identity="some_username")
+        self.assertFalse(token.is_expired())
