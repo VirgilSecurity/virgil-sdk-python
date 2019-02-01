@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -123,7 +123,7 @@ class Jwt(AccessToken):
         Whether or not token is expired.
         """
         if not expiration_timestamp:
-            expiration_time = datetime.datetime.now()
+            expiration_time = datetime.datetime.utcnow()
         else:
             expiration_time = datetime.datetime.utcfromtimestamp(expiration_timestamp)
         return expiration_time >= self._body_content.expires_at
@@ -136,6 +136,16 @@ class Jwt(AccessToken):
         base64UrlEncode(JWT Header) + "." + base64UrlEncode(JWT Body)
         """
         return self._unsigned_data
+
+    @property
+    def header_content(self):
+        """Gets representation of jwt header"""
+        return self._header_content
+
+    @property
+    def body_content(self):
+        """Gets representation of jwt body"""
+        return self._body_content
 
     @property
     def signature_data(self):

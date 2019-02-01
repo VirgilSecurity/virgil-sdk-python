@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -48,11 +48,12 @@ class CachingCallbackProvider(AccessTokenProvider):
     def __init__(
         self,
         renew_jwt_callback,  # type: function
-        token_ttl=TOKEN_TTL  # type: int
+        token_ttl=TOKEN_TTL,  # type: int
+        initial_token=None  # type Jwt
     ):
         self._token_ttl = token_ttl
         self.__renew_jwt_callback = partial(renew_jwt_callback, token_ttl=token_ttl)
-        self.__access_token = None
+        self.__access_token = initial_token
 
     def get_token(self, token_context):
         # type: (TokenContext) -> Jwt

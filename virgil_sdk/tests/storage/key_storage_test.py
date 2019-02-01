@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -44,6 +44,7 @@ from virgil_sdk.tests import BaseTest
 class KeyStorageTest(BaseTest):
 
     def test_store(self):
+        # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         key_pair = self._crypto.generate_keys()
         key_entry = KeyEntry(
@@ -60,11 +61,13 @@ class KeyStorageTest(BaseTest):
             os.remove(file_path)
 
     def test_store_none(self):
+        # STC-5, STC-6
         key_entry = None
         key_storage = KeyStorage()
         self.assertRaises(ValueError, key_storage.store, key_entry)
 
     def test_load(self):
+        # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         additional_data = {"some_key": "some_value"}
         key_pair = self._crypto.generate_keys()
@@ -84,15 +87,18 @@ class KeyStorageTest(BaseTest):
             os.remove(self.__filename_for_clean(key_storage, key_name))
 
     def test_load_unexisting_key(self):
+        # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(10)).decode()))
         key_storage = KeyStorage()
         self.assertRaises(ValueError, key_storage.load, key_name)
 
     def test_load_key_with_empty_name(self):
+        # STC-5, STC-6
         key_storage = KeyStorage()
         self.assertRaises(ValueError, key_storage.load, None)
 
     def test_delete(self):
+        # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         key_pair = self._crypto.generate_keys()
         key_entry = KeyEntry(
@@ -112,11 +118,13 @@ class KeyStorageTest(BaseTest):
                 os.remove(file_path)
 
     def test_delete_unexisting_key(self):
+        # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(10)).decode()))
         key_storage = KeyStorage()
         self.assertRaises(ValueError, key_storage.delete, key_name)
 
     def test_delete_key_empty_name(self):
+        # STC-5, STC-6
         key_storage = KeyStorage()
         self.assertRaises(ValueError, key_storage.delete, None)
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -65,6 +65,7 @@ class CardSignature(object):
         }
         if self.snapshot:
             res["snapshot"] = Utils.b64encode(self.snapshot)
+        return res
 
     @property
     def signer(self):

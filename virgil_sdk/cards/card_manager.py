@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -169,7 +169,8 @@ class CardManager(object):
         else:
             if any(list(map(lambda x: x.identity != identity, cards))):
                 raise CardVerificationException("Invalid cards")
-        map(lambda x: self.__validate(x), cards)
+        for card in cards:
+            self.__validate(card)
         return self._linked_card_list(cards)
 
     def import_card(self, card_to_import):
@@ -247,6 +248,8 @@ class CardManager(object):
 
     def __publish_raw_card(self, raw_card):
         # type: (RawSignedModel) -> Card
+        if self._sign_callback:
+            self._sign_callback(raw_card)
         card_content = RawCardContent.from_signed_model(self._card_crypto, raw_card)
         token_context = TokenContext(card_content.identity, "publish_card")
         token = self._access_token_provider.get_token(token_context)

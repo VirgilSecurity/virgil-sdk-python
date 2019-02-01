@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -77,7 +77,7 @@ class JwtBodyContent(object):
         body_content = cls.__new__(cls)
         body_content._issued_at = datetime.datetime.utcfromtimestamp(json_loaded_dict["iat"])
         body_content._expires_at = datetime.datetime.utcfromtimestamp(json_loaded_dict["exp"])
-        body_content._additional_data = json_loaded_dict["ada"]
+        body_content._additional_data = json_loaded_dict["ada"] if "ada" in json_loaded_dict.keys() else {}
         body_content._issuer = json_loaded_dict["iss"]
         body_content.subject = json_loaded_dict["sub"]
         return body_content
@@ -112,11 +112,34 @@ class JwtBodyContent(object):
         return self._issuer
 
     @property
+    def issued_at(self):
+        """Jwt issued at"""
+        return self._issued_at
+
+    @property
+    def issued_at_timestamp(self):
+        return Utils.to_timestamp(self._issued_at)
+
+    @property
     def expires_at(self):
         """When jwt expire."""
         return self._expires_at
 
     @property
+    def expires_at_timestamp(self):
+        return Utils.to_timestamp(self.expires_at)
+
+    @property
     def identity(self):
         """Jwt identity."""
         return self._identity
+
+    @property
+    def app_id(self):
+        """Jwt application id"""
+        return self._app_id
+
+    @property
+    def additional_data(self):
+        """Jwt additional data"""
+        return self._additional_data

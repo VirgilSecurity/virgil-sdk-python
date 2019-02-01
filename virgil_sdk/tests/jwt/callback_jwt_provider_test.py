@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -43,6 +43,7 @@ from virgil_sdk.utils import Utils
 class AccessTokenProviderTest(BaseTest):
 
     def test_get_token_from_server(self):
+        # STC-24
         call_back_provider = CallbackJwtProvider(self._get_token_from_server)
         context = TokenContext("test_identity", "some_operation")
         token1 = call_back_provider.get_token(context)
@@ -52,6 +53,7 @@ class AccessTokenProviderTest(BaseTest):
         self.assertNotEqual(token1, token2)
 
     def test_get_invalid_token_from_server(self):
+        # STC-24
         def failed_get_from_server(context):
             return Utils.b64encode(os.urandom(30))
 
@@ -60,6 +62,7 @@ class AccessTokenProviderTest(BaseTest):
         self.assertRaises(ValueError, callback_provider.get_token, context)
 
     def test_get_const_access_token(self):
+        # STC-37
         token_from_server = self._get_token_from_server(
             TokenContext(
                 Utils.b64encode(os.urandom(20)),

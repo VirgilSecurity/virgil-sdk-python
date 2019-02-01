@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -74,7 +74,7 @@ class Utils(object):
         except (binascii.Error, TypeError) as e:
             missing_padding = len(source) % 4
             if missing_padding != 0:
-                if isinstance(source, str) or isinstance(source, unicode):
+                if isinstance(source, str) or check_unicode(source):
                     source += '=' * (4 - missing_padding)
                 if isinstance(source, bytes) or isinstance(source, bytearray):
                     source += b'=' * (4 - missing_padding)

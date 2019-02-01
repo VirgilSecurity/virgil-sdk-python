@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -37,8 +37,14 @@ class WhiteList(object):
     """The Whitelist implements a collection of VerifierCredentials
     that is used for card verification in VirgilCardVerifier."""
 
-    def __init__(self):
-        self.__verifiers_credentials = list()
+    def __init__(self, verifier_credentials=None):
+        # type: (Union[List[VerifierCredentials], VerifierCredentaials])->None
+        if verifier_credentials is None:
+            self.__verifiers_credentials = list()
+        if isinstance(verifier_credentials, list):
+            self.__verifiers_credentials = verifier_credentials
+        else:
+            self.__verifiers_credentials = [verifier_credentials]
 
     @property
     def verifiers_credentials(self):

@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Virgil Security Inc.
+# Copyright (C) 2016-2019 Virgil Security Inc.
 #
 # Lead Maintainer: Virgil Security Inc. <support@virgilsecurity.com>
 #
@@ -105,7 +105,7 @@ class Card(object):
             card_content._previous_card_id = loaded_snapshot["previous_card_id"]
         else:
             card_content._previous_card_id = None
-        card_content._content_snapshot = None
+        card_content._content_snapshot = content_snapshot
         return card_content
 
     @classmethod
@@ -131,7 +131,14 @@ class Card(object):
         if raw_singed_model.signatures:
             for sign in raw_singed_model.signatures:
                 if isinstance(sign, dict):
-                    card_signature = CardSignature(**sign)
+                    if "snapshot" in sign.keys():
+                        card_signature = CardSignature(
+                            sign["signer"],
+                            bytearray(Utils.b64decode(sign["signature"])),
+                            sign["snapshot"]
+                        )
+                    else:
+                        card_signature = CardSignature(sign["signer"], bytearray(Utils.b64decode(sign["signature"])))
                     signatures.append(card_signature)
                 if isinstance(sign, CardSignature):
                     card_signature = sign
