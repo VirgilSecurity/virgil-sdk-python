@@ -142,27 +142,33 @@ class CardManagerTest(BaseTest):
             manager.import_card,
             self._compatibility_data["STC-3.as_json"]
         )
+
+        card_identity = "alice-" + str(uuid.uuid4())
         self.assertRaises(
             CardVerificationException,
             manager.publish_card,
             key_pair.private_key,
             key_pair.public_key,
-            "alice-" + str(uuid.uuid4())
+            card_identity
         )
         self.assertRaises(
             CardVerificationException,
             manager.publish_card,
             self._data_generator.generate_raw_signed_model(key_pair, True)
         )
+
+        # publish card with normal verifier
+        published_card = self.publish_card("alice-" + str(uuid.uuid4()))
+
         self.assertRaises(
             CardVerificationException,
             manager.get_card,
-            "f80dc44398c33bf7abc9c4aba19d9358923f9217c7704695fce4857af0775a87"
+            published_card.id
         )
         self.assertRaises(
             CardVerificationException,
             manager.search_card,
-            "alice-dc3dc4a7-dfbf-42ea-b89f-9c4062ee4e3d"
+            card_identity
         )
 
     def test_create_card_register_new_card_on_service(self):
@@ -200,9 +206,12 @@ class CardManagerTest(BaseTest):
 
         provider = CachingCallbackProvider(self._get_token_from_server, 10)
         validator = VirgilCardVerifier(CardCrypto())
+        if config.VIRGIL_CARD_SERVICE_PUBLIC_KEY:
+            validator._VirgilCardVerifier__virgil_public_key_base64 = config.VIRGIL_CARD_SERVICE_PUBLIC_KEY
 
         card_manager = CardManager(
             CardCrypto(),
+            api_url=config.VIRGIL_API_URL,
             access_token_provider=provider,
             card_verifier=validator
         )
