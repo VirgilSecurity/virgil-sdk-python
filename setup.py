@@ -4,7 +4,7 @@ from virgil_sdk import __version__, __author__
 setup(
     name="virgil-sdk",
     version=__version__,
-    packages=find_packages(),
+    packages=find_packages(exclude=["doc-source"]),
     package_data={"virgil_sdk": [
         "tests/*",
         "tests/data/*.json"
