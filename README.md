@@ -23,14 +23,91 @@ To install the pip package use the command below:
 pip install virgil-sdk
 ```
 
+## Sample Backend for JWT generation
+
+In order to configure the SDK you can use the sample backend for generating JWT which we created for you.
+**JWT** is a unique string that is used by Virgil to authenticate you and users of your application on Virgil Services.
+
+#### Clone repository
+
+Clone the repository from GitHub.
+
+```
+$ git clone https://github.com/VirgilSecurity/virgil-sdk-python.git
+```
+
+#### Get Virgil Credentials
+
+If you don't have an account yet, [sign up for one](https://dashboard.virgilsecurity.com/signup) using your e-mail.
+
+To generate a JWT the following values are required:
+
+| Variable Name                     | Description                    |
+|-----------------------------------|--------------------------------|
+| API_PRIVATE_KEY                  | Private key of your API key that is used to sign the JWTs. |
+| API_KEY_ID               | ID of your API key. A unique string value that identifies your account in the Virgil Cloud. |
+| APP_ID                   | ID of your Virgil Application. |
+
+#### Add Virgil Credentials to sample_backend_for_jwt_generation.py
+
+- open the project folder
+- navigate to `/examples/sample_backend_for_jwt_generation.py`
+- fill it with your account credentials (`# FILL THIS FIELD`)
+- save the file
+
+#### Run the Server
+
+In cmd, run the following commands:
+
+```
+$ cd examples/
+$ python3.7 sample_backend_for_jwt_generation.py
+```
+
+Now, use your client code to make a request to get a JWT from the sample backend that is working on http://localhost:5000.
+
+#### Specification
+
+##### /authenticate endpoint
+This endpoint is an example of users authentication. It takes user `identity` and responds with unique token.
+
+```http
+POST https://localhost:5000/authenticate HTTP/1.1
+Content-type: application/json;
+
+{
+    "identity": "string"
+}
+
+Response:
+
+{
+    "authToken": "string"
+}
+```
+
+##### /virgil-jwt endpoint
+This endpoint checks whether a user is authorized by an authorization header. It takes user's `authToken`, finds related user identity and generates a `virgilToken` (which is [JSON Web Token](https://jwt.io/)) with this `identity` in a payload. Use this token to make authorized api calls to Virgil Cloud.
+
+```http
+GET https://localhost:5000/virgil-jwt HTTP/1.1
+Content-type: application/json;
+Authorization: Bearer <authToken>
+
+Response:
+
+{
+    "virgilToken": "string"
+}
+```
+
+##### Virgil JWT Generation
+To generate JWT, you need to use the `JwtGenerator` class from the SDK. You can use the `generate_jwt` function from the `sample_backend_for_jwt_generation.py` which will return the JWT with the user's identity.
+
+
 ## Usage Examples
 
 Before you start practicing with the usage examples, make sure that the SDK is configured. Check out our [SDK configuration guides][_configure_sdk] for more details.
-
-### Sample Backend
-
-In order to configure the SDK you can use [this](/examples/sample_backend_for_jwt_generation.py) code example and set up a backend with JWT generation.
-
 
 #### Generate and publish user's Cards with Public Keys inside on Cards Service
 Use the following lines of code to create and publish a user's Card on the Virgil Cards Service:
@@ -58,7 +135,7 @@ card = card_manager.publish_card(
 )
 ```
 
-See the full code example on how to create and publish user Cards from Client side [here](/examples/publish_card_from_client_side.py).
+See the full code example on how to create and publish user Cards [here](/examples/publish_card_from_client_side.py).
 
 #### Sign then encrypt data
 
@@ -88,7 +165,6 @@ encrypted_data = crypto.sign_then_encrypt(data_to_encrypt, alice_private_key, bo
 #### Decrypt then verify data
 Once the Users have received the signed and encrypted message, they can decrypt it with their own Private Key and verify the signature with the Sender's Card:
 
-
 ```python
 # load private key from device storage
 bob_private_key, bob_private_key_additional_data = private_key_storage.load("Bob")
@@ -103,7 +179,7 @@ decrypted_data = crypto.decrypt_then_verify(encrypted_data, bob_private_key, ali
 
 #### Encrypt and decrypt large file
 
-See the full code example of how to encrypt and decrypt large files [here](/examples/encrypt_decrypt_large_file.py).
+If you need to encrypt files larger than 50 MB, we recommend you to take a look at the full code example of how to encrypt and decrypt large files without causing RAM usage overrun [here](/examples/encrypt_decrypt_large_file.py).
 
 
 ## Docs
