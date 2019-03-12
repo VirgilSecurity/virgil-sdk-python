@@ -27,10 +27,13 @@ pip install virgil-sdk
 
 Before you start practicing with the usage examples, make sure that the SDK is configured. Check out our [SDK configuration guides][_configure_sdk] for more details.
 
+### Sample Backend
+
+In order to configure the SDK you can use [this](/examples/sample_backend_for_jwt_generation.py) code example and set up a backend with JWT generation.
+
 
 #### Generate and publish user's Cards with Public Keys inside on Cards Service
 Use the following lines of code to create and publish a user's Card on the Virgil Cards Service:
-
 
 ```python
 from virgil_crypto import VirgilCrypto
@@ -54,6 +57,8 @@ card = card_manager.publish_card(
     public_key=key_pair.public_key
 )
 ```
+
+See the full code example on how to create and publish user Cards from Client side [here](/examples/publish_card_from_client_side.py).
 
 #### Sign then encrypt data
 
@@ -96,9 +101,13 @@ alice_relevant_public_keys = list(map(lambda x: x.public_key, cards))
 decrypted_data = crypto.decrypt_then_verify(encrypted_data, bob_private_key, alice_relevant_public_keys)
 ```
 
+#### Encrypt and decrypt large file
+
+See the full code example of how to encrypt and decrypt large files [here](/examples/encrypt_decrypt_large_file.py).
+
 
 ## Docs
-irgil Security has a powerful set of APIs, and the documentation below can get you started today.
+Virgil Security has a powerful set of APIs, and the documentation below can get you started today.
 
 In order to use the Virgil SDK with your application, you will need to configure your application first. By default, the SDK will attempt to look for Virgil-specific settings in your application but you can customize those during the SDK configuration.
 
