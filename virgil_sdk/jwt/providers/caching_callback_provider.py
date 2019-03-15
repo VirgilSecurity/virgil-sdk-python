@@ -67,7 +67,7 @@ class CachingCallbackProvider(AccessTokenProvider):
             Instance of access token.
         """
         if self.__access_token:
-            if not self.__access_token.is_expired():
+            if not self.__access_token.is_expired() and not token_context.force_reload:
                 return self.__access_token
         self.__access_token = Jwt.from_string(self.__renew_jwt_callback(token_context))
         return self.__access_token

@@ -98,3 +98,31 @@ class CachingJwtProviderTest(BaseTest):
         )
         self.renew_callback_counter += 1
         return builder.generate_token(token_context.identity).to_string()
+
+    def test_jwt_caching_provider_force_reload(self):
+        # STC-43
+
+        identity = "alice"
+        token_ttl = 10
+
+        builder = JwtGenerator(
+            config.VIRGIL_APP_ID,
+            self._app_private_key,
+            config.VIRGIL_API_PUB_KEY_ID,
+            token_ttl,
+            AccessTokenSigner()
+        )
+
+        token_context_1 = TokenContext(identity, "test", force_reload=False)
+        token_context_2 = TokenContext(identity, "test", force_reload=True)
+
+        initial_token = builder.generate_token(identity)
+
+        jwt_provider = CachingCallbackProvider(self.renew_jwt_callback, token_ttl, initial_token=initial_token)
+
+        jwt_from_context_1 = jwt_provider.get_token(token_context_1)
+        jwt_from_context_2 = jwt_provider.get_token(token_context_2)
+
+        self.assertEqual(jwt_from_context_1, initial_token)
+        self.assertNotEqual(jwt_from_context_2, initial_token)
+        self.assertNotEqual(jwt_from_context_1, jwt_from_context_2)
