@@ -28,6 +28,8 @@ pip install virgil-sdk
 In order to configure the SDK you can use the sample backend for generating JWT which we created for you.
 **JWT** is a unique string that is used by Virgil to authenticate you and users of your application on Virgil Services.
 
+> Do not use this authentication in production. Requests to a /virgil-jwt endpoint must be allowed for authenticated users. Use your application authorization strategy.
+
 #### Clone repository
 
 Clone the repository from GitHub.
