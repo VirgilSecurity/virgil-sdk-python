@@ -28,6 +28,8 @@ pip install virgil-sdk
 In order to configure the SDK you can use the sample backend for generating JWT which we created for you.
 **JWT** is a unique string that is used by Virgil to authenticate you and users of your application on Virgil Services.
 
+> Do not use this authentication in production. Requests to a /virgil-jwt endpoint must be allowed for authenticated users. Use your application authorization strategy.
+
 #### Clone repository
 
 Clone the repository from GitHub.
@@ -35,6 +37,7 @@ Clone the repository from GitHub.
 ```
 $ git clone https://github.com/VirgilSecurity/virgil-sdk-python.git
 ```
+
 
 #### Get Virgil Credentials
 
@@ -50,21 +53,26 @@ To generate a JWT the following values are required:
 
 #### Add Virgil Credentials to sample_backend_for_jwt_generation.py
 
-- open the project folder
 - navigate to `/examples/sample_backend_for_jwt_generation.py`
 - fill it with your account credentials (`# FILL THIS FIELD`)
 - save the file
 
 #### Run the Server
 
-In cmd, run the following commands:
+It is required to have Flask installed in order to start the server. In cmd, run the following command:
+
+```
+$ pip install Flask
+```
+
+Now, start the server:
 
 ```
 $ cd examples/
-$ python3.7 sample_backend_for_jwt_generation.py
+$ python sample_backend_for_jwt_generation.py
 ```
 
-Now, use your client code to make a request to get a JWT from the sample backend that is working on http://localhost:5000.
+After that use your client code to make a request to get a JWT from the sample backend that is working on http://localhost:5000.
 
 #### Specification
 
@@ -82,12 +90,12 @@ Content-type: application/json;
 Response:
 
 {
-    "authToken": "string"
+    "auth_token": "string"
 }
 ```
 
 ##### /virgil-jwt endpoint
-This endpoint checks whether a user is authorized by an authorization header. It takes user's `authToken`, finds related user identity and generates a `virgilToken` (which is [JSON Web Token](https://jwt.io/)) with this `identity` in a payload. Use this token to make authorized api calls to Virgil Cloud.
+This endpoint checks whether a user is authorized by an authorization header. It takes user's `auth_token`, finds related user identity and generates a `virgil_token` (which is [JSON Web Token](https://jwt.io/)) with this `identity` in a payload. Use this token to make authorized api calls to Virgil Cloud.
 
 ```http
 GET https://localhost:5000/virgil-jwt HTTP/1.1
@@ -97,7 +105,7 @@ Authorization: Bearer <authToken>
 Response:
 
 {
-    "virgilToken": "string"
+    "virgil_token": "string"
 }
 ```
 
