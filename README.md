@@ -38,13 +38,6 @@ Clone the repository from GitHub.
 $ git clone https://github.com/VirgilSecurity/virgil-sdk-python.git
 ```
 
-#### Install Flask
-
-It is required to have Flask installed. In cmd, run the following command:
-
-```
-pip install Flask
-```
 
 #### Get Virgil Credentials
 
@@ -66,14 +59,20 @@ To generate a JWT the following values are required:
 
 #### Run the Server
 
-In cmd, run the following commands:
+It is required to have Flask installed in order to start the server. In cmd, run the following command:
+
+```
+$ pip install Flask
+```
+
+Now, start the server:
 
 ```
 $ cd examples/
 $ python sample_backend_for_jwt_generation.py
 ```
 
-Now, use your client code to make a request to get a JWT from the sample backend that is working on http://localhost:5000.
+After that use your client code to make a request to get a JWT from the sample backend that is working on http://localhost:5000.
 
 #### Specification
 
