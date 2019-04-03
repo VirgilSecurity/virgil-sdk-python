@@ -95,7 +95,7 @@ def get_token_from_server(token_context):
 
 
 def authenticate_on_server(username):
-    """Do your service authentication call"""
+    """Do call of your service authentication """
     user_storage.authenticated_user = username
 
 
@@ -114,25 +114,13 @@ if __name__ == '__main__':
         card_verifier=validator
     )
 
-    # generating key pair for creating card
-    key_pair = crypto.generate_keys()
+    username = ""  # FILL THIS FIELD user identity from who we searching card
+    identity_for_search = ""  # FILL THIS FIELD identity of user that we want to find
 
-    # user identity for creating card
-    username = ""  # FILL THIS FIELD
-
-    # Preparing user public key for creating card
-    public_key_data = crypto.export_public_key(key_pair.public_key)
-    public_key_str = Utils.b64encode(public_key_data)
-
-    # authenticate on your service
     authenticate_on_server(username)
 
-    # publishing card
-    card = card_manager.publish_card(
-        identity=username,
-        private_key=key_pair.private_key,
-        public_key=key_pair.public_key
-    )
-    print(vars(card))  # print registered Virgil Card
+    # Searching card
+    found_cards = card_manager.search_card(identity_for_search)
 
-
+    for card in found_cards:
+        print(vars(card))  # print registered Virgil Card
