@@ -78,6 +78,8 @@ class JwtGenerator(object):
         Returns:
             A new instance of Jwt.
         """
+        if identity is None:
+            raise ValueError("Token can't be generated without identity please set it up.")
         if data is not None and not isinstance(data, dict):
             raise TypeError("Wrong type of additional data, it must be dict")
         issued_at = datetime.datetime.utcnow()

@@ -35,3 +35,4 @@
 from .const_access_token_provider import ConstAccessTokenProvider
 from .callback_jwt_provider import CallbackJwtProvider
 from .caching_callback_provider import CachingCallbackProvider
+from .generator_jwt_provider import GeneratorJwtProvider

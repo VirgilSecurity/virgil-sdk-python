@@ -31,8 +31,41 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-__version__ = "5.2.1"
-__author__ = "Virgil Security"
+from functools import partial
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from virgil_sdk.jwt import Jwt
+from virgil_sdk.jwt.abstractions.access_token_provider import AccessTokenProvider
+
+
+class GeneratorJwtProvider(AccessTokenProvider):
+    """
+    Implementation of AccessTokenProvider which provides generated JWTs
+    """
+
+    def __init__(
+        self,
+        jwt_generator,  # type: JwtGenerator
+        default_identity,  # type: str
+        additional_data=None  # type: Union[None, dict]
+    ):
+        self.jwt_generator = jwt_generator
+        self.default_identity = default_identity
+        self.additional_data = additional_data
+
+    def get_token(self, token_context):
+        # type: (TokenContext) -> Jwt
+        """
+        Provides new generated JWT
+
+        Args:
+            token_context: context explaining why token is needed
+
+        Returns:
+            generated jwt
+        """
+        if token_context.identity:
+            identity = token_context.identity
+        else:
+            identity = self.default_identity
+        token = self.jwt_generator.generate_token(identity, self.additional_data)
+        return token
