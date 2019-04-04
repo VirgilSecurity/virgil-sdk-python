@@ -48,7 +48,7 @@ class JwtGeneratorTest(BaseTest):
         key_file = open(config.VIRGIL_APP_KEY_PATH, "rb")
         raw_api_key_data = key_file.read()
         key_file.close()
-        api_key = crypto.import_private_key(Utils.b64decode(raw_api_key_data))
+        api_key = crypto.import_private_key(bytearray(Utils.b64decode(raw_api_key_data)))
         access_token_signer = AccessTokenSigner()
 
         jwt_generator = JwtGenerator(
