@@ -31,8 +31,40 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-__version__ = "5.2.1"
-__author__ = "Virgil Security"
+from virgil_sdk.jwt import JwtGenerator
+from virgil_sdk.utils import Utils
+from virgil_crypto.access_token_signer import AccessTokenSigner
 
-from .cards import CardManager
-from .verification import VirgilCardVerifier
+from virgil_crypto import VirgilCrypto
+
+from virgil_sdk.tests import BaseTest
+from virgil_sdk.tests import config
+
+
+class JwtGeneratorTest(BaseTest):
+
+    def test_generate_token_with_empty_identity(self):
+        crypto = VirgilCrypto()
+        key_file = open(config.VIRGIL_APP_KEY_PATH, "rb")
+        raw_api_key_data = key_file.read()
+        key_file.close()
+        api_key = crypto.import_private_key(bytearray(Utils.b64decode(raw_api_key_data)))
+        access_token_signer = AccessTokenSigner()
+
+        jwt_generator = JwtGenerator(
+            config.VIRGIL_APP_ID,
+            api_key,
+            config.VIRGIL_API_PUB_KEY_ID,
+            10,
+            access_token_signer
+        )
+
+        identity = "alice"
+        token = jwt_generator.generate_token(identity)
+        self.assertEqual(identity, token.identity)
+
+        self.assertRaises(
+            ValueError,
+            jwt_generator.generate_token,
+            None
+        )
