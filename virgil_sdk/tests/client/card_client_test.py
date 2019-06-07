@@ -137,16 +137,16 @@ class CardClientTest(BaseTest):
         )
 
     def __jwt_signed_wrong_key(self, identity):
-        wrong_api_key_pair = self._crypto.generate_keys()
+        wrong_api_key_pair = self._crypto.generate_key_pair()
         wrong_api_key_id = self._data_generator.generate_app_id()
         return self.__generate_jwt(identity, wrong_api_key_pair.private_key, wrong_api_key_id)
 
     def __generate_raw_signed_model(self, identity):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         raw_card_content = RawCardContent(
             created_at=Utils.to_timestamp(datetime.datetime.utcnow()),
             identity=identity,
-            public_key=key_pair.public_key,
+            public_key=self._crypto.export_public_key(key_pair.public_key),
             version="5.0"
         )
         model = RawSignedModel(raw_card_content.content_snapshot)

@@ -81,7 +81,7 @@ class DataGenerator(object):
         raw_card_content = RawCardContent(
             created_at=create_time,
             identity="test",
-            public_key=key_pair.public_key,
+            public_key=self._crypto.export_public_key(key_pair.public_key),
             version="5.0",
             previous_card_id=previous_card_id
         )

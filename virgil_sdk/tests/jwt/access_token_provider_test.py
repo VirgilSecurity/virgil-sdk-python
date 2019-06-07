@@ -65,7 +65,7 @@ class CachingJwtProviderTest(BaseTest):
 
     def test_token_expiration_ttl(self):
         # STC-40
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         jwt_generator = JwtGenerator(
             config.VIRGIL_APP_ID,
             key_pair.private_key,

@@ -22,7 +22,8 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Topic :: Security :: Cryptography",
-        ],
+    ],
+    install_requires=["virgil_crypto>=5.0.0"],
     license="BSD",
     description="""
     Virgil Security provides a set of APIs for adding security to any application. In a few simple steps you can encrypt communication, securely store data, provide passwordless login, and ensure data integrity.
