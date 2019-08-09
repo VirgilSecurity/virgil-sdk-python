@@ -73,6 +73,7 @@ install:
 
 script:
   - pwd
+  - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\"))"
   - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
 
 notifications:
