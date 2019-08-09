@@ -104,12 +104,12 @@ class RawSignedModel(object):
 
     @classmethod
     def generate(cls, public_key, identity, created_at, previous_card_id=None):
-        # type: (PublicKey, str, int, Optional[str]) -> RawSignedModel
+        # type: (Union[bytearray, Tuple[int], List[int]], str, int, Optional[str]) -> RawSignedModel
         """
         Generate card RawSignedModel.
 
         Args:
-            public_key: Card public key.
+            public_key: Card public key bytes.
             identity: Unique card identity.
             created_at: Creation timestamp.
             previous_card_id: Previous card ID.

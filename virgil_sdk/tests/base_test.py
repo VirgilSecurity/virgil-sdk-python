@@ -73,9 +73,8 @@ class BaseTest(unittest.TestCase):
             raw_private_key = bytearray(Utils.b64decode(key_file.read()))
 
         self.__app_private_key = self._crypto.import_private_key(
-            key_data=raw_private_key,
-            password=config.VIRGIL_APP_KEY_PASSWORD
-        )
+            key_data=raw_private_key
+        ).private_key
         return self.__app_private_key
 
     @property
@@ -128,7 +127,7 @@ class BaseTest(unittest.TestCase):
         return identity
 
     def publish_card(self, username, previous_card_id=None):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         return self.__get_manager().publish_card(
             identity=username,
             public_key=key_pair.public_key,

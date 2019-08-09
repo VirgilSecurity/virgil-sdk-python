@@ -64,7 +64,7 @@ def authenticated_query_to_server(token_context, token_ttl=300):
     api_key_id = ""  # FILL THIS FIELD
 
     # Loading key for next usage
-    imported_api_private_key = crypto.import_private_key(Utils.b64decode(api_private_key))
+    imported_api_private_key = crypto.import_private_key(Utils.b64decode(api_private_key)).private_key
 
     # Instantiate token generator
     builder = JwtGenerator(

@@ -44,7 +44,7 @@ class ModelSignerTest(BaseTest):
 
     def test_self_sign_valid_signature(self):
         # STC-8
-        self_key_pair = self._crypto.generate_keys()
+        self_key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair)
         signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 0)
@@ -54,7 +54,7 @@ class ModelSignerTest(BaseTest):
         self.assertEqual(self_signature.signer, ModelSigner.SELF_SIGNER)
         self.assertEqual(self_signature.snapshot, None)
         self.assertTrue(
-            self._crypto.verify(
+            self._crypto.verify_signature(
                 bytearray(Utils.b64_decode(raw_signed_model.content_snapshot)),
                 self_signature.signature, self_key_pair.public_key
             )
@@ -62,7 +62,7 @@ class ModelSignerTest(BaseTest):
 
     def test_self_sign_signature_snapshot_valid_signature(self):
         # STC-9
-        self_key_pair = self._crypto.generate_keys()
+        self_key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair)
         signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 0)
@@ -74,14 +74,14 @@ class ModelSignerTest(BaseTest):
 
     def test_second_self_sign_exception(self):
         # STC-8
-        self_key_pair = self._crypto.generate_keys()
+        self_key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair, add_self_sign=True)
         signer = ModelSigner(CardCrypto())
         self.assertRaises(ValueError, signer.self_sign, raw_signed_model, self_key_pair.private_key)
 
     def test_extra_sign_valid_signature(self):
-        self_key_pair = self._crypto.generate_keys()
-        extra_key_pair = self._crypto.generate_keys()
+        self_key_pair = self._crypto.generate_key_pair()
+        extra_key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair, add_self_sign=True)
         signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 1)
@@ -89,15 +89,15 @@ class ModelSignerTest(BaseTest):
         self.assertEqual(len(raw_signed_model.signatures), 2)
         extra_signature = raw_signed_model.signatures[-1]
         self.assertEqual(extra_signature.signer, "test_id")
-        self.assertTrue(self._crypto.verify(
+        self.assertTrue(self._crypto.verify_signature(
                 bytearray(Utils.b64_decode(raw_signed_model.content_snapshot)),
                 extra_signature.signature, extra_key_pair.public_key
             )
         )
 
     def test_extra_sign_snapshot_valid_signature(self):
-        self_key_pair = self._crypto.generate_keys()
-        extra_key_pair = self._crypto.generate_keys()
+        self_key_pair = self._crypto.generate_key_pair()
+        extra_key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(self_key_pair, add_self_sign=True)
         signer = ModelSigner(CardCrypto())
         self.assertEqual(len(raw_signed_model.signatures), 1)
@@ -108,15 +108,15 @@ class ModelSignerTest(BaseTest):
         self.assertEqual(extra_signature.signer, "test_id")
         self.assertEqual(extra_signature.snapshot, signature_snapshot)
         extended_snapshot = bytearray(Utils.b64_decode(raw_signed_model.content_snapshot)) + signature_snapshot
-        self.assertTrue(self._crypto.verify(
+        self.assertTrue(self._crypto.verify_signature(
             extended_snapshot,
             extra_signature.signature,
             extra_key_pair.public_key
         ))
 
     def test_second_extra_sign_exception(self):
-        self_key_pair = self._crypto.generate_keys()
-        extra_key_pair = self._crypto.generate_keys()
+        self_key_pair = self._crypto.generate_key_pair()
+        extra_key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(
             self_key_pair, add_self_sign=True, extra_key_pair=extra_key_pair
         )
