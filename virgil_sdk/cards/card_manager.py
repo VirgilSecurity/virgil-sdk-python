@@ -73,7 +73,7 @@ class CardManager(object):
         self.__api_url = api_url
 
     def generate_raw_card(self, private_key, public_key, identity, previous_card_id="", extra_fields=None):
-        # type: (PrivateKey, PublicKey, str, Optional[str], Optional[dict]) -> RawSignedModel
+        # type: (VirgilPrivateKey, VirgilPublicKey, str, Optional[str], Optional[dict]) -> RawSignedModel
         """
 
         Args:
@@ -87,7 +87,7 @@ class CardManager(object):
             The instance of newly published Card.
         """
         current_time = Utils.to_timestamp(datetime.datetime.utcnow())
-        raw_card = RawSignedModel.generate(public_key, identity, current_time, previous_card_id)
+        raw_card = RawSignedModel.generate(self._card_crypto.export_public_key(public_key), identity, current_time, previous_card_id)
         self.model_signer.self_sign(raw_card, private_key, extra_fields=extra_fields)
         return raw_card
 

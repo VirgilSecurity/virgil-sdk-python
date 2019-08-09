@@ -128,10 +128,10 @@ crypto = VirgilCrypto()
 
 
 # generate a key pair
-key_pair = crypto.generate_keys()
+key_pair = crypto.generate_key_pair()
 
 # save Alice private key into key sotrage
-private_key_storage = PrivateKeyStorage()
+private_key_storage = PrivateKeyStorage(crypto)
 private_key_storage.store(key_pair.private_key, "Alice")
 
 

@@ -64,7 +64,7 @@ def authenticated_query_to_server(token_context, token_ttl=300):
     api_key_id = ""  # FILL THIS FIELD
 
     # Loading key for next usage
-    imported_api_private_key = crypto.import_private_key(Utils.b64decode(api_private_key))
+    imported_api_private_key = crypto.import_private_key(Utils.b64decode(api_private_key)).private_key
 
     # Instantiate token generator
     builder = JwtGenerator(
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     )
 
     # generating key pair for creating card
-    key_pair = crypto.generate_keys()
+    key_pair = crypto.generate_key_pair()
 
     # user identity for creating card
     username = ""  # FILL THIS FIELD

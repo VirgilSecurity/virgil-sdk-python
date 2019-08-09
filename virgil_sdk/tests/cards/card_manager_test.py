@@ -123,7 +123,7 @@ class CardManagerTest(BaseTest):
 
     def test_negative_verify(self):
         # STC-13
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         manager = CardManager(
             CardCrypto(),
             api_url=config.VIRGIL_API_URL,
@@ -173,7 +173,7 @@ class CardManagerTest(BaseTest):
 
     def test_create_card_register_new_card_on_service(self):
         # STC-17
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
 
         validator = VirgilCardVerifier(CardCrypto())
         if config.VIRGIL_CARD_SERVICE_PUBLIC_KEY:
@@ -202,7 +202,7 @@ class CardManagerTest(BaseTest):
 
     def test_create_card_register_new_card_on_service_with_meta(self):
         # STC-18
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
 
         provider = CachingCallbackProvider(self._get_token_from_server, 10)
         validator = VirgilCardVerifier(CardCrypto())
@@ -271,7 +271,7 @@ class CardManagerTest(BaseTest):
             card_verifier=validator
         )
 
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         alice_name = "alice-" + str(uuid.uuid4())
         raw_card = manager.generate_raw_card(
             key_pair.private_key,
@@ -361,7 +361,7 @@ class CardManagerTest(BaseTest):
         self.assertFalse(new_alice_card.content_snapshot == bob_card.content_snapshot)
 
     def test_import_pure_card_from_string_create_equivalent_card(self):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_string = raw_signed_model.to_string()
@@ -370,7 +370,7 @@ class CardManagerTest(BaseTest):
         self.assertEqual(exported_card_string, raw_signed_model_string)
 
     def test_import_pure_card_from_json_create_equivalent_card(self):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_json = raw_signed_model.to_json()
@@ -379,7 +379,7 @@ class CardManagerTest(BaseTest):
         self.assertEqual(exported_card_json, raw_signed_model_json)
 
     def test_import_full_card_from_string_create_equivalent_card(self):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_string = raw_signed_model.to_string()
@@ -388,7 +388,7 @@ class CardManagerTest(BaseTest):
         self.assertEqual(exported_card_string, raw_signed_model_string)
 
     def test_import_full_card_from_json_create_equivalent_card(self):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         raw_signed_model = self._data_generator.generate_raw_signed_model(key_pair, False)
         card_manager = self._data_generator.generate_card_manager()
         raw_signed_model_json = raw_signed_model.to_json()
@@ -468,7 +468,7 @@ class CardManagerTest(BaseTest):
             api_url=config.VIRGIL_API_URL,
             sign_callback=self.sign_callback
         )
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         card = card_manager.publish_card(
             key_pair.private_key,
             key_pair.public_key,
@@ -505,9 +505,9 @@ class CardManagerTest(BaseTest):
         identity = Utils.b64encode(os.urandom(20))
         token = jwt_generator.generate_token(identity)
         access_token_provider = self.EchoTokenProvider(token)
-        key_pair = self._crypto.generate_keys()
-        virgil_key_pair = self._crypto.generate_keys()
-        additional_key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
+        virgil_key_pair = self._crypto.generate_key_pair()
+        additional_key_pair = self._crypto.generate_key_pair()
         model = self._data_generator.generate_raw_signed_model(key_pair, True, virgil_key_pair, additional_key_pair)
         client = FakeCardClient(model)
 
@@ -539,10 +539,10 @@ class CardManagerTest(BaseTest):
                 return self._raw_signed_model, False
 
         validator = self.PositiveVerifier()
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         raw_card_content = RawCardContent(
             identity="test",
-            public_key=key_pair.public_key,
+            public_key=self._crypto.export_public_key(key_pair.public_key),
             created_at=Utils.to_timestamp(datetime.datetime.now()),
             version="5.0"
         )
@@ -695,7 +695,7 @@ class CardManagerTest(BaseTest):
         self.assertEqual(card_exported_json, self._compatibility_data["STC-4.as_json"])
 
     def extra_sign_callback(self, model):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         model_signer = ModelSigner(CardCrypto())
         model_signer.sign(
             model,

@@ -44,7 +44,7 @@ class RawCardContent(object):
     def __init__(
         self,
         identity,  # type: str
-        public_key,  # type: PublicKey
+        public_key,  # type: Union[bytearray, bytes, Tuple[int], List[int]]
         created_at,  # type datetime
         version="5.0",  # type: str
         previous_card_id=None,  # type: str
@@ -175,7 +175,7 @@ class RawCardContent(object):
         if not self._content_snapshot:
             content = {
                 "identity": self._identity,
-                "public_key": Utils.b64encode(self._public_key.raw_key),
+                "public_key": Utils.b64encode(self._public_key),
                 "version": self._version,
                 "created_at": self._created_at,
             }

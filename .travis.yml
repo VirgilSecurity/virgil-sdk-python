@@ -26,6 +26,42 @@ matrix:
     - os: osx
       language: generic
       env: PYTHON=3.7.1 PYTHON_VERSION=3.7
+    - os: windows
+      language: shell
+      before_install:
+        - choco install python2
+        - python -m pip install --upgrade pip
+      env:
+        - PATH=/c/Python27:/c/Python27/Scripts:$PATH
+        - HOMEPATH=\\Users\\travis
+        - HOMEDRIVE='C:'
+    - os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.5.4
+        - python -m pip install --upgrade pip
+      env:
+        - PATH=/c/Python35:/c/Python35/Scripts:$PATH
+        - HOMEPATH=\\Users\\travis
+        - HOMEDRIVE='C:'
+    - os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.6.7
+        - python -m pip install --upgrade pip
+      env:
+        - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+        - HOMEPATH=\\Users\\travis
+        - HOMEDRIVE='C:'
+    - os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.7.2
+        - python -m pip install --upgrade pip
+      env:
+        - PATH=/c/Python37:/c/Python37/Scripts:$PATH
+        - HOMEPATH=\\Users\\travis
+        - HOMEDRIVE='C:'
 
 before_install: |
   if [ "$TRAVIS_OS_NAME" == "osx" ]; then
@@ -38,8 +74,9 @@ before_install: |
     export PATH="/Users/travis/.pyenv/shims:${PATH}"
     pyenv-virtualenv venv
     source venv/bin/activate
-    python --version
+
   fi
+  python --version
 
 install:
   - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
@@ -48,6 +85,7 @@ install:
 
 script:
   - pwd
+  - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
   - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
 
 notifications:

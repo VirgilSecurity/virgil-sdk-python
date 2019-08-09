@@ -79,7 +79,7 @@ class JwtVerifierTest(BaseTest):
         # STC-23
         public_key_base64 = self._compatibility_data["STC-23.api_public_key_base64"]
         private_key_base64 = self._compatibility_data["STC-23.api_private_key_base64"]
-        private_key = self._crypto.import_private_key(Utils.strtobytes(Utils.b64decode(private_key_base64)))
+        private_key = self._crypto.import_private_key(Utils.strtobytes(Utils.b64decode(private_key_base64))).private_key
         public_key = self._crypto.import_public_key(Utils.strtobytes(Utils.b64decode(public_key_base64)))
         key_id_base64 = self._compatibility_data["STC-23.api_key_id"]
         signer = AccessTokenSigner()
@@ -163,7 +163,7 @@ class JwtVerifierTest(BaseTest):
         self.assertEqual(token_base64, jwt.to_string())
 
     def test_generate_token_with_wrong_additional_data_type(self):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         api_public_key_id = config.VIRGIL_API_PUB_KEY_ID
         app_id = config.VIRGIL_APP_ID
         signer = AccessTokenSigner()
@@ -197,7 +197,7 @@ class JwtVerifierTest(BaseTest):
         )
 
     def test_generate_token_with_empty_data(self):
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         api_public_key_id = config.VIRGIL_API_PUB_KEY_ID
         app_id = config.VIRGIL_APP_ID
         signer = AccessTokenSigner()

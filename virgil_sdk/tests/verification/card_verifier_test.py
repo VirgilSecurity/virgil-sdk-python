@@ -66,14 +66,14 @@ class CardVerifierTest(BaseTest):
         card_from_string = card_manager.import_card(self._compatibility_data["STC-10.as_string"])
         private_key_1 = self._crypto.import_private_key(
             bytearray(Utils.b64decode(self._compatibility_data["STC-10.private_key1_base64"]))
-        )
+        ).private_key
         public_key_1 = self._crypto.extract_public_key(private_key_1)
         public_key_1_base64 = Utils.b64encode(self._crypto.export_public_key(public_key_1))
 
-        key_pair_2 = self._crypto.generate_keys()
+        key_pair_2 = self._crypto.generate_key_pair()
         public_key_2_base64 = Utils.b64encode(self._crypto.export_public_key(key_pair_2.public_key))
 
-        key_pair_3 = self._crypto.generate_keys()
+        key_pair_3 = self._crypto.generate_key_pair()
         public_key_3_base64 = Utils.b64encode(self._crypto.export_public_key(key_pair_3.public_key))
 
         self.assertTrue(card_verifier.verify_card(card_from_string))
@@ -221,7 +221,7 @@ class CardVerifierTest(BaseTest):
         )
         card_from_string = card_manager.import_card(self._compatibility_data["STC-16.as_string"])
         public_key_1_base64 = self._compatibility_data["STC-16.public_key1_base64"]
-        key_pair_2 = self._crypto.generate_keys()
+        key_pair_2 = self._crypto.generate_key_pair()
         public_key_2_base64 = Utils.b64encode(self._crypto.export_public_key(key_pair_2.public_key))
 
         creds_1 = VerifierCredentials(signer="extra", public_key_base64=public_key_2_base64)

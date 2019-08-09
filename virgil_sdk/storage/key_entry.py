@@ -43,13 +43,13 @@ class KeyEntry(object):
         meta  # type: dict
     ):
         self.__name = name
-        self.__value = value
+        self.__value = bytearray(value)
         self.__meta = meta
 
     def to_json(self):
         return Utils.json_dumps({
             "name": self.__name,
-            "value": self.__value,
+            "value": list(self.__value),
             "meta": self.__meta
         })
 

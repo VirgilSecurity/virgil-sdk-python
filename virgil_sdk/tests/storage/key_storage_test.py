@@ -46,10 +46,10 @@ class KeyStorageTest(BaseTest):
     def test_store(self):
         # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         key_entry = KeyEntry(
             key_name,
-            key_pair.private_key.raw_key,
+            self._crypto.export_private_key(key_pair.private_key),
             {}
         )
         key_storage = KeyStorage()
@@ -70,10 +70,10 @@ class KeyStorageTest(BaseTest):
         # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
         additional_data = {"some_key": "some_value"}
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         key_entry = KeyEntry(
             key_name,
-            key_pair.private_key.raw_key,
+            self._crypto.export_private_key(key_pair.private_key),
             additional_data
         )
         key_storage = KeyStorage()
@@ -81,7 +81,7 @@ class KeyStorageTest(BaseTest):
         raw_loaded_key_entry = key_storage.load(key_name)
         try:
             self.assertEqual(raw_loaded_key_entry["name"], key_name)
-            self.assertEqual(bytearray(key_pair.private_key.raw_key), bytearray(raw_loaded_key_entry["value"]))
+            self.assertEqual(bytearray(self._crypto.export_private_key(key_pair.private_key)), bytearray(raw_loaded_key_entry["value"]))
             self.assertDictEqual(additional_data, raw_loaded_key_entry["meta"])
         finally:
             os.remove(self.__filename_for_clean(key_storage, key_name))
@@ -100,10 +100,10 @@ class KeyStorageTest(BaseTest):
     def test_delete(self):
         # STC-5, STC-6
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         key_entry = KeyEntry(
             key_name,
-            key_pair.private_key.raw_key,
+            self._crypto.export_private_key(key_pair.private_key),
             {}
         )
         key_storage = KeyStorage()

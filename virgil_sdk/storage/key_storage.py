@@ -49,7 +49,7 @@ class KeyStorage(object):
     def __key_storage_path(self):
         home = None
         if platform.system() == "Windows":
-            home = os.getenv("HOMEPATH")
+            home = os.getenv("HOMEDRIVE") + os.getenv("HOMEPATH")
         if platform.system() == "Linux" or platform.system() == "Darwin":
             home = os.getenv("HOME")
         if not home:

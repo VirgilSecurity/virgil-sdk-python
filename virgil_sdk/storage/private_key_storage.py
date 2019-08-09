@@ -74,7 +74,7 @@ class PrivateKeyStorage(object):
         if not name:
             ValueError("No alias provided for key load.")
         key_entry = self.key_storage.load(name)
-        private_key = self.__key_exporter.import_private_key(key_entry["value"])
+        private_key = self.__key_exporter.import_private_key(key_entry["value"]).private_key
         return private_key, key_entry["meta"]
 
     def delete(self, name):

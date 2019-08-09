@@ -45,7 +45,7 @@ class PrivateKeyStorageTest(BaseTest):
     def test_store(self):
         # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         private_key_storage.store(key_pair.private_key, key_name)
@@ -54,9 +54,20 @@ class PrivateKeyStorageTest(BaseTest):
         finally:
             os.remove(self.__filename_for_clean(private_key_storage, key_name))
 
+    def test_store_without_key_exporter(self):
+        # STC-7
+        key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
+        key_pair = self._crypto.generate_key_pair()
+        private_key_storage = PrivateKeyStorage(self._crypto)
+        private_key_storage.store(key_pair.private_key, key_name)
+        try:
+            self.assertTrue(os.path.exists(self.__filename_for_clean(private_key_storage, key_name)))
+        finally:
+            os.remove(self.__filename_for_clean(private_key_storage, key_name))
+
     def test_store_empty_name(self):
         # STC-7
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.store, key_pair.private_key, None)
@@ -71,10 +82,24 @@ class PrivateKeyStorageTest(BaseTest):
     def test_load(self):
         # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
-        key_pair = self._crypto.generate_keys()
+        key_pair = self._crypto.generate_key_pair()
         additional_data = {"some_key": "some_val"}
         private_key_exporter = PrivateKeyExporter(self._crypto)
         private_key_storage = PrivateKeyStorage(private_key_exporter)
+        private_key_storage.store(key_pair.private_key, key_name, additional_data)
+        loaded_key, loaded_meta = private_key_storage.load(key_name)
+        try:
+            self.assertEqual(loaded_key, key_pair.private_key)
+            self.assertEqual(loaded_meta, additional_data)
+        finally:
+            os.remove(self.__filename_for_clean(private_key_storage, key_name))
+
+    def test_load_without_key_exporter(self):
+        # STC-7
+        key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
+        key_pair = self._crypto.generate_key_pair()
+        additional_data = {"some_key": "some_val"}
+        private_key_storage = PrivateKeyStorage(self._crypto)
         private_key_storage.store(key_pair.private_key, key_name, additional_data)
         loaded_key, loaded_meta = private_key_storage.load(key_name)
         try:
@@ -93,8 +118,8 @@ class PrivateKeyStorageTest(BaseTest):
     def test_delete(self):
         # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(5)).decode()))
-        key_pair = self._crypto.generate_keys()
-        private_key_exporter = PrivateKeyExporter(self._crypto)
+        key_pair = self._crypto.generate_key_pair()
+        private_key_exporter = self._crypto
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         private_key_storage.store(key_pair.private_key, key_name)
         try:
@@ -107,7 +132,7 @@ class PrivateKeyStorageTest(BaseTest):
     def test_delete_unexisting_key(self):
         # STC-7
         key_name = "test_key-{}".format(str(binascii.hexlify(os.urandom(10)).decode()))
-        private_key_exporter = PrivateKeyExporter(self._crypto)
+        private_key_exporter = self._crypto
         private_key_storage = PrivateKeyStorage(private_key_exporter)
         self.assertRaises(ValueError, private_key_storage.delete, key_name)
 

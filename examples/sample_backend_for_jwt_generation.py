@@ -59,7 +59,7 @@ def generate_jwt(identity):
     token_ttl = 10  # token time to live in seconds
 
     # Loading key for next usage
-    imported_api_private_key = crypto.import_private_key(Utils.b64decode(api_private_key))
+    imported_api_private_key = crypto.import_private_key(Utils.b64decode(api_private_key)).private_key
 
     # Instantiate token generator
     builder = JwtGenerator(
@@ -77,7 +77,7 @@ def generate_jwt(identity):
 def authenticate():
     resp = Response()
 
-    loaded_data = json.loads(request.data)  # loading data from request
+    loaded_data = json.loads(request.data.decode())  # loading data from request
     if "identity" not in loaded_data.keys():
         resp.status_code = 400
         return resp

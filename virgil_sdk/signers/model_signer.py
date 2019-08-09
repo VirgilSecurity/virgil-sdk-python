@@ -51,7 +51,7 @@ class ModelSigner(object):
         self.__card_crypto = card_crypto
 
     def sign(self, model, signer, signer_private_key, signature_snapshot=None, extra_fields=None):
-        # type: (RawSignedModel, str, PrivateKey, Union[bytearray, bytes], dict) -> None
+        # type: (RawSignedModel, str, VirgilPrivateKey, Union[bytearray, bytes], dict) -> None
         """
         Adds signature to the specified RawSignedModel using specified signer.
 
@@ -83,7 +83,7 @@ class ModelSigner(object):
         model.add_signature(signature)
 
     def self_sign(self, model, signer_private_key, signature_snapshot=None, extra_fields=None):
-        # type: (RawSignedModel, PrivateKey, Union[bytearray, bytes], dict) -> None
+        # type: (RawSignedModel, VirgilPrivateKey, Union[bytearray, bytes], dict) -> None
         """
         Adds owner's signature to the specified RawSignedModel using specified signer.
 
