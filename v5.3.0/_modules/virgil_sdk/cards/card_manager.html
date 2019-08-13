@@ -1,0 +1,526 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.cards.card_manager &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api-doc/modules.html">virgil_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>virgil_sdk.cards.card_manager</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for virgil_sdk.cards.card_manager</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2016-2019 Virgil Security Inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Lead Maintainer: Virgil Security Inc. &lt;support@virgilsecurity.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Redistribution and use in source and binary forms, with or without</span>
+<span class="c1"># modification, are permitted provided that the following conditions are</span>
+<span class="c1"># met:</span>
+<span class="c1">#</span>
+<span class="c1">#     (1) Redistributions of source code must retain the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer.</span>
+<span class="c1">#</span>
+<span class="c1">#     (2) Redistributions in binary form must reproduce the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer in</span>
+<span class="c1">#     the documentation and/or other materials provided with the</span>
+<span class="c1">#     distribution.</span>
+<span class="c1">#</span>
+<span class="c1">#     (3) Neither the name of the copyright holder nor the names of its</span>
+<span class="c1">#     contributors may be used to endorse or promote products derived from</span>
+<span class="c1">#     this software without specific prior written permission.</span>
+<span class="c1">#</span>
+<span class="c1"># THIS SOFTWARE IS PROVIDED BY THE AUTHOR &#39;&#39;AS IS&#39;&#39; AND ANY EXPRESS OR</span>
+<span class="c1"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c1"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c1"># DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,</span>
+<span class="c1"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c1"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="c1"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
+<span class="c1"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
+<span class="c1"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING</span>
+<span class="c1"># IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span>
+<span class="c1"># POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">virgil_sdk.jwt.token_context</span> <span class="k">import</span> <span class="n">TokenContext</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.cards.raw_card_content</span> <span class="k">import</span> <span class="n">RawCardContent</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.client</span> <span class="k">import</span> <span class="n">RawSignedModel</span><span class="p">,</span> <span class="n">ExpiredAuthorizationClientException</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.utils</span> <span class="k">import</span> <span class="n">Utils</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.verification</span> <span class="k">import</span> <span class="n">CardVerificationException</span>
+<span class="kn">from</span> <span class="nn">.card</span> <span class="k">import</span> <span class="n">Card</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.verification.virgil_card_verifier</span> <span class="k">import</span> <span class="n">VirgilCardVerifier</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.client.card_client</span> <span class="k">import</span> <span class="n">CardClient</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.signers.model_signer</span> <span class="k">import</span> <span class="n">ModelSigner</span>
+
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">json</span> <span class="k">import</span> <span class="n">JSONDecodeError</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">class</span> <span class="nc">JSONDecodeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="CardManager"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager">[docs]</a><span class="k">class</span> <span class="nc">CardManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The CardsManager class provides a list of methods to manage the VirgilCard entities.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">card_crypto</span><span class="p">,</span>
+        <span class="n">access_token_provider</span><span class="p">,</span>
+        <span class="n">card_verifier</span><span class="p">,</span>
+        <span class="n">sign_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">api_url</span><span class="o">=</span><span class="s2">&quot;https://api.virgilsecurity.com&quot;</span><span class="p">,</span>
+        <span class="n">retry_on_unauthorized</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span> <span class="o">=</span> <span class="n">card_crypto</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model_signer</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_card_client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_card_verifier</span> <span class="o">=</span> <span class="n">card_verifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sign_callback</span> <span class="o">=</span> <span class="n">sign_callback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_access_token_provider</span> <span class="o">=</span> <span class="n">access_token_provider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__retry_on_unauthorized</span> <span class="o">=</span> <span class="n">retry_on_unauthorized</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__api_url</span> <span class="o">=</span> <span class="n">api_url</span>
+
+<div class="viewcode-block" id="CardManager.generate_raw_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.generate_raw_card">[docs]</a>    <span class="k">def</span> <span class="nf">generate_raw_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">private_key</span><span class="p">,</span> <span class="n">public_key</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">previous_card_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">extra_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># type: (VirgilPrivateKey, VirgilPublicKey, str, Optional[str], Optional[dict]) -&gt; RawSignedModel</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            private_key: PrivateKey for generate self signature.</span>
+<span class="sd">            public_key: Card Public key.</span>
+<span class="sd">            identity: Unique identity value.</span>
+<span class="sd">            previous_card_id: Previous card id that current card is used to override to.</span>
+<span class="sd">            extra_fields: The additional data associated with the card.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The instance of newly published Card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current_time</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">to_timestamp</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">())</span>
+        <span class="n">raw_card</span> <span class="o">=</span> <span class="n">RawSignedModel</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="o">.</span><span class="n">export_public_key</span><span class="p">(</span><span class="n">public_key</span><span class="p">),</span> <span class="n">identity</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">previous_card_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_signer</span><span class="o">.</span><span class="n">self_sign</span><span class="p">(</span><span class="n">raw_card</span><span class="p">,</span> <span class="n">private_key</span><span class="p">,</span> <span class="n">extra_fields</span><span class="o">=</span><span class="n">extra_fields</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">raw_card</span></div>
+
+<div class="viewcode-block" id="CardManager.publish_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.publish_card">[docs]</a>    <span class="k">def</span> <span class="nf">publish_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># type: (...) -&gt; Card</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Publish a new Card using specified params.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args:</span>
+<span class="sd">                raw_card: Unpublished raw signed model.</span>
+<span class="sd">                or</span>
+<span class="sd">                private_key: PrivateKey for generate self signature.</span>
+<span class="sd">                public_key: Card Public key.</span>
+<span class="sd">                identity: Unique identity value.</span>
+<span class="sd">                previous_card_id: Previous card id that current card is used to override to.</span>
+<span class="sd">                extra_fields: The additional data associated with the card.</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                raw_card: Unpublished raw signed model.</span>
+<span class="sd">                or</span>
+<span class="sd">                private_key: PrivateKey for generate self signature.</span>
+<span class="sd">                public_key: Card Public key.</span>
+<span class="sd">                identity: Unique identity value.</span>
+<span class="sd">                previous_card_id: Previous card id that current card is used to override to.</span>
+<span class="sd">                extra_fields: The additional data associated with the card.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The instance of newly published Card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">RawSignedModel</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__publish_raw_card</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s2">&quot;raw_card&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__publish_raw_card</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">raw_card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_raw_card</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">raw_published_card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__publish_raw_card</span><span class="p">(</span><span class="n">raw_card</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">raw_published_card</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CardManager.get_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.get_card">[docs]</a>    <span class="k">def</span> <span class="nf">get_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card_id</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; Card</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the card by specified ID.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card_id: The card ID to be found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The instance of found Card</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">token_context</span> <span class="o">=</span> <span class="n">TokenContext</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">)</span>
+        <span class="n">access_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_access_token_provider</span><span class="o">.</span><span class="n">get_token</span><span class="p">(</span><span class="n">token_context</span><span class="p">)</span>
+        <span class="n">raw_card</span><span class="p">,</span> <span class="n">is_outdated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__try_execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">card_client</span><span class="o">.</span><span class="n">get_card</span><span class="p">,</span> <span class="n">card_id</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">token_context</span><span class="p">)</span>
+        <span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">raw_card</span><span class="p">,</span> <span class="n">is_outdated</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="n">card_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CardVerificationException</span><span class="p">(</span><span class="s2">&quot;Invalid card&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__validate</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">card</span></div>
+
+<div class="viewcode-block" id="CardManager.search_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.search_card">[docs]</a>    <span class="k">def</span> <span class="nf">search_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identity</span><span class="p">):</span>
+        <span class="c1"># type: (Union[str, list]) -&gt; List[Card]</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Searches for cards by specified identity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            identity: The identity (or list of identity) to be found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The list of found Card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">identity</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing identity for search&quot;</span><span class="p">)</span>
+        <span class="n">token_context</span> <span class="o">=</span> <span class="n">TokenContext</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">)</span>
+        <span class="n">access_token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_access_token_provider</span><span class="o">.</span><span class="n">get_token</span><span class="p">(</span><span class="n">token_context</span><span class="p">)</span>
+        <span class="n">raw_cards</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__try_execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">card_client</span><span class="o">.</span><span class="n">search_card</span><span class="p">,</span> <span class="n">identity</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">token_context</span><span class="p">)</span>
+        <span class="n">cards</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">raw_cards</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">identity</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">identity</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">identity</span><span class="p">,</span> <span class="n">cards</span><span class="p">))):</span>
+                <span class="k">raise</span> <span class="n">CardVerificationException</span><span class="p">(</span><span class="s2">&quot;Invalid cards&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">identity</span> <span class="o">!=</span> <span class="n">identity</span><span class="p">,</span> <span class="n">cards</span><span class="p">))):</span>
+                <span class="k">raise</span> <span class="n">CardVerificationException</span><span class="p">(</span><span class="s2">&quot;Invalid cards&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">cards</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__validate</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linked_card_list</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CardManager.import_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.import_card">[docs]</a>    <span class="k">def</span> <span class="nf">import_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card_to_import</span><span class="p">):</span>
+        <span class="c1"># type: (Union[str, dict, RawSignedModel]) -&gt; Card</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Imports and verifies Card.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card_to_import: Exported data of signed model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Imported and verified card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="n">Utils</span><span class="o">.</span><span class="n">check_unicode</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">):</span>
+            <span class="n">card_to_import</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">json_loads</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">),</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">RawSignedModel</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">JSONDecodeError</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">RawSignedModel</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+            <span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">RawSignedModel</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">card_to_import</span><span class="p">,</span> <span class="n">RawSignedModel</span><span class="p">):</span>
+            <span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">card_to_import</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">card_to_import</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing card to import&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unexpected type for card import&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__validate</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">card</span></div>
+
+<div class="viewcode-block" id="CardManager.export_card_to_string"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.export_card_to_string">[docs]</a>    <span class="k">def</span> <span class="nf">export_card_to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
+        <span class="c1"># type: (Card) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exports the specified card as a BASE64 string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card: Card instance to be exported.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Serialize card to base64.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">export_card_to_raw_card</span><span class="p">(</span><span class="n">card</span><span class="p">)</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CardManager.export_card_to_json"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.export_card_to_json">[docs]</a>    <span class="k">def</span> <span class="nf">export_card_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
+        <span class="c1"># type: (Card) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exports the specified card as a json.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card: Card instance to be exported.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Serialize card to json.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">export_card_to_raw_card</span><span class="p">(</span><span class="n">card</span><span class="p">)</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="CardManager.export_card_to_raw_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.card_manager.html#virgil_sdk.cards.card_manager.CardManager.export_card_to_raw_card">[docs]</a>    <span class="k">def</span> <span class="nf">export_card_to_raw_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
+        <span class="c1"># type: (Card) -&gt; RawSignedModel</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exports the specified card as a RawSignedModel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card: Card instance to be exported.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Returns instance of RawSignedModel representing Card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">raw_signed_model</span> <span class="o">=</span> <span class="n">RawSignedModel</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">content_snapshot</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">signature</span> <span class="ow">in</span> <span class="n">card</span><span class="o">.</span><span class="n">signatures</span><span class="p">:</span>
+            <span class="n">raw_signed_model</span><span class="o">.</span><span class="n">add_signature</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">raw_signed_model</span></div>
+
+    <span class="k">def</span> <span class="nf">__publish_raw_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raw_card</span><span class="p">):</span>
+        <span class="c1"># type: (RawSignedModel) -&gt; Card</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sign_callback</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sign_callback</span><span class="p">(</span><span class="n">raw_card</span><span class="p">)</span>
+        <span class="n">card_content</span> <span class="o">=</span> <span class="n">RawCardContent</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">raw_card</span><span class="p">)</span>
+        <span class="n">token_context</span> <span class="o">=</span> <span class="n">TokenContext</span><span class="p">(</span><span class="n">card_content</span><span class="o">.</span><span class="n">identity</span><span class="p">,</span> <span class="s2">&quot;publish_card&quot;</span><span class="p">)</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_access_token_provider</span><span class="o">.</span><span class="n">get_token</span><span class="p">(</span><span class="n">token_context</span><span class="p">)</span>
+        <span class="n">published_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__try_execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">card_client</span><span class="o">.</span><span class="n">publish_card</span><span class="p">,</span> <span class="n">raw_card</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">token_context</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">published_model</span><span class="o">.</span><span class="n">content_snapshot</span> <span class="o">!=</span> <span class="n">raw_card</span><span class="o">.</span><span class="n">content_snapshot</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CardVerificationException</span><span class="p">(</span><span class="s2">&quot;Publishing returns invalid card&quot;</span><span class="p">)</span>
+        <span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="o">.</span><span class="n">from_signed_model</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">,</span> <span class="n">published_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__validate</span><span class="p">(</span><span class="n">card</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">card</span>
+
+    <span class="k">def</span> <span class="nf">__validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
+        <span class="c1"># type: (Card) -&gt; None</span>
+        <span class="k">if</span> <span class="n">card</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing card for validation&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">card_verifier</span><span class="o">.</span><span class="n">verify_card</span><span class="p">(</span><span class="n">card</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">CardVerificationException</span><span class="p">(</span><span class="s2">&quot;Card verification failed!&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__try_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card_function</span><span class="p">,</span> <span class="n">card_arg</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="c1"># type: (function, Any, str, TokenContext) -&gt; Any</span>
+        <span class="n">attempts_number</span> <span class="o">=</span> <span class="mi">2</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__retry_on_unauthorized</span> <span class="k">else</span> <span class="mi">1</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">while</span> <span class="n">attempts_number</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">card_function</span><span class="p">(</span><span class="n">card_arg</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ExpiredAuthorizationClientException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_access_token_provider</span><span class="o">.</span><span class="n">get_token</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">attempts_number</span><span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+            <span class="n">attempts_number</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_linked_card_list</span><span class="p">(</span><span class="n">card_list</span><span class="p">):</span>
+        <span class="c1"># type: (List[Card]) -&gt; List[Card]</span>
+        <span class="n">unsorted</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">card_list</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">card_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">previous_card_id</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">card</span><span class="o">.</span><span class="n">previous_card_id</span> <span class="ow">in</span> <span class="n">unsorted</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">unsorted</span><span class="p">[</span><span class="n">card</span><span class="o">.</span><span class="n">previous_card_id</span><span class="p">]</span><span class="o">.</span><span class="n">is_outdated</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">card</span><span class="o">.</span><span class="n">previous_card</span> <span class="o">=</span> <span class="n">unsorted</span><span class="p">[</span><span class="n">card</span><span class="o">.</span><span class="n">previous_card_id</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">unsorted</span><span class="p">[</span><span class="n">card</span><span class="o">.</span><span class="n">previous_card_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">unsorted</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_signer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Card signer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Returns instance of ModelSigner witch provides sign operations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_signer</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_model_signer</span> <span class="o">=</span> <span class="n">ModelSigner</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_signer</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">card_client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Card service client.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Returns an instance of CardClient with provides card service operations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_card_client</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__api_url</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_card_client</span> <span class="o">=</span> <span class="n">CardClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__api_url</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_card_client</span> <span class="o">=</span> <span class="n">CardClient</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_card_client</span>
+
+    <span class="nd">@card_client</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">card_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card_client</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_card_client</span> <span class="o">=</span> <span class="n">card_client</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">card_verifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Card verifier.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Returns an instance of CardVerifier which provides card verification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_card_verifier</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_card_verifier</span> <span class="o">=</span> <span class="n">VirgilCardVerifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_card_crypto</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_card_verifier</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2019, Virgil Security
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.verification.virgil_card_verifier &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api-doc/modules.html">virgil_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>virgil_sdk.verification.virgil_card_verifier</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for virgil_sdk.verification.virgil_card_verifier</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2016-2019 Virgil Security Inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Lead Maintainer: Virgil Security Inc. &lt;support@virgilsecurity.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Redistribution and use in source and binary forms, with or without</span>
+<span class="c1"># modification, are permitted provided that the following conditions are</span>
+<span class="c1"># met:</span>
+<span class="c1">#</span>
+<span class="c1">#     (1) Redistributions of source code must retain the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer.</span>
+<span class="c1">#</span>
+<span class="c1">#     (2) Redistributions in binary form must reproduce the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer in</span>
+<span class="c1">#     the documentation and/or other materials provided with the</span>
+<span class="c1">#     distribution.</span>
+<span class="c1">#</span>
+<span class="c1">#     (3) Neither the name of the copyright holder nor the names of its</span>
+<span class="c1">#     contributors may be used to endorse or promote products derived from</span>
+<span class="c1">#     this software without specific prior written permission.</span>
+<span class="c1">#</span>
+<span class="c1"># THIS SOFTWARE IS PROVIDED BY THE AUTHOR &#39;&#39;AS IS&#39;&#39; AND ANY EXPRESS OR</span>
+<span class="c1"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c1"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c1"># DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,</span>
+<span class="c1"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c1"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="c1"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
+<span class="c1"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
+<span class="c1"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING</span>
+<span class="c1"># IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span>
+<span class="c1"># POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="kn">from</span> <span class="nn">virgil_sdk.signers.model_signer</span> <span class="k">import</span> <span class="n">ModelSigner</span>
+<span class="kn">from</span> <span class="nn">virgil_sdk.utils</span> <span class="k">import</span> <span class="n">Utils</span>
+<span class="kn">from</span> <span class="nn">.card_verifier</span> <span class="k">import</span> <span class="n">CardVerifier</span>
+
+
+<div class="viewcode-block" id="VirgilCardVerifier"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.verification.virgil_card_verifier.html#virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier">[docs]</a><span class="k">class</span> <span class="nc">VirgilCardVerifier</span><span class="p">(</span><span class="n">CardVerifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The VirgilCardVerifier represents card verification process.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">crypto</span><span class="p">,</span>
+        <span class="n">verify_self_signature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+        <span class="n">verify_virgil_signature</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+        <span class="n">white_lists</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>  <span class="c1"># type: List[WhiteList]</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_crypto</span> <span class="o">=</span> <span class="n">crypto</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify_self_signature</span> <span class="o">=</span> <span class="n">verify_self_signature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify_virgil_signature</span> <span class="o">=</span> <span class="n">verify_virgil_signature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__white_lists</span> <span class="o">=</span> <span class="n">white_lists</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__virgil_public_key_base64</span> <span class="o">=</span> <span class="s2">&quot;MCowBQYDK2VwAyEAljOYGANYiVq1WbvVvoYIKtvZi2ji9bAhxyu6iV/LF8M=&quot;</span>
+
+<div class="viewcode-block" id="VirgilCardVerifier.verify_card"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.verification.virgil_card_verifier.html#virgil_sdk.verification.virgil_card_verifier.VirgilCardVerifier.verify_card">[docs]</a>    <span class="k">def</span> <span class="nf">verify_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">):</span>
+        <span class="c1"># type: (Card) -&gt; bool</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        To verify the specified card.</span>
+
+<span class="sd">        To set up rule for verification of self signature use verify_self_signature.</span>
+<span class="sd">        To set up rule for verification of virgil service signature use verify_virgil_signature.</span>
+<span class="sd">        To set up Whitelists use white_lists.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card: The instance of Card to verify.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True is card is verified according to set rules, otherwise False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_self_signature</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__validate_signer_signature</span><span class="p">(</span>
+                <span class="n">card</span><span class="p">,</span>
+                <span class="n">card</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+                <span class="n">ModelSigner</span><span class="o">.</span><span class="n">SELF_SIGNER</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_virgil_signature</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__validate_signer_signature</span><span class="p">(</span>
+                <span class="n">card</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__get_public_key</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__virgil_public_key_base64</span><span class="p">),</span>
+                <span class="n">ModelSigner</span><span class="o">.</span><span class="n">VIRGIL_SIGNER</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">white_lists</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">signers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">signer</span><span class="p">,</span> <span class="n">card</span><span class="o">.</span><span class="n">signatures</span><span class="p">))</span>
+        <span class="n">verifiers_credentials_lists</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">verifiers_credentials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">white_lists</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">verifiers_credentials</span> <span class="ow">in</span> <span class="n">verifiers_credentials_lists</span><span class="p">:</span>
+
+            <span class="n">intersected_creds</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">signer</span> <span class="ow">in</span> <span class="n">signers</span><span class="p">,</span> <span class="n">verifiers_credentials</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">intersected_creds</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">intersected_cred</span> <span class="ow">in</span> <span class="n">intersected_creds</span><span class="p">:</span>
+                <span class="n">signer_public_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_public_key</span><span class="p">(</span><span class="n">intersected_cred</span><span class="o">.</span><span class="n">public_key_base64</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__validate_signer_signature</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">signer_public_key</span><span class="p">,</span> <span class="n">intersected_cred</span><span class="o">.</span><span class="n">signer</span><span class="p">):</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">intersected_cred</span> <span class="ow">is</span> <span class="n">intersected_creds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_public_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signer_public_key_base64</span><span class="p">):</span>
+        <span class="n">public_key_bytes</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">b64_decode</span><span class="p">(</span><span class="n">signer_public_key_base64</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crypto</span><span class="o">.</span><span class="n">import_public_key</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">public_key_bytes</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__validate_signer_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">card</span><span class="p">,</span> <span class="n">signer_public_key</span><span class="p">,</span> <span class="n">signer_type</span><span class="p">):</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">sign</span> <span class="ow">in</span> <span class="n">card</span><span class="o">.</span><span class="n">signatures</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sign</span><span class="o">.</span><span class="n">signer</span> <span class="o">==</span> <span class="n">signer_type</span><span class="p">:</span>
+                <span class="n">signature</span> <span class="o">=</span> <span class="n">sign</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">signature</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signature</span><span class="o">.</span><span class="n">snapshot</span><span class="p">:</span>
+                <span class="n">extended_snapshot</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">b64_decode</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">content_snapshot</span><span class="p">))</span>\
+                                    <span class="o">+</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">b64_decode</span><span class="p">(</span><span class="n">signature</span><span class="o">.</span><span class="n">snapshot</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">extended_snapshot</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">b64_decode</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">content_snapshot</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crypto</span><span class="o">.</span><span class="n">verify_signature</span><span class="p">(</span>
+                <span class="nb">bytearray</span><span class="p">(</span><span class="n">signature</span><span class="o">.</span><span class="n">signature</span><span class="p">),</span>
+                <span class="n">extended_snapshot</span><span class="p">,</span>
+                <span class="n">signer_public_key</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">white_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get white lists.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__white_lists</span>
+
+    <span class="nd">@white_lists</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">white_lists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__white_lists</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__white_lists</span> <span class="o">+=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__white_lists</span> <span class="o">+=</span> <span class="n">value</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2019, Virgil Security
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

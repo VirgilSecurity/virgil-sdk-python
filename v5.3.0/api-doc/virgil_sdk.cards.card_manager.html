@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.cards.card_manager module &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="virgil_sdk.cards.card_signature module" href="virgil_sdk.cards.card_signature.html" />
+    <link rel="prev" title="virgil_sdk.cards.card module" href="virgil_sdk.cards.card.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">virgil_sdk</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="virgil_sdk.html">virgil_sdk package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="virgil_sdk.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="virgil_sdk.cards.html">virgil_sdk.cards package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.client.html">virgil_sdk.client package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.jwt.html">virgil_sdk.jwt package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.signers.html">virgil_sdk.signers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.storage.html">virgil_sdk.storage package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.utils.html">virgil_sdk.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="virgil_sdk.verification.html">virgil_sdk.verification package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="virgil_sdk.html#module-virgil_sdk">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="modules.html">virgil_sdk</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.html">virgil_sdk package</a> &raquo;</li>
+        
+          <li><a href="virgil_sdk.cards.html">virgil_sdk.cards package</a> &raquo;</li>
+        
+      <li>virgil_sdk.cards.card_manager module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-virgil_sdk.cards.card_manager">
+<span id="virgil-sdk-cards-card-manager-module"></span><h1>virgil_sdk.cards.card_manager module<a class="headerlink" href="#module-virgil_sdk.cards.card_manager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="virgil_sdk.cards.card_manager.CardManager">
+<em class="property">class </em><code class="sig-prename descclassname">virgil_sdk.cards.card_manager.</code><code class="sig-name descname">CardManager</code><span class="sig-paren">(</span><em class="sig-param">card_crypto</em>, <em class="sig-param">access_token_provider</em>, <em class="sig-param">card_verifier</em>, <em class="sig-param">sign_callback=None</em>, <em class="sig-param">api_url='https://api.virgilsecurity.com'</em>, <em class="sig-param">retry_on_unauthorized=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The CardsManager class provides a list of methods to manage the VirgilCard entities.</p>
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.card_client">
+<em class="property">property </em><code class="sig-name descname">card_client</code><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.card_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Card service client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns an instance of CardClient with provides card service operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.card_verifier">
+<em class="property">property </em><code class="sig-name descname">card_verifier</code><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.card_verifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Card verifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns an instance of CardVerifier which provides card verification.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.export_card_to_json">
+<code class="sig-name descname">export_card_to_json</code><span class="sig-paren">(</span><em class="sig-param">card</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.export_card_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.export_card_to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports the specified card as a json.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card</strong> – Card instance to be exported.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Serialize card to json.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.export_card_to_raw_card">
+<code class="sig-name descname">export_card_to_raw_card</code><span class="sig-paren">(</span><em class="sig-param">card</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.export_card_to_raw_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.export_card_to_raw_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports the specified card as a RawSignedModel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card</strong> – Card instance to be exported.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns instance of RawSignedModel representing Card.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.export_card_to_string">
+<code class="sig-name descname">export_card_to_string</code><span class="sig-paren">(</span><em class="sig-param">card</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.export_card_to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.export_card_to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exports the specified card as a BASE64 string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card</strong> – Card instance to be exported.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Serialize card to base64.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.generate_raw_card">
+<code class="sig-name descname">generate_raw_card</code><span class="sig-paren">(</span><em class="sig-param">private_key</em>, <em class="sig-param">public_key</em>, <em class="sig-param">identity</em>, <em class="sig-param">previous_card_id=''</em>, <em class="sig-param">extra_fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.generate_raw_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.generate_raw_card" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>private_key</strong> – PrivateKey for generate self signature.</p></li>
+<li><p><strong>public_key</strong> – Card Public key.</p></li>
+<li><p><strong>identity</strong> – Unique identity value.</p></li>
+<li><p><strong>previous_card_id</strong> – Previous card id that current card is used to override to.</p></li>
+<li><p><strong>extra_fields</strong> – The additional data associated with the card.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance of newly published Card.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.get_card">
+<code class="sig-name descname">get_card</code><span class="sig-paren">(</span><em class="sig-param">card_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.get_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.get_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the card by specified ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card_id</strong> – The card ID to be found.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance of found Card</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.import_card">
+<code class="sig-name descname">import_card</code><span class="sig-paren">(</span><em class="sig-param">card_to_import</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.import_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.import_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imports and verifies Card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>card_to_import</strong> – Exported data of signed model.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Imported and verified card.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.model_signer">
+<em class="property">property </em><code class="sig-name descname">model_signer</code><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.model_signer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Card signer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns instance of ModelSigner witch provides sign operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.publish_card">
+<code class="sig-name descname">publish_card</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.publish_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.publish_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Publish a new Card using specified params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – raw_card: Unpublished raw signed model.
+or
+private_key: PrivateKey for generate self signature.
+public_key: Card Public key.
+identity: Unique identity value.
+previous_card_id: Previous card id that current card is used to override to.
+extra_fields: The additional data associated with the card.</p></li>
+<li><p><strong>**kwargs</strong> – raw_card: Unpublished raw signed model.
+or
+private_key: PrivateKey for generate self signature.
+public_key: Card Public key.
+identity: Unique identity value.
+previous_card_id: Previous card id that current card is used to override to.
+extra_fields: The additional data associated with the card.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The instance of newly published Card.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="virgil_sdk.cards.card_manager.CardManager.search_card">
+<code class="sig-name descname">search_card</code><span class="sig-paren">(</span><em class="sig-param">identity</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/virgil_sdk/cards/card_manager.html#CardManager.search_card"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#virgil_sdk.cards.card_manager.CardManager.search_card" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches for cards by specified identity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>identity</strong> – The identity (or list of identity) to be found.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of found Card.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="virgil_sdk.cards.card_signature.html" class="btn btn-neutral float-right" title="virgil_sdk.cards.card_signature module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="virgil_sdk.cards.card.html" class="btn btn-neutral float-left" title="virgil_sdk.cards.card module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2019, Virgil Security
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

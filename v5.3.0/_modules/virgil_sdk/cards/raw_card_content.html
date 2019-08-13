@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>virgil_sdk.cards.raw_card_content &mdash; Virgil SDK Python v5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Virgil SDK Python
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api-doc/modules.html">virgil_sdk</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Virgil SDK Python</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>virgil_sdk.cards.raw_card_content</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for virgil_sdk.cards.raw_card_content</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (C) 2016-2019 Virgil Security Inc.</span>
+<span class="c1">#</span>
+<span class="c1"># Lead Maintainer: Virgil Security Inc. &lt;support@virgilsecurity.com&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Redistribution and use in source and binary forms, with or without</span>
+<span class="c1"># modification, are permitted provided that the following conditions are</span>
+<span class="c1"># met:</span>
+<span class="c1">#</span>
+<span class="c1">#     (1) Redistributions of source code must retain the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer.</span>
+<span class="c1">#</span>
+<span class="c1">#     (2) Redistributions in binary form must reproduce the above copyright</span>
+<span class="c1">#     notice, this list of conditions and the following disclaimer in</span>
+<span class="c1">#     the documentation and/or other materials provided with the</span>
+<span class="c1">#     distribution.</span>
+<span class="c1">#</span>
+<span class="c1">#     (3) Neither the name of the copyright holder nor the names of its</span>
+<span class="c1">#     contributors may be used to endorse or promote products derived from</span>
+<span class="c1">#     this software without specific prior written permission.</span>
+<span class="c1">#</span>
+<span class="c1"># THIS SOFTWARE IS PROVIDED BY THE AUTHOR &#39;&#39;AS IS&#39;&#39; AND ANY EXPRESS OR</span>
+<span class="c1"># IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c1"># WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c1"># DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT,</span>
+<span class="c1"># INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c1"># (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="c1"># SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)</span>
+<span class="c1"># HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,</span>
+<span class="c1"># STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING</span>
+<span class="c1"># IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE</span>
+<span class="c1"># POSSIBILITY OF SUCH DAMAGE.</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">from</span> <span class="nn">virgil_sdk.utils</span> <span class="k">import</span> <span class="n">Utils</span>
+
+
+<div class="viewcode-block" id="RawCardContent"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.raw_card_content.html#virgil_sdk.cards.raw_card_content.RawCardContent">[docs]</a><span class="k">class</span> <span class="nc">RawCardContent</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RawCardContent provides content of Virgil Card.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">identity</span><span class="p">,</span>  <span class="c1"># type: str</span>
+        <span class="n">public_key</span><span class="p">,</span>  <span class="c1"># type: Union[bytearray, bytes, Tuple[int], List[int]]</span>
+        <span class="n">created_at</span><span class="p">,</span>  <span class="c1"># type datetime</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;5.0&quot;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+        <span class="n">previous_card_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_identity</span> <span class="o">=</span> <span class="n">identity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_public_key</span> <span class="o">=</span> <span class="n">public_key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_created_at</span> <span class="o">=</span> <span class="n">created_at</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_previous_card_id</span> <span class="o">=</span> <span class="n">previous_card_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_content_snapshot</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="RawCardContent.to_json"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.raw_card_content.html#virgil_sdk.cards.raw_card_content.RawCardContent.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Raw card content json representation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Serialize raw card content to json.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">({</span>
+            <span class="s2">&quot;identity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">identity</span><span class="p">,</span>
+            <span class="s2">&quot;public_key&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">public_key</span><span class="p">,</span>
+            <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span>
+            <span class="s2">&quot;previous_card_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">previous_card_id</span><span class="p">,</span>
+            <span class="s2">&quot;content_snapshot&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_snapshot</span>
+        <span class="p">})</span></div>
+
+<div class="viewcode-block" id="RawCardContent.from_snapshot"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.raw_card_content.html#virgil_sdk.cards.raw_card_content.RawCardContent.from_snapshot">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_snapshot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">content_snapshot</span><span class="p">):</span>
+        <span class="c1"># type: (dict) -&gt; RawCardContent</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RawCardContent deserializer from snapshot representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            content_snapshot: RawCardContent serialized snapshot.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Loaded RawCardContent instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">card_content</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">loaded_snapshot</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">json_loads</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">b64_decode</span><span class="p">(</span><span class="n">content_snapshot</span><span class="p">))</span>
+        <span class="n">card_content</span><span class="o">.</span><span class="n">_identity</span> <span class="o">=</span> <span class="n">loaded_snapshot</span><span class="p">[</span><span class="s2">&quot;identity&quot;</span><span class="p">]</span>
+        <span class="n">card_content</span><span class="o">.</span><span class="n">_public_key</span> <span class="o">=</span> <span class="n">loaded_snapshot</span><span class="p">[</span><span class="s2">&quot;public_key&quot;</span><span class="p">]</span>
+        <span class="n">card_content</span><span class="o">.</span><span class="n">_version</span> <span class="o">=</span> <span class="n">loaded_snapshot</span><span class="p">[</span><span class="s2">&quot;version&quot;</span><span class="p">]</span>
+        <span class="n">card_content</span><span class="o">.</span><span class="n">_created_at</span> <span class="o">=</span> <span class="n">loaded_snapshot</span><span class="p">[</span><span class="s2">&quot;created_at&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;previous_card_id&quot;</span> <span class="ow">in</span> <span class="n">loaded_snapshot</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">card_content</span><span class="o">.</span><span class="n">_previous_card_id</span> <span class="o">=</span> <span class="n">loaded_snapshot</span><span class="p">[</span><span class="s2">&quot;previous_card_id&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">card_content</span><span class="o">.</span><span class="n">_previous_card_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">card_content</span><span class="o">.</span><span class="n">_content_snapshot</span> <span class="o">=</span> <span class="n">content_snapshot</span>
+        <span class="k">return</span> <span class="n">card_content</span></div>
+
+<div class="viewcode-block" id="RawCardContent.from_signed_model"><a class="viewcode-back" href="../../../api-doc/virgil_sdk.cards.raw_card_content.html#virgil_sdk.cards.raw_card_content.RawCardContent.from_signed_model">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_signed_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">card_crypto</span><span class="p">,</span> <span class="n">raw_singed_model</span><span class="p">):</span>
+        <span class="c1"># type: (Any, RawSignedModel) -&gt; RawCardContent</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RawCardContent deserializer from RawSignedModel representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            card_crypto: CardCrypto witch provides crypto operations.</span>
+<span class="sd">            raw_singed_model: Card raw signed model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Loaded RawCardContent instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">card</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_snapshot</span><span class="p">(</span><span class="n">raw_singed_model</span><span class="o">.</span><span class="n">content_snapshot</span><span class="p">)</span>
+        <span class="n">card</span><span class="o">.</span><span class="n">_public_key</span> <span class="o">=</span> <span class="n">card_crypto</span><span class="o">.</span><span class="n">import_public_key</span><span class="p">(</span><span class="nb">bytearray</span><span class="p">(</span><span class="n">Utils</span><span class="o">.</span><span class="n">b64_decode</span><span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">_public_key</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">card</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the identity value that can be anything which identifies the user in your application.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            User identity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_identity</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">public_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the public key.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Public key.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_public_key</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the version of the card.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Card version.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">created_at</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets the date and time fo card creation in UTC.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Creation date in UTC datetime.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_at</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">previous_card_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get previous Card ID that current card is used to override to.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Previous card id.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_card_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">content_snapshot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        RawCardContent snapshot.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Snapshot of RawCardContent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content_snapshot</span><span class="p">:</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;identity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_identity</span><span class="p">,</span>
+                <span class="s2">&quot;public_key&quot;</span><span class="p">:</span> <span class="n">Utils</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_public_key</span><span class="p">),</span>
+                <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version</span><span class="p">,</span>
+                <span class="s2">&quot;created_at&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_at</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_card_id</span><span class="p">:</span>
+                <span class="n">content</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;previous_card_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_previous_card_id</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_content_snapshot</span> <span class="o">=</span> <span class="n">Utils</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span>
+                <span class="n">Utils</span><span class="o">.</span><span class="n">json_dumps</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content_snapshot</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016-2019, Virgil Security
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
