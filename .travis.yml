@@ -9,6 +9,13 @@ python:
   - "3.6"
   - "3.7-dev"
 
+env:
+  global:
+    - REPO=VirgilSecurity/virgil-sdk-python
+    - GIT_TAG=$TRAVIS_TAG
+    - GIT_COMMIT=$TRAVIS_COMMIT
+    - GIT_BRANCH=$TRAVIS_BRANCH
+
 matrix:
   include:
     - os: osx
@@ -87,6 +94,22 @@ script:
   - pwd
   - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
   - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
+
+after_success:
+  if [$TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+]; then
+    make docs
+  fi
+
+deploy:
+  # Upload docs to gh-pages
+  - provider: pages
+    skip_cleanup: true
+    github-token: $GITHUB_ACCESS_TOKEN
+    local_dir: "docs"
+    on:
+      repo: $REPO
+      tags: true
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+
 
 notifications:
   email:
