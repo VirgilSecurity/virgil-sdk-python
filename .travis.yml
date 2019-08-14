@@ -97,12 +97,9 @@ script:
 
 jobs:
   include:
-    - stage: generate docs
-      script: |
-#        if [[ $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+ ]]; then
-         make docs
-#        fi
-    - stage: deploy docs
+    - stage: "generate docs"
+      script: make docs
+    - stage: "deploy docs"
       script: skip
       deploy:
         # Upload docs to gh-pages
