@@ -5,8 +5,7 @@ REPO=VirgilSecurity/virgil-sdk-python
 REPO_PATH=https://github.com/${REPO}.git
 DOCS_DEST="./docs"
 API_DOCS="./doc-source/api-doc"
-CURRENT_VERSION=$$(sed -n -E -e 's/__version__ = \"(.*)\"/\1/p' virgil_sdk/__init__.py)
-CURRENT_VERSION_DIR="${DOCS_DEST}/v${CURRENT_VERSION}"
+CURRENT_VERSION_DIR="${DOCS_DEST}/${GIT_TAG}"
 
 define clean_api_docs
 	@echo "Clean api-docs directory"
@@ -31,8 +30,8 @@ endef
 sphinx_docs:
 	@echo ">>> Generate Api Docs"
 	$(call clean_api_docs)
+	${PYTHON3} -m pip install sphinx sphinx-rtd-theme
 	sphinx-apidoc -f -e -R ${GIT_TAG} -V ${GIT_TAG} -o ${API_DOCS} ./virgil_sdk *test*
-
 
 	@echo "Check ${DOCS_DEST} exist"
 	@if [ -d ${API_DOCS} ]; then \
