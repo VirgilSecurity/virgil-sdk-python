@@ -117,6 +117,7 @@ jobs:
         - HOMEDRIVE='C:'
 
     - stage: generate docs
+      python: 3.5
       script: make docs
 
     - stage: deploy docs
