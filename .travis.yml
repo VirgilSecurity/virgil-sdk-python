@@ -16,39 +16,37 @@ env:
     - GIT_COMMIT=$TRAVIS_COMMIT
     - GIT_BRANCH=$TRAVIS_BRANCH
 
+before_install: &before_install
+    - if [ "$TRAVIS_OS_NAME" == "osx" ]; then \
+        brew update \
+        brew install openssl readline \
+        brew outdated pyenv || brew upgrade pyenv \
+        brew install pyenv-virtualenv \
+        pyenv install $PYTHON \
+        export PYENV_VERSION=$PYTHON \
+        export PATH="/Users/travis/.pyenv/shims:${PATH}" \
+        pyenv-virtualenv venv \
+        source venv/bin/activate \
+      fi
+    - python --version
+    - pip --version
+
+install: &install
+  - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
+  - pip install virgil-crypto
+  - pip install .
+
+script: &script
+  - echo "Run tests"
+  - pwd
+  - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
+  - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
+
 tests: &tests
   stage: test
-  before_install: |
-    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      brew update
-      brew install openssl readline
-      brew outdated pyenv || brew upgrade pyenv
-      brew install pyenv-virtualenv
-      pyenv install $PYTHON
-      export PYENV_VERSION=$PYTHON
-      export PATH="/Users/travis/.pyenv/shims:${PATH}"
-      pyenv-virtualenv venv
-      source venv/bin/activate
-
-    fi
-    echo "Install requirments"
-    python --version
-    pip --version
-    echo "Requirments installed"
-
-  install:
-    - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
-    - echo "Install dependencies"
-    - pip install virgil-crypto
-    - pip install .
-
-  script:
-    - echo "Run tests"
-    - pwd
-    - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
-    - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
-
-script: echo "Run tests"
+  <<: *before_install
+  <<: *install
+  <<: *script
 
 jobs:
   include:
