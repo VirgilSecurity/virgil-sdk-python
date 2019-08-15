@@ -36,9 +36,12 @@ tests: &tests
 
   install:
     - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
+    - echo "Install dependencies"
     - pip install virgil-crypto
+    - pip install .
 
   script:
+    - echo "Run tests"
     - pwd
     - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
     - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
