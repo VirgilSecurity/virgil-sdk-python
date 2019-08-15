@@ -33,6 +33,7 @@ tests: &tests
     fi
     python --version
     pip --version
+    echo "Requirments installed"
 
   install:
     - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
