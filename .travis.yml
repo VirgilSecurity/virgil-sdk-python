@@ -31,14 +31,12 @@ tests: &tests
       source venv/bin/activate
 
     fi
-    wget https://bootstrap.pypa.io/get-pip.py | python
     python --version
     pip --version
 
   install:
     - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
     - pip install virgil-crypto
-    - pip install .
 
   script:
     - pwd
