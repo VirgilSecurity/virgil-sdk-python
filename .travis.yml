@@ -39,8 +39,6 @@ tests: &tests
   install:
     - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
     - echo "Install dependencies"
-    - pip install virgil-crypto
-    - pip install .
 
   script:
     - echo "Run tests"
