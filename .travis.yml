@@ -16,7 +16,7 @@ env:
     - GIT_COMMIT=$TRAVIS_COMMIT
     - GIT_BRANCH=$TRAVIS_BRANCH
 
-before_install: &before_install
+before_install:
     - if [ "$TRAVIS_OS_NAME" == "osx" ]; then \
         brew update \
         brew install openssl readline \
@@ -31,12 +31,12 @@ before_install: &before_install
     - python --version
     - pip --version
 
-install: &install
+install:
   - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
   - pip install virgil-crypto
   - pip install .
 
-script: &script
+script:
   - echo "Run tests"
   - pwd
   - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
@@ -44,9 +44,6 @@ script: &script
 
 tests: &tests
   stage: test
-  <<: *before_install
-  <<: *install
-  <<: *script
 
 jobs:
   include:
