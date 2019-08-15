@@ -1,6 +1,6 @@
 os: linux
 
-language: shell
+language: python
 
 python:
   - "2.7"

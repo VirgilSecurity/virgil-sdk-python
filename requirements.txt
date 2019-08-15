@@ -1,0 +1,1 @@
+virgil_crypto>=5.0.0
