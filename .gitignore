@@ -8,3 +8,4 @@ virgil/crypto/*virgil_crypto_python*
 .idea/
 /__pycache__
 /doc-source/api-doc/
+/docs

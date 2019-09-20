@@ -9,24 +9,71 @@ python:
   - "3.6"
   - "3.7-dev"
 
-matrix:
+env:
+  global:
+    - REPO=VirgilSecurity/virgil-sdk-python
+    - GIT_TAG=$TRAVIS_TAG
+    - GIT_COMMIT=$TRAVIS_COMMIT
+    - GIT_BRANCH=$TRAVIS_BRANCH
+
+before_install: |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+        brew update
+        brew install openssl readline
+        brew outdated pyenv || brew upgrade pyenv
+        brew install pyenv-virtualenv
+        pyenv install $PYTHON
+        export PYENV_VERSION=$PYTHON
+        export PATH="/Users/travis/.pyenv/shims:${PATH}"
+        pyenv-virtualenv venv
+        source venv/bin/activate
+      fi
+    python --version
+    pip --version
+
+install:
+  - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
+  - pip install virgil-crypto
+  - pip install .
+
+script:
+  - echo "Run tests"
+  - pwd
+  - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
+  - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
+
+tests: &tests
+  stage: test
+
+jobs:
   include:
-    - os: osx
+    - <<: *tests
+      os: osx
       language: generic
       env: PYTHON=2.7.15 PYTHON_VERSION=2.7
-    - os: osx
+
+    - <<: *tests
+      os: osx
       language: generic
       env: PYTHON=3.4.9 PYTHON_VERSION=3.4
-    - os: osx
+
+    - <<: *tests
+      os: osx
       language: generic
       env: PYTHON=3.5.6 PYTHON_VERSION=3.5
-    - os: osx
+
+    - <<: *tests
+      os: osx
       language: generic
       env: PYTHON=3.6.7 PYTHON_VERSION=3.6
-    - os: osx
+
+    - <<: *tests
+      os: osx
       language: generic
       env: PYTHON=3.7.1 PYTHON_VERSION=3.7
-    - os: windows
+
+    - <<: *tests
+      os: windows
       language: shell
       before_install:
         - choco install python2
@@ -35,7 +82,9 @@ matrix:
         - PATH=/c/Python27:/c/Python27/Scripts:$PATH
         - HOMEPATH=\\Users\\travis
         - HOMEDRIVE='C:'
-    - os: windows
+
+    - <<: *tests
+      os: windows
       language: shell
       before_install:
         - choco install python --version 3.5.4
@@ -44,7 +93,9 @@ matrix:
         - PATH=/c/Python35:/c/Python35/Scripts:$PATH
         - HOMEPATH=\\Users\\travis
         - HOMEDRIVE='C:'
-    - os: windows
+
+    - <<: *tests
+      os: windows
       language: shell
       before_install:
         - choco install python --version 3.6.7
@@ -53,7 +104,9 @@ matrix:
         - PATH=/c/Python36:/c/Python36/Scripts:$PATH
         - HOMEPATH=\\Users\\travis
         - HOMEDRIVE='C:'
-    - os: windows
+
+    - <<: *tests
+      os: windows
       language: shell
       before_install:
         - choco install python --version 3.7.2
@@ -63,30 +116,23 @@ matrix:
         - HOMEPATH=\\Users\\travis
         - HOMEDRIVE='C:'
 
-before_install: |
-  if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-    brew update
-    brew install openssl readline
-    brew outdated pyenv || brew upgrade pyenv
-    brew install pyenv-virtualenv
-    pyenv install $PYTHON
-    export PYENV_VERSION=$PYTHON
-    export PATH="/Users/travis/.pyenv/shims:${PATH}"
-    pyenv-virtualenv venv
-    source venv/bin/activate
+    - stage: generate docs
+      python: 3.5
+      script: make docs
+      if: tag =~ /^v[0-9]+\.[0-9]+\.[0-9]+/
 
-  fi
-  python --version
-
-install:
-  - echo $VIRGIL_APP_KEY_CONTENT_V5 > ~/tests.virgilkey
-  - pip install virgil-crypto
-  - pip install .
-
-script:
-  - pwd
-  - python -c "import platform; print(platform.system()); import os; print(os.getenv(\"HOME\")); print(os.getenv(\"HOMEPATH\")); print(os.getenv(\"HOMEDRIVE\"))"
-  - python -m unittest discover -s virgil_sdk/tests -p "*_test.py"
+    - stage: deploy docs
+      script: skip
+      deploy:
+        # Upload docs to gh-pages
+        - provider: pages
+          skip_cleanup: true
+          github-token: $GITHUB_ACCESS_TOKEN
+          local_dir: "docs"
+          on:
+            repo: $REPO
+            tags: true
+            condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+
 
 notifications:
   email:

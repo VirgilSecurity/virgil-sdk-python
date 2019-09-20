@@ -56,7 +56,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Virgil SDK Python'
-copyright = u'2017, Virgil Security'
+copyright = u'2016-2019, Virgil Security'
 author = u'Virgil Security'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -78,7 +78,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "tests", "tests/**"]
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "virgil_sdk/tests", "tests**", "tests/**"]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'

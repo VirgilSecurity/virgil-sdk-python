@@ -1,8 +1,11 @@
 .PHONY: wheel docs
 
 PYTHON3="python3.5"
-DOCS_DEST="./dist/docs"
-API_DOCS="./docs/api-doc"
+REPO=VirgilSecurity/virgil-sdk-python
+REPO_PATH=https://github.com/${REPO}.git
+DOCS_DEST="./docs"
+API_DOCS="./doc-source/api-doc"
+CURRENT_VERSION_DIR="${DOCS_DEST}/${GIT_TAG}"
 
 define clean_api_docs
 	@echo "Clean api-docs directory"
@@ -24,26 +27,30 @@ define clean_after_wheel
 	rm -r ./*.egg-info
 endef
 
-docs:
-	@echo "Start generating docs"
-
-
-	@echo "Generate Api Docs"
+sphinx_docs:
+	@echo ">>> Generate Api Docs"
 	$(call clean_api_docs)
-	sphinx-apidoc -f --no-toc -o ${API_DOCS} ./virgil_sdk
-
+	${PYTHON3} -m pip install sphinx sphinx-rtd-theme
+	sphinx-apidoc -f -e -R ${GIT_TAG} -V ${GIT_TAG} -o ${API_DOCS} ./virgil_sdk *test*
 
 	@echo "Check ${DOCS_DEST} exist"
-	@if [ -d ./dist ]; then \
-		if [ ! -d ${DOCS_DEST} ]; then \
-			mkdir ${DOCS_DEST}; \
+	@if [ -d ${API_DOCS} ]; then \
+		if [ ! -d ${API_DOCS} ]; then \
+			mkdir ${API_DOCS}; \
 		fi \
 	else \
-		mkdir -p ${DOCS_DEST}; \
+		mkdir -p ${API_DOCS}; \
 	fi
 
+	sphinx-build ./doc-source ${CURRENT_VERSION_DIR}
 
-	sphinx-build ./docs ${DOCS_DEST}
+docs:
+	@echo ">>> Start generating docs"
+	mkdir -p ${DOCS_DEST}
+	git clone -b gh-pages "${REPO_PATH}" --single-branch ${DOCS_DEST}
+	make sphinx_docs
+	${PYTHON3} -m pip install jinja2
+	${PYTHON3} ci/render_index.py ${DOCS_DEST}
 
 wheel:
 	${PYTHON3} setup.py bdist_wheel --universal --python-tag py2.py3
